@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Previewer.pro – Free online tools to preview websites on mobile devices, visualize social media posts, and check SERP snippets before publishing. Fast, accurate, no signup required." />
+  <meta name="keywords" content="mobile viewer, mobile website preview, social media post preview, SERP preview, search engine result preview, responsive design tester, open graph preview, meta tag checker, Google snippet preview" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Previewer.pro" />
+  <link rel="canonical" href="https://previewer.pro/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://previewer.pro/" />
+  <meta property="og:title" content="Previewer.pro – Mobile, Social & SERP Preview Tools" />
+  <meta property="og:description" content="Instantly preview how your website looks on mobile, how your social posts appear on Facebook/Twitter/LinkedIn, and how your pages rank in Google search results." />
+  <meta property="og:image" content="https://previewer.pro/og-image.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Previewer.pro – Mobile, Social & SERP Preview Tools" />
+  <meta name="twitter:description" content="Free online preview tools for mobile responsiveness, social media posts, and Google SERP snippets." />
+
+  <title>Previewer.pro – Mobile Viewer, Social Media & SERP Preview Tools</title>
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://previewer.pro/#website",
+        "url": "https://previewer.pro/",
+        "name": "Previewer.pro",
+        "description": "Free online tools for mobile preview, social media post preview, and SERP preview.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://previewer.pro/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://previewer.pro/#organization",
+        "name": "Previewer.pro",
+        "url": "https://previewer.pro/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://previewer.pro/logo.png"
+        },
+        "sameAs": [
+          "https://twitter.com/previewerpro",
+          "https://linkedin.com/company/previewerpro"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Mobile Website Viewer",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "url": "https://previewer.pro/mobile-viewer",
+        "description": "Test and preview how your website renders across smartphones and tablets in real time.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Social Media Post Preview",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "url": "https://previewer.pro/social-preview",
+        "description": "Visualize how your links and posts appear when shared on Facebook, Twitter, LinkedIn, and more.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "SERP Preview Tool",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "url": "https://previewer.pro/serp-preview",
+        "description": "Simulate your Google search engine result page snippet — title, URL, and meta description.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://previewer.pro/" },
+          { "@type": "ListItem", "position": 2, "name": "Mobile Viewer", "item": "https://previewer.pro/mobile-viewer" },
+          { "@type": "ListItem", "position": 3, "name": "Social Media Preview", "item": "https://previewer.pro/social-preview" },
+          { "@type": "ListItem", "position": 4, "name": "SERP Preview", "item": "https://previewer.pro/serp-preview" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a mobile website viewer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A mobile website viewer is a tool that simulates how your website appears on smartphones and tablets of various screen sizes, allowing you to check layout, fonts, and responsiveness without physical devices."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the social media post preview tool work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Our social media post preview tool reads your URL's Open Graph and Twitter Card meta tags, then renders a pixel-accurate mock of how the link will appear when shared on platforms like Facebook, LinkedIn, Twitter/X, and WhatsApp."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a SERP preview tool?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A SERP preview tool lets you see exactly how your web page will appear in Google and Bing search results — including the blue title link, green URL breadcrumb, and meta description — before you publish."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header injected by header.js -->
+  <div id="site-header"></div>
+
+  <main id="main-content">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home" aria-label="Hero section">
+      <div class="hero__bg">
+        <div class="hero__orb hero__orb--1"></div>
+        <div class="hero__orb hero__orb--2"></div>
+        <div class="hero__grid"></div>
+      </div>
+      <div class="container hero__inner">
+        <div class="hero__badge"><span class="badge-dot"></span>Free · No Signup · Instant Results</div>
+        <h1 class="hero__title">Preview Before<br /><em>You Publish</em></h1>
+        <p class="hero__sub">Three powerful tools in one place — test mobile responsiveness, visualise social shares, and perfect your SERP snippet. Everything you need to ship with confidence.</p>
+        <div class="hero__cta-group">
+          <a href="/mobile-viewer" class="btn btn--primary">Start Previewing</a>
+          <a href="#tools" class="btn btn--ghost">Explore Tools ↓</a>
+        </div>
+        <div class="hero__stats">
+          <div class="stat"><strong>3</strong><span>Preview Tools</span></div>
+          <div class="stat"><strong>15+</strong><span>Device Frames</span></div>
+          <div class="stat"><strong>6+</strong><span>Social Platforms</span></div>
+          <div class="stat"><strong>100%</strong><span>Free to Use</span></div>
+        </div>
+      </div>
+      <div class="hero__mockup" aria-hidden="true">
+        <div class="mockup-phone">
+          <div class="mockup-phone__notch"></div>
+          <div class="mockup-phone__screen">
+            <div class="mockup-browser-bar">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="mockup-url">previewer.pro</span>
+            </div>
+            <div class="mockup-content-lines">
+              <div class="line l80"></div><div class="line l60"></div><div class="line l90"></div>
+              <div class="line l50"></div><div class="line l70"></div><div class="line l40"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TOOLS NAV ===== -->
+    <section class="tools-nav" id="tools" aria-label="Tool categories">
+      <div class="container">
+        <div class="tools-nav__grid">
+          <a href="/mobile-viewer" class="tool-card tool-card--mobile">
+            <div class="tool-card__icon">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="12" y="4" width="24" height="40" rx="4" stroke="currentColor" stroke-width="2.5"/>
+                <circle cx="24" cy="38" r="2" fill="currentColor"/>
+                <rect x="17" y="8" width="14" height="2" rx="1" fill="currentColor" opacity=".4"/>
+              </svg>
+            </div>
+            <div class="tool-card__body">
+              <h2 class="tool-card__name">Mobile Viewer</h2>
+              <p class="tool-card__desc">Test your site on iPhone, Android, tablet and more — real device frames, real viewport sizes.</p>
+              <span class="tool-card__link">Open Tool →</span>
+            </div>
+          </a>
+          <a href="/social-preview" class="tool-card tool-card--social">
+            <div class="tool-card__icon">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="4" y="10" width="40" height="28" rx="4" stroke="currentColor" stroke-width="2.5"/>
+                <rect x="4" y="10" width="16" height="14" rx="2" fill="currentColor" opacity=".15"/>
+                <line x1="24" y1="20" x2="40" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <line x1="24" y1="26" x2="36" y2="26" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="tool-card__body">
+              <h2 class="tool-card__name">Social Media Preview</h2>
+              <p class="tool-card__desc">See exactly how your URL unfurls on Facebook, LinkedIn, Twitter/X, WhatsApp, and more.</p>
+              <span class="tool-card__link">Open Tool →</span>
+            </div>
+          </a>
+          <a href="/serp-preview" class="tool-card tool-card--serp">
+            <div class="tool-card__icon">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="22" cy="22" r="14" stroke="currentColor" stroke-width="2.5"/>
+                <line x1="32" y1="32" x2="43" y2="43" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="14" y1="20" x2="30" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+                <line x1="14" y1="25" x2="26" y2="25" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+              </svg>
+            </div>
+            <div class="tool-card__body">
+              <h2 class="tool-card__name">SERP Preview</h2>
+              <p class="tool-card__desc">Simulate your Google search snippet — optimise title tags and meta descriptions before you go live.</p>
+              <span class="tool-card__link">Open Tool →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MOBILE VIEWER FEATURE ===== -->
+    <section class="feature-section feature-section--alt" id="mobile-viewer" aria-labelledby="mv-heading">
+      <div class="container feature-section__inner">
+        <div class="feature-section__copy">
+          <div class="eyebrow">Mobile Viewer</div>
+          <h2 id="mv-heading" class="section-title">Check Responsiveness<br />Across Every Device</h2>
+          <p>Mobile traffic accounts for over 60% of global web browsing. Ensuring your site looks and performs flawlessly across iPhones, Android handsets, and tablets is no longer optional — it's essential. Our <strong>mobile website viewer</strong> lets you paste any URL and instantly render it within an accurate device frame, from the iPhone 15 Pro Max to the Samsung Galaxy S24 and iPad Pro.</p>
+          <p>No cables, no emulators, no physical devices required. Catch broken layouts, overflowing text, illegible fonts, and touch-target issues before your visitors do. Ideal for developers, QA engineers, and digital marketers who need fast, reliable <strong>responsive design testing</strong>.</p>
+          <ul class="feature-list">
+            <li>iPhone, Android, and tablet frames</li>
+            <li>Portrait &amp; landscape orientation toggle</li>
+            <li>Pixel-perfect viewport simulation</li>
+            <li>Custom width &amp; height testing</li>
+            <li>Share preview links with teammates</li>
+          </ul>
+          <a href="/mobile-viewer" class="btn btn--primary">Launch Mobile Viewer</a>
+        </div>
+        <div class="feature-section__visual" aria-hidden="true">
+          <div class="device-showcase">
+            <div class="device device--large">
+              <div class="device__frame device__frame--phone">
+                <div class="device__screen">
+                  <div class="screen-ui">
+                    <div class="screen-ui__bar"></div>
+                    <div class="screen-ui__img"></div>
+                    <div class="screen-ui__line l90"></div>
+                    <div class="screen-ui__line l70"></div>
+                    <div class="screen-ui__line l80"></div>
+                    <div class="screen-ui__line l50"></div>
+                    <div class="screen-ui__btn"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="device device--small">
+              <div class="device__frame device__frame--tablet">
+                <div class="device__screen">
+                  <div class="screen-ui screen-ui--sm">
+                    <div class="screen-ui__bar"></div>
+                    <div class="screen-ui__line l80"></div>
+                    <div class="screen-ui__line l60"></div>
+                    <div class="screen-ui__line l70"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="device-label">15+ Device Frames</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SOCIAL MEDIA PREVIEW FEATURE ===== -->
+    <section class="feature-section" id="social-preview" aria-labelledby="sp-heading">
+      <div class="container feature-section__inner feature-section__inner--rev">
+        <div class="feature-section__copy">
+          <div class="eyebrow">Social Media Preview</div>
+          <h2 id="sp-heading" class="section-title">Control How Your Links<br />Look on Every Platform</h2>
+          <p>Every time someone shares your URL on social media, the platform reads your <strong>Open Graph tags</strong>, <strong>Twitter Card meta tags</strong>, and <strong>structured data</strong> to generate a preview card. A poorly configured card — missing image, truncated title, wrong description — can dramatically reduce click-through rates.</p>
+          <p>Our <strong>social media post preview</strong> tool fetches your page's meta tags and renders an accurate mock of how it appears on Facebook, LinkedIn, Twitter/X, WhatsApp, Telegram, and Pinterest. Identify issues in seconds and fix them before your content goes viral for the wrong reasons.</p>
+          <ul class="feature-list">
+            <li>Facebook link card preview</li>
+            <li>Twitter/X summary &amp; large image cards</li>
+            <li>LinkedIn rich post preview</li>
+            <li>WhatsApp &amp; Telegram thumbnail preview</li>
+            <li>Open Graph tag audit &amp; suggestions</li>
+            <li>Pinterest rich pin preview</li>
+          </ul>
+          <a href="/social-preview" class="btn btn--primary">Launch Social Preview</a>
+        </div>
+        <div class="feature-section__visual" aria-hidden="true">
+          <div class="social-mockup">
+            <div class="social-card social-card--fb">
+              <div class="social-card__img"></div>
+              <div class="social-card__body">
+                <div class="social-card__domain">previewer.pro</div>
+                <div class="social-card__title">How to Optimise Your Open Graph Tags for Maximum Reach</div>
+                <div class="social-card__desc">Boost your click-through rates with perfectly crafted OG meta tags...</div>
+              </div>
+              <div class="social-card__platform social-card__platform--fb">f</div>
+            </div>
+            <div class="social-card social-card--tw">
+              <div class="social-card__img social-card__img--tw"></div>
+              <div class="social-card__body social-card__body--tw">
+                <div class="social-card__title">How to Optimise Your Open Graph Tags</div>
+                <div class="social-card__domain">previewer.pro</div>
+              </div>
+              <div class="social-card__platform social-card__platform--tw">𝕏</div>
+            </div>
+            <div class="platform-pills">
+              <span class="pill">Facebook</span>
+              <span class="pill">Twitter/X</span>
+              <span class="pill">LinkedIn</span>
+              <span class="pill">WhatsApp</span>
+              <span class="pill">Pinterest</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SERP PREVIEW FEATURE ===== -->
+    <section class="feature-section feature-section--alt" id="serp-preview" aria-labelledby="serp-heading">
+      <div class="container feature-section__inner">
+        <div class="feature-section__copy">
+          <div class="eyebrow">SERP Preview Tool</div>
+          <h2 id="serp-heading" class="section-title">See Your Google Snippet<br />Before You Hit Publish</h2>
+          <p>Your <strong>SERP snippet</strong> — the blue title, green URL breadcrumb, and two-line description displayed in Google search results — is the single most important piece of real estate in organic search. It determines whether someone clicks your link or a competitor's.</p>
+          <p>Our <strong>SERP preview tool</strong> simulates exactly how your page will appear in Google and Bing results, counting characters against pixel-width truncation rules rather than outdated character counts. Craft titles under 600px, meta descriptions under 920px, and breadcrumb-friendly URLs — all in a live, interactive editor. Great for <strong>SEO specialists</strong>, content writers, and marketing teams who want to maximise organic CTR.</p>
+          <ul class="feature-list">
+            <li>Pixel-accurate title &amp; description truncation</li>
+            <li>Desktop and mobile SERP view toggle</li>
+            <li>Real-time character &amp; pixel counters</li>
+            <li>URL breadcrumb formatter</li>
+            <li>Google &amp; Bing result simulations</li>
+            <li>Bulk import &amp; export for large sites</li>
+          </ul>
+          <a href="/serp-preview" class="btn btn--primary">Launch SERP Preview</a>
+        </div>
+        <div class="feature-section__visual" aria-hidden="true">
+          <div class="serp-mockup">
+            <div class="serp-mockup__searchbar">
+              <span class="serp-search-icon">🔍</span>
+              <span class="serp-query">mobile website preview tool free</span>
+            </div>
+            <div class="serp-result">
+              <div class="serp-result__breadcrumb">
+                <img class="serp-favicon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='2' fill='%234f46e5'/%3E%3C/svg%3E" alt="" width="16" height="16" />
+                <span>previewer.pro</span>
+                <span>›</span>
+                <span>mobile-viewer</span>
+              </div>
+              <div class="serp-result__title">Mobile Website Viewer – Test Responsive Design Free | Previewer.pro</div>
+              <div class="serp-result__desc">Preview your website on 15+ mobile devices instantly. No signup, no download. Test iPhone, Android &amp; tablet layouts with accurate device frames. <span class="serp-date">Mar 2025 —</span> Free tool.</div>
+            </div>
+            <div class="serp-result serp-result--dim">
+              <div class="serp-result__breadcrumb"><span>competitor-tool.io</span></div>
+              <div class="serp-result__title">Responsive Design Checker – Online Tool</div>
+              <div class="serp-result__desc">Check website responsiveness across devices. View how your site looks on mobile phones and tablets...</div>
+            </div>
+            <div class="serp-pixel-bar">
+              <div class="serp-pixel-fill" style="width:72%"></div>
+              <span>Title: 432px / 600px</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-it-works" id="how-it-works" aria-labelledby="hiw-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow">How It Works</div>
+          <h2 id="hiw-heading" class="section-title">Three Steps to a Perfect Preview</h2>
+          <p class="section-sub">No account. No configuration. Just instant results.</p>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step__num">01</div>
+            <div class="step__icon">🔗</div>
+            <h3 class="step__title">Paste Your URL</h3>
+            <p class="step__desc">Enter any public URL — your website, blog post, landing page, or product page. Our tools fetch the page and all associated meta tags in milliseconds.</p>
+          </div>
+          <div class="step__connector" aria-hidden="true"></div>
+          <div class="step">
+            <div class="step__num">02</div>
+            <div class="step__icon">⚙️</div>
+            <h3 class="step__title">Choose Your Tool</h3>
+            <p class="step__desc">Select from the Mobile Viewer, Social Media Preview, or SERP Preview tool. Each one tailors its output to a different publishing context — device screen, social feed, or search results page.</p>
+          </div>
+          <div class="step__connector" aria-hidden="true"></div>
+          <div class="step">
+            <div class="step__num">03</div>
+            <div class="step__icon">✅</div>
+            <h3 class="step__title">Preview &amp; Optimise</h3>
+            <p class="step__desc">Inspect the preview, identify issues, fix your code or meta tags, then re-check. Iterate until every channel looks exactly the way you want it to.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHY PREVIEWER.PRO ===== -->
+    <section class="why-section" id="why-us" aria-labelledby="why-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow">Why Previewer.pro</div>
+          <h2 id="why-heading" class="section-title">Built for Speed,<br />Precision &amp; Clarity</h2>
+          <p class="section-sub">We obsess over the details so your previews are always accurate.</p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-card__icon">⚡</div>
+            <h3>Instant Results</h3>
+            <p>Sub-second preview generation. No waiting, no queues. Paste your URL and see results as fast as your browser can display them.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🎯</div>
+            <h3>Pixel-Perfect Accuracy</h3>
+            <p>Our mobile frames match real device viewport dimensions. Our SERP engine counts pixel widths, not characters, just like Google does.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🔒</div>
+            <h3>Privacy First</h3>
+            <p>We don't store your URLs, page content, or personal data. Every preview is processed in-session and discarded immediately after.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">📱</div>
+            <h3>Works on All Devices</h3>
+            <p>The tools themselves are fully responsive. Use Previewer.pro on your desktop, laptop, or even your phone while reviewing client work on the go.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🌐</div>
+            <h3>No Signup Required</h3>
+            <p>Open any tool and start previewing immediately. We believe powerful web tools should be accessible to everyone, without friction.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-card__icon">🔄</div>
+            <h3>Always Up to Date</h3>
+            <p>Our platform tracks changes in how Google renders snippets and how social platforms parse OG tags, so your previews stay accurate.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== USE CASES ===== -->
+    <section class="use-cases" id="use-cases" aria-labelledby="uc-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow">Who Uses Previewer.pro</div>
+          <h2 id="uc-heading" class="section-title">Tools for Every Web Professional</h2>
+          <p class="section-sub">From solo developers to enterprise marketing teams — anyone who publishes on the web benefits from seeing before sharing.</p>
+        </div>
+        <div class="uc-grid">
+          <div class="uc-card">
+            <div class="uc-card__emoji">🧑‍💻</div>
+            <h3>Web Developers</h3>
+            <p>Catch responsive bugs before QA. Test breakpoints across real device profiles and fix layout issues without owning a device lab.</p>
+          </div>
+          <div class="uc-card">
+            <div class="uc-card__emoji">📣</div>
+            <h3>Content Marketers</h3>
+            <p>Preview every blog post's social card before scheduling. Ensure your featured image, headline, and description are optimised for each platform.</p>
+          </div>
+          <div class="uc-card">
+            <div class="uc-card__emoji">🔍</div>
+            <h3>SEO Specialists</h3>
+            <p>Write title tags and meta descriptions that are never truncated in SERPs. Validate structured data and improve organic CTR with data-driven snippets.</p>
+          </div>
+          <div class="uc-card">
+            <div class="uc-card__emoji">🎨</div>
+            <h3>UX/UI Designers</h3>
+            <p>Verify that your mobile designs translate faithfully from Figma to the browser. Check font scaling, spacing, and touch targets on real screen dimensions.</p>
+          </div>
+          <div class="uc-card">
+            <div class="uc-card__emoji">🏢</div>
+            <h3>Digital Agencies</h3>
+            <p>Include mobile and social previews in client reports. Share visual proof of responsiveness and meta tag optimisation without setting up extra tooling.</p>
+          </div>
+          <div class="uc-card">
+            <div class="uc-card__emoji">🛍️</div>
+            <h3>E-commerce Teams</h3>
+            <p>Preview product page snippets and social shares for every SKU. Ensure your Open Graph images are the right size for Pinterest and Facebook Shopping.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEO/CONTENT SECTION ===== -->
+    <section class="content-section" id="about-tools" aria-labelledby="ct-heading">
+      <div class="container content-section__inner">
+        <div class="content-section__copy">
+          <div class="eyebrow">Deep Dive</div>
+          <h2 id="ct-heading" class="section-title">Why Preview Tools Matter<br />for Modern Web Publishing</h2>
+          <p>In an era where content is consumed across dozens of contexts — mobile browsers, social feeds, search result pages, messaging apps — creating something that looks great in only one place is no longer enough. A web page exists simultaneously as a mobile experience, a social share card, and a search snippet. Each context has its own rules, dimensions, and character limits.</p>
+          <p>The cost of getting any one of these wrong is measurable. A <strong>broken mobile layout</strong> drives up bounce rates and hurts Core Web Vitals scores. A <strong>missing Open Graph image</strong> means your link looks like a blank card in a Facebook feed, obliterating CTR. A <strong>truncated title tag</strong> in Google search results buries your value proposition before users even decide to click.</p>
+          <p>Previewer.pro was built to close that feedback loop. By giving you accurate, instant previews of how your content actually appears across these three critical surfaces, we help you identify and fix issues before your audience sees them — turning good content into exceptional content that performs everywhere it appears.</p>
+        </div>
+        <div class="content-section__aside">
+          <div class="stat-block">
+            <div class="stat-block__item">
+              <strong>60%+</strong>
+              <span>of web traffic is from mobile devices</span>
+            </div>
+            <div class="stat-block__item">
+              <strong>3×</strong>
+              <span>higher CTR for posts with optimised OG images</span>
+            </div>
+            <div class="stat-block__item">
+              <strong>~34%</strong>
+              <span>of users click the first organic SERP result</span>
+            </div>
+            <div class="stat-block__item">
+              <strong>∞</strong>
+              <span>previews — always free, always instant</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="faq-section" id="faq" aria-labelledby="faq-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="eyebrow">FAQ</div>
+          <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <button class="faq-item__q" aria-expanded="false" aria-controls="faq1">
+              What is a mobile website viewer and how does it work?
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-item__a" id="faq1" hidden>
+              A mobile website viewer is an online tool that renders your URL inside a simulated device frame — such as an iPhone 15 or Samsung Galaxy S24 — at the exact viewport size of that device. It uses an iframe or screenshot engine to load your page at the correct screen resolution, letting you inspect layout, typography, images, and navigation without needing a physical device or emulator.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q" aria-expanded="false" aria-controls="faq2">
+              How accurate is the social media post preview?
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-item__a" id="faq2" hidden>
+              Our social media preview tool reads the same Open Graph, Twitter Card, and structured data meta tags that social platforms read when you share a URL. The preview renders these tags into pixel-accurate card mockups that closely match how each platform actually displays shared links. Minor visual differences may exist when platforms change their card templates, which we update promptly.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q" aria-expanded="false" aria-controls="faq3">
+              Does the SERP preview tool show exactly what Google shows?
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-item__a" id="faq3" hidden>
+              Our SERP preview tool simulates Google's rendering logic, including pixel-width-based truncation for titles (600px) and descriptions (920px). However, Google may also rewrite titles and descriptions dynamically based on the search query and page content. Our tool reflects what Google will show when using your specified tags directly — it's the most accurate pre-publish check available.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q" aria-expanded="false" aria-controls="faq4">
+              Is Previewer.pro really free to use?
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-item__a" id="faq4" hidden>
+              Yes, all three tools — Mobile Viewer, Social Media Preview, and SERP Preview — are completely free to use with no account required. There are no usage limits during the free tier. We believe essential web publishing tools should be accessible to everyone.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q" aria-expanded="false" aria-controls="faq5">
+              Can I test a local or password-protected URL?
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-item__a" id="faq5" hidden>
+              For the social media and SERP preview tools, the URL needs to be publicly accessible since our servers fetch your meta tags server-side. The mobile viewer uses an iframe, so local URLs like localhost may work depending on your browser and network setup. For secure staging environments, you can use tools like ngrok to temporarily expose your local server.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-item__q" aria-expanded="false" aria-controls="faq6">
+              Which social media platforms does the preview tool support?
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-item__a" id="faq6" hidden>
+              Our social media post preview tool currently supports Facebook (link cards), Twitter/X (summary and summary_large_image cards), LinkedIn (rich link posts), WhatsApp (URL previews), Telegram (link previews), and Pinterest (rich pins). We regularly add new platforms as social sharing behaviour evolves.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA BANNER ===== -->
+    <section class="cta-banner" id="get-started" aria-label="Call to action">
+      <div class="container">
+        <div class="cta-banner__inner">
+          <div class="cta-banner__copy">
+            <h2>Ready to Preview with Precision?</h2>
+            <p>Join thousands of developers, marketers, and SEO professionals who use Previewer.pro to publish with confidence every single day.</p>
+          </div>
+          <div class="cta-banner__actions">
+            <a href="/mobile-viewer" class="btn btn--white">📱 Mobile Viewer</a>
+            <a href="/social-preview" class="btn btn--white">📲 Social Preview</a>
+            <a href="/serp-preview" class="btn btn--white">🔍 SERP Preview</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer injected by footer.js -->
+  <div id="site-footer"></div>
+
+  <script src="header.js"></script>
+  <script src="footer.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
