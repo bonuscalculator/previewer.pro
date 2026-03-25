@@ -61,8 +61,7 @@
           <p>&copy; ${year} <a href="/" style="color:inherit;text-decoration:none;font-weight:600;">Previewer.pro</a> — All rights reserved.</p>
           <div class="footer__social" aria-label="Social media links">
             <a href="https://twitter.com/previewerpro" rel="noopener noreferrer" target="_blank" aria-label="Follow Previewer.pro on Twitter">Twitter / X</a>
-            <a href="https://linkedin.com/company/previewerpro" rel="noopener noreferrer" target="_blank" aria-label="Follow Previewer.pro on LinkedIn">LinkedIn</a>
-            <a href="https://github.com/previewerpro" rel="noopener noreferrer" target="_blank" aria-label="View Previewer.pro on GitHub">GitHub</a>
+            <a href="https://linkedin.com/company/previewerpro" rel="noopener noreferrer" target="_blank" aria-label="Follow Previewer.pro on LinkedIn">LinkedIn</a>            
           </div>
         </div>
       </div>
