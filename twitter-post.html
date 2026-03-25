@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free Twitter/X post preview tool — see exactly how your tweet, link card, or Twitter Card meta tags appear before you share. Check image dimensions, text truncation, and card layout instantly."/>
+  <meta name="keywords" content="Twitter post preview, X post preview, Twitter card preview, tweet preview tool, Twitter link card, open graph twitter preview, twitter meta tags checker, X card validator, tweet appearance preview"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/twitter-post"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/twitter-post"/>
+  <meta property="og:title" content="Twitter / X Post Preview Tool — Free Link Card Checker | Previewer.pro"/>
+  <meta property="og:description" content="Preview exactly how your URL appears on Twitter/X — link card, image, title, and description — before you share it."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>Twitter / X Post Preview Tool — Free Tweet & Link Card Checker | Previewer.pro</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Twitter / X Post Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/twitter-post","description":"Preview how your URL appears on Twitter/X including link cards, images, and meta descriptions before sharing.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root{--tw-bg:#000;--tw-surface:#16181c;--tw-border:#2f3336;--tw-text:#e7e9ea;--tw-muted:#71767b;--tw-blue:#1d9bf0;--tw-accent:#1d9bf0}
+    .app-hero{padding:3.5rem 0 2rem;background:var(--clr-surface);border-bottom:1px solid var(--clr-border)}
+    .app-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(29,155,240,.12);border:1px solid rgba(29,155,240,.3);color:var(--tw-blue);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .app-hero__title{font-family:var(--ff-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .app-hero__title span{color:var(--tw-blue)}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+    /* Tool area */
+    .tw-tool{background:var(--clr-bg);padding:4rem 0}
+    .tw-tool-box{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    .tw-input-panel{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:16px;padding:2rem}
+    .tw-input-panel h3{font-family:var(--ff-display);font-weight:700;color:#fff;margin-bottom:1.5rem;font-size:1rem}
+    .form-group{margin-bottom:1.25rem}
+    .form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--clr-muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+    .form-group input,.form-group textarea,.form-group select{width:100%;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.65rem 1rem;color:var(--clr-text);font-family:var(--ff-body);font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical}
+    .form-group input:focus,.form-group textarea:focus{border-color:var(--tw-blue)}
+    .form-group textarea{min-height:80px}
+    .char-count{font-size:.75rem;color:var(--clr-muted);text-align:right;margin-top:.25rem}
+    .char-count.warn{color:#f59e0b}
+    .char-count.over{color:#ef4444}
+    .form-btn{width:100%;padding:.75rem;background:var(--tw-blue);color:#fff;border:none;border-radius:10px;font-family:var(--ff-display);font-weight:700;font-size:.95rem;cursor:pointer;transition:all .2s}
+    .form-btn:hover{background:#1a8cd8;transform:translateY(-1px)}
+    .tw-preview-panel{display:flex;flex-direction:column;gap:1.5rem}
+    /* Twitter/X UI mock */
+    .x-app{background:var(--tw-bg);border:1px solid var(--tw-border);border-radius:16px;overflow:hidden;max-width:600px}
+    .x-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;border-bottom:1px solid var(--tw-border)}
+    .x-header-logo{color:var(--tw-text);font-size:1.3rem;font-weight:900}
+    .x-header-icons{display:flex;gap:.5rem;color:var(--tw-muted);font-size:.9rem}
+    .x-tweet{padding:1rem;border-bottom:1px solid var(--tw-border)}
+    .x-tweet-head{display:flex;align-items:center;gap:.65rem;margin-bottom:.65rem}
+    .x-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--tw-blue),#7856ff);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.9rem}
+    .x-name-wrap{}
+    .x-name{font-weight:700;font-size:.95rem;color:var(--tw-text)}
+    .x-handle{font-size:.85rem;color:var(--tw-muted)}
+    .x-tweet-text{font-size:.95rem;color:var(--tw-text);line-height:1.5;margin-bottom:.75rem;word-break:break-word}
+    /* Card types */
+    .x-card{border:1px solid var(--tw-border);border-radius:14px;overflow:hidden;transition:border-color .2s}
+    .x-card:hover{border-color:var(--tw-muted)}
+    .x-card-img{width:100%;height:200px;background:linear-gradient(135deg,rgba(29,155,240,.3),rgba(120,86,255,.25));display:flex;align-items:center;justify-content:center;font-size:3rem;color:rgba(255,255,255,.3);position:relative;overflow:hidden}
+    .x-card-img img{width:100%;height:100%;object-fit:cover;display:none}
+    .x-card-img-placeholder{display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.25)}
+    .x-card-img-placeholder span{font-size:.75rem;letter-spacing:.04em;text-transform:uppercase}
+    .x-card-body{padding:.75rem 1rem;background:var(--tw-surface)}
+    .x-card-domain{font-size:.78rem;color:var(--tw-muted);margin-bottom:.25rem;display:flex;align-items:center;gap:.35rem}
+    .x-card-domain::before{content:'';width:14px;height:14px;background:var(--tw-border);border-radius:2px;display:inline-block;flex-shrink:0}
+    .x-card-title{font-size:.9rem;font-weight:700;color:var(--tw-text);line-height:1.3;margin-bottom:.15rem}
+    .x-card-desc{font-size:.82rem;color:var(--tw-muted);line-height:1.4}
+    /* Summary card (small) */
+    .x-card--summary .x-card-inner{display:flex}
+    .x-card--summary .x-card-img{width:130px;height:auto;min-height:130px;flex-shrink:0}
+    .x-card--summary .x-card-body{flex:1}
+    /* Actions */
+    .x-actions{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0 0;color:var(--tw-muted);font-size:.85rem}
+    .x-action{display:flex;align-items:center;gap:.35rem;cursor:pointer;transition:color .2s;padding:.3rem .5rem;border-radius:6px}
+    .x-action:hover{color:var(--tw-blue);background:rgba(29,155,240,.1)}
+    /* Card type toggle */
+    .card-toggle{display:flex;gap:.5rem;margin-bottom:1rem}
+    .card-toggle-btn{padding:.35rem .9rem;border:1px solid var(--clr-border);border-radius:999px;background:var(--clr-surface2);color:var(--clr-muted);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ff-display)}
+    .card-toggle-btn.active{background:var(--tw-blue);border-color:var(--tw-blue);color:#fff}
+    /* Meta tag checker */
+    .meta-checker{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem}
+    .meta-checker h4{font-family:var(--ff-display);font-weight:700;font-size:.9rem;color:#fff;margin-bottom:1rem}
+    .meta-row{display:flex;align-items:flex-start;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .meta-row:last-child{border-bottom:none}
+    .meta-status{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;margin-top:.1rem}
+    .meta-status--ok{background:rgba(0,186,124,.15);color:#00ba7c}
+    .meta-status--warn{background:rgba(245,158,11,.15);color:#f59e0b}
+    .meta-status--err{background:rgba(239,68,68,.15);color:#ef4444}
+    .meta-name{font-weight:600;color:var(--clr-muted);min-width:120px;flex-shrink:0}
+    .meta-val{color:var(--clr-text);word-break:break-all}
+    /* Sections */
+    .info-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .cards-explained{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .card-type-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem;transition:all .2s}
+    .card-type-card:hover{border-color:rgba(29,155,240,.4);transform:translateY(-3px)}
+    .card-type-card__icon{font-size:2rem;margin-bottom:.75rem}
+    .card-type-card h3{font-family:var(--ff-display);font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+    .card-type-card p{font-size:.88rem;color:var(--clr-muted);line-height:1.6;margin-bottom:.75rem}
+    .code-tag{background:rgba(29,155,240,.1);border:1px solid rgba(29,155,240,.2);padding:.15rem .45rem;border-radius:4px;font-size:.75rem;color:var(--tw-blue);font-family:monospace}
+    .tips-section{padding:5rem 0}
+    .tips-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+    .tip-card{display:flex;gap:1rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem;align-items:flex-start;transition:all .2s}
+    .tip-card:hover{border-color:rgba(29,155,240,.3)}
+    .tip-num{font-family:var(--ff-display);font-size:1.5rem;font-weight:800;color:rgba(29,155,240,.3);flex-shrink:0;line-height:1}
+    .tip-card h4{font-family:var(--ff-display);font-weight:700;color:#fff;margin-bottom:.35rem;font-size:.95rem}
+    .tip-card p{font-size:.86rem;color:var(--clr-muted)}
+    .content-rich{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .content-rich__inner{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+    .content-rich h2{font-family:var(--ff-display);font-size:1.6rem;font-weight:800;color:#fff;margin:1.5rem 0 .75rem}
+    .content-rich h2:first-child{margin-top:0}
+    .content-rich p{color:var(--clr-muted);margin-bottom:1rem;line-height:1.7}
+    .content-rich strong{color:var(--clr-text)}
+    .code-block{background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;font-family:monospace;font-size:.82rem;color:var(--clr-accent2);line-height:1.6;overflow-x:auto}
+    .code-block .comment{color:var(--clr-muted)}
+    .aside-toc{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;position:sticky;top:80px;align-self:start}
+    .aside-toc h4{font-family:var(--ff-display);font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-muted);margin-bottom:1rem}
+    .aside-toc ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .aside-toc ul li a{color:var(--clr-text);text-decoration:none;font-size:.88rem;opacity:.75;transition:opacity .2s}
+    .aside-toc ul li a:hover{opacity:1;color:var(--tw-blue)}
+    .faq-section{padding:5rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(29,155,240,.15),rgba(120,86,255,.12));border-top:1px solid rgba(29,155,240,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .btn-tw{background:var(--tw-blue)!important;box-shadow:0 4px 20px rgba(29,155,240,.35)!important}
+    .btn-tw:hover{background:#1a8cd8!important}
+    @media(max-width:900px){.hero-grid,.tw-tool-box,.cards-explained,.content-rich__inner{grid-template-columns:1fr}.tips-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="app-hero" aria-labelledby="tw-h1">
+  <div class="container hero-grid">
+    <div>
+      <div class="app-hero__badge">𝕏 Twitter / X Preview Tool</div>
+      <h1 class="app-hero__title" id="tw-h1">See How Your Link Looks<br/><span>on Twitter / X</span></h1>
+      <p style="color:var(--clr-muted);font-size:1.05rem;margin-bottom:1.5rem">Preview your URL's Twitter Card — image, title, description, and domain — exactly as it appears in a Twitter/X feed before you publish or schedule your post.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem">
+        <span class="chip">Summary Card</span><span class="chip">Summary Large Image</span><span class="chip">App Card</span><span class="chip">OG Tag Audit</span>
+      </div>
+      <a href="#tw-tool" class="btn btn--primary btn-tw">Preview My Link Free →</a>
+    </div>
+    <!-- Mini X UI preview -->
+    <div aria-hidden="true">
+      <div class="x-app" style="max-width:380px;margin:0 auto">
+        <div class="x-header"><span class="x-header-logo">𝕏</span><span class="x-header-icons">🔔 ✉️</span></div>
+        <div class="x-tweet">
+          <div class="x-tweet-head">
+            <div class="x-avatar">P</div>
+            <div class="x-name-wrap"><div class="x-name">Previewer Pro</div><div class="x-handle">@previewerpro · 2m</div></div>
+          </div>
+          <div class="x-tweet-text">Just launched our free Twitter Card preview tool 🚀 Check how your links look before you share them! previewer.pro/twitter-post</div>
+          <div class="x-card">
+            <div class="x-card-img"><div class="x-card-img-placeholder"><span>🖼️</span><span>Card Image</span></div></div>
+            <div class="x-card-body">
+              <div class="x-card-domain">previewer.pro</div>
+              <div class="x-card-title">Twitter Card Preview Tool — Previewer.pro</div>
+              <div class="x-card-desc">See exactly how your links appear on Twitter/X before sharing.</div>
+            </div>
+          </div>
+          <div class="x-actions">
+            <span class="x-action">💬 12</span><span class="x-action">🔁 34</span><span class="x-action">❤️ 128</span><span class="x-action">📤</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="tw-tool" id="tw-tool" aria-label="Twitter post preview tool">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="eyebrow">Live Preview</div>
+      <h2 class="section-title">Twitter / X Post Preview</h2>
+    </div>
+    <div class="tw-tool-box">
+      <!-- Input Panel -->
+      <div class="tw-input-panel">
+        <h3>📝 Enter Your Content</h3>
+        <div class="form-group">
+          <label for="tw-url">URL to Share</label>
+          <input type="url" id="tw-url" placeholder="https://your-page.com" oninput="updatePreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="tw-tweet">Tweet Text</label>
+          <textarea id="tw-tweet" placeholder="Write your tweet here..." oninput="updatePreview();countChars()" maxlength="280">Check out this amazing tool! 🚀</textarea>
+          <div class="char-count" id="tw-char">31 / 280</div>
+        </div>
+        <div class="form-group">
+          <label for="tw-title">Page Title (twitter:title)</label>
+          <input type="text" id="tw-title" placeholder="Your page title" value="My Awesome Page Title" oninput="updatePreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="tw-desc">Description (twitter:description)</label>
+          <textarea id="tw-desc" placeholder="Page description..." oninput="updatePreview()" style="min-height:60px">This is the description that appears in the Twitter link card preview.</textarea>
+        </div>
+        <div class="form-group">
+          <label for="tw-domain">Domain</label>
+          <input type="text" id="tw-domain" placeholder="example.com" value="previewer.pro" oninput="updatePreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="tw-imgurl">Image URL (optional)</label>
+          <input type="url" id="tw-imgurl" placeholder="https://your-site.com/og-image.jpg" oninput="updatePreview()"/>
+        </div>
+        <div class="form-group">
+          <label>Card Type</label>
+          <div class="card-toggle">
+            <button class="card-toggle-btn active" onclick="setCardType('large',this)">Large Image</button>
+            <button class="card-toggle-btn" onclick="setCardType('summary',this)">Summary</button>
+          </div>
+        </div>
+        <button class="form-btn" onclick="updatePreview()">Update Preview →</button>
+      </div>
+
+      <!-- Preview Panel -->
+      <div class="tw-preview-panel">
+        <div>
+          <div class="eyebrow" style="margin-bottom:.75rem">Live Preview</div>
+          <div class="x-app" id="xPreview">
+            <div class="x-header"><span class="x-header-logo">𝕏</span><span class="x-header-icons">🔔 ✉️</span></div>
+            <div class="x-tweet">
+              <div class="x-tweet-head">
+                <div class="x-avatar">Y</div>
+                <div class="x-name-wrap"><div class="x-name">Your Name</div><div class="x-handle">@yourhandle · now</div></div>
+              </div>
+              <div class="x-tweet-text" id="previewTweetText">Check out this amazing tool! 🚀</div>
+              <div class="x-card" id="previewCard">
+                <div class="x-card-img" id="previewImg">
+                  <div class="x-card-img-placeholder"><span>🖼️</span><span>OG Image Preview</span></div>
+                </div>
+                <div class="x-card-body">
+                  <div class="x-card-domain" id="previewDomain">previewer.pro</div>
+                  <div class="x-card-title" id="previewTitle">My Awesome Page Title</div>
+                  <div class="x-card-desc" id="previewDesc">This is the description that appears in the Twitter link card preview.</div>
+                </div>
+              </div>
+              <div class="x-actions">
+                <span class="x-action">💬 0</span><span class="x-action">🔁 0</span><span class="x-action">❤️ 0</span><span class="x-action">📤</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Meta Tag Checker -->
+        <div class="meta-checker">
+          <h4>🔍 Meta Tag Audit</h4>
+          <div class="meta-row">
+            <div class="meta-status meta-status--ok">✓</div>
+            <div class="meta-name">twitter:card</div>
+            <div class="meta-val" id="audit-card">summary_large_image</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-status meta-status--ok" id="audit-title-icon">✓</div>
+            <div class="meta-name">twitter:title</div>
+            <div class="meta-val" id="audit-title">My Awesome Page Title</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-status meta-status--ok" id="audit-desc-icon">✓</div>
+            <div class="meta-name">twitter:description</div>
+            <div class="meta-val" id="audit-desc">This is the description...</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-status meta-status--warn" id="audit-img-icon">!</div>
+            <div class="meta-name">twitter:image</div>
+            <div class="meta-val" id="audit-img">Not specified (using OG fallback)</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-status meta-status--ok">✓</div>
+            <div class="meta-name">og:url</div>
+            <div class="meta-val" id="audit-url">https://previewer.pro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARD TYPES EXPLAINED -->
+<section class="info-section" id="card-types" aria-labelledby="ct-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Card Types</div>
+      <h2 id="ct-heading" class="section-title">Twitter Card Types Explained</h2>
+      <p class="section-sub">Choosing the right card type dramatically affects how your shared links perform on Twitter/X.</p>
+    </div>
+    <div class="cards-explained">
+      <div class="card-type-card">
+        <div class="card-type-card__icon">🖼️</div>
+        <h3>Summary Large Image</h3>
+        <p>The most engaging card type. Displays a prominent image (min 300×157px, max 4096×4096px, up to 5MB) above the title and description. Ideal for blog posts, articles, and landing pages.</p>
+        <span class="code-tag">twitter:card = summary_large_image</span>
+      </div>
+      <div class="card-type-card">
+        <div class="card-type-card__icon">📋</div>
+        <h3>Summary Card</h3>
+        <p>Shows a small thumbnail (144×144px minimum) to the left of the title and description. Works best for product pages, documentation, or any page where the image is secondary to the text.</p>
+        <span class="code-tag">twitter:card = summary</span>
+      </div>
+      <div class="card-type-card">
+        <div class="card-type-card__icon">📱</div>
+        <h3>App Card</h3>
+        <p>Specifically designed for promoting iOS and Android apps. Displays app name, icon, rating, and price alongside a download button. Requires Apple App Store or Google Play IDs in meta tags.</p>
+        <span class="code-tag">twitter:card = app</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPTIMISATION TIPS -->
+<section class="tips-section" id="tips" aria-labelledby="tips-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Best Practices</div>
+      <h2 id="tips-heading" class="section-title">8 Tips to Maximise Twitter Card CTR</h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card"><div class="tip-num">01</div><div><h4>Use 1200×628px Images</h4><p>This is the optimal Open Graph image size that works across all platforms including Twitter/X. Avoid text near the edges which may be cropped on smaller viewports.</p></div></div>
+      <div class="tip-card"><div class="tip-num">02</div><div><h4>Keep Titles Under 70 Characters</h4><p>Twitter truncates titles at around 70 characters. Front-load the most important keywords and value proposition so nothing critical is cut off.</p></div></div>
+      <div class="tip-card"><div class="tip-num">03</div><div><h4>Write Descriptions Under 200 Characters</h4><p>Twitter shows approximately 200 characters of the description. Use the space to add a compelling reason to click that complements the title.</p></div></div>
+      <div class="tip-card"><div class="tip-num">04</div><div><h4>Always Specify twitter:card</h4><p>Without this tag, Twitter won't generate a card. Even if you have og:image set, you need explicit twitter:card to trigger card rendering.</p></div></div>
+      <div class="tip-card"><div class="tip-num">05</div><div><h4>Use a Dedicated OG Image</h4><p>Don't use your site logo or a generic image. Create page-specific OG images that reflect the content — articles should show the headline, products should show the product.</p></div></div>
+      <div class="tip-card"><div class="tip-num">06</div><div><h4>Test Before Every Campaign</h4><p>Twitter caches card data. Use our preview tool before scheduling posts, and use Twitter's Card Validator to clear the cache after updating meta tags.</p></div></div>
+      <div class="tip-card"><div class="tip-num">07</div><div><h4>Add twitter:site and twitter:creator</h4><p>Including your Twitter/X handle in twitter:site links the card to your account, making it easier for viewers to follow you directly from the card.</p></div></div>
+      <div class="tip-card"><div class="tip-num">08</div><div><h4>Validate Your Image URL</h4><p>The image URL must be absolute (not relative), publicly accessible, and return a 200 status code. CDN-hosted images with proper CORS headers work best.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RICH CONTENT -->
+<section class="content-rich" id="guide" aria-labelledby="guide-heading">
+  <div class="container content-rich__inner">
+    <article>
+      <h2 id="guide-heading">What Are Twitter Cards and Why Do They Matter?</h2>
+      <p><strong>Twitter Cards</strong> are structured rich media experiences attached to a tweet whenever someone shares a URL. When you share a link on Twitter/X, the platform fetches the page's meta tags and constructs a card — an image, title, description, and domain attribution — that appears directly below the tweet text in the feed.</p>
+      <p>Without a properly configured Twitter Card, your link appears as plain text. With one, it becomes a visual, clickable card that stands out in a busy feed and drives significantly higher engagement and click-through rates.</p>
+      <h2>How to Add Twitter Card Meta Tags</h2>
+      <p>Twitter Card meta tags belong in the <code>&lt;head&gt;</code> of your HTML page. The minimum required tags for a <strong>Summary Large Image</strong> card are:</p>
+      <div class="code-block">
+        <div class="comment">&lt;!-- Required for all cards --&gt;</div>
+        &lt;meta name="twitter:card" content="summary_large_image" /&gt;<br/>
+        &lt;meta name="twitter:title" content="Your Page Title Here" /&gt;<br/>
+        &lt;meta name="twitter:description" content="Your page description here." /&gt;<br/>
+        &lt;meta name="twitter:image" content="https://your-site.com/og-image.jpg" /&gt;<br/><br/>
+        <div class="comment">&lt;!-- Recommended --&gt;</div>
+        &lt;meta name="twitter:site" content="@yourtwitterhandle" /&gt;<br/>
+        &lt;meta name="twitter:creator" content="@authorhandle" /&gt;
+      </div>
+      <h2>The Relationship Between OG Tags and Twitter Cards</h2>
+      <p>Twitter/X will fall back to Open Graph tags (<code>og:title</code>, <code>og:description</code>, <code>og:image</code>) if Twitter-specific tags are not present. However, it's best practice to set both. Twitter Card tags give you more control and ensure the card renders exactly as intended, while OG tags cover other platforms like Facebook and LinkedIn simultaneously.</p>
+      <h2>Twitter Card Image Requirements</h2>
+      <p>For <strong>summary_large_image</strong>: minimum 300×157px, recommended 1200×628px, maximum file size 5MB, supported formats: JPG, PNG, WebP, GIF (first frame only). For <strong>summary</strong>: minimum 144×144px, recommended 400×400px. Images must be absolute URLs and publicly accessible without authentication.</p>
+    </article>
+    <aside>
+      <div class="aside-toc">
+        <h4>On This Page</h4>
+        <ul>
+          <li><a href="#tw-tool">Live Preview Tool</a></li>
+          <li><a href="#card-types">Card Types</a></li>
+          <li><a href="#tips">Optimisation Tips</a></li>
+          <li><a href="#guide">Twitter Card Guide</a></li>
+          <li><a href="#faq-tw">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-tw" aria-labelledby="faq-tw-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-tw-heading" class="section-title">Twitter Card FAQs</h2>
+    </div>
+    <div class="faq-grid" style="max-width:800px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="ftw1">Why isn't my Twitter Card showing up? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="ftw1" hidden>The most common reasons: (1) missing twitter:card meta tag, (2) the image URL isn't publicly accessible, (3) Twitter's cache hasn't updated — use Twitter's Card Validator to force a re-fetch. Also check that your page doesn't have a noindex or authentication wall blocking Twitter's crawler.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="ftw2">Does Twitter support animated GIFs in cards? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="ftw2" hidden>Twitter Card meta tags only display the first frame of a GIF as a static image. To include an animated GIF, attach it directly to the tweet as media — not via OG meta tags.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="ftw3">How long does Twitter cache card data? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="ftw3" hidden>Twitter caches card data for approximately 7 days. After updating your meta tags, use Twitter's Card Validator tool to flush the cache for that URL. Historical tweets with the old card data will not update retroactively.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="ftw4">Can I use different images for Twitter vs Facebook? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="ftw4" hidden>Yes. Use twitter:image for Twitter and og:image for Facebook and other platforms. This lets you serve different image ratios or content — for example, a 1200×628px image for Facebook and a 1200×628px (or square 1:1) for Twitter.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Perfect Your Twitter Cards Now</h2>
+    <p>Fix missing images, truncated titles, and broken cards before your next post goes live.</p>
+    <a href="#tw-tool" class="btn btn--primary btn-tw" style="font-size:1rem;padding:.9rem 2rem">Preview Twitter Card Free →</a>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+let cardType='large';
+function setCardType(type,btn){
+  cardType=type;
+  document.querySelectorAll('.card-toggle-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updatePreview();
+}
+function countChars(){
+  const ta=document.getElementById('tw-tweet');
+  const cc=document.getElementById('tw-char');
+  const len=ta.value.length;
+  cc.textContent=len+' / 280';
+  cc.className='char-count'+(len>260?' warn':'')+(len>=280?' over':'');
+}
+function updatePreview(){
+  const tweet=document.getElementById('tw-tweet').value;
+  const title=document.getElementById('tw-title').value;
+  const desc=document.getElementById('tw-desc').value;
+  const domain=document.getElementById('tw-domain').value;
+  const imgurl=document.getElementById('tw-imgurl').value;
+  document.getElementById('previewTweetText').textContent=tweet;
+  document.getElementById('previewTitle').textContent=title||'Page Title';
+  document.getElementById('previewDesc').textContent=desc||'Page description...';
+  document.getElementById('previewDomain').textContent=domain||'example.com';
+  // Image
+  const imgEl=document.getElementById('previewImg');
+  if(imgurl){
+    imgEl.innerHTML='<img src="'+imgurl+'" alt="Card image" style="width:100%;height:100%;object-fit:cover"/>';
+  } else {
+    imgEl.innerHTML='<div class="x-card-img-placeholder"><span>🖼️</span><span>OG Image Preview</span></div>';
+  }
+  // Card layout
+  const card=document.getElementById('previewCard');
+  if(cardType==='summary'){
+    card.className='x-card x-card--summary';
+    card.innerHTML='<div class="x-card-inner"><div class="x-card-img" style="width:130px;min-height:130px;flex-shrink:0">'+(imgurl?'<img src="'+imgurl+'" alt="" style="width:100%;height:100%;object-fit:cover"/><div class="x-card-img-placeholder"><span>🖼️</span></div>':'<div class="x-card-img-placeholder"><span>🖼️</span></div>')+'</div><div class="x-card-body"><div class="x-card-domain">'+domain+'</div><div class="x-card-title">'+title+'</div><div class="x-card-desc">'+desc+'</div></div></div>';
+  } else {
+    card.className='x-card';
+    card.innerHTML='<div class="x-card-img" id="previewImg">'+(imgurl?'<img src="'+imgurl+'" alt="Card image" style="width:100%;height:100%;object-fit:cover"/>':'<div class="x-card-img-placeholder"><span>🖼️</span><span>OG Image Preview</span></div>')+'</div><div class="x-card-body"><div class="x-card-domain">'+domain+'</div><div class="x-card-title">'+title+'</div><div class="x-card-desc">'+desc+'</div></div>';
+  }
+  // Audit
+  document.getElementById('audit-title').textContent=title;
+  document.getElementById('audit-desc').textContent=desc.substring(0,60)+(desc.length>60?'...':'');
+  document.getElementById('audit-url').textContent=document.getElementById('tw-url').value||'(not set)';
+  document.getElementById('audit-card').textContent=cardType==='large'?'summary_large_image':'summary';
+  if(imgurl){document.getElementById('audit-img').textContent=imgurl.substring(0,40)+'...';document.getElementById('audit-img-icon').className='meta-status meta-status--ok';document.getElementById('audit-img-icon').textContent='✓';}
+  else{document.getElementById('audit-img').textContent='Not specified (OG fallback)';document.getElementById('audit-img-icon').className='meta-status meta-status--warn';document.getElementById('audit-img-icon').textContent='!';}
+}
+</script>
+</body>
+</html>
