@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free Instagram post preview tool — design and preview your Instagram feed posts, Reels thumbnails, Stories, and captions before you publish. See your grid layout, hashtag reach, and post appearance on mobile."/>
+  <meta name="keywords" content="Instagram post preview, Instagram caption preview, Instagram grid preview, Instagram feed preview, instagram post design tool, instagram story preview, instagram reel thumbnail preview, social media post mockup, instagram post simulator"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/instagram-post-preview"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/instagram-post-preview"/>
+  <meta property="og:title" content="Instagram Post Preview Tool — Caption, Grid & Feed Simulator | Previewer.pro"/>
+  <meta property="og:description" content="Preview your Instagram posts, captions, hashtags, and grid layout before publishing. See exactly how your content looks in the feed."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>Instagram Post Preview Tool — Caption, Grid & Feed Simulator | Previewer.pro</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Instagram Post Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/instagram-post-preview","description":"Design and preview Instagram feed posts, captions, hashtags, and grid layouts before publishing.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root{--ig-bg:#000;--ig-surface:#121212;--ig-border:#262626;--ig-text:#f5f5f5;--ig-muted:#a8a8a8;--ig-grad1:#f58529;--ig-grad2:#dd2a7b;--ig-grad3:#8134af;--ig-grad4:#515bd4;--ig-blue:#0095f6}
+    .ig-gradient{background:linear-gradient(45deg,var(--ig-grad1),var(--ig-grad2),var(--ig-grad3),var(--ig-grad4))}
+    .app-hero{padding:3.5rem 0 2rem;background:var(--clr-surface);border-bottom:1px solid var(--clr-border)}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+    .app-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(45deg,rgba(245,133,41,.12),rgba(221,42,123,.12));border:1px solid rgba(221,42,123,.3);color:var(--ig-grad2);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .app-hero__title{font-family:var(--ff-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .app-hero__title span{background:linear-gradient(45deg,var(--ig-grad1),var(--ig-grad2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    /* Instagram UI */
+    .ig-app{background:var(--ig-bg);border:1px solid var(--ig-border);border-radius:12px;overflow:hidden;max-width:400px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    .ig-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;border-bottom:1px solid var(--ig-border)}
+    .ig-logo{font-family:'Billabong','Dancing Script',cursive;font-size:1.4rem;color:var(--ig-text);letter-spacing:.02em}
+    .ig-header-icons{display:flex;gap:1rem;color:var(--ig-text);font-size:1.1rem}
+    /* Stories bar */
+    .ig-stories{display:flex;gap:.6rem;padding:.75rem 1rem;overflow-x:auto;border-bottom:1px solid var(--ig-border);scrollbar-width:none}
+    .ig-stories::-webkit-scrollbar{display:none}
+    .ig-story{display:flex;flex-direction:column;align-items:center;gap:.3rem;flex-shrink:0;cursor:pointer}
+    .ig-story__ring{width:56px;height:56px;border-radius:50%;padding:2px;display:flex;align-items:center;justify-content:center}
+    .ig-story__ring--active{background:linear-gradient(45deg,var(--ig-grad1),var(--ig-grad2),var(--ig-grad3))}
+    .ig-story__ring--add{background:var(--ig-border)}
+    .ig-story__avatar{width:50px;height:50px;border-radius:50%;background:var(--ig-surface);border:2px solid var(--ig-bg);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+    .ig-story__name{font-size:.62rem;color:var(--ig-text);max-width:58px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    /* Post */
+    .ig-post{border-bottom:1px solid var(--ig-border)}
+    .ig-post-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem}
+    .ig-post-user{display:flex;align-items:center;gap:.6rem}
+    .ig-post-avatar{width:32px;height:32px;border-radius:50%;padding:1.5px;background:linear-gradient(45deg,var(--ig-grad1),var(--ig-grad2),var(--ig-grad3));display:flex;align-items:center;justify-content:center}
+    .ig-post-avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--ig-surface);border:2px solid var(--ig-bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:var(--ig-text)}
+    .ig-post-username{font-size:.88rem;font-weight:700;color:var(--ig-text)}
+    .ig-post-location{font-size:.7rem;color:var(--ig-muted)}
+    .ig-post-more{color:var(--ig-text);font-size:1.2rem;cursor:pointer}
+    .ig-post-img{width:100%;aspect-ratio:1;background:linear-gradient(135deg,rgba(245,133,41,.25),rgba(221,42,123,.2),rgba(129,52,175,.2));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .ig-post-img img{width:100%;height:100%;object-fit:cover;display:none}
+    .ig-post-img-placeholder{display:flex;flex-direction:column;align-items:center;gap:.75rem;color:rgba(255,255,255,.25)}
+    .ig-post-img-placeholder span:first-child{font-size:3rem}
+    .ig-post-img-placeholder span:last-child{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
+    .ig-post-ratio{position:absolute;top:.5rem;left:.5rem;background:rgba(0,0,0,.6);color:#fff;font-size:.65rem;padding:.15rem .4rem;border-radius:4px}
+    .ig-post-actions{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem .25rem}
+    .ig-post-actions-left{display:flex;gap:1rem;font-size:1.3rem}
+    .ig-action-btn{cursor:pointer;transition:transform .15s}
+    .ig-action-btn:hover{transform:scale(1.15)}
+    .ig-post-likes{padding:0 1rem .4rem;font-size:.88rem;font-weight:700;color:var(--ig-text)}
+    .ig-post-caption{padding:0 1rem;font-size:.88rem;color:var(--ig-text);line-height:1.5;margin-bottom:.35rem;word-break:break-word}
+    .ig-post-caption strong{font-weight:700}
+    .ig-hashtags{padding:0 1rem .35rem;font-size:.88rem;color:var(--ig-blue);line-height:1.6;word-break:break-word}
+    .ig-post-time{padding:0 1rem .75rem;font-size:.72rem;color:var(--ig-muted);text-transform:uppercase;letter-spacing:.03em}
+    /* Tool */
+    .ig-tool{background:var(--clr-bg);padding:4rem 0}
+    .ig-tool-box{display:grid;grid-template-columns:1fr 1.1fr;gap:2rem;align-items:start}
+    .ig-input-panel{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:16px;padding:2rem}
+    .ig-input-panel h3{font-family:var(--ff-display);font-weight:700;color:#fff;margin-bottom:1.5rem;font-size:1rem}
+    .form-group{margin-bottom:1.25rem}
+    .form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--clr-muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+    .form-group input,.form-group textarea,.form-group select{width:100%;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.65rem 1rem;color:var(--clr-text);font-family:var(--ff-body);font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--ig-grad2)}
+    .form-group textarea{min-height:90px}
+    .ig-char-row{display:flex;justify-content:space-between;align-items:center;margin-top:.3rem}
+    .char-count{font-size:.75rem;color:var(--clr-muted)}
+    .char-count.warn{color:#f59e0b}
+    .char-count.over{color:#ef4444}
+    .hashtag-count{font-size:.75rem;color:var(--clr-muted)}
+    .form-btn{width:100%;padding:.75rem;border:none;border-radius:10px;font-family:var(--ff-display);font-weight:700;font-size:.95rem;cursor:pointer;transition:all .2s;color:#fff}
+    .form-btn-ig{background:linear-gradient(45deg,var(--ig-grad1),var(--ig-grad2),var(--ig-grad3))}
+    .form-btn-ig:hover{opacity:.9;transform:translateY(-1px)}
+    /* Post format tabs */
+    .format-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+    .format-tab{padding:.35rem .9rem;border:1px solid var(--clr-border);border-radius:999px;background:var(--clr-surface2);color:var(--clr-muted);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ff-display)}
+    .format-tab.active{border-color:var(--ig-grad2);color:var(--ig-grad2);background:rgba(221,42,123,.1)}
+    /* Caption analysis */
+    .caption-analysis{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem;margin-top:1rem}
+    .caption-analysis h4{font-family:var(--ff-display);font-weight:700;font-size:.9rem;color:#fff;margin-bottom:1rem}
+    .analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .analysis-item{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:10px;padding:.75rem}
+    .analysis-item__label{font-size:.72rem;color:var(--clr-muted);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:.04em}
+    .analysis-item__value{font-family:var(--ff-display);font-size:1.1rem;font-weight:700;color:#fff}
+    .analysis-item__value.ok{color:var(--clr-accent2)}
+    .analysis-item__value.warn{color:#f59e0b}
+    .analysis-item__value.over{color:#ef4444}
+    /* Grid preview */
+    .grid-preview{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:12px;padding:1rem}
+    .grid-preview h4{font-family:var(--ff-display);font-weight:700;font-size:.9rem;color:#fff;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+    .ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+    .ig-grid-cell{aspect-ratio:1;background:var(--ig-surface);border-radius:2px;overflow:hidden;position:relative}
+    .ig-grid-cell--current{border:2px solid var(--ig-grad2)}
+    .ig-grid-cell img{width:100%;height:100%;object-fit:cover}
+    .ig-grid-cell__placeholder{width:100%;height:100%;background:linear-gradient(135deg,rgba(245,133,41,.15),rgba(221,42,123,.12));display:flex;align-items:center;justify-content:center;font-size:.9rem;color:rgba(255,255,255,.15)}
+    /* Sections */
+    .post-types-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .post-types-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+    .post-type-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;text-align:center;transition:all .2s;cursor:default}
+    .post-type-card:hover{border-color:rgba(221,42,123,.4);transform:translateY(-3px)}
+    .post-type-card__icon{font-size:2.5rem;margin-bottom:.75rem}
+    .post-type-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.4rem}
+    .post-type-card p{font-size:.82rem;color:var(--clr-muted);line-height:1.5}
+    .hashtag-section{padding:5rem 0}
+    .hashtag-tips{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .hashtag-tip{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem;transition:all .2s}
+    .hashtag-tip:hover{border-color:rgba(221,42,123,.3)}
+    .hashtag-tip__icon{font-size:2rem;margin-bottom:.75rem}
+    .hashtag-tip h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.5rem}
+    .hashtag-tip p{font-size:.86rem;color:var(--clr-muted);line-height:1.6}
+    .content-rich{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .content-rich__inner{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+    .content-rich h2{font-family:var(--ff-display);font-size:1.5rem;font-weight:800;color:#fff;margin:1.5rem 0 .75rem}
+    .content-rich h2:first-child{margin-top:0}
+    .content-rich p{color:var(--clr-muted);margin-bottom:1rem;line-height:1.7}
+    .content-rich strong{color:var(--clr-text)}
+    .aside-toc{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;position:sticky;top:80px;align-self:start}
+    .aside-toc h4{font-family:var(--ff-display);font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-muted);margin-bottom:1rem}
+    .aside-toc ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .aside-toc ul li a{color:var(--clr-text);text-decoration:none;font-size:.88rem;opacity:.75;transition:opacity .2s}
+    .aside-toc ul li a:hover{opacity:1;color:var(--ig-grad2)}
+    .faq-section{padding:5rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(245,133,41,.12),rgba(221,42,123,.12),rgba(129,52,175,.1));border-top:1px solid rgba(221,42,123,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .btn-ig{background:linear-gradient(45deg,var(--ig-grad1),var(--ig-grad2),var(--ig-grad3))!important;box-shadow:0 4px 20px rgba(221,42,123,.3)!important}
+    .btn-ig:hover{opacity:.9!important;transform:translateY(-2px)!important}
+    @media(max-width:1000px){.ig-tool-box{grid-template-columns:1fr}}
+    @media(max-width:900px){.hero-grid,.post-types-grid,.content-rich__inner{grid-template-columns:1fr 1fr}.hashtag-tips{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.hero-grid,.post-types-grid,.hashtag-tips,.analysis-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="app-hero" aria-labelledby="ig-h1">
+  <div class="container hero-grid">
+    <div>
+      <div class="app-hero__badge">📸 Instagram Post Preview Tool</div>
+      <h1 class="app-hero__title" id="ig-h1">Preview Instagram Posts<br/><span>Before You Publish</span></h1>
+      <p style="color:var(--clr-muted);font-size:1.05rem;margin-bottom:1.5rem">Design your Instagram post, write your caption, add hashtags, and see exactly how everything looks in the feed — including caption length, hashtag placement, and grid position.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem">
+        <span class="chip">Feed Post Preview</span><span class="chip">Caption Editor</span><span class="chip">Hashtag Checker</span><span class="chip">Grid Layout</span><span class="chip">Reel Thumbnail</span>
+      </div>
+      <a href="#ig-tool" class="btn btn--primary btn-ig">Preview Instagram Post →</a>
+    </div>
+    <div aria-hidden="true">
+      <div class="ig-app" style="max-width:350px;margin:0 auto">
+        <div class="ig-header">
+          <span class="ig-logo" style="font-size:1.3rem;font-weight:700;font-family:var(--ff-display)">Instagram</span>
+          <div class="ig-header-icons"><span>❤️</span><span>✉️</span></div>
+        </div>
+        <div class="ig-stories">
+          <div class="ig-story"><div class="ig-story__ring ig-story__ring--add"><div class="ig-story__avatar">➕</div></div><div class="ig-story__name">Your Story</div></div>
+          <div class="ig-story"><div class="ig-story__ring ig-story__ring--active"><div class="ig-story__avatar">🎨</div></div><div class="ig-story__name">design</div></div>
+          <div class="ig-story"><div class="ig-story__ring ig-story__ring--active"><div class="ig-story__avatar">📷</div></div><div class="ig-story__name">photo</div></div>
+        </div>
+        <div class="ig-post">
+          <div class="ig-post-header">
+            <div class="ig-post-user">
+              <div class="ig-post-avatar"><div class="ig-post-avatar-inner">P</div></div>
+              <div><div class="ig-post-username">previewerpro</div><div class="ig-post-location">San Francisco, CA</div></div>
+            </div>
+            <div class="ig-post-more">···</div>
+          </div>
+          <div class="ig-post-img"><div class="ig-post-img-placeholder"><span>🖼️</span><span>Your Image Here</span></div></div>
+          <div class="ig-post-actions">
+            <div style="display:flex;gap:1rem;font-size:1.3rem"><span class="ig-action-btn">🤍</span><span class="ig-action-btn">💬</span><span class="ig-action-btn">✈️</span></div>
+            <span class="ig-action-btn">🔖</span>
+          </div>
+          <div class="ig-post-likes">1,284 likes</div>
+          <div class="ig-post-caption"><strong>previewerpro</strong> Preview your Instagram posts before publishing! See caption length, hashtags &amp; grid layout instantly 🚀</div>
+          <div class="ig-hashtags">#socialmedia #instagram #contentcreator #digitalmarketing</div>
+          <div class="ig-post-time">2 minutes ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="ig-tool" id="ig-tool" aria-label="Instagram post preview tool">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="eyebrow">Live Preview</div>
+      <h2 class="section-title">Instagram Post Preview</h2>
+    </div>
+    <div class="ig-tool-box">
+      <!-- Input Panel -->
+      <div class="ig-input-panel">
+        <h3>✏️ Compose Your Post</h3>
+        <div class="form-group">
+          <label>Post Format</label>
+          <div class="format-tabs">
+            <button class="format-tab active" onclick="setFormat('feed',this)">📷 Feed</button>
+            <button class="format-tab" onclick="setFormat('reel',this)">🎬 Reel</button>
+            <button class="format-tab" onclick="setFormat('story',this)">⭕ Story</button>
+            <button class="format-tab" onclick="setFormat('carousel',this)">📑 Carousel</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ig-username">Username</label>
+          <input type="text" id="ig-username" placeholder="yourhandle" value="yourhandle" oninput="updateIgPreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="ig-location">Location (optional)</label>
+          <input type="text" id="ig-location" placeholder="Add location" value="" oninput="updateIgPreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="ig-imgurl">Image URL (optional)</label>
+          <input type="url" id="ig-imgurl" placeholder="https://your-image.com/photo.jpg" oninput="updateIgPreview()"/>
+        </div>
+        <div class="form-group">
+          <label>Image Ratio</label>
+          <select id="ig-ratio" onchange="updateRatio()">
+            <option value="1/1">1:1 Square (Recommended)</option>
+            <option value="4/5">4:5 Portrait</option>
+            <option value="1.91/1">1.91:1 Landscape</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ig-likes">Like Count</label>
+          <input type="text" id="ig-likes" placeholder="1,284" value="1,284" oninput="updateIgPreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="ig-caption">Caption</label>
+          <textarea id="ig-caption" placeholder="Write a caption..." oninput="updateIgPreview();igCount()" maxlength="2200">✨ Just dropped something new. Crafted with intention, built for impact. Double tap if you love what you see 💫</textarea>
+          <div class="ig-char-row">
+            <div class="char-count" id="ig-char">100 / 2,200</div>
+            <div style="font-size:.72rem;color:var(--clr-muted)" id="ig-caption-preview-note">Shows full after "more"</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ig-hashtags">Hashtags (space-separated)</label>
+          <textarea id="ig-hashtags" placeholder="#socialmedia #instagram #photography" oninput="updateIgPreview();igHashCount()" style="min-height:70px">#socialmedia #contentcreator #instagram #photography #digitalmarketing #creative</textarea>
+          <div class="ig-char-row">
+            <div class="hashtag-count" id="ig-hash-count">6 / 30 hashtags</div>
+            <div class="char-count" id="ig-hash-status" style="color:var(--clr-accent2)">✓ Good</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ig-time">Posted Time</label>
+          <input type="text" id="ig-time" placeholder="e.g. 2 minutes ago" value="Just now" oninput="updateIgPreview()"/>
+        </div>
+        <button class="form-btn form-btn-ig" onclick="updateIgPreview()">Update Preview →</button>
+      </div>
+
+      <!-- Preview Area -->
+      <div style="display:flex;flex-direction:column;gap:1.5rem">
+        <div>
+          <div class="eyebrow" style="margin-bottom:.75rem">Feed Preview</div>
+          <div class="ig-app" id="igPreview">
+            <div class="ig-header">
+              <span style="font-size:1.1rem;font-weight:800;font-family:var(--ff-display);color:var(--ig-text)">Instagram</span>
+              <div class="ig-header-icons"><span>❤️</span><span>✉️</span></div>
+            </div>
+            <div class="ig-post">
+              <div class="ig-post-header">
+                <div class="ig-post-user">
+                  <div class="ig-post-avatar"><div class="ig-post-avatar-inner" id="igAvatarLetter">Y</div></div>
+                  <div><div class="ig-post-username" id="igUsername">yourhandle</div><div class="ig-post-location" id="igLocation" style="display:none"></div></div>
+                </div>
+                <div class="ig-post-more">···</div>
+              </div>
+              <div class="ig-post-img" id="igImg" style="aspect-ratio:1/1">
+                <div class="ig-post-img-placeholder" id="igImgPlaceholder"><span>🖼️</span><span>Your Image</span></div>
+                <span class="ig-post-ratio" id="igRatioLabel">1:1</span>
+              </div>
+              <div class="ig-post-actions">
+                <div style="display:flex;gap:1rem;font-size:1.3rem"><span class="ig-action-btn">🤍</span><span class="ig-action-btn">💬</span><span class="ig-action-btn">✈️</span></div>
+                <span class="ig-action-btn">🔖</span>
+              </div>
+              <div class="ig-post-likes" id="igLikes">1,284 likes</div>
+              <div class="ig-post-caption" id="igCaption"><strong>yourhandle</strong> ✨ Just dropped something new. Crafted with intention, built for impact. Double tap if you love what you see 💫</div>
+              <div class="ig-hashtags" id="igHashtagsDisplay">#socialmedia #contentcreator #instagram #photography #digitalmarketing #creative</div>
+              <div class="ig-post-time" id="igTime">Just now</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Caption Analysis -->
+        <div class="caption-analysis">
+          <h4>📊 Caption Analysis</h4>
+          <div class="analysis-grid">
+            <div class="analysis-item"><div class="analysis-item__label">Caption Length</div><div class="analysis-item__value ok" id="an-chars">100 chars</div></div>
+            <div class="analysis-item"><div class="analysis-item__label">Hashtag Count</div><div class="analysis-item__value ok" id="an-tags">6 tags</div></div>
+            <div class="analysis-item"><div class="analysis-item__label">Emojis</div><div class="analysis-item__value" id="an-emoji">2 found</div></div>
+            <div class="analysis-item"><div class="analysis-item__label">Lines Before "more"</div><div class="analysis-item__value ok" id="an-lines">3 lines</div></div>
+          </div>
+        </div>
+
+        <!-- Grid Preview -->
+        <div class="grid-preview">
+          <h4>⊞ Grid Preview <span style="font-size:.75rem;color:var(--clr-muted);font-weight:400;font-family:var(--ff-body)">Highlighted = your new post</span></h4>
+          <div class="ig-grid" id="igGrid">
+            <div class="ig-grid-cell"><div class="ig-grid-cell__placeholder">📷</div></div>
+            <div class="ig-grid-cell"><div class="ig-grid-cell__placeholder">🌅</div></div>
+            <div class="ig-grid-cell ig-grid-cell--current" id="igGridNew"><div class="ig-grid-cell__placeholder" style="background:linear-gradient(135deg,rgba(245,133,41,.3),rgba(221,42,123,.25))">✨</div></div>
+            <div class="ig-grid-cell"><div class="ig-grid-cell__placeholder">🎨</div></div>
+            <div class="ig-grid-cell"><div class="ig-grid-cell__placeholder">🌿</div></div>
+            <div class="ig-grid-cell"><div class="ig-grid-cell__placeholder">✈️</div></div>
+            <div class="ig-grid-cell"><div class="ig-grid-cell__placeholder">☕</div></div>
+            <div class="ig-grid-cell"><div class="ig-grid-cell__placeholder">🎵</div></div>
+            <div class="ig-grid-cell"><div class="ig-grid-cell__placeholder">🏙️</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POST TYPES -->
+<section class="post-types-section" id="post-types" aria-labelledby="pt-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Post Formats</div>
+      <h2 id="pt-heading" class="section-title">Instagram Content Types Explained</h2>
+    </div>
+    <div class="post-types-grid">
+      <div class="post-type-card"><div class="post-type-card__icon">📷</div><h3>Feed Posts</h3><p>Standard single images or graphics. Use 1:1 square or 4:5 portrait for maximum feed real estate. Supports JPG, PNG up to 30MB.</p></div>
+      <div class="post-type-card"><div class="post-type-card__icon">📑</div><h3>Carousels</h3><p>Up to 10 images or videos in a swipeable format. Carousels get 3× more engagement than single image posts on average.</p></div>
+      <div class="post-type-card"><div class="post-type-card__icon">🎬</div><h3>Reels</h3><p>Short-form vertical video (15 sec – 90 min). Reels get 22% more interaction than regular video posts and are prioritised by the algorithm.</p></div>
+      <div class="post-type-card"><div class="post-type-card__icon">⭕</div><h3>Stories</h3><p>Vertical 9:16 ephemeral content that disappears after 24 hours. Stories support links (all accounts), polls, questions, and countdown stickers.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HASHTAG TIPS -->
+<section class="hashtag-section" id="hashtags" aria-labelledby="ht-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Hashtag Strategy</div>
+      <h2 id="ht-heading" class="section-title">Instagram Hashtag Best Practices</h2>
+    </div>
+    <div class="hashtag-tips">
+      <div class="hashtag-tip"><div class="hashtag-tip__icon">🎯</div><h3>Use 5–15 Targeted Hashtags</h3><p>Meta's own research suggests 5–15 relevant hashtags outperform the old "use 30 hashtags" approach. Fewer, more relevant tags reach more engaged, targeted audiences.</p></div>
+      <div class="hashtag-tip"><div class="hashtag-tip__icon">📊</div><h3>Mix Hashtag Sizes</h3><p>Combine small (under 100K posts), medium (100K–1M), and large (over 1M) hashtags. Smaller tags give you a better chance of appearing at the top; larger ones increase maximum reach.</p></div>
+      <div class="hashtag-tip"><div class="hashtag-tip__icon">🚫</div><h3>Avoid Banned Hashtags</h3><p>Instagram shadowbans posts that use banned or restricted hashtags, even if they seem innocuous. Research each hashtag before using it, especially new ones you haven't used before.</p></div>
+      <div class="hashtag-tip"><div class="hashtag-tip__icon">📝</div><h3>Place Tags Strategically</h3><p>You can place hashtags in the caption or in the first comment. In the caption, add 4–5 line breaks between your text and hashtags to keep the caption visually clean in the feed.</p></div>
+      <div class="hashtag-tip"><div class="hashtag-tip__icon">🔄</div><h3>Rotate Your Hashtag Sets</h3><p>Using the exact same set of hashtags on every post can trigger Instagram's spam filters. Create 5–10 hashtag sets and rotate them across posts to maintain reach and avoid penalties.</p></div>
+      <div class="hashtag-tip"><div class="hashtag-tip__icon">📍</div><h3>Add Location Hashtags</h3><p>Local businesses benefit enormously from city-specific and neighbourhood hashtags (e.g. #NYCRestaurants, #LondonFashion). These drive highly relevant local traffic to your profile.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RICH CONTENT -->
+<section class="content-rich" id="guide" aria-labelledby="guide-heading">
+  <div class="container content-rich__inner">
+    <article>
+      <h2 id="guide-heading">Why You Should Preview Instagram Posts Before Publishing</h2>
+      <p>Instagram is a visual-first platform where <strong>first impressions are everything</strong>. A caption that looks fine in your notes app might wrap awkwardly in the feed. A hashtag block that seems tidy in your drafts might push your CTA below the "more" cutoff — burying the most important line of your post. Our <strong>Instagram post preview tool</strong> lets you see exactly what your followers will see before you commit to publishing.</p>
+      <h2>Instagram Caption Length and the "More" Cut-Off</h2>
+      <p>Instagram captions support up to <strong>2,200 characters</strong>, but the feed only shows the first 125 characters (approximately 3 lines) before truncating with a "more" link. This means your hook — the sentence that convinces someone to stop scrolling — must appear within those first 125 characters. Use our caption editor to preview the truncation and optimise your opening line.</p>
+      <p>For maximum impact, put your strongest statement, question, or CTA in the first line. Save hashtags for the end of the caption or the first comment, so they don't eat into your prime caption real estate.</p>
+      <h2>Instagram Image Sizes and Aspect Ratios in 2025</h2>
+      <p><strong>Square (1:1):</strong> 1080×1080px — the classic and safest choice for feed compatibility. <strong>Portrait (4:5):</strong> 1080×1350px — takes up the most vertical space in the feed, which naturally draws more attention. <strong>Landscape (1.91:1):</strong> 1080×566px — works well for wide scenes but takes less feed space. <strong>Reels and Stories:</strong> 1080×1920px (9:16) — always use vertical full-bleed for maximum screen coverage on mobile.</p>
+      <h2>How to Plan Your Instagram Grid</h2>
+      <p>Your Instagram grid is your visual portfolio — the first thing someone sees when they visit your profile. A well-planned grid with consistent colour palettes, alternating content types, or thematic patterns can significantly increase profile visits converting to followers. Use our <strong>grid preview</strong> feature to see how your new post fits with your existing content before you hit publish.</p>
+    </article>
+    <aside>
+      <div class="aside-toc">
+        <h4>On This Page</h4>
+        <ul>
+          <li><a href="#ig-tool">Preview Tool</a></li>
+          <li><a href="#post-types">Post Types</a></li>
+          <li><a href="#hashtags">Hashtag Tips</a></li>
+          <li><a href="#guide">Caption Guide</a></li>
+          <li><a href="#faq-ig">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-ig" aria-labelledby="faq-ig-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-ig-heading" class="section-title">Instagram Preview FAQs</h2>
+    </div>
+    <div class="faq-grid" style="max-width:800px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fig1">How many characters does Instagram show before "more"? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fig1" hidden>Instagram truncates captions at approximately 125 characters in the feed before showing a "more" link. However, this varies slightly depending on the device, font size, and whether the caption contains emojis (which take up more space). Our preview gives you a close approximation.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fig2">What's the best image size for Instagram feed posts in 2025? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fig2" hidden>For feed posts, 1080×1080px (1:1 square) is the safest universal size. For maximum feed presence, 1080×1350px (4:5 portrait) is optimal as it occupies the most vertical screen real estate. Instagram will compress images above these dimensions, so always export at exactly 1080px wide.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fig3">How many hashtags should I use on Instagram in 2025? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fig3" hidden>Meta's guidance (as of 2024) recommends using 3–5 highly relevant hashtags rather than the old approach of stuffing 30 hashtags. The algorithm has shifted to understand content semantically, making relevance more important than volume. Our tool's hashtag counter helps you monitor your tag count.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fig4">Can I add line breaks to Instagram captions? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fig4" hidden>Yes, but Instagram removes leading line breaks and may collapse multiple consecutive blank lines into one. The most reliable way to add visual spacing in a caption is to use a period or bullet (·) on its own line as a spacer. Our caption preview shows approximately how line breaks will appear in the feed.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Create Perfect Instagram Posts Every Time</h2>
+    <p>Preview your captions, hashtags, and grid layout before you publish. Ship content with confidence.</p>
+    <a href="#ig-tool" class="btn btn--primary btn-ig" style="font-size:1rem;padding:.9rem 2rem">Preview Instagram Post Free →</a>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+function setFormat(f,btn){
+  document.querySelectorAll('.format-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateIgPreview();
+}
+function updateRatio(){
+  const ratio=document.getElementById('ig-ratio').value;
+  document.getElementById('igImg').style.aspectRatio=ratio;
+  const labels={'1/1':'1:1','4/5':'4:5','1.91/1':'1.91:1'};
+  document.getElementById('igRatioLabel').textContent=labels[ratio]||ratio;
+}
+function igCount(){
+  const ta=document.getElementById('ig-caption');
+  const cc=document.getElementById('ig-char');
+  const len=ta.value.length;
+  cc.textContent=len.toLocaleString()+' / 2,200';
+  cc.className='char-count'+(len>1800?' warn':'')+(len>=2200?' over':'');
+}
+function igHashCount(){
+  const ht=document.getElementById('ig-hashtags').value;
+  const tags=ht.match(/#\w+/g)||[];
+  const count=tags.length;
+  const hc=document.getElementById('ig-hash-count');
+  const hs=document.getElementById('ig-hash-status');
+  hc.textContent=count+' / 30 hashtags';
+  if(count>30){hs.textContent='✗ Too many';hs.style.color='#ef4444';}
+  else if(count>15){hs.textContent='! Consider reducing';hs.style.color='#f59e0b';}
+  else if(count===0){hs.textContent='No hashtags';hs.style.color='var(--clr-muted)';}
+  else{hs.textContent='✓ Good';hs.style.color='var(--clr-accent2)';}
+  return tags;
+}
+function updateIgPreview(){
+  const username=document.getElementById('ig-username').value||'yourhandle';
+  const location=document.getElementById('ig-location').value;
+  const imgurl=document.getElementById('ig-imgurl').value;
+  const caption=document.getElementById('ig-caption').value;
+  const likes=document.getElementById('ig-likes').value;
+  const time=document.getElementById('ig-time').value;
+  // username
+  document.getElementById('igUsername').textContent=username;
+  document.getElementById('igAvatarLetter').textContent=username.charAt(0).toUpperCase();
+  // location
+  const locEl=document.getElementById('igLocation');
+  if(location){locEl.textContent=location;locEl.style.display='block';}else{locEl.style.display='none';}
+  // image
+  const imgEl=document.getElementById('igImg');
+  const ph=document.getElementById('igImgPlaceholder');
+  if(imgurl){
+    if(ph)ph.remove();
+    let img=imgEl.querySelector('img');
+    if(!img){img=document.createElement('img');img.alt='Post image';img.style='width:100%;height:100%;object-fit:cover';imgEl.insertBefore(img,imgEl.firstChild);}
+    img.src=imgurl;
+  }
+  // caption
+  document.getElementById('igCaption').innerHTML='<strong>'+username+'</strong> '+caption;
+  // hashtags
+  const tags=igHashCount();
+  document.getElementById('igHashtagsDisplay').textContent=tags.join(' ');
+  // likes & time
+  document.getElementById('igLikes').textContent=likes+' likes';
+  document.getElementById('igTime').textContent=time;
+  // grid
+  const gridNew=document.getElementById('igGridNew');
+  if(imgurl){gridNew.innerHTML='<img src="'+imgurl+'" alt="" style="width:100%;height:100%;object-fit:cover"/>';}
+  // analysis
+  const capLen=caption.length;
+  const emojiCount=(caption.match(/[\u{1F300}-\u{1FFFF}]/gu)||[]).length;
+  const lines=caption.split('\n').length;
+  document.getElementById('an-chars').textContent=capLen.toLocaleString()+' chars';
+  document.getElementById('an-chars').className='analysis-item__value'+(capLen>2200?' over':capLen>1800?' warn':' ok');
+  document.getElementById('an-tags').textContent=tags.length+' tags';
+  document.getElementById('an-tags').className='analysis-item__value'+(tags.length>30?' over':' ok');
+  document.getElementById('an-emoji').textContent=emojiCount+' found';
+  document.getElementById('an-lines').textContent=Math.min(lines,10)+' lines';
+}
+// Init
+igCount();igHashCount();
+</script>
+</body>
+</html>
