@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free Pinterest Pin preview tool — design and preview your Pinterest Pins before publishing. Check image dimensions, title, description, board placement, Rich Pin eligibility, and how your content appears in Pinterest search and home feed."/>
+  <meta name="keywords" content="Pinterest pin preview, Pinterest rich pin preview, Pinterest image size checker, Pinterest pin design tool, Pinterest board preview, Pinterest SEO tool, Pinterest title preview, pin preview generator, Pinterest marketing tool, pinterest post preview"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/pinterest-preview"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/pinterest-preview"/>
+  <meta property="og:title" content="Pinterest Pin Preview Tool — Design & Check Pins Before Publishing | Previewer.pro"/>
+  <meta property="og:description" content="Preview your Pinterest Pins with accurate board layouts, Rich Pin audit, image ratio checker, and home feed simulation. Free, instant, no signup."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>Pinterest Pin Preview Tool — Rich Pin Checker & Board Simulator | Previewer.pro</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Pinterest Pin Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/pinterest-preview","description":"Preview Pinterest Pins with accurate board layouts, Rich Pin metadata, image ratio validation, and home feed simulation.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Pin image preview","Rich Pin audit","Board feed simulation","Image ratio validator","Multiple pin formats","Pinterest SEO checker"],"publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root{
+      --pt-red:#e60023;--pt-dark:#111;--pt-surface:#1f1f1f;
+      --pt-border:#2a2a2a;--pt-text:#efefef;--pt-muted:#767676;
+      --pt-hover:#2d2d2d;
+    }
+    /* ── Hero ── */
+    .pt-hero{padding:3.5rem 0 0;background:var(--clr-surface);border-bottom:1px solid var(--clr-border);overflow:hidden;position:relative}
+    .pt-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pt-red),#ff6b6b,var(--pt-red))}
+    .pt-hero__inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;padding-bottom:3rem}
+    .pt-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(230,0,35,.1);border:1px solid rgba(230,0,35,.25);color:var(--pt-red);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.04em;margin-bottom:1rem}
+    .pt-hero__title{font-family:var(--ff-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .pt-hero__title span{color:var(--pt-red)}
+    /* ── Tool Layout ── */
+    .pt-tool{background:var(--clr-bg);padding:4rem 0}
+    .pt-grid{display:grid;grid-template-columns:400px 1fr;gap:2.5rem;align-items:start}
+    /* Input panel */
+    .pt-inputs{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:18px;overflow:hidden;position:sticky;top:80px}
+    .pt-inputs__tabs{display:flex;border-bottom:1px solid var(--clr-border)}
+    .pt-tab{flex:1;padding:.75rem;background:none;border:none;color:var(--clr-muted);font-family:var(--ff-display);font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s;position:relative}
+    .pt-tab.active{color:#fff;background:rgba(230,0,35,.08)}
+    .pt-tab.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--pt-red)}
+    .pt-inputs__body{padding:1.75rem}
+    .fg{margin-bottom:1.25rem}
+    .fg label{display:block;font-size:.78rem;font-weight:600;color:var(--clr-muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between;align-items:center}
+    .fg label .badge{background:rgba(230,0,35,.12);border:1px solid rgba(230,0,35,.2);color:var(--pt-red);padding:.1rem .45rem;border-radius:4px;font-size:.7rem;font-weight:700}
+    .fg input,.fg textarea,.fg select{width:100%;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.65rem 1rem;color:var(--clr-text);font-family:var(--ff-body);font-size:.9rem;outline:none;transition:border-color .2s;resize:none}
+    .fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--pt-red)}
+    .fg textarea{min-height:80px}
+    .char-row{display:flex;justify-content:space-between;margin-top:.3rem;font-size:.72rem;color:var(--clr-muted)}
+    .cnt-ok{color:var(--clr-accent2)}.cnt-warn{color:#f59e0b}.cnt-over{color:var(--pt-red)}
+    /* Ratio selector */
+    .ratio-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+    .ratio-btn{padding:.5rem .4rem;background:var(--clr-surface2);border:1.5px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.25rem}
+    .ratio-btn .ratio-icon{font-size:1.1rem}
+    .ratio-btn.active{background:rgba(230,0,35,.1);border-color:var(--pt-red);color:var(--pt-red)}
+    /* Pin type */
+    .type-btns{display:flex;gap:.4rem;flex-wrap:wrap}
+    .type-btn{padding:.35rem .8rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:999px;color:var(--clr-muted);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ff-display)}
+    .type-btn.active{background:rgba(230,0,35,.12);border-color:var(--pt-red);color:var(--pt-red)}
+    /* Toggle switch */
+    .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--clr-border)}
+    .toggle-row:last-child{border-bottom:none}
+    .toggle-row__label{font-size:.88rem;color:var(--clr-text)}
+    .toggle-row__sub{font-size:.75rem;color:var(--clr-muted)}
+    .toggle{width:42px;height:24px;background:var(--clr-border);border-radius:999px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;border:none}
+    .toggle.on{background:var(--pt-red)}
+    .toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+    .toggle.on::after{transform:translateX(18px)}
+    .update-btn{width:100%;padding:.8rem;background:var(--pt-red);color:#fff;border:none;border-radius:12px;font-family:var(--ff-display);font-weight:800;font-size:.95rem;cursor:pointer;transition:all .2s;margin-top:1.25rem}
+    .update-btn:hover{background:#cc0020;transform:translateY(-1px)}
+    /* ── Preview pane ── */
+    .pt-preview-pane{display:flex;flex-direction:column;gap:2rem}
+    /* View mode tabs */
+    .preview-tabs{display:flex;gap:.4rem;margin-bottom:0}
+    .pvtab{padding:.45rem 1rem;background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.8rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s}
+    .pvtab.active{background:rgba(230,0,35,.12);border-color:var(--pt-red);color:var(--pt-red)}
+    /* Pinterest UI */
+    .pt-app{background:var(--pt-dark);border:1px solid var(--pt-border);border-radius:16px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    .pt-header{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.25rem;background:var(--pt-dark);border-bottom:1px solid var(--pt-border)}
+    .pt-header-logo{color:var(--pt-red);font-size:1.4rem;font-weight:900;letter-spacing:-.02em}
+    .pt-searchbar{flex:1;max-width:280px;background:var(--pt-surface);border:none;border-radius:20px;padding:.4rem 1rem;color:var(--pt-text);font-size:.8rem;display:flex;align-items:center;gap:.4rem;margin:0 1rem}
+    .pt-header-icons{display:flex;gap:.5rem;color:var(--pt-muted);font-size:.95rem}
+    .pt-header-icon{width:32px;height:32px;background:var(--pt-surface);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:pointer}
+    /* Board nav */
+    .pt-boards-nav{display:flex;gap:.5rem;padding:.6rem 1.25rem;overflow-x:auto;border-bottom:1px solid var(--pt-border);scrollbar-width:none}
+    .pt-boards-nav::-webkit-scrollbar{display:none}
+    .pt-board-pill{padding:.3rem .8rem;border-radius:999px;font-size:.78rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
+    .pt-board-pill.active{background:var(--pt-text);color:var(--pt-dark)}
+    .pt-board-pill:not(.active){background:var(--pt-surface);color:var(--pt-text)}
+    /* Masonry grid */
+    .pt-masonry-wrap{padding:1rem 1.25rem}
+    .pt-masonry{columns:3;column-gap:.75rem}
+    .pt-pin{break-inside:avoid;margin-bottom:.75rem;border-radius:16px;overflow:hidden;background:var(--pt-surface);cursor:pointer;position:relative;transition:transform .2s}
+    .pt-pin:hover{transform:scale(1.02)}
+    .pt-pin:hover .pt-pin-overlay{opacity:1}
+    .pt-pin.featured{outline:2px solid var(--pt-red);outline-offset:2px}
+    .pt-pin__img{width:100%;display:block;background:linear-gradient(135deg,rgba(108,99,255,.2),rgba(0,212,170,.15));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .pt-pin__img img{width:100%;height:100%;object-fit:cover;display:none}
+    .pt-pin__img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:rgba(255,255,255,.2);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;padding:2rem 1rem}
+    .pt-pin-overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .2s;display:flex;align-items:flex-start;justify-content:flex-end;padding:.5rem}
+    .pt-pin-save-btn{background:var(--pt-red);color:#fff;border:none;border-radius:20px;padding:.3rem .75rem;font-size:.75rem;font-weight:700;cursor:pointer}
+    .pt-pin__body{padding:.5rem .6rem .6rem}
+    .pt-pin__title{font-size:.8rem;font-weight:700;color:var(--pt-text);line-height:1.3;margin-bottom:.2rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .pt-pin__desc{font-size:.7rem;color:var(--pt-muted);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .pt-pin__footer{display:flex;align-items:center;gap:.4rem;padding:.2rem .6rem .5rem}
+    .pt-pin__avatar{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--pt-red),#ff6b6b);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff}
+    .pt-pin__creator{font-size:.68rem;color:var(--pt-muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .pt-pin__saves{font-size:.68rem;color:var(--pt-muted)}
+    /* Single pin detail view */
+    .pt-single-pin{display:none;padding:1.5rem}
+    .pt-single-inner{display:grid;grid-template-columns:1fr 1.1fr;gap:1.25rem;max-width:660px;margin:0 auto;background:var(--pt-surface);border-radius:16px;overflow:hidden}
+    .pt-single-img{position:relative}
+    .pt-single-img__el{width:100%;background:linear-gradient(135deg,rgba(230,0,35,.25),rgba(108,99,255,.2));display:flex;align-items:center;justify-content:center;font-size:4rem;color:rgba(255,255,255,.2);min-height:300px;overflow:hidden}
+    .pt-single-img__el img{width:100%;height:100%;object-fit:cover;display:none}
+    .pt-single-img__el .ratio-badge{position:absolute;bottom:.5rem;left:.5rem;background:rgba(0,0,0,.7);color:#fff;font-size:.65rem;padding:.2rem .5rem;border-radius:4px;font-weight:600}
+    .pt-single-save{position:absolute;top:.75rem;right:.75rem;background:var(--pt-red);color:#fff;border:none;border-radius:24px;padding:.5rem 1.2rem;font-size:.85rem;font-weight:700;cursor:pointer}
+    .pt-single-detail{padding:1.25rem;display:flex;flex-direction:column;gap:.6rem}
+    .pt-single-source{font-size:.72rem;color:var(--pt-muted);display:flex;align-items:center;gap:.35rem}
+    .pt-single-source::before{content:'🔗';font-size:.65rem}
+    .pt-single-title{font-size:1rem;font-weight:800;color:var(--pt-text);line-height:1.3}
+    .pt-single-desc{font-size:.82rem;color:var(--pt-muted);line-height:1.6}
+    .pt-single-creator{display:flex;align-items:center;gap:.6rem;padding:.6rem 0;border-top:1px solid var(--pt-border);border-bottom:1px solid var(--pt-border)}
+    .pt-single-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--pt-red),#ff6b6b);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff}
+    .pt-single-name{font-size:.85rem;font-weight:700;color:var(--pt-text)}
+    .pt-single-follow{background:var(--pt-text);color:var(--pt-dark);border:none;border-radius:24px;padding:.35rem 1rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-left:auto}
+    .pt-single-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+    .pt-tag{padding:.25rem .65rem;background:rgba(255,255,255,.07);border-radius:999px;font-size:.72rem;color:var(--pt-muted)}
+    /* Search view */
+    .pt-search-view{display:none;padding:1rem 1.25rem}
+    .pt-search-masonry{columns:4;column-gap:.5rem}
+    /* Rich pin audit */
+    .rich-pin-audit{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem}
+    .rpa-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+    .rpa-score{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ff-display);font-weight:800;font-size:1rem;flex-shrink:0}
+    .rpa-score.great{background:rgba(0,212,170,.15);color:var(--clr-accent2);border:2px solid rgba(0,212,170,.3)}
+    .rpa-score.good{background:rgba(108,99,255,.12);color:var(--clr-accent);border:2px solid rgba(108,99,255,.25)}
+    .rpa-score.fair{background:rgba(245,158,11,.1);color:#f59e0b;border:2px solid rgba(245,158,11,.25)}
+    .rpa-score.poor{background:rgba(230,0,35,.1);color:var(--pt-red);border:2px solid rgba(230,0,35,.25)}
+    .rpa-title{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:1rem}
+    .rpa-sub{font-size:.78rem;color:var(--clr-muted)}
+    .rpa-checks{display:flex;flex-direction:column;gap:0}
+    .rpa-row{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem 0;border-bottom:1px solid var(--clr-border);font-size:.83rem}
+    .rpa-row:last-child{border-bottom:none}
+    .rpa-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;margin-top:.05rem}
+    .i-ok{background:rgba(0,212,170,.12);color:#00d4aa}
+    .i-warn{background:rgba(245,158,11,.12);color:#f59e0b}
+    .i-err{background:rgba(230,0,35,.12);color:var(--pt-red)}
+    .rpa-text strong{color:var(--clr-text);display:block;font-weight:600;margin-bottom:.1rem}
+    .rpa-text span{color:var(--clr-muted);font-size:.79rem}
+    /* Image ratio checker */
+    .ratio-checker{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem}
+    .ratio-checker h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:1rem}
+    .ratio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+    .ratio-item{background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:.75rem;text-align:center;transition:all .2s}
+    .ratio-item.current{border-color:var(--pt-red);background:rgba(230,0,35,.05)}
+    .ratio-item__vis{margin:0 auto .35rem;background:linear-gradient(135deg,rgba(230,0,35,.2),rgba(230,0,35,.05));border-radius:4px}
+    .ratio-item__name{font-size:.72rem;font-weight:700;color:#fff}
+    .ratio-item__px{font-size:.65rem;color:var(--clr-muted)}
+    .ratio-item__badge{font-size:.62rem;padding:.1rem .35rem;border-radius:3px;margin-top:.25rem;display:inline-block}
+    .r-best{background:rgba(0,212,170,.12);color:#00d4aa}
+    .r-good{background:rgba(108,99,255,.1);color:var(--clr-accent)}
+    .r-ok{background:rgba(255,255,255,.06);color:var(--clr-muted)}
+    /* SEO panel */
+    .seo-panel{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem}
+    .seo-panel h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:1rem}
+    .seo-item{display:flex;gap:.75rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .seo-item:last-child{border-bottom:none}
+    /* Sections */
+    .tips-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .tip-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem;transition:all .2s}
+    .tip-card:hover{border-color:rgba(230,0,35,.35);transform:translateY(-3px)}
+    .tip-card__icon{font-size:2rem;margin-bottom:.75rem}
+    .tip-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.5rem}
+    .tip-card p{font-size:.87rem;color:var(--clr-muted);line-height:1.6}
+    .formats-section{padding:5rem 0}
+    .formats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+    .fmt-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.5rem;text-align:center;transition:all .2s}
+    .fmt-card:hover{border-color:rgba(230,0,35,.3);transform:translateY(-2px)}
+    .fmt-card__vis{margin:0 auto 1rem;background:linear-gradient(135deg,rgba(230,0,35,.2),rgba(230,0,35,.05));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:rgba(255,255,255,.3);font-weight:600}
+    .fmt-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:.35rem}
+    .fmt-card p{font-size:.8rem;color:var(--clr-muted)}
+    .fmt-card .fmt-badge{display:inline-block;font-size:.7rem;padding:.15rem .5rem;border-radius:4px;margin-top:.5rem}
+    .content-rich{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .cr-inner{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+    .cr-inner h2{font-family:var(--ff-display);font-size:1.5rem;font-weight:800;color:#fff;margin:1.5rem 0 .75rem}
+    .cr-inner h2:first-child{margin-top:0}
+    .cr-inner p{color:var(--clr-muted);margin-bottom:1rem;line-height:1.7}
+    .cr-inner strong{color:var(--clr-text)}
+    .aside-toc{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;position:sticky;top:80px;align-self:start}
+    .aside-toc h4{font-family:var(--ff-display);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-muted);margin-bottom:1rem}
+    .aside-toc ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+    .aside-toc ul li a{color:var(--clr-text);text-decoration:none;font-size:.86rem;opacity:.7;transition:opacity .2s}
+    .aside-toc ul li a:hover{opacity:1;color:var(--pt-red)}
+    .faq-section{padding:5rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(230,0,35,.15),rgba(255,107,107,.08));border-top:1px solid rgba(230,0,35,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .btn-pt{background:var(--pt-red)!important;box-shadow:0 4px 20px rgba(230,0,35,.35)!important}
+    .btn-pt:hover{background:#cc0020!important;transform:translateY(-2px)!important}
+    @media(max-width:1100px){.pt-grid{grid-template-columns:1fr}.pt-inputs{position:static}}
+    @media(max-width:900px){.pt-hero__inner,.tips-grid,.cr-inner{grid-template-columns:1fr}.formats-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.formats-grid,.ratio-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="pt-hero" aria-labelledby="pt-h1">
+  <div class="container pt-hero__inner">
+    <div>
+      <div class="pt-hero__badge">📌 Pinterest Pin Preview Tool</div>
+      <h1 class="pt-hero__title" id="pt-h1">Design & Preview Your<br/><span>Pinterest Pins</span></h1>
+      <p style="color:var(--clr-muted);font-size:1.05rem;margin-bottom:1.5rem">See exactly how your Pins appear in the Pinterest home feed, board view, and search results — with Rich Pin audit, image ratio validation, keyword analysis, and multi-format simulation. Build Pins that drive real traffic.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem">
+        <span class="chip">2:3 Ratio Check</span><span class="chip">Rich Pin Audit</span>
+        <span class="chip">Board Simulation</span><span class="chip">Pinterest SEO</span><span class="chip">Idea Pins</span>
+      </div>
+      <a href="#pt-tool" class="btn btn--primary btn-pt">Preview My Pin Free ↓</a>
+    </div>
+    <!-- Hero visual: masonry preview -->
+    <div aria-hidden="true" style="display:flex;gap:.6rem;max-width:340px;margin:0 auto">
+      <div style="flex:1;display:flex;flex-direction:column;gap:.6rem">
+        <div style="background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;overflow:hidden">
+          <div style="height:140px;background:linear-gradient(135deg,rgba(230,0,35,.3),rgba(108,99,255,.2));display:flex;align-items:center;justify-content:center;font-size:2rem">📌</div>
+          <div style="padding:.5rem .6rem"><div style="height:8px;background:var(--clr-border);border-radius:4px;width:90%;margin-bottom:4px"></div><div style="height:7px;background:var(--clr-border);border-radius:4px;width:70%"></div></div>
+        </div>
+        <div style="background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;overflow:hidden">
+          <div style="height:90px;background:linear-gradient(135deg,rgba(0,212,170,.25),rgba(108,99,255,.2));display:flex;align-items:center;justify-content:center;font-size:1.5rem">🖼️</div>
+          <div style="padding:.4rem .6rem"><div style="height:7px;background:var(--clr-border);border-radius:4px;width:80%"></div></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:.6rem;margin-top:24px">
+        <div style="background:rgba(230,0,35,.08);border:2px solid var(--pt-red);border-radius:12px;overflow:hidden">
+          <div style="height:160px;background:linear-gradient(135deg,rgba(230,0,35,.35),rgba(255,107,107,.2));display:flex;align-items:center;justify-content:center;font-size:2rem">✨</div>
+          <div style="padding:.5rem .6rem"><div style="height:8px;background:rgba(230,0,35,.3);border-radius:4px;width:95%;margin-bottom:4px"></div><div style="height:7px;background:var(--clr-border);border-radius:4px;width:65%"></div></div>
+        </div>
+        <div style="background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;overflow:hidden">
+          <div style="height:80px;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(230,0,35,.15));display:flex;align-items:center;justify-content:center;font-size:1.5rem">🎨</div>
+          <div style="padding:.4rem .6rem"><div style="height:7px;background:var(--clr-border);border-radius:4px;width:75%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="pt-tool" id="pt-tool" aria-label="Pinterest pin preview tool">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="eyebrow">Live Preview</div>
+      <h2 class="section-title">Pinterest Pin Preview</h2>
+    </div>
+    <div class="pt-grid">
+
+      <!-- INPUT PANEL -->
+      <div class="pt-inputs">
+        <div class="pt-inputs__tabs">
+          <button class="pt-tab active" onclick="switchTab('pin',this)">📌 Pin</button>
+          <button class="pt-tab" onclick="switchTab('board',this)">📋 Board</button>
+          <button class="pt-tab" onclick="switchTab('advanced',this)">⚙️ Advanced</button>
+        </div>
+        <!-- PIN TAB -->
+        <div class="pt-inputs__body" id="tab-pin">
+          <div class="fg">
+            <label>Pin Type</label>
+            <div class="type-btns">
+              <button class="type-btn active" onclick="setPinType('standard',this)">Standard</button>
+              <button class="type-btn" onclick="setPinType('idea',this)">Idea Pin</button>
+              <button class="type-btn" onclick="setPinType('product',this)">Product</button>
+              <button class="type-btn" onclick="setPinType('recipe',this)">Recipe</button>
+              <button class="type-btn" onclick="setPinType('article',this)">Article</button>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Image Aspect Ratio <span class="badge">Affects traffic</span></label>
+            <div class="ratio-btns">
+              <button class="ratio-btn active" onclick="setRatio('2:3',this)"><div class="ratio-icon">▬</div><div style="transform:rotate(90deg);font-size:.95rem">▬</div>2:3</button>
+              <button class="ratio-btn" onclick="setRatio('1:1',this)"><div class="ratio-icon">■</div>1:1</button>
+              <button class="ratio-btn" onclick="setRatio('4:5',this)"><div class="ratio-icon">▮</div>4:5</button>
+              <button class="ratio-btn" onclick="setRatio('1:2',this)"><div class="ratio-icon" style="font-size:1.5rem">▮</div>1:2</button>
+              <button class="ratio-btn" onclick="setRatio('16:9',this)"><div class="ratio-icon">▬</div>16:9</button>
+              <button class="ratio-btn" onclick="setRatio('custom',this)"><div class="ratio-icon">✏️</div>Custom</button>
+            </div>
+          </div>
+          <div class="fg" id="custom-ratio-wrap" style="display:none">
+            <label>Custom Dimensions (px)</label>
+            <div style="display:grid;grid-template-columns:1fr 20px 1fr;gap:.4rem;align-items:center">
+              <input type="number" id="custom-w" placeholder="W" value="1000" oninput="updatePreview()"/>
+              <span style="text-align:center;color:var(--clr-muted)">×</span>
+              <input type="number" id="custom-h" placeholder="H" value="1500" oninput="updatePreview()"/>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="pt-imgurl">Image URL</label>
+            <input type="url" id="pt-imgurl" placeholder="https://your-site.com/pin-image.jpg" oninput="updatePreview()"/>
+          </div>
+          <div class="fg">
+            <label for="pt-title">Pin Title <span id="title-cnt" class="cnt-ok" style="font-size:.7rem;font-weight:700">0/100</span></label>
+            <input type="text" id="pt-title" placeholder="Enter your pin title here…" value="10 Stunning Home Decor Ideas That Will Transform Your Space" maxlength="100" oninput="updatePreview();countTitle()"/>
+          </div>
+          <div class="fg">
+            <label for="pt-desc">Description <span id="desc-cnt" class="cnt-ok" style="font-size:.7rem;font-weight:700">0/500</span></label>
+            <textarea id="pt-desc" placeholder="Describe your pin content…" maxlength="500" oninput="updatePreview();countDesc()">Transform your living space with these breathtaking home decor ideas. From minimalist designs to bold statement pieces, find the perfect style for your home. Click to discover full tutorials and shopping guides!</textarea>
+          </div>
+          <div class="fg">
+            <label for="pt-url">Destination URL</label>
+            <input type="url" id="pt-url" placeholder="https://your-website.com/blog-post" value="https://example.com/home-decor-ideas" oninput="updatePreview()"/>
+          </div>
+          <div class="fg">
+            <label for="pt-creator">Creator Name</label>
+            <input type="text" id="pt-creator" placeholder="Your Pinterest name" value="HomeDesignHub" oninput="updatePreview()"/>
+          </div>
+          <div class="fg">
+            <label for="pt-saves">Save Count (display)</label>
+            <input type="text" id="pt-saves" placeholder="e.g. 2.4K" value="3.1K" oninput="updatePreview()"/>
+          </div>
+        </div>
+
+        <!-- BOARD TAB -->
+        <div class="pt-inputs__body" id="tab-board" style="display:none">
+          <div class="fg">
+            <label for="pt-board">Board Name</label>
+            <input type="text" id="pt-board" placeholder="e.g. Home Decor Inspiration" value="Home Decor Inspiration" oninput="updatePreview()"/>
+          </div>
+          <div class="fg">
+            <label for="pt-board-desc">Board Description</label>
+            <textarea id="pt-board-desc" placeholder="Board description…" style="min-height:60px">Beautiful home decor ideas, interior design inspiration, and styling tips for every room.</textarea>
+          </div>
+          <div class="fg">
+            <label>Board Privacy</label>
+            <div class="type-btns">
+              <button class="type-btn active" onclick="this.parentNode.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">Public</button>
+              <button class="type-btn" onclick="this.parentNode.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">Secret</button>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="pt-category">Category</label>
+            <select id="pt-category">
+              <option>Art</option><option>Beauty</option><option>Design</option>
+              <option selected>Home Decor</option><option>Fashion</option>
+              <option>Food & Drink</option><option>Travel</option><option>DIY</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="pt-tags">Keywords / Tags (comma separated)</label>
+            <textarea id="pt-tags" placeholder="home decor, interior design, modern home…" style="min-height:60px" oninput="updatePreview()">home decor, interior design, modern home, living room ideas, aesthetic</textarea>
+          </div>
+        </div>
+
+        <!-- ADVANCED TAB -->
+        <div class="pt-inputs__body" id="tab-advanced" style="display:none">
+          <div class="fg">
+            <label>Pin Format Preview</label>
+            <div class="type-btns">
+              <button class="type-btn active" onclick="setView('feed',this)">Home Feed</button>
+              <button class="type-btn" onclick="setView('board',this)">Board</button>
+              <button class="type-btn" onclick="setView('search',this)">Search</button>
+              <button class="type-btn" onclick="setView('single',this)">Single</button>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Rich Pin Metadata</label>
+            <div style="display:flex;flex-direction:column;gap:0;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:10px;padding:.5rem .75rem">
+              <div class="toggle-row">
+                <div><div class="toggle-row__label">Article Rich Pin</div><div class="toggle-row__sub">og:type = article</div></div>
+                <button class="toggle on" id="tog-article" onclick="toggleBtn(this,'tog-article')"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-row__label">Product Rich Pin</div><div class="toggle-row__sub">Schema product markup</div></div>
+                <button class="toggle" id="tog-product" onclick="toggleBtn(this,'tog-product')"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-row__label">Recipe Rich Pin</div><div class="toggle-row__sub">Schema recipe markup</div></div>
+                <button class="toggle" id="tog-recipe" onclick="toggleBtn(this,'tog-recipe')"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-row__label">Show Price (Product)</div><div class="toggle-row__sub">Displays price on pin card</div></div>
+                <button class="toggle" id="tog-price" onclick="toggleBtn(this,'tog-price')"></button>
+              </div>
+            </div>
+          </div>
+          <div class="fg" id="price-wrap" style="display:none">
+            <label for="pt-price">Product Price</label>
+            <input type="text" id="pt-price" placeholder="e.g. $29.99" value="$49.99" oninput="updatePreview()"/>
+          </div>
+          <div class="fg">
+            <label for="pt-alt-text">Image Alt Text (Accessibility + SEO)</label>
+            <input type="text" id="pt-alt-text" placeholder="Describe the pin image for screen readers" value="Modern living room with neutral tones and minimalist furniture"/>
+          </div>
+          <div class="fg">
+            <label>Overlay Text on Image</label>
+            <div class="toggle-row" style="border:none;padding:.35rem 0">
+              <div><div class="toggle-row__label">Show text overlay</div></div>
+              <button class="toggle" id="tog-overlay" onclick="toggleBtn(this,'tog-overlay');updatePreview()"></button>
+            </div>
+          </div>
+          <div class="fg" id="overlay-wrap" style="display:none">
+            <label for="pt-overlay-text">Overlay Text</label>
+            <input type="text" id="pt-overlay-text" placeholder="e.g. Save This For Later!" value="Save This For Later!"/>
+          </div>
+        </div>
+
+        <div style="padding:0 1.75rem 1.75rem">
+          <button class="update-btn" onclick="updatePreview()">Update Preview →</button>
+        </div>
+      </div>
+
+      <!-- PREVIEW PANE -->
+      <div class="pt-preview-pane">
+        <!-- View tabs -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+          <div class="preview-tabs">
+            <button class="pvtab active" id="v-feed" onclick="setView('feed',this)">🏠 Home Feed</button>
+            <button class="pvtab" id="v-board" onclick="setView('board',this)">📋 Board</button>
+            <button class="pvtab" id="v-search" onclick="setView('search',this)">🔍 Search</button>
+            <button class="pvtab" id="v-single" onclick="setView('single',this)">📌 Single Pin</button>
+          </div>
+          <div class="eyebrow" style="margin-bottom:0;font-size:.7rem" id="current-ratio-label">Ratio: 2:3 (1000×1500px)</div>
+        </div>
+
+        <!-- HOME FEED VIEW -->
+        <div id="view-feed">
+          <div class="pt-app">
+            <div class="pt-header">
+              <span class="pt-header-logo">P</span>
+              <div class="pt-searchbar"><span style="color:#767676">🔍</span><span style="color:#767676;font-size:.78rem">home decor ideas</span></div>
+              <div class="pt-header-icons">
+                <div class="pt-header-icon">🔔</div>
+                <div class="pt-header-icon">✉️</div>
+                <div class="pt-header-icon" style="background:linear-gradient(135deg,var(--pt-red),#ff6b6b);color:#fff">Y</div>
+              </div>
+            </div>
+            <div class="pt-masonry-wrap">
+              <div class="pt-masonry" id="feedMasonry">
+                <!-- Generated by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOARD VIEW -->
+        <div id="view-board" style="display:none">
+          <div class="pt-app">
+            <div class="pt-header">
+              <span class="pt-header-logo">P</span>
+              <div style="flex:1;padding:0 1rem">
+                <div style="font-size:.9rem;font-weight:700;color:var(--pt-text)" id="boardNameDisplay">Home Decor Inspiration</div>
+                <div style="font-size:.72rem;color:var(--pt-muted)">Board · Public</div>
+              </div>
+              <div class="pt-header-icons"><div class="pt-header-icon">⋯</div></div>
+            </div>
+            <div class="pt-boards-nav" id="boardTagsNav">
+              <button class="pt-board-pill active">All</button>
+            </div>
+            <div class="pt-masonry-wrap">
+              <div class="pt-masonry" id="boardMasonry"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEARCH VIEW -->
+        <div id="view-search" style="display:none">
+          <div class="pt-app">
+            <div class="pt-header" style="gap:.75rem">
+              <span class="pt-header-logo">P</span>
+              <div style="flex:1;background:var(--pt-surface);border-radius:20px;padding:.4rem 1rem;display:flex;align-items:center;gap:.4rem">
+                <span style="color:#767676">🔍</span>
+                <span style="color:var(--pt-text);font-size:.82rem" id="searchQueryDisplay">home decor ideas</span>
+              </div>
+            </div>
+            <div class="pt-boards-nav">
+              <button class="pt-board-pill active">All</button>
+              <button class="pt-board-pill">Boards</button>
+              <button class="pt-board-pill">Pinners</button>
+              <button class="pt-board-pill">Videos</button>
+            </div>
+            <div class="pt-masonry-wrap">
+              <div class="pt-masonry" style="columns:4;column-gap:.5rem" id="searchMasonry"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SINGLE PIN VIEW -->
+        <div id="view-single" style="display:none">
+          <div class="pt-app">
+            <div class="pt-header"><span class="pt-header-logo">P</span><div style="flex:1;text-align:center;font-size:.82rem;color:var(--pt-muted)">Pin detail</div><div class="pt-header-icon">⋯</div></div>
+            <div class="pt-single-pin" style="display:block">
+              <div class="pt-single-inner" id="singlePinInner">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rich Pin Audit -->
+        <div class="rich-pin-audit">
+          <div class="rpa-header">
+            <div class="rpa-score great" id="rpaScore">95</div>
+            <div><div class="rpa-title">Rich Pin Audit</div><div class="rpa-sub" id="rpaLabel">Excellent — Ready to publish</div></div>
+          </div>
+          <div class="rpa-checks" id="rpaChecks">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Image Ratio checker -->
+        <div class="ratio-checker">
+          <h4>📐 Image Ratio Guide</h4>
+          <div class="ratio-grid">
+            <div class="ratio-item" id="ri-2:3"><div class="ratio-item__vis" style="width:40px;height:60px"></div><div class="ratio-item__name">2:3</div><div class="ratio-item__px">1000×1500px</div><span class="ratio-item__badge r-best">Best</span></div>
+            <div class="ratio-item" id="ri-4:5"><div class="ratio-item__vis" style="width:40px;height:50px"></div><div class="ratio-item__name">4:5</div><div class="ratio-item__px">1000×1250px</div><span class="ratio-item__badge r-good">Good</span></div>
+            <div class="ratio-item" id="ri-1:1"><div class="ratio-item__vis" style="width:44px;height:44px"></div><div class="ratio-item__name">1:1</div><div class="ratio-item__px">1000×1000px</div><span class="ratio-item__badge r-ok">OK</span></div>
+            <div class="ratio-item" id="ri-1:2"><div class="ratio-item__vis" style="width:32px;height:64px"></div><div class="ratio-item__name">1:2</div><div class="ratio-item__px">1000×2000px</div><span class="ratio-item__badge r-ok">Long</span></div>
+            <div class="ratio-item" id="ri-16:9"><div class="ratio-item__vis" style="width:64px;height:36px"></div><div class="ratio-item__name">16:9</div><div class="ratio-item__px">1920×1080px</div><span class="ratio-item__badge r-ok" style="background:rgba(245,158,11,.12);color:#f59e0b">⚠ Low reach</span></div>
+            <div class="ratio-item" id="ri-custom"><div class="ratio-item__vis" style="width:40px;height:55px"></div><div class="ratio-item__name">Custom</div><div class="ratio-item__px">Your size</div><span class="ratio-item__badge r-ok">Variable</span></div>
+          </div>
+        </div>
+
+        <!-- SEO panel -->
+        <div class="seo-panel">
+          <h4>🔍 Pinterest SEO Analysis</h4>
+          <div id="seoPanelItems"><!-- Populated by JS --></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="tips-section" id="tips" aria-labelledby="tips-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Best Practices</div>
+      <h2 id="tips-heading" class="section-title">Pinterest Pin Optimisation Tips</h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card"><div class="tip-card__icon">📐</div><h3>Always Use 2:3 Ratio</h3><p>The 2:3 aspect ratio (1000×1500px) is Pinterest's recommended format. It takes up maximum vertical space in the feed, increasing visibility and click-through rates by up to 67% compared to square images.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">🔑</div><h3>Keywords in Title & Description</h3><p>Pinterest functions as a visual search engine. Include your primary keyword in the first 30 characters of your title and naturally throughout your description. This directly impacts how discoverable your Pins are.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">🎨</div><h3>Bold, Readable Text Overlays</h3><p>Pins with clear, large text overlays that communicate the value proposition perform 3× better in search. Use high-contrast colours, keep text minimal, and ensure it's readable at thumbnail scale.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">📌</div><h3>Enable Rich Pins</h3><p>Rich Pins pull real-time metadata (price, availability, ingredients, author) directly from your website. They display more information in search, making them far more click-worthy than standard pins.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">🔗</div><h3>Link to a Specific URL</h3><p>Always add a destination URL pointing to a specific page — not your homepage. Pins that link to relevant content convert 8× better than homepage pins. Use UTM parameters to track traffic.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">🕐</div><h3>Post Consistently</h3><p>Pinterest's Smart Feed rewards consistent activity. Aim for 3–10 pins per day spread throughout the day. Use a scheduler like Tailwind to maintain cadence without manual daily effort.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATS -->
+<section class="formats-section" id="formats" aria-labelledby="fmt-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Pin Formats</div>
+      <h2 id="fmt-heading" class="section-title">Pinterest Pin Types & Dimensions</h2>
+    </div>
+    <div class="formats-grid">
+      <div class="fmt-card">
+        <div class="fmt-card__vis" style="width:70px;height:105px;margin-bottom:1rem">2:3</div>
+        <h3>Standard Pin</h3>
+        <p>1000×1500px — the most common and highest-performing format for feed visibility.</p>
+        <span class="fmt-badge r-best" style="background:rgba(0,212,170,.12);color:#00d4aa">✅ Recommended</span>
+      </div>
+      <div class="fmt-card">
+        <div class="fmt-card__vis" style="width:80px;height:100px;margin-bottom:1rem">4:5</div>
+        <h3>Square-ish Pin</h3>
+        <p>1000×1250px — good compromise for content designed as square. Works well for blog posts.</p>
+        <span class="fmt-badge" style="background:rgba(108,99,255,.1);color:var(--clr-accent)">Good</span>
+      </div>
+      <div class="fmt-card">
+        <div class="fmt-card__vis" style="width:88px;height:88px;margin-bottom:1rem">1:1</div>
+        <h3>Square Pin</h3>
+        <p>1000×1000px — lower feed space than 2:3. Best for repurposed Instagram content.</p>
+        <span class="fmt-badge" style="background:rgba(245,158,11,.1);color:#f59e0b">Moderate</span>
+      </div>
+      <div class="fmt-card">
+        <div class="fmt-card__vis" style="width:56px;height:112px;margin-bottom:1rem">1:2</div>
+        <h3>Long Pin</h3>
+        <p>1000×2000px — max allowed height. Great for step-by-step tutorials and infographics.</p>
+        <span class="fmt-badge" style="background:rgba(255,255,255,.06);color:var(--clr-muted)">Niche</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<section class="content-rich" id="guide" aria-labelledby="guide-heading">
+  <div class="container cr-inner">
+    <article>
+      <h2 id="guide-heading">What Are Rich Pins and How Do They Work?</h2>
+      <p><strong>Rich Pins</strong> are a special type of Pinterest Pin that automatically sync metadata from your website. When someone saves a Rich Pin, it pulls real-time data — prices, availability, author names, recipe ingredients — directly from your site's Schema.org markup or Open Graph tags. Rich Pins display more information than standard Pins, making them far more compelling in search results.</p>
+      <p>There are five types of Rich Pins: <strong>Article</strong> (headline, author, story description), <strong>Product</strong> (price, availability, where to buy), <strong>Recipe</strong> (ingredients, cook time, serving size), <strong>App</strong> (install button for iOS apps), and <strong>Place</strong> (map, phone number, address). Our preview tool lets you simulate how each type appears in the Pinterest interface.</p>
+      <h2>Pinterest as a Search Engine — Why SEO Matters</h2>
+      <p>Unlike Instagram or Twitter, Pinterest is fundamentally a <strong>visual search engine</strong>. Users search for ideas, inspiration, and instructions — and Pinterest's algorithm matches Pins to searches based on keywords in titles, descriptions, image alt text, and board names. This means well-optimised Pins continue driving traffic for months or even years after being pinned.</p>
+      <p>Include your primary keyword in the first 30 characters of your Pin title. Write descriptions of 100–500 characters that read naturally while including 3–5 relevant keywords. Avoid keyword stuffing — Pinterest's algorithm penalises it. Think of your description as a conversation, not an SEO tag list.</p>
+      <h2>Image Requirements for Pinterest Pins (2025)</h2>
+      <p>The ideal Pinterest image is <strong>1000×1500px at 2:3 ratio</strong>, saved as a JPEG or PNG under 32MB. Use a minimum resolution of 600×900px (anything smaller may not be cached by Pinterest's CDN). For text overlays, use a minimum 24pt font size — overlays must remain readable when the image is displayed at 236px wide (the thumbnail width in search results). Avoid placing important content or text in the bottom 100px — some UI elements may cover it.</p>
+    </article>
+    <aside>
+      <div class="aside-toc">
+        <h4>On This Page</h4>
+        <ul>
+          <li><a href="#pt-tool">Preview Tool</a></li>
+          <li><a href="#tips">Optimisation Tips</a></li>
+          <li><a href="#formats">Pin Formats</a></li>
+          <li><a href="#guide">Rich Pin Guide</a></li>
+          <li><a href="#faq-pt">FAQ</a></li>
+        </ul>
+      </div>
+      <div style="margin-top:1.25rem;background:rgba(230,0,35,.07);border:1px solid rgba(230,0,35,.18);border-radius:14px;padding:1.25rem">
+        <div style="font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:.75rem">Quick Stats</div>
+        <div style="font-size:.82rem;color:var(--clr-muted);line-height:1.9">
+          📌 2:3 = highest reach<br/>
+          🔑 Title: max 100 chars<br/>
+          📝 Desc: 100–300 optimal<br/>
+          🖼️ Min size: 600×900px<br/>
+          📦 Max file: 32MB<br/>
+          🔗 Always add URL
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-pt" aria-labelledby="faq-pt-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-pt-heading" class="section-title">Pinterest Pin Preview FAQs</h2>
+    </div>
+    <div class="faq-grid" style="max-width:780px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fpt1">What is the best image size for Pinterest in 2025? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fpt1" hidden>The recommended size is 1000×1500px at a 2:3 aspect ratio. This format occupies the most vertical space in the Pinterest feed, maximising visibility. Pinterest also accepts 1:1 (square) and 9:16 (tall) formats, but the 2:3 ratio consistently delivers the highest engagement and click-through rates.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fpt2">How do I enable Rich Pins for my website? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fpt2" hidden>Add Schema.org markup (for Product, Recipe, or Article Rich Pins) or Open Graph tags to your page's HTML. Then visit Pinterest's Rich Pin Validator, enter your URL, and Pinterest will verify the markup and activate Rich Pins for your domain. Once approved, all existing and future Pins from your site will automatically become Rich Pins.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fpt3">How many keywords should I use in a Pinterest description? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fpt3" hidden>Use 3–5 natural keywords in your description, integrated conversationally rather than stuffed in a list. Pinterest's algorithm can detect and penalise keyword stuffing. Focus on your primary keyword in the first sentence, and use secondary keywords and related terms throughout the rest. The optimal description length is 100–300 characters for most pin types.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fpt4">Does Pinterest compress images? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fpt4" hidden>Yes, Pinterest compresses images upon upload and re-compresses them when resizing for different display contexts (home feed, search, single pin view). To minimise quality loss, upload high-resolution images (minimum 1000px wide, 72–150 DPI) and save as JPEG at 80–90% quality or as PNG for images with text overlays.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Create Pinterest Pins That Drive Real Traffic</h2>
+    <p>Preview your Pins, validate Rich Pin metadata, and check image ratios — all before you publish.</p>
+    <a href="#pt-tool" class="btn btn--primary btn-pt" style="font-size:1rem;padding:.9rem 2rem">Preview Pinterest Pin Free →</a>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+let currentRatio='2:3', currentView='feed', currentPinType='standard';
+const ratioDims={'2:3':'1000×1500px','1:1':'1000×1000px','4:5':'1000×1250px','1:2':'1000×2000px','16:9':'1920×1080px','custom':'Custom'};
+const ratioAspect={'2:3':'calc(3/2*100%)','1:1':'100%','4:5':'calc(5/4*100%)','1:2':'calc(2/1*100%)','16:9':'calc(9/16*100%)','custom':'calc(3/2*100%)'};
+
+function switchTab(t,btn){
+  ['pin','board','advanced'].forEach(id=>{document.getElementById('tab-'+id).style.display='none'});
+  document.getElementById('tab-'+t).style.display='block';
+  document.querySelectorAll('.pt-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setPinType(t,btn){
+  currentPinType=t;
+  document.querySelectorAll('.type-btns .type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updatePreview();
+}
+function setRatio(r,btn){
+  currentRatio=r;
+  document.querySelectorAll('.ratio-btns .ratio-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('custom-ratio-wrap').style.display = r==='custom'?'block':'none';
+  document.getElementById('current-ratio-label').textContent='Ratio: '+r+' ('+ratioDims[r]+')';
+  // Highlight ratio guide
+  Object.keys(ratioDims).forEach(k=>{
+    const el=document.getElementById('ri-'+k);
+    if(el) el.classList.toggle('current', k===r);
+  });
+  updatePreview();
+}
+function setView(v,btn){
+  currentView=v;
+  ['feed','board','search','single'].forEach(id=>{
+    document.getElementById('view-'+id).style.display='none';
+    const b=document.getElementById('v-'+id);
+    if(b) b.classList.remove('active');
+  });
+  document.getElementById('view-'+v).style.display='block';
+  const vb=document.getElementById('v-'+v);
+  if(vb) vb.classList.add('active');
+}
+function toggleBtn(el,id){
+  el.classList.toggle('on');
+  if(id==='tog-price') document.getElementById('price-wrap').style.display=el.classList.contains('on')?'block':'none';
+  if(id==='tog-overlay') document.getElementById('overlay-wrap').style.display=el.classList.contains('on')?'block':'none';
+  updatePreview();
+}
+function countTitle(){
+  const len=document.getElementById('pt-title').value.length;
+  const el=document.getElementById('title-cnt');
+  el.textContent=len+'/100';
+  el.className=len>90?'cnt-over':len>70?'cnt-warn':'cnt-ok';
+}
+function countDesc(){
+  const len=document.getElementById('pt-desc').value.length;
+  const el=document.getElementById('desc-cnt');
+  el.textContent=len+'/500';
+  el.className=len>450?'cnt-over':len>350?'cnt-warn':'cnt-ok';
+}
+
+function buildPinHTML(featured=false, small=false){
+  const title=document.getElementById('pt-title').value||'Pin Title';
+  const desc=document.getElementById('pt-desc').value||'';
+  const creator=document.getElementById('pt-creator').value||'Creator';
+  const saves=document.getElementById('pt-saves').value||'0';
+  const imgUrl=document.getElementById('pt-imgurl').value;
+  const showPrice=document.getElementById('tog-price')?.classList.contains('on');
+  const price=document.getElementById('pt-price')?.value||'$49.99';
+  const showOverlay=document.getElementById('tog-overlay')?.classList.contains('on');
+  const overlayText=document.getElementById('pt-overlay-text')?.value||'';
+
+  const aspect = ratioAspect[currentRatio]||'calc(3/2*100%)';
+  const imgContent = imgUrl
+    ? `<img src="${imgUrl}" alt="${title}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'" onload="this.style.display='block'"/>`
+    : `<div class="pt-pin__img-placeholder"><span style="font-size:2rem">🖼️</span><span>Your Image</span></div>`;
+
+  const priceHtml = showPrice ? `<div style="font-size:.72rem;font-weight:700;color:#00d4aa;margin-top:.15rem">${price}</div>` : '';
+  const overlayHtml = showOverlay && overlayText ? `<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);padding:.4rem .6rem;font-size:.7rem;font-weight:700;color:#fff;text-align:center">${overlayText}</div>` : '';
+  const richBadge = currentPinType!=='standard' ? `<div style="font-size:.6rem;background:rgba(230,0,35,.15);color:var(--pt-red);padding:.1rem .35rem;border-radius:3px;display:inline-block;margin-bottom:.2rem;font-weight:700;text-transform:uppercase">${currentPinType}</div>` : '';
+
+  return `<div class="pt-pin${featured?' featured':''}" style="break-inside:avoid;margin-bottom:.75rem">
+    <div class="pt-pin__img" style="padding-bottom:${aspect};position:relative">
+      ${imgContent}
+      ${overlayHtml}
+      <div class="pt-pin-overlay"><button class="pt-pin-save-btn">Save</button></div>
+    </div>
+    <div class="pt-pin__body">
+      ${richBadge}
+      <div class="pt-pin__title">${title}</div>
+      ${!small?`<div class="pt-pin__desc">${desc}</div>`:''}
+      ${priceHtml}
+    </div>
+    <div class="pt-pin__footer">
+      <div class="pt-pin__avatar">${creator.charAt(0).toUpperCase()}</div>
+      <div class="pt-pin__creator">${creator}</div>
+      <div class="pt-pin__saves">${saves}</div>
+    </div>
+  </div>`;
+}
+
+const dummyPins = [
+  {t:'Cozy Reading Nook Ideas',h:'130px',g:'rgba(108,99,255,.2),rgba(0,212,170,.15)'},
+  {t:'Modern Kitchen Renovation',h:'160px',g:'rgba(245,158,11,.2),rgba(230,0,35,.15)'},
+  {t:'Minimalist Bathroom',h:'110px',g:'rgba(0,212,170,.2),rgba(108,99,255,.15)'},
+  {t:'Bohemian Living Room',h:'175px',g:'rgba(255,107,107,.2),rgba(245,158,11,.15)'},
+  {t:'Outdoor Garden Patio',h:'125px',g:'rgba(0,186,124,.2),rgba(108,99,255,.15)'},
+];
+
+function buildDummyPin(p, small=false){
+  return `<div class="pt-pin" style="break-inside:avoid;margin-bottom:.75rem">
+    <div style="height:${p.h};background:linear-gradient(135deg,${p.g});position:relative;border-radius:16px 16px 0 0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:rgba(255,255,255,.25)">🏠<div class="pt-pin-overlay"><button class="pt-pin-save-btn">Save</button></div></div>
+    <div class="pt-pin__body"><div class="pt-pin__title">${p.t}</div></div>
+    <div class="pt-pin__footer"><div class="pt-pin__avatar" style="background:linear-gradient(135deg,#555,#333)">H</div><div class="pt-pin__creator">HomeDesign</div><div class="pt-pin__saves">1.2K</div></div>
+  </div>`;
+}
+
+function buildSinglePin(){
+  const title=document.getElementById('pt-title').value||'Pin Title';
+  const desc=document.getElementById('pt-desc').value||'Pin description appears here.';
+  const creator=document.getElementById('pt-creator').value||'Creator';
+  const url=document.getElementById('pt-url').value||'example.com';
+  const imgUrl=document.getElementById('pt-imgurl').value;
+  const tags=document.getElementById('pt-tags')?.value||'';
+  const saves=document.getElementById('pt-saves').value||'0';
+  const showPrice=document.getElementById('tog-price')?.classList.contains('on');
+  const price=document.getElementById('pt-price')?.value||'';
+
+  let domain='';
+  try{domain=new URL(url).hostname.replace('www.','');}catch(e){domain=url.replace(/https?:\/\//,'').split('/')[0];}
+
+  const imgEl = imgUrl ? `<img src="${imgUrl}" alt="${title}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'"/>` : `<div style="font-size:3rem;color:rgba(255,255,255,.2)">🖼️</div>`;
+  const tagArr = tags.split(',').map(t=>t.trim()).filter(t=>t).slice(0,6);
+  const tagHtml = tagArr.map(t=>`<span class="pt-tag">${t}</span>`).join('');
+  const priceHtml = showPrice&&price?`<div style="font-size:.85rem;font-weight:700;color:#00d4aa;margin-top:.25rem">${price}</div>`:'';
+  const richType = currentPinType!=='standard'?`<div style="font-size:.7rem;background:rgba(230,0,35,.15);color:var(--pt-red);padding:.15rem .5rem;border-radius:4px;display:inline-block;font-weight:700;text-transform:uppercase;margin-bottom:.35rem">${currentPinType} Rich Pin</div><br/>`:'';
+
+  return `<div class="pt-single-img">
+    <div class="pt-single-img__el" style="min-height:320px">${imgEl}<div class="ratio-badge">${currentRatio}</div></div>
+    <button class="pt-single-save">Save</button>
+  </div>
+  <div class="pt-single-detail">
+    <div class="pt-single-source">${domain}</div>
+    ${richType}
+    <div class="pt-single-title">${title}</div>
+    <div class="pt-single-desc">${desc}</div>
+    ${priceHtml}
+    <div class="pt-single-creator">
+      <div class="pt-single-avatar">${creator.charAt(0).toUpperCase()}</div>
+      <div><div class="pt-single-name">${creator}</div><div style="font-size:.72rem;color:var(--pt-muted)">${saves} saves</div></div>
+      <button class="pt-single-follow">Follow</button>
+    </div>
+    ${tagHtml?`<div class="pt-single-tags">${tagHtml}</div>`:''}
+  </div>`;
+}
+
+function runAudit(){
+  const title=document.getElementById('pt-title').value;
+  const desc=document.getElementById('pt-desc').value;
+  const url=document.getElementById('pt-url').value;
+  const imgUrl=document.getElementById('pt-imgurl').value;
+  const togArticle=document.getElementById('tog-article')?.classList.contains('on');
+
+  const checks=[
+    {ok:title.length>=20&&title.length<=100, warn:title.length>0&&title.length<20, label:'Pin Title', detail: title.length===0?'No title set':title.length<20?'Title is too short — aim for 40–100 characters':title.length>100?'Title exceeds 100 character limit':'Title length is optimal ('+title.length+' chars)'},
+    {ok:desc.length>=100&&desc.length<=500, warn:desc.length>0&&desc.length<100, label:'Description', detail:desc.length===0?'No description set':desc.length<100?'Description too short — aim for 100–300 characters':desc.length>450?'Description is near the limit':' Description length is good ('+desc.length+' chars)'},
+    {ok:!!imgUrl, warn:false, label:'Image URL', detail:imgUrl?'Image URL set — Pinterest will cache this image':'No image URL. Add an image for the preview to display correctly'},
+    {ok:currentRatio==='2:3'||currentRatio==='4:5', warn:currentRatio==='1:1', label:'Image Ratio', detail:currentRatio==='2:3'?'2:3 ratio — optimal for Pinterest feed reach':currentRatio==='4:5'?'4:5 ratio — good performance':currentRatio==='16:9'?'16:9 ratio — low Pinterest reach, consider switching to 2:3':'Image ratio is '+currentRatio},
+    {ok:!!url&&url.startsWith('http'), warn:false, label:'Destination URL', detail:url&&url.startsWith('http')?'Valid URL linked — great for traffic':'Add a destination URL to drive traffic from the Pin'},
+    {ok:togArticle, warn:!togArticle, label:'Rich Pin Markup', detail:togArticle?'Rich Pin type enabled — more metadata shown in search':'No Rich Pin type selected. Enable in Advanced tab for better visibility'},
+  ];
+
+  let score = checks.filter(c=>c.ok).length;
+  const scoreEl=document.getElementById('rpaScore');
+  const labelEl=document.getElementById('rpaLabel');
+  const pct=Math.round((score/checks.length)*100);
+  scoreEl.textContent=pct;
+  scoreEl.className='rpa-score '+(pct>=90?'great':pct>=70?'good':pct>=50?'fair':'poor');
+  labelEl.textContent=pct>=90?'Excellent — Ready to publish':pct>=70?'Good — Minor improvements possible':pct>=50?'Fair — Several issues to address':'Needs work — Key fields missing';
+
+  const html=checks.map(c=>`<div class="rpa-row"><div class="rpa-icon ${c.ok?'i-ok':c.warn?'i-warn':'i-err'}">${c.ok?'✓':c.warn?'!':'✗'}</div><div class="rpa-text"><strong>${c.label}</strong><span>${c.detail}</span></div></div>`).join('');
+  document.getElementById('rpaChecks').innerHTML=html;
+}
+
+function runSEO(){
+  const title=document.getElementById('pt-title').value;
+  const desc=document.getElementById('pt-desc').value;
+  const tags=document.getElementById('pt-tags')?.value||'';
+
+  const kw=tags.split(',').map(t=>t.trim().toLowerCase()).filter(t=>t);
+  const titleKw=kw.filter(k=>title.toLowerCase().includes(k)).length;
+  const descKw=kw.filter(k=>desc.toLowerCase().includes(k)).length;
+
+  const items=[
+    {icon:titleKw>0?'✅':'⚠️', text:`Keyword in title: ${titleKw>0?titleKw+' keyword(s) found':'No board keywords found in title. Add a primary keyword to the first 30 characters.'}`},
+    {icon:descKw>=2?'✅':'⚠️', text:`Keywords in description: ${descKw>=2?descKw+' keyword(s) — good coverage':'Add more keywords from your tag list into the description naturally.'}`},
+    {icon:desc.length>=100?'✅':'⚠️', text:`Description length: ${desc.length} chars — ${desc.length>=100?'good':'aim for 100–300 characters for best discoverability'}`},
+    {icon:kw.length>=3?'✅':'⚠️', text:`Board keywords: ${kw.length} defined — ${kw.length>=3?'good variety':'add at least 5 relevant keywords to your board'}`},
+    {icon:'ℹ️', text:`Search tip: Pinterest weights keywords in order — title > description > board name > alt text`},
+  ];
+
+  document.getElementById('seoPanelItems').innerHTML=items.map(i=>`<div class="seo-item"><span class="tip-icon">${i.icon}</span><span style="color:var(--clr-muted);font-size:.83rem">${i.text}</span></div>`).join('');
+}
+
+function updatePreview(){
+  const boardName=document.getElementById('pt-board')?.value||'Home Decor Inspiration';
+  document.getElementById('boardNameDisplay').textContent=boardName;
+
+  // Build tags for board nav
+  const tags=(document.getElementById('pt-tags')?.value||'').split(',').map(t=>t.trim()).filter(t=>t).slice(0,5);
+  const tagNav=document.getElementById('boardTagsNav');
+  if(tagNav) tagNav.innerHTML='<button class="pt-board-pill active">All</button>'+tags.map(t=>`<button class="pt-board-pill">${t}</button>`).join('');
+
+  // Search query from first keyword
+  const firstKw=(document.getElementById('pt-tags')?.value||'home decor').split(',')[0].trim();
+  const sqEl=document.getElementById('searchQueryDisplay');
+  if(sqEl) sqEl.textContent=firstKw;
+
+  // Build masonry feeds
+  const featured=buildPinHTML(true,false);
+  const dummies=dummyPins.map(p=>buildDummyPin(p)).join('');
+  const dummiesSmall=dummyPins.map(p=>buildDummyPin(p,true)).join('');
+
+  document.getElementById('feedMasonry').innerHTML=dummies.slice(0,dummies.indexOf('</div>')+6)+featured+dummies.slice(dummies.indexOf('</div>')+6);
+  document.getElementById('boardMasonry').innerHTML=featured+dummies;
+  document.getElementById('searchMasonry').innerHTML=buildPinHTML(true,true)+dummiesSmall;
+  document.getElementById('singlePinInner').innerHTML=buildSinglePin();
+
+  runAudit();
+  runSEO();
+}
+
+// Init
+setRatio('2:3',document.querySelector('.ratio-btn'));
+updatePreview();
+countTitle();
+countDesc();
+</script>
+</body>
+</html>
