@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="About Previewer.pro — the free web preview toolkit built for developers, SEO specialists, and digital marketers. Our mission, our tools, and the story behind the platform."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/about"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/about"/>
+  <meta property="og:title" content="About Previewer.pro — Our Mission & Story"/>
+  <meta property="og:description" content="Learn about the team behind Previewer.pro and our mission to give every web professional instant, accurate previews of their content."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>About Previewer.pro — Our Mission, Story & Tools</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"AboutPage","name":"About Previewer.pro","url":"https://previewer.pro/about","description":"Learn about Previewer.pro, the free web preview toolkit for developers, SEO specialists, and digital marketers.","publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro","logo":{"@type":"ImageObject","url":"https://previewer.pro/logo.png"}}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .about-hero{padding:5rem 0 4rem;background:var(--clr-surface);border-bottom:1px solid var(--clr-border);text-align:center;position:relative;overflow:hidden}
+    .about-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(108,99,255,.18),transparent 70%);pointer-events:none}
+    .about-hero h1{font-family:var(--ff-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:800;color:#fff;margin-bottom:1rem;position:relative}
+    .about-hero h1 em{font-style:normal;color:var(--clr-accent)}
+    .about-hero p{font-size:1.1rem;color:var(--clr-muted);max-width:560px;margin:0 auto;position:relative}
+    .mission{padding:5rem 0}
+    .mission__inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .mission h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:1.25rem}
+    .mission p{color:var(--clr-muted);line-height:1.8;margin-bottom:1rem}
+    .mission p strong{color:var(--clr-text)}
+    .mission-visual{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .mv-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;text-align:center;transition:all .2s}
+    .mv-card:hover{border-color:rgba(108,99,255,.4);transform:translateY(-3px)}
+    .mv-card__num{font-family:var(--ff-display);font-size:2.2rem;font-weight:800;color:var(--clr-accent);margin-bottom:.35rem}
+    .mv-card__label{font-size:.82rem;color:var(--clr-muted)}
+    .values-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border);border-bottom:1px solid var(--clr-border)}
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .value-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:2rem;transition:all .2s}
+    .value-card:hover{border-color:rgba(0,212,170,.3);transform:translateY(-3px)}
+    .value-card__icon{font-size:2.5rem;margin-bottom:.75rem}
+    .value-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:1rem;margin-bottom:.5rem}
+    .value-card p{font-size:.88rem;color:var(--clr-muted);line-height:1.6}
+    .tools-list{padding:5rem 0}
+    .tools-list-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+    .tl-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.5rem;text-decoration:none;color:var(--clr-text);transition:all .2s;display:flex;align-items:flex-start;gap:1rem}
+    .tl-card:hover{border-color:var(--clr-accent);transform:translateY(-2px)}
+    .tl-card__icon{font-size:1.75rem;flex-shrink:0}
+    .tl-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.3rem}
+    .tl-card p{font-size:.83rem;color:var(--clr-muted);line-height:1.5}
+    .story-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .story-inner{max-width:760px;margin:0 auto}
+    .story-inner h2{font-family:var(--ff-display);font-size:1.75rem;font-weight:800;color:#fff;margin-bottom:1rem}
+    .story-inner p{color:var(--clr-muted);line-height:1.8;margin-bottom:1rem;font-size:1rem}
+    .story-inner strong{color:var(--clr-text)}
+    .story-divider{width:60px;height:3px;background:linear-gradient(90deg,var(--clr-accent),var(--clr-accent2));border-radius:2px;margin:2rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(108,99,255,.18),rgba(0,212,170,.12));border-top:1px solid rgba(108,99,255,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .cta-btns{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+    @media(max-width:900px){.mission__inner,.values-grid,.tools-list-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.mission__inner,.values-grid,.tools-list-grid,.mission-visual{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<section class="about-hero" aria-labelledby="about-h1">
+  <div class="container">
+    <div class="eyebrow" style="margin-bottom:1rem">About Previewer.pro</div>
+    <h1 id="about-h1">Built for the People Who<br/><em>Care About Every Detail</em></h1>
+    <p>We build free, accurate, no-signup preview tools for developers, SEO specialists, content creators, and digital marketers who refuse to publish blind.</p>
+  </div>
+</section>
+
+<section class="mission" id="mission" aria-labelledby="mission-heading">
+  <div class="container mission__inner">
+    <div>
+      <div class="eyebrow" style="margin-bottom:.75rem">Our Mission</div>
+      <h2 id="mission-heading">Preview with Confidence. Publish with Precision.</h2>
+      <p>We started Previewer.pro because we were tired of discovering broken social cards, truncated SERP titles, and broken mobile layouts <em>after</em> content had already gone live. The feedback loop was backwards — you'd publish, share, and then scramble to fix issues your audience had already seen.</p>
+      <p>Our mission is simple: <strong>close the gap between what you create and what your audience actually sees</strong>. By giving you instant, accurate, platform-faithful previews of your content before it goes live, we help you catch problems when it's still cheap and easy to fix them.</p>
+      <p>Every tool we build is free. Every preview is instant. No account required, no credit card, no usage limits. We believe <strong>the best web tools should be accessible to everyone</strong> — from solo bloggers to enterprise marketing teams.</p>
+    </div>
+    <div class="mission-visual">
+      <div class="mv-card"><div class="mv-card__num">6+</div><div class="mv-card__label">Preview Tools</div></div>
+      <div class="mv-card"><div class="mv-card__num">15+</div><div class="mv-card__label">Device Frames</div></div>
+      <div class="mv-card"><div class="mv-card__num">6</div><div class="mv-card__label">Social Platforms</div></div>
+      <div class="mv-card"><div class="mv-card__num">100%</div><div class="mv-card__label">Free Forever</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="values-section" id="values" aria-labelledby="values-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Our Values</div>
+      <h2 id="values-heading" class="section-title">What We Stand For</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card"><div class="value-card__icon">🎯</div><h3>Accuracy Above All</h3><p>Our tools measure pixel widths, not just characters. Our mobile frames use real device viewport dimensions. Our social cards match platform rendering precisely. Accuracy is non-negotiable.</p></div>
+      <div class="value-card"><div class="value-card__icon">⚡</div><h3>Speed Is Respect</h3><p>Your time is valuable. Every tool produces results in under a second. No loading spinners for simple tasks. We optimise relentlessly because slow tools are abandoned tools.</p></div>
+      <div class="value-card"><div class="value-card__icon">🔓</div><h3>Radical Accessibility</h3><p>No paywalls. No sign-up walls. No artificial usage limits on core features. We believe powerful professional tools should be available to anyone who needs them.</p></div>
+      <div class="value-card"><div class="value-card__icon">🔒</div><h3>Privacy by Default</h3><p>We don't store URLs you enter, page content we fetch, or any personal data. Every session is ephemeral. We'll never sell your data or use it for advertising.</p></div>
+      <div class="value-card"><div class="value-card__icon">🔄</div><h3>Always Current</h3><p>Google updates SERP rendering. Social platforms change OG tag behaviour. Device screen sizes evolve. We track all of it and update our tools to stay accurate with the real world.</p></div>
+      <div class="value-card"><div class="value-card__icon">🌍</div><h3>Open to Everyone</h3><p>We build with accessibility in mind — semantic HTML, keyboard navigation, screen reader support, and mobile-first responsive design. Our tools work for all users, on all devices.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="tools-list" id="our-tools" aria-labelledby="tl-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Our Tools</div>
+      <h2 id="tl-heading" class="section-title">Everything We've Built</h2>
+      <p class="section-sub">A growing suite of preview tools — each one purpose-built for a specific publishing context.</p>
+    </div>
+    <div class="tools-list-grid">
+      <a href="/mobile-viewer"     class="tl-card"><div class="tl-card__icon">📱</div><div><h3>Mobile Viewer</h3><p>Preview any URL on 15+ real device frames with accurate viewport sizes.</p></div></a>
+      <a href="/serp-preview"      class="tl-card"><div class="tl-card__icon">🔍</div><div><h3>SERP Preview</h3><p>Pixel-accurate Google & Bing snippet simulator with live character counters.</p></div></a>
+      <a href="/social-preview"    class="tl-card"><div class="tl-card__icon">📲</div><div><h3>Social Media Preview</h3><p>Universal OG checker and multi-platform social card preview hub.</p></div></a>
+      <a href="/facebook-preview"  class="tl-card"><div class="tl-card__icon">📘</div><div><h3>Facebook Preview</h3><p>Preview Open Graph link cards as they appear in Facebook feeds.</p></div></a>
+      <a href="/twitter-preview"   class="tl-card"><div class="tl-card__icon">𝕏</div><div><h3>Twitter / X Preview</h3><p>Live Twitter Card previewer with summary & large image card support.</p></div></a>
+      <a href="/instagram-preview" class="tl-card"><div class="tl-card__icon">📸</div><div><h3>Instagram Preview</h3><p>Caption editor, hashtag analyser, and grid layout preview tool.</p></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="story-section" id="story" aria-labelledby="story-heading">
+  <div class="container">
+    <div class="story-inner">
+      <div class="eyebrow" style="margin-bottom:.75rem">Our Story</div>
+      <h2 id="story-heading">How Previewer.pro Came to Be</h2>
+      <p>Previewer.pro was born out of a familiar frustration. During a product launch, our founding team shared a blog post across every social channel — only to discover that the link card was showing a generic logo instead of the carefully designed featured image. The Open Graph image was the wrong size. Facebook had cached the broken version. By the time it was fixed, the post had already been seen by thousands.</p>
+      <div class="story-divider"></div>
+      <p>We started building internal tools to preview content before sharing. A simple Open Graph checker here, a mobile responsiveness tester there. Over time, these tools became indispensable in our workflow — and we realised they would be indispensable for anyone publishing on the web.</p>
+      <p>We launched Previewer.pro publicly to give every web professional access to the same quality of preview tooling that large organisations build internally. <strong>We believe the pre-publish review process should be a standard part of every content and development workflow</strong> — and that it should be effortless.</p>
+      <p>Today, Previewer.pro offers tools for mobile previewing, SERP simulation, and social card checking across six platforms. We're continuously building new tools and improving existing ones. If there's a publishing surface you preview blind today, we're probably already working on a tool for it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Ready to Preview with Precision?</h2>
+    <p>All tools are free. No account needed. Start previewing in seconds.</p>
+    <div class="cta-btns">
+      <a href="/mobile-viewer"  class="btn btn--primary">📱 Mobile Viewer</a>
+      <a href="/serp-preview"   class="btn btn--primary" style="background:var(--clr-accent3);box-shadow:0 4px 20px rgba(255,107,107,.3)">🔍 SERP Preview</a>
+      <a href="/social-preview" class="btn btn--ghost">📲 Social Preview</a>
+    </div>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
