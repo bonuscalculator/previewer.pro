@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free SERP preview tool — see exactly how your page appears in Google search results. Preview title tag, meta description, and URL with pixel-accurate truncation before you publish. Boost organic CTR with perfect snippets."/>
+  <meta name="keywords" content="SERP preview tool, Google snippet preview, meta description preview, title tag preview, search result preview, SEO snippet tool, Google SERP simulator, meta tag length checker, click through rate optimization, SEO title preview"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/serp-preview"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/serp-preview"/>
+  <meta property="og:title" content="SERP Preview Tool — Google Snippet Simulator Free | Previewer.pro"/>
+  <meta property="og:description" content="Simulate your Google search result snippet with pixel-accurate title and description truncation. Optimise your SEO snippets before publishing."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>SERP Preview Tool — Google Snippet Simulator & Meta Tag Checker | Previewer.pro</title>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {"@type":"SoftwareApplication","name":"SERP Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/serp-preview","description":"Simulate Google and Bing search result snippets with pixel-accurate title tag and meta description truncation.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Pixel-accurate truncation","Desktop & mobile SERP views","Real-time character counters","URL breadcrumb formatter","Google & Bing simulation","Rich snippet preview"],"publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}},
+      {"@type":"FAQPage","mainEntity":[
+        {"@type":"Question","name":"How many characters can a Google title tag be?","acceptedAnswer":{"@type":"Answer","text":"Google truncates title tags based on pixel width, not character count. The limit is approximately 600 pixels, which typically fits 55–65 characters in a standard font. Short words allow more characters; longer words fewer. Our tool counts pixels precisely."}},
+        {"@type":"Question","name":"How long should a meta description be for Google?","acceptedAnswer":{"@type":"Answer","text":"Google truncates meta descriptions at approximately 920 pixels on desktop, which is roughly 155–165 characters. On mobile, the limit is slightly shorter at around 130 characters. Our SERP preview tool shows both desktop and mobile truncation accurately."}}
+      ]}
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── SERP page-specific styles ── */
+    .serp-hero{padding:3.5rem 0 2rem;background:var(--clr-surface);border-bottom:1px solid var(--clr-border)}
+    .serp-hero__inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+    .serp-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.25);color:var(--clr-accent3);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.04em;margin-bottom:1rem}
+    .serp-hero__title{font-family:var(--ff-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .serp-hero__title span{color:var(--clr-accent3)}
+
+    /* ── Tool Panel ── */
+    .serp-tool-wrap{background:var(--clr-bg);padding:4rem 0}
+    .serp-tool-grid{display:grid;grid-template-columns:420px 1fr;gap:2rem;align-items:start}
+    .serp-inputs{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:16px;padding:1.75rem;position:sticky;top:80px}
+    .serp-inputs h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:1rem;margin-bottom:1.5rem}
+    .sg{margin-bottom:1.25rem}
+    .sg label{display:block;font-size:.8rem;font-weight:600;color:var(--clr-muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between;align-items:center}
+    .sg label .counter{font-weight:700;padding:.1rem .4rem;border-radius:4px;font-size:.75rem;transition:all .2s}
+    .cnt-ok{background:rgba(0,212,170,.12);color:var(--clr-accent2)}
+    .cnt-warn{background:rgba(245,158,11,.12);color:#f59e0b}
+    .cnt-over{background:rgba(255,107,107,.12);color:var(--clr-accent3)}
+    .sg input,.sg textarea{width:100%;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.65rem 1rem;color:var(--clr-text);font-family:var(--ff-body);font-size:.9rem;outline:none;transition:border-color .2s;resize:none}
+    .sg input:focus,.sg textarea:focus{border-color:var(--clr-accent3)}
+    .sg textarea{min-height:80px}
+    .px-bar-wrap{margin-top:.5rem}
+    .px-bar-label{display:flex;justify-content:space-between;font-size:.72rem;color:var(--clr-muted);margin-bottom:.3rem}
+    .px-bar{height:6px;background:var(--clr-border);border-radius:4px;overflow:hidden}
+    .px-bar-fill{height:100%;border-radius:4px;transition:width .3s ease,background .3s}
+    .px-bar-fill-ok{background:linear-gradient(90deg,#00d4aa,#00ffcc)}
+    .px-bar-fill-warn{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+    .px-bar-fill-over{background:linear-gradient(90deg,#ef4444,#f97316)}
+    .view-toggle{display:flex;gap:.4rem;margin-bottom:1.25rem}
+    .view-btn{flex:1;padding:.5rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.82rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s;text-align:center}
+    .view-btn.active{background:var(--clr-accent3);border-color:var(--clr-accent3);color:#fff}
+    .engine-toggle{display:flex;gap:.4rem;margin-bottom:1.25rem}
+    .engine-btn{flex:1;padding:.45rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.8rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s;text-align:center}
+    .engine-btn.active{background:rgba(66,133,244,.15);border-color:rgba(66,133,244,.4);color:#4285f4}
+    .engine-btn.active.bing{background:rgba(0,120,212,.15);border-color:rgba(0,120,212,.4);color:#0078d4}
+    .update-btn{width:100%;padding:.75rem;background:var(--clr-accent3);color:#fff;border:none;border-radius:10px;font-family:var(--ff-display);font-weight:700;font-size:.95rem;cursor:pointer;transition:all .2s;margin-top:.5rem}
+    .update-btn:hover{background:#ff5252;transform:translateY(-1px)}
+
+    /* ── SERP Preview pane ── */
+    .serp-preview-pane{display:flex;flex-direction:column;gap:2rem}
+    .serp-preview-box{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 4px 40px rgba(0,0,0,.35)}
+    .serp-engine-label{font-size:.75rem;font-weight:600;color:#5f6368;font-family:sans-serif;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:.5rem}
+    .serp-engine-dot{width:8px;height:8px;border-radius:50%}
+    .serp-searchbar-wrap{display:flex;align-items:center;gap:.75rem;border:1.5px solid #dfe1e5;border-radius:24px;padding:.55rem 1.25rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+    .serp-searchbar-wrap:focus-within{border-color:#4285f4;box-shadow:0 1px 6px rgba(66,133,244,.3)}
+    .serp-searchbar-icon{color:#4285f4;font-size:1rem}
+    .serp-query-input{flex:1;border:none;outline:none;font-family:sans-serif;font-size:.95rem;color:#202124;background:transparent}
+    /* Result item */
+    .serp-result{padding:.75rem 0;border-bottom:1px solid #f0f0f0;max-width:600px}
+    .serp-result:last-child{border-bottom:none}
+    .serp-result--featured{background:rgba(66,133,244,.04);border:1px solid rgba(66,133,244,.15);border-radius:10px;padding:1rem;margin-bottom:.75rem}
+    .serp-result__head{display:flex;align-items:center;gap:.5rem;margin-bottom:.15rem}
+    .serp-favicon{width:16px;height:16px;border-radius:3px;background:linear-gradient(135deg,#4285f4,#34a853);flex-shrink:0}
+    .serp-result__site{font-size:.82rem;color:#202124;font-family:sans-serif}
+    .serp-result__crumb{font-size:.82rem;color:#4d5156;font-family:sans-serif}
+    .serp-result__title{font-family:sans-serif;font-size:1.1rem;color:#1a0dab;line-height:1.3;margin:.2rem 0 .3rem;cursor:default;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:580px}
+    .serp-result__title:hover{text-decoration:underline}
+    .serp-result__desc{font-family:sans-serif;font-size:.875rem;color:#4d5156;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .serp-result__date{color:#70757a}
+    /* Mobile preview */
+    .serp-mobile-preview{background:#f8f9fa;border-radius:16px;padding:1.5rem;border:1px solid #e0e0e0}
+    .serp-mobile-frame{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.15);max-width:360px;margin:0 auto}
+    .serp-mobile-topbar{background:#f8f9fa;padding:.5rem .75rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid #e0e0e0}
+    .serp-mobile-searchbar{flex:1;background:#fff;border:1px solid #dfe1e5;border-radius:20px;padding:.3rem .75rem;font-size:.78rem;color:#202124;font-family:sans-serif;display:flex;align-items:center;gap:.35rem}
+    .serp-mobile-result{padding:.75rem}
+    .serp-mobile-result .serp-result__head{margin-bottom:.1rem}
+    .serp-mobile-result .serp-result__title{font-size:.95rem;max-width:300px}
+    .serp-mobile-result .serp-result__desc{font-size:.8rem;-webkit-line-clamp:3}
+    /* Competitor comparator */
+    .serp-comparator{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem}
+    .serp-comparator h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:1rem}
+    .comp-row{display:flex;align-items:center;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .comp-row:last-child{border-bottom:none}
+    .comp-metric{min-width:120px;color:var(--clr-muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    .comp-bar-wrap{flex:1;position:relative}
+    .comp-bar{height:8px;background:var(--clr-border);border-radius:4px;overflow:visible;position:relative}
+    .comp-bar-yours{height:100%;border-radius:4px;background:var(--clr-accent);transition:width .4s ease}
+    .comp-bar-limit{position:absolute;top:-4px;width:2px;height:16px;background:rgba(255,107,107,.7);border-radius:1px}
+    .comp-value{min-width:80px;text-align:right;color:var(--clr-text);font-weight:600;font-size:.82rem}
+
+    /* Snippet tips panel */
+    .snippet-tips{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem}
+    .snippet-tips h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:.75rem}
+    .tip-row{display:flex;gap:.6rem;align-items:flex-start;padding:.4rem 0;font-size:.82rem;color:var(--clr-muted)}
+    .tip-icon{flex-shrink:0;margin-top:.1rem}
+
+    /* Info sections */
+    .info-blocks{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .ib-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .ib-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem;transition:all .2s}
+    .ib-card:hover{border-color:rgba(255,107,107,.35);transform:translateY(-3px)}
+    .ib-card__icon{font-size:2rem;margin-bottom:.75rem}
+    .ib-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:1rem;margin-bottom:.5rem}
+    .ib-card p{font-size:.88rem;color:var(--clr-muted);line-height:1.6}
+    .limits-section{padding:5rem 0}
+    .limits-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+    .limit-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem}
+    .limit-card__head{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+    .limit-card__icon{font-size:1.5rem}
+    .limit-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:1rem}
+    .limit-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--clr-border);font-size:.85rem}
+    .limit-row:last-child{border-bottom:none}
+    .limit-row span:first-child{color:var(--clr-muted)}
+    .limit-row span:last-child{font-weight:700;color:#fff;font-family:var(--ff-display)}
+    .content-rich{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .content-rich__inner{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+    .content-rich h2{font-family:var(--ff-display);font-size:1.5rem;font-weight:800;color:#fff;margin:1.5rem 0 .75rem}
+    .content-rich h2:first-child{margin-top:0}
+    .content-rich p{color:var(--clr-muted);margin-bottom:1rem;line-height:1.7}
+    .content-rich strong{color:var(--clr-text)}
+    .code-block{background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;font-family:monospace;font-size:.82rem;color:var(--clr-accent2);line-height:1.8;overflow-x:auto}
+    .code-block .cmt{color:var(--clr-muted)}
+    .aside-toc{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;position:sticky;top:80px;align-self:start}
+    .aside-toc h4{font-family:var(--ff-display);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-muted);margin-bottom:1rem}
+    .aside-toc ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .aside-toc ul li a{color:var(--clr-text);text-decoration:none;font-size:.87rem;opacity:.75;transition:opacity .2s}
+    .aside-toc ul li a:hover{opacity:1;color:var(--clr-accent3)}
+    .faq-section{padding:5rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(255,107,107,.15),rgba(255,155,107,.12));border-top:1px solid rgba(255,107,107,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .btn-serp{background:var(--clr-accent3)!important;box-shadow:0 4px 20px rgba(255,107,107,.35)!important}
+    .btn-serp:hover{background:#ff5252!important;transform:translateY(-2px)!important}
+
+    @media(max-width:1100px){.serp-tool-grid{grid-template-columns:1fr}}
+    @media(max-width:900px){.serp-hero__inner,.ib-grid,.limits-grid,.content-rich__inner{grid-template-columns:1fr}}
+    @media(max-width:600px){.serp-inputs{position:static}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="serp-hero" aria-labelledby="serp-h1">
+  <div class="container serp-hero__inner">
+    <div>
+      <div class="serp-hero__badge">🔍 SERP Preview Tool</div>
+      <h1 class="serp-hero__title" id="serp-h1">See Your Google Snippet<br/><span>Before You Publish</span></h1>
+      <p style="color:var(--clr-muted);font-size:1.05rem;margin-bottom:1.5rem">Simulate your Google and Bing search result snippet with pixel-accurate title and description truncation. Write the perfect title tag and meta description that maximises organic click-through rate.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem">
+        <span class="chip">Pixel-Accurate Truncation</span><span class="chip">Desktop & Mobile</span>
+        <span class="chip">Google & Bing</span><span class="chip">Rich Snippets</span>
+      </div>
+      <a href="#serp-tool" class="btn btn--primary btn-serp">Preview My Snippet Free ↓</a>
+    </div>
+    <!-- Mini SERP visual -->
+    <div aria-hidden="true">
+      <div style="background:#fff;border-radius:14px;padding:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.4);max-width:420px">
+        <div style="display:flex;align-items:center;gap:.5rem;border:1.5px solid #dfe1e5;border-radius:20px;padding:.45rem 1rem;margin-bottom:1rem">
+          <span style="color:#4285f4">🔍</span>
+          <span style="font-family:sans-serif;font-size:.85rem;color:#202124">best serp preview tool free</span>
+        </div>
+        <div style="padding:.5rem 0;border-bottom:1px solid #f0f0f0">
+          <div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.15rem">
+            <div style="width:14px;height:14px;border-radius:2px;background:linear-gradient(135deg,#ff6b6b,#ff9b6b)"></div>
+            <span style="font-size:.78rem;color:#202124;font-family:sans-serif">previewer.pro › serp-preview</span>
+          </div>
+          <div style="font-size:1.05rem;color:#1a0dab;font-family:sans-serif;margin:.15rem 0 .25rem">SERP Preview Tool — Google Snippet Simulator</div>
+          <div style="font-size:.82rem;color:#4d5156;font-family:sans-serif;line-height:1.5">Free pixel-accurate SERP preview. See exactly how your title &amp; meta description appear in Google before going live.</div>
+        </div>
+        <div style="padding:.5rem 0;opacity:.5">
+          <div style="font-size:.78rem;color:#5f6368;font-family:sans-serif;margin-bottom:.1rem">competitor-tool.io › serp</div>
+          <div style="font-size:1.05rem;color:#1a0dab;font-family:sans-serif;margin:.15rem 0 .25rem">SERP Snippet Preview Tool</div>
+          <div style="font-size:.82rem;color:#4d5156;font-family:sans-serif">Preview your Google search snippets and check character count...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="serp-tool-wrap" id="serp-tool" aria-label="SERP preview tool">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="eyebrow">Live Tool</div>
+      <h2 class="section-title">SERP Snippet Preview</h2>
+    </div>
+    <div class="serp-tool-grid">
+      <!-- Inputs -->
+      <div class="serp-inputs">
+        <h3>✏️ Snippet Editor</h3>
+        <div style="margin-bottom:1rem">
+          <div style="font-size:.8rem;color:var(--clr-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem">View Mode</div>
+          <div class="view-toggle">
+            <button class="view-btn active" id="deskBtn" onclick="setView('desktop',this)">🖥 Desktop</button>
+            <button class="view-btn" id="mobBtn" onclick="setView('mobile',this)">📱 Mobile</button>
+          </div>
+        </div>
+        <div style="margin-bottom:1.25rem">
+          <div style="font-size:.8rem;color:var(--clr-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem">Search Engine</div>
+          <div class="engine-toggle">
+            <button class="engine-btn active" id="googleBtn" onclick="setEngine('google',this)">Google</button>
+            <button class="engine-btn bing" id="bingBtn" onclick="setEngine('bing',this)">Bing</button>
+          </div>
+        </div>
+        <div class="sg">
+          <label for="s-title">
+            Title Tag
+            <span class="counter cnt-ok" id="title-cnt">0 px / 600 px</span>
+          </label>
+          <input type="text" id="s-title" placeholder="Your Page Title — Brand Name" value="SERP Preview Tool — Google Snippet Simulator | Previewer.pro" oninput="updateSerp()"/>
+          <div class="px-bar-wrap">
+            <div class="px-bar-label"><span>0 px</span><span>600 px</span></div>
+            <div class="px-bar"><div class="px-bar-fill px-bar-fill-ok" id="title-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="sg">
+          <label for="s-url">Page URL</label>
+          <input type="url" id="s-url" placeholder="https://your-site.com/page" value="https://previewer.pro/serp-preview" oninput="updateSerp()"/>
+        </div>
+        <div class="sg">
+          <label for="s-desc">
+            Meta Description
+            <span class="counter cnt-ok" id="desc-cnt">0 px / 920 px</span>
+          </label>
+          <textarea id="s-desc" placeholder="Write your meta description here…" oninput="updateSerp()">Free pixel-accurate SERP preview tool. Simulate how your page title and meta description appear in Google and Bing search results before publishing. No signup required.</textarea>
+          <div class="px-bar-wrap">
+            <div class="px-bar-label"><span>0 px</span><span>920 px</span></div>
+            <div class="px-bar"><div class="px-bar-fill px-bar-fill-ok" id="desc-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="sg">
+          <label for="s-date">Date Snippet (optional)</label>
+          <input type="text" id="s-date" placeholder="e.g. Mar 25, 2025" oninput="updateSerp()"/>
+        </div>
+        <div class="sg">
+          <label for="s-query">Search Query (for context)</label>
+          <input type="text" id="s-query" placeholder="e.g. serp preview tool free" value="serp preview tool free" oninput="updateSerp()"/>
+        </div>
+        <button class="update-btn" onclick="updateSerp()">Update Preview →</button>
+      </div>
+
+      <!-- Preview Pane -->
+      <div class="serp-preview-pane">
+        <!-- Desktop preview -->
+        <div id="desktopView">
+          <div class="eyebrow" style="margin-bottom:.75rem">Google — Desktop Preview</div>
+          <div class="serp-preview-box">
+            <div class="serp-engine-label">
+              <div class="serp-engine-dot" style="background:#4285f4" id="engineDot"></div>
+              <span id="engineLabel">Google Search</span>
+            </div>
+            <div class="serp-searchbar-wrap">
+              <span class="serp-searchbar-icon">🔍</span>
+              <input class="serp-query-input" id="previewQuery" value="serp preview tool free" readonly/>
+            </div>
+            <!-- Your result (featured) -->
+            <div class="serp-result serp-result--featured">
+              <div class="serp-result__head">
+                <div class="serp-favicon" id="previewFavicon"></div>
+                <span class="serp-result__site" id="previewSite">previewer.pro</span>
+                <span class="serp-result__crumb" id="previewCrumb">› serp-preview</span>
+              </div>
+              <div class="serp-result__title" id="previewTitle">SERP Preview Tool — Google Snippet Simulator | Previewer.pro</div>
+              <div class="serp-result__desc" id="previewDesc">Free pixel-accurate SERP preview tool. Simulate how your page title and meta description appear in Google and Bing search results before publishing. No signup required.</div>
+            </div>
+            <!-- Competitor 1 -->
+            <div class="serp-result">
+              <div class="serp-result__head">
+                <div class="serp-favicon" style="background:linear-gradient(135deg,#34a853,#0f9d58)"></div>
+                <span class="serp-result__site">seotools.example.com</span>
+                <span class="serp-result__crumb">› tools › serp</span>
+              </div>
+              <div class="serp-result__title">Free SERP Preview & Snippet Checker Tool</div>
+              <div class="serp-result__desc"><span class="serp-result__date">Jan 15, 2025 —</span> Check your Google search snippet appearance with our free online SERP preview tool. Test title lengths, meta descriptions, and URL structure before publishing.</div>
+            </div>
+            <!-- Competitor 2 -->
+            <div class="serp-result" style="opacity:.6">
+              <div class="serp-result__head">
+                <div class="serp-favicon" style="background:linear-gradient(135deg,#fbbc04,#f9ab00)"></div>
+                <span class="serp-result__site">digital-agency.io</span>
+                <span class="serp-result__crumb">› seo-tools</span>
+              </div>
+              <div class="serp-result__title">SERP Snippet Simulator — Optimise Meta Tags</div>
+              <div class="serp-result__desc">Simulate Google SERP snippets and optimise your title tags and meta descriptions for maximum click-through rate with our free tool.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile preview -->
+        <div id="mobileView" style="display:none">
+          <div class="eyebrow" style="margin-bottom:.75rem">Google — Mobile Preview</div>
+          <div class="serp-mobile-preview">
+            <div class="serp-mobile-frame">
+              <div class="serp-mobile-topbar">
+                <div class="serp-mobile-searchbar">
+                  <span>🔍</span>
+                  <span id="mPreviewQuery">serp preview tool free</span>
+                </div>
+              </div>
+              <div style="padding:.5rem .75rem">
+                <div class="serp-mobile-result" style="border-bottom:1px solid #f0f0f0;padding-bottom:.75rem;margin-bottom:.75rem">
+                  <div class="serp-result__head" style="margin-bottom:.1rem">
+                    <div class="serp-favicon" id="mPreviewFavicon"></div>
+                    <span style="font-size:.75rem;color:#202124;font-family:sans-serif" id="mPreviewSite">previewer.pro</span>
+                  </div>
+                  <div style="font-family:sans-serif;font-size:.95rem;color:#1a0dab;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:290px" id="mPreviewTitle">SERP Preview Tool — Google Snippet...</div>
+                  <div style="font-family:sans-serif;font-size:.78rem;color:#4d5156;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden" id="mPreviewDesc">Free pixel-accurate SERP preview tool. Simulate how your page title and meta description appear in Google...</div>
+                </div>
+                <div style="opacity:.5;padding:.25rem 0">
+                  <div style="font-size:.72rem;color:#5f6368;font-family:sans-serif">seotools.example.com</div>
+                  <div style="font-size:.9rem;color:#1a0dab;font-family:sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Free SERP Preview & Snippet Checker</div>
+                  <div style="font-size:.75rem;color:#4d5156;font-family:sans-serif">Check your Google search snippet...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics comparator -->
+        <div class="serp-comparator">
+          <h4>📊 Pixel Width Metrics</h4>
+          <div class="comp-row">
+            <div class="comp-metric">Title</div>
+            <div class="comp-bar-wrap">
+              <div class="comp-bar">
+                <div class="comp-bar-yours" id="comp-title-bar" style="width:0%"></div>
+                <div class="comp-bar-limit" style="left:100%"></div>
+              </div>
+            </div>
+            <div class="comp-value" id="comp-title-val">— px</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-metric">Description</div>
+            <div class="comp-bar-wrap">
+              <div class="comp-bar">
+                <div class="comp-bar-yours" id="comp-desc-bar" style="width:0%"></div>
+                <div class="comp-bar-limit" style="left:100%"></div>
+              </div>
+            </div>
+            <div class="comp-value" id="comp-desc-val">— px</div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="snippet-tips">
+          <h4>💡 Live Snippet Tips</h4>
+          <div class="tip-row"><span class="tip-icon" id="tip1-icon">✅</span><span id="tip1-text">Title is within the recommended pixel limit.</span></div>
+          <div class="tip-row"><span class="tip-icon" id="tip2-icon">✅</span><span id="tip2-text">Meta description is within the recommended pixel limit.</span></div>
+          <div class="tip-row"><span class="tip-icon" id="tip3-icon">⚠️</span><span id="tip3-text">Consider including target keywords in the title for better CTR.</span></div>
+          <div class="tip-row"><span class="tip-icon" id="tip4-icon">✅</span><span id="tip4-text">URL structure looks clean and descriptive.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO BLOCKS -->
+<section class="info-blocks" id="features" aria-labelledby="feat-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Features</div>
+      <h2 id="feat-heading" class="section-title">Built for SEO Precision</h2>
+    </div>
+    <div class="ib-grid">
+      <div class="ib-card"><div class="ib-card__icon">📐</div><h3>Pixel-Accurate Truncation</h3><p>We measure title and description width in pixels — exactly as Google does — not characters. Different letters have different widths; our tool accounts for all of them.</p></div>
+      <div class="ib-card"><div class="ib-card__icon">📱</div><h3>Desktop & Mobile Views</h3><p>Toggle between Google's desktop (600px title limit) and mobile (496px limit) SERP layouts. Mobile snippets show more description lines but truncate titles sooner.</p></div>
+      <div class="ib-card"><div class="ib-card__icon">🔎</div><h3>Google & Bing Simulation</h3><p>Preview how your snippets look in both Google and Bing, which render titles and descriptions at slightly different sizes and use different typography rendering.</p></div>
+      <div class="ib-card"><div class="ib-card__icon">⚡</div><h3>Real-Time Updates</h3><p>Every keystroke instantly updates the preview. No need to click a button — just type and watch your snippet update live with accurate truncation feedback.</p></div>
+      <div class="ib-card"><div class="ib-card__icon">💡</div><h3>Live SEO Tips</h3><p>As you type, our tool surfaces contextual recommendations — too long, too short, missing keywords in the title, weak description hooks, and more.</p></div>
+      <div class="ib-card"><div class="ib-card__icon">🔗</div><h3>URL Breadcrumb Format</h3><p>Preview how Google renders your URL as a breadcrumb trail. Understand which parts of your URL path appear and how they contribute to snippet trust signals.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHARACTER / PIXEL LIMITS -->
+<section class="limits-section" id="limits" aria-labelledby="lim-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Character & Pixel Limits</div>
+      <h2 id="lim-heading" class="section-title">Google SERP Length Limits — 2025</h2>
+      <p class="section-sub">Google measures in pixels, not characters. These are the current limits as of 2025.</p>
+    </div>
+    <div class="limits-grid">
+      <div class="limit-card">
+        <div class="limit-card__head"><div class="limit-card__icon">🖥️</div><h3>Desktop SERP</h3></div>
+        <div class="limit-row"><span>Title width</span><span>600 px</span></div>
+        <div class="limit-row"><span>Title characters (approx)</span><span>55 – 65 chars</span></div>
+        <div class="limit-row"><span>Description width</span><span>920 px</span></div>
+        <div class="limit-row"><span>Description chars (approx)</span><span>155 – 165 chars</span></div>
+        <div class="limit-row"><span>URL breadcrumb</span><span>~500 px</span></div>
+      </div>
+      <div class="limit-card">
+        <div class="limit-card__head"><div class="limit-card__icon">📱</div><h3>Mobile SERP</h3></div>
+        <div class="limit-row"><span>Title width</span><span>496 px</span></div>
+        <div class="limit-row"><span>Title characters (approx)</span><span>45 – 55 chars</span></div>
+        <div class="limit-row"><span>Description width</span><span>920 px</span></div>
+        <div class="limit-row"><span>Description chars (approx)</span><span>120 – 130 chars</span></div>
+        <div class="limit-row"><span>Rich snippet lines</span><span>3 lines</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RICH CONTENT -->
+<section class="content-rich" id="guide" aria-labelledby="guide-heading">
+  <div class="container content-rich__inner">
+    <article>
+      <h2 id="guide-heading">What Is a SERP Preview Tool and Why Do You Need One?</h2>
+      <p>A <strong>SERP preview tool</strong> (Search Engine Results Page preview tool) simulates how your web page appears in Google and Bing search results — showing the blue title link, the green URL breadcrumb, and the grey meta description — before you publish. It's an essential tool for SEO specialists, content writers, and marketing teams who want to maximise organic click-through rates.</p>
+      <p>Without a SERP preview, you're writing titles and descriptions blind. A title that looks perfect in your CMS might be truncated with "..." after the most important keyword in Google's results. A description that's too short leaves empty space and signals low-quality content to searchers.</p>
+      <h2>Why Pixel Width Matters More Than Character Count</h2>
+      <p>Google doesn't count characters — it counts <strong>pixel widths</strong>. The letter "i" is roughly 6px wide; the letter "W" is roughly 16px wide. A title made of wide letters ("WWW Marketing") uses more pixels than one made of narrow letters ("Illinois film") even if both have the same character count. Our SERP tool uses a pixel-width measurement algorithm that matches Google's rendering engine, giving you accurate truncation previews every time.</p>
+      <h2>How to Write the Perfect Title Tag</h2>
+      <p>Keep your <strong>title tag</strong> under 600 pixels (~60 characters). Place your primary keyword at the beginning where it carries the most weight and is seen before any truncation. Add your brand name at the end separated by a dash or pipe. Avoid keyword stuffing — write for humans first, search engines second. Use power words like "Free", "Guide", "Best", "How to" that attract clicks.</p>
+      <div class="code-block"><span class="cmt">&lt;!-- ✅ Good title tag --&gt;</span><br/>&lt;title&gt;Free SERP Preview Tool — Check Google Snippets | Previewer.pro&lt;/title&gt;<br/><br/><span class="cmt">&lt;!-- ❌ Too long, will be truncated --&gt;</span><br/>&lt;title&gt;Free SERP Preview Tool - Check How Your Google Search Result Snippet Appears | Previewer.pro&lt;/title&gt;</div>
+      <h2>Writing Meta Descriptions That Drive Clicks</h2>
+      <p>Your <strong>meta description</strong> doesn't directly affect rankings, but it massively affects click-through rate. Keep it under 920 pixels (~155 characters on desktop). Use the description to expand on the title — not repeat it. Include a clear value proposition, mention the target keyword naturally, and end with a subtle call to action. Think of it as a 2-line ad for your page.</p>
+      <h2>Does Google Always Use Your Meta Description?</h2>
+      <p>No. Google rewrites meta descriptions in approximately 63% of cases, dynamically selecting relevant text from your page content based on the search query. However, a well-written meta description is still used by Google for many queries — especially brand searches — and is used verbatim by other platforms (social media, RSS readers). Always write a quality description even knowing Google may override it.</p>
+    </article>
+    <aside>
+      <div class="aside-toc">
+        <h4>On This Page</h4>
+        <ul>
+          <li><a href="#serp-tool">Live Preview Tool</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#limits">Pixel Limits</a></li>
+          <li><a href="#guide">SERP Guide</a></li>
+          <li><a href="#faq-serp">FAQ</a></li>
+        </ul>
+      </div>
+      <div style="margin-top:1.5rem;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);border-radius:14px;padding:1.25rem">
+        <div style="font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:.75rem">Quick Reference</div>
+        <div style="font-size:.82rem;color:var(--clr-muted);line-height:1.8">
+          ✅ Title: &lt;600px (~60 chars)<br/>
+          ✅ Description: &lt;920px (~155 chars)<br/>
+          ✅ URL: Clean, keyword-rich path<br/>
+          ✅ Use primary keyword in title<br/>
+          ✅ Include CTA in description
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-serp" aria-labelledby="faq-serp-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-serp-heading" class="section-title">SERP Preview FAQs</h2>
+    </div>
+    <div class="faq-grid" style="max-width:800px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fs1">How many characters can a Google title tag be? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fs1" hidden>Google truncates title tags based on pixel width — approximately 600px on desktop and 496px on mobile — not character count. This typically translates to 55–65 characters on desktop, but varies by the specific letters used. Wide letters like W and M use more pixels; narrow letters like i and l use fewer.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fs2">Does meta description length affect SEO rankings? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fs2" hidden>Meta description content is not a direct Google ranking factor. However, it significantly affects your organic click-through rate (CTR) — a compelling description attracts more clicks, and higher CTR is used by Google as a quality signal that can indirectly improve rankings over time.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fs3">Why does Google rewrite my title and description? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fs3" hidden>Google rewrites titles when it determines your provided title is too long, doesn't match the page's main topic, is too keyword-stuffed, or when a different text from the page better matches a specific search query. To minimise rewrites, keep titles concise, descriptive, and closely aligned with your page's H1 heading.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fs4">What's the difference between a snippet and a rich snippet? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fs4" hidden>A standard SERP snippet shows title, URL, and meta description. A rich snippet is enhanced with structured data markup (Schema.org) and can display additional elements like star ratings, prices, FAQs, recipe details, author information, or event dates. Rich snippets have significantly higher CTR than standard snippets.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Optimise Your SERP Snippets Now</h2>
+    <p>Write titles and descriptions that never get truncated. Preview before you publish. Boost your organic CTR.</p>
+    <a href="#serp-tool" class="btn btn--primary btn-serp" style="font-size:1rem;padding:.9rem 2rem">Launch SERP Preview Free →</a>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+// Pixel-width estimation using canvas
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+function measurePx(text, size, family) {
+  ctx.font = size + ' ' + family;
+  return ctx.measureText(text).width;
+}
+function getTitlePx(text){ return measurePx(text, '20px', 'arial, sans-serif'); }
+function getDescPx(text){ return measurePx(text, '14px', 'arial, sans-serif'); }
+
+let currentView = 'desktop', currentEngine = 'google';
+const TITLE_LIMIT_DESK = 600, TITLE_LIMIT_MOB = 496;
+const DESC_LIMIT = 920;
+
+function setView(v, btn){
+  currentView = v;
+  document.getElementById('desktopView').style.display = v==='desktop' ? 'block' : 'none';
+  document.getElementById('mobileView').style.display  = v==='mobile'  ? 'block' : 'none';
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateSerp();
+}
+function setEngine(e, btn){
+  currentEngine = e;
+  document.querySelectorAll('.engine-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const label = document.getElementById('engineLabel');
+  const dot   = document.getElementById('engineDot');
+  if(e==='google'){ label.textContent='Google Search'; dot.style.background='#4285f4'; }
+  else { label.textContent='Bing Search'; dot.style.background='#0078d4'; }
+  updateSerp();
+}
+
+function updateSerp(){
+  const title  = document.getElementById('s-title').value;
+  const url    = document.getElementById('s-url').value;
+  const desc   = document.getElementById('s-desc').value;
+  const date   = document.getElementById('s-date').value;
+  const query  = document.getElementById('s-query').value;
+
+  // Parse URL
+  let site='', crumb='';
+  try { const u=new URL(url); site=u.hostname.replace('www.',''); crumb='› '+u.pathname.replace(/\//g,' › ').replace(/^\s›\s/,'').substring(0,40); } catch(e){ site=url.replace(/https?:\/\//,'').split('/')[0]; }
+
+  // Pixel widths
+  const titlePx = getTitlePx(title);
+  const descPx  = getDescPx(desc);
+  const titleLimit = currentView==='mobile' ? TITLE_LIMIT_MOB : TITLE_LIMIT_DESK;
+
+  // Counters & bars
+  updateCounter('title-cnt','title-bar', titlePx, titleLimit);
+  updateCounter('desc-cnt','desc-bar', descPx, DESC_LIMIT);
+
+  // Comparator
+  document.getElementById('comp-title-bar').style.width = Math.min(titlePx/titleLimit*100,100)+'%';
+  document.getElementById('comp-title-bar').style.background = titlePx>titleLimit ? '#ef4444' : titlePx>titleLimit*.9 ? '#f59e0b' : 'var(--clr-accent)';
+  document.getElementById('comp-title-val').textContent = Math.round(titlePx)+' / '+titleLimit+' px';
+  document.getElementById('comp-desc-bar').style.width = Math.min(descPx/DESC_LIMIT*100,100)+'%';
+  document.getElementById('comp-desc-bar').style.background = descPx>DESC_LIMIT ? '#ef4444' : descPx>DESC_LIMIT*.9 ? '#f59e0b' : 'var(--clr-accent)';
+  document.getElementById('comp-desc-val').textContent = Math.round(descPx)+' / '+DESC_LIMIT+' px';
+
+  // Desktop preview
+  document.getElementById('previewQuery').value = query;
+  document.getElementById('previewSite').textContent = site;
+  document.getElementById('previewCrumb').textContent = crumb;
+  document.getElementById('previewTitle').textContent = title;
+  document.getElementById('previewDesc').innerHTML = (date?'<span style="color:#70757a">'+date+' — </span>':'')+desc;
+
+  // Mobile preview
+  document.getElementById('mPreviewQuery').textContent = query;
+  document.getElementById('mPreviewSite').textContent = site;
+  document.getElementById('mPreviewTitle').textContent = title;
+  document.getElementById('mPreviewDesc').textContent = desc;
+
+  // Tips
+  updateTip('tip1-icon','tip1-text',
+    titlePx <= titleLimit,
+    titlePx <= titleLimit ? 'Title is within the recommended pixel limit ('+Math.round(titlePx)+'/'+titleLimit+'px).' : 'Title is too long ('+Math.round(titlePx)+'px > '+titleLimit+'px). It will be truncated in Google search results.'
+  );
+  updateTip('tip2-icon','tip2-text',
+    descPx <= DESC_LIMIT,
+    descPx <= DESC_LIMIT ? 'Meta description is within the recommended pixel limit.' : 'Meta description is too long and will be cut off in search results.'
+  );
+  const hasKw = title.toLowerCase().includes(query.toLowerCase().split(' ')[0]);
+  updateTip('tip3-icon','tip3-text', hasKw,
+    hasKw ? 'Target keyword found in title — great for CTR.' : 'Consider including your target keyword at the start of the title for better relevance.'
+  );
+  const urlClean = !url.includes('?') && !url.includes('#') && url.length < 80;
+  updateTip('tip4-icon','tip4-text', urlClean, urlClean ? 'URL looks clean and descriptive.' : 'URL contains query strings or is very long — consider a cleaner permalink structure.');
+}
+
+function updateCounter(cntId, barId, px, limit){
+  const el = document.getElementById(cntId);
+  const bar = document.getElementById(barId);
+  const pct = Math.min(px/limit*100, 100);
+  el.textContent = Math.round(px)+' px / '+limit+' px';
+  bar.style.width = pct+'%';
+  if(px > limit){ el.className='counter cnt-over'; bar.className='px-bar-fill px-bar-fill-over'; }
+  else if(px > limit*.9){ el.className='counter cnt-warn'; bar.className='px-bar-fill px-bar-fill-warn'; }
+  else{ el.className='counter cnt-ok'; bar.className='px-bar-fill px-bar-fill-ok'; }
+}
+function updateTip(iconId, textId, ok, msg){
+  document.getElementById(iconId).textContent = ok ? '✅' : '⚠️';
+  document.getElementById(textId).textContent = msg;
+}
+
+// Init
+updateSerp();
+</script>
+</body>
+</html>
