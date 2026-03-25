@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free WhatsApp link preview tool — see exactly how your URL appears when shared in a WhatsApp chat. Preview the thumbnail, title, description, and domain. Audit Open Graph tags and test both light and dark mode."/>
+  <meta name="keywords" content="WhatsApp link preview, WhatsApp URL preview, WhatsApp OG preview, WhatsApp share preview, link unfurl WhatsApp, WhatsApp meta tags checker, WhatsApp thumbnail preview, WhatsApp dark mode preview, open graph whatsapp"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/whatsapp-link-preview"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/whatsapp-link-preview"/>
+  <meta property="og:title" content="WhatsApp Link Preview Tool — URL Unfurl Checker Free | Previewer.pro"/>
+  <meta property="og:description" content="Preview how your URL appears when shared on WhatsApp — thumbnail, title, description, and domain — in both light and dark mode."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>WhatsApp Link Preview Tool — URL Unfurl & OG Tag Checker | Previewer.pro</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"WhatsApp Link Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/whatsapp-link-preview","description":"Preview how URLs appear when shared in WhatsApp chats with accurate link card simulation in light and dark mode.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root{
+      --wa-green:#25d366;--wa-green2:#128c7e;--wa-dark-bg:#111b21;
+      --wa-dark-surface:#1f2c34;--wa-dark-chat:#0d1418;
+      --wa-dark-bubble-out:#005c4b;--wa-dark-bubble-in:#202c33;
+      --wa-dark-text:#e9edef;--wa-dark-muted:#8696a0;
+      --wa-dark-border:#2a3942;
+      --wa-light-bg:#efeae2;--wa-light-surface:#fff;
+      --wa-light-bubble-out:#d9fdd3;--wa-light-bubble-in:#fff;
+      --wa-light-text:#111b21;--wa-light-muted:#667781;
+      --wa-link-border:#2a3942;
+    }
+    /* Hero */
+    .wa-hero{padding:3.5rem 0 0;background:var(--clr-surface);border-bottom:1px solid var(--clr-border);position:relative;overflow:hidden}
+    .wa-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--wa-green2),var(--wa-green),var(--wa-green2))}
+    .wa-hero__inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;padding-bottom:3rem}
+    .wa-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.25);color:var(--wa-green);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .wa-hero__title{font-family:var(--ff-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .wa-hero__title span{color:var(--wa-green)}
+    /* Tool */
+    .wa-tool{background:var(--clr-bg);padding:4rem 0}
+    .wa-grid{display:grid;grid-template-columns:380px 1fr;gap:2.5rem;align-items:start}
+    /* Input panel */
+    .wa-inputs{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:18px;overflow:hidden;position:sticky;top:80px}
+    .wa-inputs__head{padding:1.5rem 1.75rem 1rem;border-bottom:1px solid var(--clr-border)}
+    .wa-inputs__head h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:1rem;margin-bottom:.25rem}
+    .wa-inputs__head p{font-size:.82rem;color:var(--clr-muted)}
+    .wa-inputs__body{padding:1.5rem 1.75rem}
+    .fg{margin-bottom:1.2rem}
+    .fg label{display:block;font-size:.78rem;font-weight:600;color:var(--clr-muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between;align-items:center}
+    .fg input,.fg textarea,.fg select{width:100%;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.65rem 1rem;color:var(--clr-text);font-family:var(--ff-body);font-size:.9rem;outline:none;transition:border-color .2s;resize:none}
+    .fg input:focus,.fg textarea:focus{border-color:var(--wa-green)}
+    .fg textarea{min-height:70px}
+    .char-row{display:flex;justify-content:space-between;margin-top:.3rem;font-size:.72rem;color:var(--clr-muted)}
+    /* Mode toggle */
+    .mode-toggle{display:flex;gap:.5rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:10px;padding:.3rem}
+    .mode-btn{flex:1;padding:.45rem;border:none;border-radius:8px;color:var(--clr-muted);font-size:.82rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s;background:none}
+    .mode-btn.active{background:var(--wa-green);color:#000}
+    /* Chat type toggle */
+    .chat-type-btns{display:flex;gap:.4rem}
+    .ct-btn{flex:1;padding:.45rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.8rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s;text-align:center}
+    .ct-btn.active{background:rgba(37,211,102,.12);border-color:var(--wa-green);color:var(--wa-green)}
+    /* Toggle */
+    .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--clr-border);font-size:.87rem}
+    .toggle-row:last-child{border-bottom:none}
+    .toggle-label{color:var(--clr-text)}
+    .toggle-sub{font-size:.73rem;color:var(--clr-muted)}
+    .toggle{width:40px;height:22px;background:var(--clr-border);border-radius:999px;position:relative;cursor:pointer;transition:background .2s;border:none;flex-shrink:0}
+    .toggle.on{background:var(--wa-green)}
+    .toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+    .toggle.on::after{transform:translateX(18px)}
+    .wa-submit{width:100%;padding:.8rem;background:var(--wa-green);color:#000;border:none;border-radius:12px;font-family:var(--ff-display);font-weight:800;font-size:.95rem;cursor:pointer;transition:all .2s;margin-top:1.25rem}
+    .wa-submit:hover{background:#20bd5a;transform:translateY(-1px)}
+
+    /* ── Preview pane ── */
+    .wa-preview-pane{display:flex;flex-direction:column;gap:1.75rem}
+    /* View tabs */
+    .preview-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
+    .pvtab{padding:.4rem .9rem;background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.8rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s}
+    .pvtab.active{background:rgba(37,211,102,.12);border-color:var(--wa-green);color:var(--wa-green)}
+
+    /* ── WhatsApp Chat UI ── */
+    .wa-phone-wrap{display:flex;justify-content:center}
+    .wa-phone{width:320px;border-radius:36px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+    /* Dark mode */
+    .wa-phone.dark .wa-status-bar{background:var(--wa-dark-bg);color:var(--wa-dark-muted)}
+    .wa-phone.dark .wa-chat-header{background:var(--wa-dark-surface)}
+    .wa-phone.dark .wa-chat-bg{background:var(--wa-dark-chat)}
+    .wa-phone.dark .wa-bubble-out{background:var(--wa-dark-bubble-out)}
+    .wa-phone.dark .wa-bubble-in{background:var(--wa-dark-bubble-in)}
+    .wa-phone.dark .wa-msg-text{color:var(--wa-dark-text)}
+    .wa-phone.dark .wa-bubble-time{color:var(--wa-dark-muted)}
+    .wa-phone.dark .wa-link-card{background:rgba(255,255,255,.05);border-left:3px solid var(--wa-green)}
+    .wa-phone.dark .wa-link-domain{color:var(--wa-green)}
+    .wa-phone.dark .wa-link-title{color:var(--wa-dark-text)}
+    .wa-phone.dark .wa-link-desc{color:var(--wa-dark-muted)}
+    .wa-phone.dark .wa-input-bar{background:var(--wa-dark-surface);border-top:1px solid var(--wa-dark-border)}
+    .wa-phone.dark .wa-input-field{background:var(--wa-dark-bg);color:var(--wa-dark-text)}
+    /* Light mode */
+    .wa-phone.light .wa-status-bar{background:#f0f2f5;color:#667781}
+    .wa-phone.light .wa-chat-header{background:#f0f2f5}
+    .wa-phone.light .wa-chat-bg{background:var(--wa-light-bg)}
+    .wa-phone.light .wa-bubble-out{background:var(--wa-light-bubble-out)}
+    .wa-phone.light .wa-bubble-in{background:var(--wa-light-bubble-in)}
+    .wa-phone.light .wa-msg-text{color:var(--wa-light-text)}
+    .wa-phone.light .wa-bubble-time{color:var(--wa-light-muted)}
+    .wa-phone.light .wa-link-card{background:rgba(0,0,0,.04);border-left:3px solid var(--wa-green2)}
+    .wa-phone.light .wa-link-domain{color:var(--wa-green2)}
+    .wa-phone.light .wa-link-title{color:var(--wa-light-text)}
+    .wa-phone.light .wa-link-desc{color:var(--wa-light-muted)}
+    .wa-phone.light .wa-input-bar{background:#f0f2f5;border-top:1px solid #e0e0e0}
+    .wa-phone.light .wa-input-field{background:#fff;color:var(--wa-light-text)}
+    /* Status bar */
+    .wa-status-bar{display:flex;justify-content:space-between;align-items:center;padding:.4rem .75rem;font-size:.65rem;font-family:sans-serif}
+    /* Chat header */
+    .wa-chat-header{padding:.55rem .75rem;display:flex;align-items:center;gap:.65rem}
+    .wa-back{font-size:1rem;cursor:pointer}
+    .wa-chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--wa-green2),var(--wa-green));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.85rem;flex-shrink:0}
+    .wa-chat-info{flex:1}
+    .wa-chat-name{font-size:.85rem;font-weight:700;color:var(--wa-dark-text)}
+    .wa-chat-header.light-text .wa-chat-name{color:var(--wa-light-text)}
+    .wa-online{font-size:.68rem;color:var(--wa-green)}
+    .wa-chat-actions{display:flex;gap:.5rem;font-size:.9rem}
+    /* Chat bg */
+    .wa-chat-bg{flex:1;min-height:380px;padding:.75rem;display:flex;flex-direction:column;gap:.5rem;position:relative;overflow:hidden}
+    .wa-chat-bg::before{content:'';position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z' fill='%23fff'/%3E%3C/svg%3E")}
+    .wa-date-chip{text-align:center;margin:.25rem 0}
+    .wa-date-chip span{background:rgba(255,255,255,.12);padding:.2rem .65rem;border-radius:6px;font-size:.65rem;color:rgba(255,255,255,.6);font-family:sans-serif}
+    .wa-bubble-row{display:flex}
+    .wa-bubble-row.out{justify-content:flex-end}
+    .wa-bubble-row.in{justify-content:flex-start}
+    .wa-bubble-out,.wa-bubble-in{max-width:85%;border-radius:8px;padding:.55rem .65rem;position:relative;font-family:sans-serif}
+    .wa-bubble-out{border-radius:8px 0 8px 8px}
+    .wa-bubble-in{border-radius:0 8px 8px 8px}
+    .wa-msg-text{font-size:.82rem;line-height:1.45;margin-bottom:.15rem;word-break:break-word}
+    .wa-bubble-time{font-size:.6rem;text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:.2rem}
+    .wa-check{color:var(--wa-green);font-size:.65rem}
+    /* Link card */
+    .wa-link-card{border-radius:6px;margin-bottom:.3rem;overflow:hidden;cursor:pointer;transition:all .2s}
+    .wa-link-card:hover{opacity:.9}
+    .wa-link-img{width:100%;height:130px;background:linear-gradient(135deg,rgba(37,211,102,.25),rgba(18,140,126,.2));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:rgba(255,255,255,.25);overflow:hidden}
+    .wa-link-img img{width:100%;height:100%;object-fit:cover;display:none}
+    .wa-link-body{padding:.5rem .6rem}
+    .wa-link-domain{font-size:.65rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;font-family:sans-serif}
+    .wa-link-title{font-size:.8rem;font-weight:700;line-height:1.3;margin-bottom:.15rem;font-family:sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .wa-link-desc{font-size:.72rem;line-height:1.4;font-family:sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    /* Input bar */
+    .wa-input-bar{padding:.5rem .75rem;display:flex;align-items:center;gap:.5rem}
+    .wa-input-field{flex:1;border-radius:20px;border:none;padding:.45rem .85rem;font-size:.78rem;outline:none;font-family:sans-serif}
+    .wa-mic-btn{width:38px;height:38px;background:var(--wa-green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;flex-shrink:0}
+    /* Conversation context bubbles */
+    .wa-simple-bubble{background:rgba(255,255,255,.08);border-radius:8px 8px 0 8px;padding:.45rem .65rem;max-width:75%}
+    .wa-simple-text{font-size:.78rem;color:rgba(255,255,255,.5);font-family:sans-serif}
+    /* Group chat additions */
+    .wa-group-sender{font-size:.68rem;color:var(--wa-green);font-family:sans-serif;margin-bottom:.1rem;font-weight:600}
+    /* Receipt status bubbles */
+    .wa-in-simple{background:rgba(32,44,51,.9);border-radius:0 8px 8px 8px;padding:.45rem .65rem;max-width:75%}
+    .wa-in-simple.light-bg{background:rgba(255,255,255,.9)}
+
+    /* Audit */
+    .wa-audit{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem}
+    .wa-audit h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:1.25rem}
+    .audit-row{display:flex;align-items:flex-start;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .audit-row:last-child{border-bottom:none}
+    .a-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;margin-top:.05rem}
+    .a-ok{background:rgba(37,211,102,.12);color:var(--wa-green)}
+    .a-warn{background:rgba(245,158,11,.12);color:#f59e0b}
+    .a-err{background:rgba(255,107,107,.12);color:#ff6b6b}
+    .audit-name{min-width:140px;font-weight:600;color:var(--clr-muted);font-family:monospace;font-size:.79rem;flex-shrink:0}
+    .audit-val{color:var(--clr-text);word-break:break-all;line-height:1.4}
+    /* Limitations panel */
+    .wa-limits{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem}
+    .wa-limits h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:1rem}
+    .lim-row{display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .lim-row:last-child{border-bottom:none}
+    .lim-label{min-width:110px;color:var(--clr-muted);font-size:.78rem}
+    .lim-val{font-weight:700;color:#fff;font-family:var(--ff-display)}
+    .lim-note{color:var(--clr-muted);font-size:.75rem}
+    /* Sections */
+    .tips-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .tip-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem;transition:all .2s}
+    .tip-card:hover{border-color:rgba(37,211,102,.3);transform:translateY(-3px)}
+    .tip-card__icon{font-size:2rem;margin-bottom:.75rem}
+    .tip-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.5rem}
+    .tip-card p{font-size:.87rem;color:var(--clr-muted);line-height:1.6}
+    .content-rich{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .cr-inner{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+    .cr-inner h2{font-family:var(--ff-display);font-size:1.5rem;font-weight:800;color:#fff;margin:1.5rem 0 .75rem}
+    .cr-inner h2:first-child{margin-top:0}
+    .cr-inner p{color:var(--clr-muted);margin-bottom:1rem;line-height:1.7}
+    .cr-inner strong{color:var(--clr-text)}
+    .code-block{background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;font-family:monospace;font-size:.82rem;color:var(--clr-accent2);line-height:1.8;overflow-x:auto}
+    .code-block .cmt{color:var(--clr-muted)}
+    .aside-toc{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;position:sticky;top:80px;align-self:start}
+    .aside-toc h4{font-family:var(--ff-display);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-muted);margin-bottom:1rem}
+    .aside-toc ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+    .aside-toc ul li a{color:var(--clr-text);text-decoration:none;font-size:.86rem;opacity:.7;transition:opacity .2s}
+    .aside-toc ul li a:hover{opacity:1;color:var(--wa-green)}
+    .faq-section{padding:5rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(37,211,102,.12),rgba(18,140,126,.08));border-top:1px solid rgba(37,211,102,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .btn-wa{background:var(--wa-green)!important;color:#000!important;box-shadow:0 4px 20px rgba(37,211,102,.3)!important}
+    .btn-wa:hover{background:#20bd5a!important;transform:translateY(-2px)!important}
+    @media(max-width:1100px){.wa-grid{grid-template-columns:1fr}.wa-inputs{position:static}.wa-phone-wrap{justify-content:flex-start}}
+    @media(max-width:900px){.wa-hero__inner,.tips-grid,.cr-inner{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="wa-hero" aria-labelledby="wa-h1">
+  <div class="container wa-hero__inner">
+    <div>
+      <div class="wa-hero__badge">💬 WhatsApp Link Preview Tool</div>
+      <h1 class="wa-hero__title" id="wa-h1">Preview Your Links in<br/><span>WhatsApp Chats</span></h1>
+      <p style="color:var(--clr-muted);font-size:1.05rem;margin-bottom:1.5rem">See exactly how your URL unfurls in a WhatsApp conversation — thumbnail, title, description, and domain — in both dark and light mode. Simulate private chats, group chats, and business conversations. Fix OG tags before you share.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem">
+        <span class="chip">Dark & Light Mode</span><span class="chip">Group Chat View</span>
+        <span class="chip">OG Tag Audit</span><span class="chip">Business Chat</span><span class="chip">Image Check</span>
+      </div>
+      <a href="#wa-tool" class="btn btn--primary btn-wa">Preview WhatsApp Link ↓</a>
+    </div>
+    <!-- Hero visual -->
+    <div aria-hidden="true" style="display:flex;justify-content:center">
+      <div style="width:240px;border-radius:30px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5);background:var(--wa-dark-bg)">
+        <div style="background:#1f2c34;padding:.4rem .75rem;display:flex;align-items:center;gap:.6rem">
+          <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--wa-green2),var(--wa-green));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.75rem">P</div>
+          <div><div style="font-size:.8rem;font-weight:700;color:#e9edef">Previewer Pro</div><div style="font-size:.65rem;color:var(--wa-green)">online</div></div>
+        </div>
+        <div style="background:var(--wa-dark-chat);padding:.75rem;min-height:200px;display:flex;flex-direction:column;gap:.5rem">
+          <div style="background:rgba(0,0,0,.2);border-radius:6px;padding:.2rem .5rem;margin:0 auto .25rem;font-size:.6rem;color:rgba(255,255,255,.4);font-family:sans-serif">TODAY</div>
+          <div style="background:#005c4b;border-radius:8px 0 8px 8px;padding:.5rem .6rem;max-width:85%;align-self:flex-end">
+            <div style="background:rgba(255,255,255,.06);border-left:3px solid var(--wa-green);border-radius:4px;overflow:hidden;margin-bottom:.3rem">
+              <div style="height:65px;background:linear-gradient(135deg,rgba(37,211,102,.2),rgba(18,140,126,.15));display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:rgba(255,255,255,.25)">🔗</div>
+              <div style="padding:.35rem .4rem">
+                <div style="font-size:.55rem;color:var(--wa-green);text-transform:uppercase;letter-spacing:.04em;font-family:sans-serif">PREVIEWER.PRO</div>
+                <div style="font-size:.65rem;font-weight:700;color:#e9edef;font-family:sans-serif;line-height:1.3">WhatsApp Link Preview Tool</div>
+                <div style="font-size:.58rem;color:#8696a0;font-family:sans-serif;margin-top:.15rem">Preview how your links look in WhatsApp...</div>
+              </div>
+            </div>
+            <div style="font-size:.7rem;color:#e9edef;font-family:sans-serif;margin-bottom:.15rem">Check this out! 🚀</div>
+            <div style="font-size:.55rem;color:#8696a0;text-align:right;font-family:sans-serif">12:34 ✓✓</div>
+          </div>
+        </div>
+        <div style="background:#1f2c34;padding:.4rem .65rem;display:flex;align-items:center;gap:.4rem">
+          <div style="flex:1;background:var(--wa-dark-bg);border-radius:20px;padding:.3rem .65rem;font-size:.68rem;color:#8696a0;font-family:sans-serif">Message</div>
+          <div style="width:28px;height:28px;background:var(--wa-green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem">🎤</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="wa-tool" id="wa-tool" aria-label="WhatsApp link preview tool">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="eyebrow">Live Preview</div>
+      <h2 class="section-title">WhatsApp Link Preview</h2>
+    </div>
+    <div class="wa-grid">
+      <!-- INPUT PANEL -->
+      <div class="wa-inputs">
+        <div class="wa-inputs__head">
+          <h3>🔗 Link Configuration</h3>
+          <p>Customise your link's OG metadata and chat context.</p>
+        </div>
+        <div class="wa-inputs__body">
+          <!-- Mode -->
+          <div class="fg">
+            <label>Display Mode</label>
+            <div class="mode-toggle">
+              <button class="mode-btn active" id="mode-dark" onclick="setMode('dark',this)">🌙 Dark Mode</button>
+              <button class="mode-btn" id="mode-light" onclick="setMode('light',this)">☀️ Light Mode</button>
+            </div>
+          </div>
+          <!-- Chat type -->
+          <div class="fg">
+            <label>Chat Type</label>
+            <div class="chat-type-btns">
+              <button class="ct-btn active" onclick="setChatType('personal',this)">👤 Personal</button>
+              <button class="ct-btn" onclick="setChatType('group',this)">👥 Group</button>
+              <button class="ct-btn" onclick="setChatType('business',this)">🏢 Business</button>
+            </div>
+          </div>
+          <!-- OG fields -->
+          <div class="fg">
+            <label for="wa-url">Page URL</label>
+            <input type="url" id="wa-url" placeholder="https://your-site.com/page" value="https://previewer.pro/whatsapp-link-preview" oninput="updateWaPreview()"/>
+          </div>
+          <div class="fg">
+            <label for="wa-title">og:title <span id="wa-tcnt" style="font-size:.7rem;color:var(--clr-muted)">0 chars</span></label>
+            <input type="text" id="wa-title" placeholder="Page title" value="WhatsApp Link Preview Tool — Previewer.pro" oninput="updateWaPreview();waCount('wa-title','wa-tcnt',65)"/>
+          </div>
+          <div class="fg">
+            <label for="wa-desc">og:description <span id="wa-dcnt" style="font-size:.7rem;color:var(--clr-muted)">0 chars</span></label>
+            <textarea id="wa-desc" placeholder="Page description…" oninput="updateWaPreview();waCount('wa-desc','wa-dcnt',130)">Preview how your shared links appear in WhatsApp conversations. Check thumbnail, title, and description before you share.</textarea>
+          </div>
+          <div class="fg">
+            <label for="wa-domain">og:site_name / Domain</label>
+            <input type="text" id="wa-domain" placeholder="Your website name" value="Previewer.pro" oninput="updateWaPreview()"/>
+          </div>
+          <div class="fg">
+            <label for="wa-imgurl">og:image URL</label>
+            <input type="url" id="wa-imgurl" placeholder="https://your-site.com/og-image.jpg" oninput="updateWaPreview()"/>
+          </div>
+          <!-- Chat context -->
+          <div class="fg">
+            <label for="wa-chat-name">Contact / Group Name</label>
+            <input type="text" id="wa-chat-name" placeholder="Contact name" value="Sarah Johnson" oninput="updateWaPreview()"/>
+          </div>
+          <div class="fg">
+            <label for="wa-msg-before">Message Before Link</label>
+            <input type="text" id="wa-msg-before" placeholder="e.g. Check this out!" value="You have to try this tool! 🚀" oninput="updateWaPreview()"/>
+          </div>
+          <div class="fg">
+            <label for="wa-msg-after">Message After Link (optional)</label>
+            <input type="text" id="wa-msg-after" placeholder="Optional follow-up message" value="Let me know what you think 😊" oninput="updateWaPreview()"/>
+          </div>
+          <!-- Advanced toggles -->
+          <div class="fg">
+            <div style="background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:10px;padding:.5rem .75rem">
+              <div class="toggle-row">
+                <div><div class="toggle-label">Show image thumbnail</div><div class="toggle-sub">Requires og:image to be set</div></div>
+                <button class="toggle on" id="tog-img" onclick="this.classList.toggle('on');updateWaPreview()"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-label">Show read receipts (✓✓)</div></div>
+                <button class="toggle on" id="tog-receipt" onclick="this.classList.toggle('on');updateWaPreview()"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-label">Show reply thread</div><div class="toggle-sub">Simulates a reply from recipient</div></div>
+                <button class="toggle" id="tog-reply" onclick="this.classList.toggle('on');updateWaPreview()"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-label">WhatsApp Business badge</div><div class="toggle-sub">Green verified badge on contact</div></div>
+                <button class="toggle" id="tog-biz" onclick="this.classList.toggle('on');updateWaPreview()"></button>
+              </div>
+            </div>
+          </div>
+          <button class="wa-submit" onclick="updateWaPreview()">Update Preview →</button>
+        </div>
+      </div>
+
+      <!-- PREVIEW PANE -->
+      <div class="wa-preview-pane">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+          <div class="preview-tabs">
+            <button class="pvtab active" id="vt-chat" onclick="setWaView('chat',this)">💬 Chat</button>
+            <button class="pvtab" id="vt-group" onclick="setWaView('group',this)">👥 Group</button>
+            <button class="pvtab" id="vt-notifications" onclick="setWaView('notifications',this)">🔔 Notification</button>
+          </div>
+          <div id="mode-badge" class="eyebrow" style="margin-bottom:0;font-size:.7rem">🌙 Dark Mode</div>
+        </div>
+
+        <!-- CHAT VIEW -->
+        <div id="wv-chat">
+          <div class="wa-phone-wrap">
+            <div class="wa-phone dark" id="waPhone">
+              <div class="wa-status-bar"><span>9:41</span><span>●●● WiFi 🔋</span></div>
+              <div class="wa-chat-header" id="waChatHeader">
+                <span class="wa-back">←</span>
+                <div class="wa-chat-avatar" id="waAvatar">S</div>
+                <div class="wa-chat-info">
+                  <div class="wa-chat-name" id="waChatName">Sarah Johnson</div>
+                  <div class="wa-online">online</div>
+                </div>
+                <div class="wa-chat-actions">📹 📞 ⋮</div>
+              </div>
+              <div class="wa-chat-bg" id="waChatBg">
+                <div class="wa-date-chip"><span>TODAY</span></div>
+                <!-- Incoming -->
+                <div class="wa-bubble-row in" id="inBubble">
+                  <div class="wa-bubble-in">
+                    <div class="wa-msg-text">Hey! Have you tried this? 👀</div>
+                    <div class="wa-bubble-time">12:30</div>
+                  </div>
+                </div>
+                <!-- Outgoing with link -->
+                <div class="wa-bubble-row out">
+                  <div class="wa-bubble-out">
+                    <div class="wa-link-card" id="waLinkCard">
+                      <div class="wa-link-img" id="waLinkImg">🔗</div>
+                      <div class="wa-link-body">
+                        <div class="wa-link-domain" id="waLinkDomain">PREVIEWER.PRO</div>
+                        <div class="wa-link-title" id="waLinkTitle">WhatsApp Link Preview Tool — Previewer.pro</div>
+                        <div class="wa-link-desc" id="waLinkDesc">Preview how your shared links appear in WhatsApp conversations.</div>
+                      </div>
+                    </div>
+                    <div class="wa-msg-text" id="waMsgBefore">You have to try this tool! 🚀</div>
+                    <div class="wa-bubble-time" id="waBubbleTime">12:34 <span class="wa-check" id="waReceipt">✓✓</span></div>
+                  </div>
+                </div>
+                <!-- Reply bubble (conditional) -->
+                <div class="wa-bubble-row in" id="replyBubble" style="display:none">
+                  <div class="wa-bubble-in">
+                    <div class="wa-msg-text" id="waReplyText">Wow this is really useful! 🙌</div>
+                    <div class="wa-bubble-time">12:35</div>
+                  </div>
+                </div>
+                <!-- After message -->
+                <div class="wa-bubble-row out" id="afterBubbleRow" style="display:none">
+                  <div class="wa-bubble-out">
+                    <div class="wa-msg-text" id="waMsgAfter">Let me know what you think 😊</div>
+                    <div class="wa-bubble-time">12:34 <span class="wa-check">✓✓</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="wa-input-bar">
+                <div style="font-size:1rem;cursor:pointer">😊</div>
+                <div class="wa-input-field">Message</div>
+                <div style="font-size:1rem;cursor:pointer">📎</div>
+                <div class="wa-mic-btn">🎤</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GROUP VIEW -->
+        <div id="wv-group" style="display:none">
+          <div class="wa-phone-wrap">
+            <div class="wa-phone dark" id="waPhoneGroup">
+              <div class="wa-status-bar"><span>9:41</span><span>●●● WiFi 🔋</span></div>
+              <div class="wa-chat-header">
+                <span class="wa-back">←</span>
+                <div class="wa-chat-avatar" style="background:linear-gradient(135deg,#7c6af5,#00d4aa)">G</div>
+                <div class="wa-chat-info">
+                  <div class="wa-chat-name" id="waGroupName">Marketing Team</div>
+                  <div style="font-size:.68rem;color:var(--wa-dark-muted)">Alice, Bob, Sarah +8 others</div>
+                </div>
+                <div class="wa-chat-actions">📹 🔍 ⋮</div>
+              </div>
+              <div class="wa-chat-bg" id="waGroupBg">
+                <div class="wa-date-chip"><span>TODAY</span></div>
+                <div class="wa-bubble-row in">
+                  <div class="wa-bubble-in" style="max-width:85%">
+                    <div class="wa-group-sender" id="waGroupSenderName">Alice</div>
+                    <div class="wa-msg-text">Morning everyone! 👋</div>
+                    <div class="wa-bubble-time">9:30</div>
+                  </div>
+                </div>
+                <div class="wa-bubble-row out">
+                  <div class="wa-bubble-out">
+                    <div class="wa-link-card" id="waGroupLinkCard">
+                      <div class="wa-link-img" id="waGroupLinkImg">🔗</div>
+                      <div class="wa-link-body">
+                        <div class="wa-link-domain" id="waGroupDomain">PREVIEWER.PRO</div>
+                        <div class="wa-link-title" id="waGroupTitle">WhatsApp Link Preview Tool</div>
+                        <div class="wa-link-desc" id="waGroupDesc">Preview how your shared links appear in WhatsApp.</div>
+                      </div>
+                    </div>
+                    <div class="wa-msg-text" id="waGroupMsg">Team, check out this tool for our campaigns! 🎯</div>
+                    <div class="wa-bubble-time">9:41 <span class="wa-check">✓✓</span></div>
+                  </div>
+                </div>
+                <div class="wa-bubble-row in">
+                  <div class="wa-bubble-in">
+                    <div class="wa-group-sender">Bob</div>
+                    <div class="wa-msg-text">This is exactly what we needed! 🔥</div>
+                    <div class="wa-bubble-time">9:42</div>
+                  </div>
+                </div>
+              </div>
+              <div class="wa-input-bar">
+                <div style="font-size:1rem">😊</div>
+                <div class="wa-input-field">Message</div>
+                <div style="font-size:1rem">📎</div>
+                <div class="wa-mic-btn">🎤</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTIFICATION VIEW -->
+        <div id="wv-notifications" style="display:none">
+          <div style="max-width:360px">
+            <div class="eyebrow" style="margin-bottom:.75rem;font-size:.7rem">Push Notification Preview</div>
+            <div style="background:#1c1c1e;border-radius:14px;padding:1rem;display:flex;gap:.75rem;align-items:flex-start;box-shadow:0 10px 40px rgba(0,0,0,.5)">
+              <div style="width:40px;height:40px;border-radius:10px;background:var(--wa-green);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">💬</div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;justify-content:space-between;margin-bottom:.2rem">
+                  <span style="font-size:.8rem;font-weight:700;color:#fff">WhatsApp</span>
+                  <span style="font-size:.7rem;color:rgba(255,255,255,.4)">now</span>
+                </div>
+                <div style="font-size:.78rem;font-weight:600;color:#fff;margin-bottom:.15rem" id="notif-sender">Sarah Johnson</div>
+                <div style="font-size:.75rem;color:rgba(255,255,255,.55);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="notif-preview">🔗 WhatsApp Link Preview Tool — Previewer.pro</div>
+              </div>
+            </div>
+            <div style="margin-top:.75rem;background:#1c1c1e;border-radius:14px;padding:1rem;display:flex;gap:.75rem;align-items:flex-start;box-shadow:0 10px 40px rgba(0,0,0,.4);opacity:.5">
+              <div style="width:40px;height:40px;border-radius:10px;background:var(--wa-green);display:flex;align-items:center;justify-content:center;font-size:1.3rem">💬</div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:.2rem"><span style="font-size:.8rem;font-weight:700;color:#fff">WhatsApp</span><span style="font-size:.7rem;color:rgba(255,255,255,.4)">2m</span></div>
+                <div style="font-size:.78rem;font-weight:600;color:#fff;margin-bottom:.15rem">Marketing Team</div>
+                <div style="font-size:.75rem;color:rgba(255,255,255,.55)">Alice: Morning everyone! 👋</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- OG Audit -->
+        <div class="wa-audit">
+          <h4>🔍 OG Tag Audit for WhatsApp</h4>
+          <div id="waAuditRows"><!-- Populated by JS --></div>
+        </div>
+
+        <!-- WhatsApp Link Limits -->
+        <div class="wa-limits">
+          <h4>📏 WhatsApp Link Preview Limits</h4>
+          <div class="lim-row"><div class="lim-label">Title limit</div><div class="lim-val">~65 chars</div><div class="lim-note">Truncated after ~65 characters</div></div>
+          <div class="lim-row"><div class="lim-label">Description</div><div class="lim-val">~130 chars</div><div class="lim-note">2–3 lines visible in chat</div></div>
+          <div class="lim-row"><div class="lim-label">Image size</div><div class="lim-val">Min 300×200px</div><div class="lim-note">Displayed at ~240px wide</div></div>
+          <div class="lim-row"><div class="lim-label">Image ratio</div><div class="lim-val">1.91:1 or 1:1</div><div class="lim-note">Shown as compact thumbnail</div></div>
+          <div class="lim-row"><div class="lim-label">Cache duration</div><div class="lim-val">~3–7 days</div><div class="lim-note">WhatsApp re-crawls after expiry</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="tips-section" id="tips" aria-labelledby="tips-h">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Best Practices</div>
+      <h2 id="tips-h" class="section-title">Optimise Links Shared on WhatsApp</h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card"><div class="tip-card__icon">🖼️</div><h3>Use a 1.91:1 or 1:1 Image</h3><p>WhatsApp displays link thumbnails at approximately 240px wide. Use a 1200×628px or 1080×1080px image. Images smaller than 300×200px may not generate a thumbnail at all.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">✂️</div><h3>Keep Titles Under 65 Characters</h3><p>WhatsApp truncates titles after approximately 65 characters. Put your most important information first — brand or article name at the start, not the end.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">🔒</div><h3>HTTPS Is Required</h3><p>WhatsApp will not generate a preview for HTTP-only links. Ensure your website uses HTTPS with a valid SSL certificate — without it, links appear as plain text only.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">⚡</div><h3>Fast Server Response</h3><p>WhatsApp's crawler times out quickly when fetching OG tags. Ensure your server responds within 3 seconds. Use CDN hosting and enable HTTP/2 for the best crawl success rate.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">🔄</div><h3>Force Re-crawl After Updates</h3><p>WhatsApp caches link previews for 3–7 days. To refresh a stale preview, add a URL parameter (e.g. ?v=2) — this creates a "new" URL that WhatsApp will re-crawl immediately.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">📱</div><h3>Test Both Dark and Light Mode</h3><p>A significant proportion of WhatsApp users use dark mode. Ensure your OG image works visually against both dark backgrounds (very dark image = invisible) and light backgrounds.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<section class="content-rich" id="guide" aria-labelledby="guide-h">
+  <div class="container cr-inner">
+    <article>
+      <h2 id="guide-h">How WhatsApp Generates Link Previews</h2>
+      <p>When you paste a URL into a WhatsApp chat, WhatsApp's servers visit your page and read the <strong>Open Graph meta tags</strong> from your HTML <code>&lt;head&gt;</code>. Within a few seconds, it builds a compact link card — thumbnail on top, then domain, title, and up to 2 lines of description — that appears directly in the conversation bubble.</p>
+      <p>The process is straightforward, but several conditions must be met: your page must be publicly accessible (no authentication wall), it must use HTTPS, and your server must respond quickly. If any of these fail, WhatsApp shows the link as plain blue text only — no card, no thumbnail, no brand visibility.</p>
+      <h2>Required OG Tags for WhatsApp Link Previews</h2>
+      <div class="code-block"><span class="cmt">&lt;!-- Minimum required for WhatsApp link card --&gt;</span>
+&lt;meta property="og:title"       content="Your Page Title" /&gt;
+&lt;meta property="og:description" content="Brief description of the page." /&gt;
+&lt;meta property="og:image"       content="https://your-site.com/og-1200x628.jpg" /&gt;
+&lt;meta property="og:url"         content="https://your-site.com/page" /&gt;
+
+<span class="cmt">&lt;!-- Recommended additions --&gt;</span>
+&lt;meta property="og:site_name"   content="Your Brand Name" /&gt;
+&lt;meta property="og:type"        content="website" /&gt;</div>
+      <h2>WhatsApp vs Facebook vs Twitter — How They Differ</h2>
+      <p>WhatsApp uses the same Open Graph protocol as Facebook and Twitter, but its link card layout is more compact. <strong>Key differences:</strong> WhatsApp does not show the og:site_name prominently (it infers the domain from the URL), images are displayed smaller and in a 1.91:1 or 1:1 crop, and descriptions are limited to 2 visible lines (~130 characters). Also, WhatsApp never shows cached like or share counts — every link card is purely based on meta tags.</p>
+    </article>
+    <aside>
+      <div class="aside-toc">
+        <h4>On This Page</h4>
+        <ul>
+          <li><a href="#wa-tool">Preview Tool</a></li>
+          <li><a href="#tips">Optimisation Tips</a></li>
+          <li><a href="#guide">How It Works</a></li>
+          <li><a href="#faq-wa">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-wa" aria-labelledby="faq-wa-h">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-wa-h" class="section-title">WhatsApp Preview FAQs</h2>
+    </div>
+    <div class="faq-grid" style="max-width:780px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fwa1">Why is WhatsApp not showing a preview for my link? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fwa1" hidden>Common reasons: (1) Your page uses HTTP instead of HTTPS, (2) the og:image URL is missing or returns an error, (3) your server is too slow to respond to WhatsApp's crawler, (4) the page requires login or returns a 403/404 status, (5) your og:image is smaller than 300×200px. Check all these conditions and use our audit panel to identify the issue.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fwa2">Does WhatsApp use Twitter Card tags or only OG tags? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fwa2" hidden>WhatsApp primarily reads Open Graph (og:*) meta tags. It does not natively support Twitter Card meta tags (twitter:*). If you only have Twitter Card tags and no OG tags, WhatsApp will not generate a rich link preview. Always set OG tags as the primary social meta protocol.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fwa3">How do I update a cached WhatsApp link preview? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fwa3" hidden>WhatsApp caches link previews for 3–7 days and does not offer a manual cache clearing tool like Facebook's Sharing Debugger. The most reliable workaround is to add a URL parameter to create a "new" URL — e.g. https://yoursite.com/page?v=2. This forces WhatsApp to fetch the link card fresh. The redirect should point to the original canonical URL for SEO purposes.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fwa4">Do WhatsApp Business link previews work differently? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fwa4" hidden>WhatsApp Business uses the same link preview mechanism as the standard app — both rely on OG meta tags. The only visual difference in a WhatsApp Business conversation is the verified business badge shown on the contact avatar. The link card itself renders identically.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Make Every WhatsApp Link Stand Out</h2>
+    <p>Preview in dark and light mode, audit your OG tags, and share links that always look professional.</p>
+    <a href="#wa-tool" class="btn btn--primary btn-wa" style="font-size:1rem;padding:.9rem 2rem">Preview WhatsApp Link Free →</a>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+let waMode='dark', waView='chat', waChatType='personal';
+
+function setMode(m,btn){
+  waMode=m;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const phones=document.querySelectorAll('.wa-phone');
+  phones.forEach(p=>{p.classList.remove('dark','light');p.classList.add(m);});
+  document.getElementById('mode-badge').textContent=m==='dark'?'🌙 Dark Mode':'☀️ Light Mode';
+  // Adjust text colours inside chat headers for light mode
+  document.querySelectorAll('.wa-chat-name').forEach(el=>{
+    el.style.color = m==='light' ? 'var(--wa-light-text)' : 'var(--wa-dark-text)';
+  });
+}
+function setChatType(t,btn){
+  waChatType=t;
+  document.querySelectorAll('.chat-type-btns .ct-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateWaPreview();
+}
+function setWaView(v,btn){
+  waView=v;
+  ['chat','group','notifications'].forEach(id=>{document.getElementById('wv-'+id).style.display='none';});
+  document.querySelectorAll('.pvtab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('wv-'+v).style.display='block';
+  btn.classList.add('active');
+}
+function waCount(inputId, counterId, limit){
+  const len=document.getElementById(inputId).value.length;
+  const el=document.getElementById(counterId);
+  el.textContent=len+' / '+limit+' chars';
+  el.style.color=len>limit?'#ff6b6b':len>limit*.85?'#f59e0b':'var(--clr-muted)';
+}
+
+function updateWaPreview(){
+  const url=document.getElementById('wa-url').value;
+  const title=document.getElementById('wa-title').value||'Page Title';
+  const desc=document.getElementById('wa-desc').value||'Page description…';
+  const domain=document.getElementById('wa-domain').value||'example.com';
+  const imgUrl=document.getElementById('wa-imgurl').value;
+  const chatName=document.getElementById('wa-chat-name').value||'Sarah Johnson';
+  const msgBefore=document.getElementById('wa-msg-before').value||'Check this out!';
+  const msgAfter=document.getElementById('wa-msg-after').value||'';
+  const showImg=document.getElementById('tog-img').classList.contains('on');
+  const showReceipt=document.getElementById('tog-receipt').classList.contains('on');
+  const showReply=document.getElementById('tog-reply').classList.contains('on');
+  const showBiz=document.getElementById('tog-biz').classList.contains('on');
+
+  // Truncate for WhatsApp limits
+  const dispTitle=title.length>65?title.substring(0,65)+'…':title;
+  const dispDesc=desc.length>130?desc.substring(0,130)+'…':desc;
+  const dispDomain=domain.toUpperCase().replace(/https?:\/\//,'').split('/')[0];
+
+  // Update main chat
+  document.getElementById('waChatName').textContent=chatName+(showBiz?' ✓':'');
+  document.getElementById('waAvatar').textContent=chatName.charAt(0).toUpperCase();
+  ['waLinkTitle','waGroupTitle'].forEach(id=>{ const el=document.getElementById(id);if(el)el.textContent=dispTitle; });
+  ['waLinkDesc','waGroupDesc'].forEach(id=>{ const el=document.getElementById(id);if(el)el.textContent=dispDesc; });
+  ['waLinkDomain','waGroupDomain'].forEach(id=>{ const el=document.getElementById(id);if(el)el.textContent=dispDomain; });
+  document.getElementById('waMsgBefore').textContent=msgBefore;
+
+  // Receipt
+  document.getElementById('waReceipt').textContent=showReceipt?'✓✓':'✓';
+
+  // After message
+  if(msgAfter){
+    document.getElementById('afterBubbleRow').style.display='flex';
+    document.getElementById('waMsgAfter').textContent=msgAfter;
+  } else {
+    document.getElementById('afterBubbleRow').style.display='none';
+  }
+
+  // Reply
+  document.getElementById('replyBubble').style.display=showReply?'flex':'none';
+
+  // Image
+  ['waLinkImg','waGroupLinkImg'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    if(showImg && imgUrl){
+      el.innerHTML=`<img src="${imgUrl}" alt="Link preview" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'" onload="this.style.display='block'"/>`;
+    } else if(!showImg){
+      el.innerHTML='🔗';
+      el.style.display='flex';
+    } else {
+      el.innerHTML='🔗';
+    }
+  });
+
+  // Notification view
+  document.getElementById('notif-sender').textContent=chatName;
+  document.getElementById('notif-preview').textContent='🔗 '+dispTitle;
+
+  // Group message
+  document.getElementById('waGroupMsg').textContent=msgBefore;
+
+  // Group name same as chatName if group type
+  if(document.getElementById('waGroupName')) document.getElementById('waGroupName').textContent=waChatType==='group'?chatName+' Group':chatName;
+
+  // Apply mode to all phones
+  document.querySelectorAll('.wa-phone').forEach(p=>{p.classList.remove('dark','light');p.classList.add(waMode);});
+
+  runWaAudit(url, title, desc, imgUrl, domain);
+}
+
+function runWaAudit(url, title, desc, imgUrl, domain){
+  const checks=[
+    {name:'og:title', val:title||'—', ok:title.length>0&&title.length<=65, warn:title.length>65, detail:title.length>65?'Title exceeds 65 chars — will be truncated':'Title length is good'},
+    {name:'og:description', val:desc.substring(0,50)+(desc.length>50?'…':''), ok:desc.length>=30&&desc.length<=130, warn:desc.length>130||desc.length<30, detail:desc.length>130?'Description may be truncated':'Description length is good'},
+    {name:'og:image', val:imgUrl?imgUrl.substring(0,40)+'…':'Not set', ok:!!imgUrl, warn:false, detail:imgUrl?'Image URL present':'⚠️ No image set — WhatsApp link card may show no thumbnail'},
+    {name:'og:url', val:url.substring(0,40)+(url.length>40?'…':''), ok:url.startsWith('https://'), warn:url.startsWith('http://')&&!url.startsWith('https://'), detail:url.startsWith('https://')?'HTTPS URL — WhatsApp preview supported':url.startsWith('http://')?'❌ HTTP URL — WhatsApp requires HTTPS for link previews':'No URL set'},
+    {name:'og:site_name', val:domain||'—', ok:!!domain, warn:false, detail:domain?'Domain/site name set':'Not critical — WhatsApp infers from URL'},
+  ];
+
+  const html=checks.map(c=>`<div class="audit-row">
+    <div class="a-icon ${c.ok?'a-ok':c.warn?'a-warn':'a-err'}">${c.ok?'✓':c.warn?'!':'✗'}</div>
+    <div class="audit-name">${c.name}</div>
+    <div><div class="audit-val">${c.val}</div><div style="font-size:.75rem;color:var(--clr-muted);margin-top:.1rem">${c.detail}</div></div>
+  </div>`).join('');
+  document.getElementById('waAuditRows').innerHTML=html;
+}
+
+// Init
+updateWaPreview();
+waCount('wa-title','wa-tcnt',65);
+waCount('wa-desc','wa-dcnt',130);
+</script>
+</body>
+</html>
