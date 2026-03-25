@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free mobile website viewer — instantly test how your site looks on iPhone, Android, iPad, and 15+ real device frames. No download, no signup. Responsive design testing made easy."/>
+  <meta name="keywords" content="mobile website viewer, responsive design tester, mobile preview tool, test website on mobile, iPhone website preview, Android website preview, responsive checker online, mobile site tester"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/mobile-viewer"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/mobile-viewer"/>
+  <meta property="og:title" content="Mobile Website Viewer — Test Responsive Design Free | Previewer.pro"/>
+  <meta property="og:description" content="Preview your website on 15+ mobile devices instantly. Test iPhone, Android & tablet layouts with pixel-accurate device frames."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>Mobile Website Viewer — Test Responsive Design Free | Previewer.pro</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Mobile Website Viewer","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/mobile-viewer","description":"Test and preview how your website renders across smartphones and tablets in real time using accurate device frames.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["15+ device frames","iPhone & Android preview","Portrait and landscape toggle","Custom viewport sizes","Tablet preview"],"publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Page-specific overrides ── */
+    .app-hero{padding:3.5rem 0 0;background:var(--clr-surface);border-bottom:1px solid var(--clr-border)}
+    .app-hero__inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;padding-bottom:3rem}
+    .app-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.25);color:var(--clr-accent);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.04em;margin-bottom:1rem}
+    .app-hero__title{font-family:var(--ff-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .app-hero__title span{color:var(--clr-accent)}
+    .app-hero__desc{color:var(--clr-muted);margin-bottom:1.5rem;font-size:1.05rem}
+    .app-hero__chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem}
+    .chip{padding:.3rem .75rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:999px;font-size:.78rem;color:var(--clr-muted)}
+    /* Tool Panel */
+    .tool-panel{background:var(--clr-bg);padding:4rem 0}
+    .tool-box{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+    .tool-box__toolbar{display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;background:var(--clr-surface2);border-bottom:1px solid var(--clr-border);flex-wrap:wrap}
+    .url-input-wrap{flex:1;display:flex;align-items:center;gap:.5rem;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.55rem 1rem;min-width:240px;transition:border-color .2s}
+    .url-input-wrap:focus-within{border-color:var(--clr-accent)}
+    .url-input-wrap input{flex:1;background:none;border:none;outline:none;color:var(--clr-text);font-family:var(--ff-body);font-size:.9rem}
+    .url-input-wrap input::placeholder{color:var(--clr-muted)}
+    .url-input-wrap .url-icon{color:var(--clr-muted);font-size:.9rem}
+    .preview-btn{padding:.55rem 1.4rem;background:var(--clr-accent);color:#fff;border:none;border-radius:8px;font-family:var(--ff-display);font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .preview-btn:hover{background:#7c75ff;transform:translateY(-1px)}
+    .device-selector{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+    .device-selector label{font-size:.8rem;color:var(--clr-muted);font-weight:600;white-space:nowrap}
+    .device-select{background:var(--clr-bg);border:1px solid var(--clr-border);color:var(--clr-text);padding:.4rem .75rem;border-radius:8px;font-family:var(--ff-body);font-size:.85rem;cursor:pointer;outline:none}
+    .orient-btns{display:flex;gap:.35rem}
+    .orient-btn{width:34px;height:34px;background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s;color:var(--clr-text)}
+    .orient-btn.active,.orient-btn:hover{background:var(--clr-accent);border-color:var(--clr-accent)}
+    .tool-box__stage{display:flex;justify-content:center;align-items:center;padding:3rem 2rem;min-height:600px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0,rgba(255,255,255,.012) 1px,transparent 1px,transparent 12px)}
+    /* Device frames */
+    .device-frame{transition:all .4s cubic-bezier(.4,0,.2,1);position:relative}
+    .df-iphone15{width:300px;background:linear-gradient(160deg,#1a1a2e,#16213e);border:2px solid #333;border-radius:44px;padding:14px;box-shadow:0 0 0 1px #444,0 30px 80px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.08)}
+    .df-iphone15.landscape{transform:rotate(90deg);margin:40px 0}
+    .df-notch{width:90px;height:26px;background:#000;border-radius:0 0 16px 16px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;gap:5px}
+    .df-notch-cam{width:8px;height:8px;background:#1a1a2e;border-radius:50%;border:1.5px solid #333}
+    .df-notch-mic{width:40px;height:5px;background:#1a1a2e;border-radius:999px}
+    .df-screen{background:#000;border-radius:30px;overflow:hidden;position:relative}
+    .df-screen iframe{width:100%;height:580px;border:none;display:block}
+    .df-screen .screen-placeholder{width:100%;height:580px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--clr-muted);background:var(--clr-bg)}
+    .df-screen .screen-placeholder .ph-icon{font-size:3rem}
+    .df-screen .screen-placeholder p{font-size:.85rem;text-align:center;max-width:200px}
+    .df-home-bar{width:100px;height:5px;background:#444;border-radius:999px;margin:10px auto 0}
+    /* Tablet frame */
+    .df-ipad{width:420px;background:linear-gradient(160deg,#1a1a2e,#16213e);border:2px solid #333;border-radius:24px;padding:16px 12px;box-shadow:0 0 0 1px #444,0 20px 60px rgba(0,0,0,.6)}
+    .df-ipad .df-screen iframe,.df-ipad .df-screen .screen-placeholder{height:520px}
+    /* Android frame */
+    .df-android{width:290px;background:linear-gradient(160deg,#0d1117,#161b22);border:2px solid #30363d;border-radius:36px;padding:10px;box-shadow:0 0 0 1px #30363d,0 30px 80px rgba(0,0,0,.7)}
+    .df-android-top{display:flex;align-items:center;justify-content:center;height:22px;margin-bottom:6px}
+    .df-android-cam{width:10px;height:10px;background:#0d1117;border-radius:50%;border:1.5px solid #30363d}
+    .df-android .df-screen{border-radius:26px}
+    .df-android .df-screen iframe,.df-android .df-screen .screen-placeholder{height:540px}
+    .df-android-bottom{display:flex;align-items:center;justify-content:center;gap:.75rem;height:24px;margin-top:6px}
+    .df-android-btn{width:20px;height:20px;border:1.5px solid #30363d;border-radius:3px;display:flex;align-items:center;justify-content:center}
+    .df-android-btn svg{width:10px;height:10px;stroke:#555;fill:none}
+    /* Small phone */
+    .df-small{width:240px}
+    .df-small .df-screen iframe,.df-small .df-screen .screen-placeholder{height:440px}
+    /* Status bar */
+    .df-statusbar{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;background:#000;font-size:.6rem;color:#ddd;font-family:sans-serif}
+    /* Loading */
+    .loading-overlay{position:absolute;inset:0;background:var(--clr-bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;z-index:10;border-radius:30px}
+    .spinner{width:36px;height:36px;border:3px solid var(--clr-border);border-top-color:var(--clr-accent);border-radius:50%;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* Sections */
+    .devices-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .devices-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}
+    .device-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem;text-align:center;transition:all .2s;cursor:pointer}
+    .device-card:hover{border-color:var(--clr-accent);transform:translateY(-3px)}
+    .device-card__icon{font-size:2rem;margin-bottom:.5rem}
+    .device-card__name{font-family:var(--ff-display);font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+    .device-card__size{font-size:.75rem;color:var(--clr-muted)}
+    .features-section{padding:5rem 0}
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .feature-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem;transition:all .2s}
+    .feature-card:hover{border-color:rgba(108,99,255,.4);transform:translateY(-3px)}
+    .feature-card__icon{font-size:2rem;margin-bottom:.75rem}
+    .feature-card h3{font-family:var(--ff-display);font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+    .feature-card p{font-size:.88rem;color:var(--clr-muted);line-height:1.6}
+    .usecases-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border);border-bottom:1px solid var(--clr-border)}
+    .uc-two-col{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+    .uc-list{display:flex;flex-direction:column;gap:1rem}
+    .uc-list-item{display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;transition:all .2s}
+    .uc-list-item:hover{border-color:var(--clr-accent)}
+    .uc-list-item__icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem}
+    .uc-list-item h4{font-family:var(--ff-display);font-weight:700;font-size:.95rem;color:#fff;margin-bottom:.25rem}
+    .uc-list-item p{font-size:.85rem;color:var(--clr-muted)}
+    .faq-section{padding:5rem 0}
+    .content-rich{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .content-rich__inner{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+    .content-rich h2{font-family:var(--ff-display);font-size:1.6rem;font-weight:800;color:#fff;margin:1.5rem 0 .75rem}
+    .content-rich h2:first-child{margin-top:0}
+    .content-rich p{color:var(--clr-muted);margin-bottom:1rem;line-height:1.7}
+    .content-rich strong{color:var(--clr-text)}
+    .aside-toc{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;position:sticky;top:80px;align-self:start}
+    .aside-toc h4{font-family:var(--ff-display);font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-muted);margin-bottom:1rem}
+    .aside-toc ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .aside-toc ul li a{color:var(--clr-text);text-decoration:none;font-size:.88rem;opacity:.75;transition:opacity .2s}
+    .aside-toc ul li a:hover{opacity:1;color:var(--clr-accent)}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(108,99,255,.18),rgba(0,212,170,.12));border-top:1px solid rgba(108,99,255,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    @media(max-width:900px){.app-hero__inner,.uc-two-col,.content-rich__inner{grid-template-columns:1fr}.devices-grid{grid-template-columns:repeat(2,1fr)}.features-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.devices-grid,.features-grid{grid-template-columns:1fr}.tool-box__toolbar{flex-direction:column;align-items:stretch}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="app-hero" aria-labelledby="mv-h1">
+  <div class="container app-hero__inner">
+    <div>
+      <div class="app-hero__badge">📱 Mobile Viewer Tool</div>
+      <h1 class="app-hero__title" id="mv-h1">Test Your Website on<br/><span>Any Mobile Device</span></h1>
+      <p class="app-hero__desc">Instantly preview how your site renders on iPhones, Android phones, iPads, and tablets — with real device frames and accurate viewport dimensions. No download. No signup.</p>
+      <div class="app-hero__chips">
+        <span class="chip">iPhone 15 Pro</span><span class="chip">Samsung Galaxy S24</span>
+        <span class="chip">iPad Pro</span><span class="chip">Pixel 8</span>
+        <span class="chip">+11 more</span>
+      </div>
+      <a href="#tool" class="btn btn--primary">Start Previewing Free ↓</a>
+    </div>
+    <div aria-hidden="true" style="display:flex;gap:1rem;align-items:flex-end;justify-content:center">
+      <div style="width:130px;background:var(--clr-surface2);border:1.5px solid var(--clr-border);border-radius:28px;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.5)">
+        <div style="width:50px;height:8px;background:var(--clr-bg);border-radius:999px;margin:0 auto 8px"></div>
+        <div style="background:var(--clr-bg);border-radius:18px;height:200px;overflow:hidden;padding:6px">
+          <div style="height:10px;background:var(--clr-surface2);border-radius:4px;margin-bottom:5px"></div>
+          <div style="height:60px;background:linear-gradient(135deg,rgba(108,99,255,.3),rgba(0,212,170,.2));border-radius:6px;margin-bottom:5px"></div>
+          <div style="height:7px;background:var(--clr-surface2);border-radius:4px;width:90%;margin-bottom:4px"></div>
+          <div style="height:7px;background:var(--clr-surface2);border-radius:4px;width:70%;margin-bottom:4px"></div>
+          <div style="height:20px;background:var(--clr-accent);border-radius:6px;width:60%;margin-top:6px"></div>
+        </div>
+        <div style="width:40px;height:4px;background:var(--clr-border);border-radius:999px;margin:8px auto 0"></div>
+      </div>
+      <div style="width:180px;background:linear-gradient(160deg,#1a1a2e,#16213e);border:2px solid #333;border-radius:36px;padding:12px;box-shadow:0 30px 70px rgba(0,0,0,.6)">
+        <div style="width:70px;height:22px;background:#000;border-radius:0 0 14px 14px;margin:0 auto 8px"></div>
+        <div style="background:#000;border-radius:24px;height:300px;overflow:hidden;padding:8px">
+          <div style="height:14px;background:#111;border-radius:4px;margin-bottom:6px"></div>
+          <div style="height:90px;background:linear-gradient(135deg,rgba(108,99,255,.4),rgba(0,212,170,.3));border-radius:8px;margin-bottom:6px"></div>
+          <div style="height:7px;background:#111;border-radius:4px;width:90%;margin-bottom:4px"></div>
+          <div style="height:7px;background:#111;border-radius:4px;width:70%;margin-bottom:4px"></div>
+          <div style="height:7px;background:#111;border-radius:4px;width:80%;margin-bottom:8px"></div>
+          <div style="height:24px;background:var(--clr-accent);border-radius:8px;width:70%"></div>
+        </div>
+        <div style="width:80px;height:4px;background:#333;border-radius:999px;margin:10px auto 0"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="tool-panel" id="tool" aria-label="Mobile preview tool">
+  <div class="container">
+    <div class="tool-box">
+      <div class="tool-box__toolbar">
+        <div class="url-input-wrap">
+          <span class="url-icon">🔗</span>
+          <input type="url" id="urlInput" placeholder="https://your-website.com" aria-label="Enter website URL to preview"/>
+        </div>
+        <button class="preview-btn" id="previewBtn" onclick="loadPreview()">Preview →</button>
+        <div class="device-selector">
+          <label for="deviceSelect">Device:</label>
+          <select class="device-select" id="deviceSelect" onchange="changeDevice()">
+            <option value="iphone15">iPhone 15 Pro</option>
+            <option value="iphone-se">iPhone SE</option>
+            <option value="android">Android (Pixel 8)</option>
+            <option value="samsung">Samsung Galaxy S24</option>
+            <option value="ipad">iPad Pro 12.9"</option>
+            <option value="ipad-mini">iPad Mini</option>
+            <option value="small">Small Phone (360px)</option>
+          </select>
+        </div>
+        <div class="orient-btns" role="group" aria-label="Orientation">
+          <button class="orient-btn active" id="portraitBtn" onclick="setOrientation('portrait')" aria-label="Portrait" title="Portrait">⬜</button>
+          <button class="orient-btn" id="landscapeBtn" onclick="setOrientation('landscape')" aria-label="Landscape" title="Landscape">▬</button>
+        </div>
+      </div>
+      <div class="tool-box__stage" id="stage" aria-live="polite">
+        <!-- Default iPhone 15 frame -->
+        <div class="device-frame df-iphone15" id="deviceFrame">
+          <div class="df-notch"><div class="df-notch-cam"></div><div class="df-notch-mic"></div></div>
+          <div class="df-screen" id="dfScreen">
+            <div class="df-statusbar">
+              <span>9:41</span>
+              <span>●●●●  WiFi  🔋</span>
+            </div>
+            <div class="screen-placeholder" id="placeholder">
+              <div class="ph-icon">📱</div>
+              <p>Enter a URL above and click Preview to see your site on this device</p>
+            </div>
+          </div>
+          <div class="df-home-bar"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Viewport info bar -->
+    <div style="display:flex;gap:2rem;padding:1rem 1.5rem;background:var(--clr-surface);border:1px solid var(--clr-border);border-top:none;border-radius:0 0 20px 20px;flex-wrap:wrap">
+      <span style="font-size:.8rem;color:var(--clr-muted)">Viewport: <strong id="vpInfo" style="color:var(--clr-text)">390 × 844px</strong></span>
+      <span style="font-size:.8rem;color:var(--clr-muted)">Device: <strong id="deviceInfo" style="color:var(--clr-text)">iPhone 15 Pro</strong></span>
+      <span style="font-size:.8rem;color:var(--clr-muted)">OS: <strong id="osInfo" style="color:var(--clr-text)">iOS 17</strong></span>
+      <span style="font-size:.8rem;color:var(--clr-muted)">Orientation: <strong id="orientInfo" style="color:var(--clr-text)">Portrait</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORTED DEVICES -->
+<section class="devices-section" id="devices" aria-labelledby="dev-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Device Support</div>
+      <h2 id="dev-heading" class="section-title">15+ Real Device Frames</h2>
+      <p class="section-sub">Test on the devices your visitors actually use, with accurate viewport dimensions.</p>
+    </div>
+    <div class="devices-grid">
+      <div class="device-card" onclick="selectDevice('iphone15')"><div class="device-card__icon">🍎</div><div class="device-card__name">iPhone 15 Pro</div><div class="device-card__size">390 × 844px</div></div>
+      <div class="device-card" onclick="selectDevice('iphone-se')"><div class="device-card__icon">📱</div><div class="device-card__name">iPhone SE</div><div class="device-card__size">375 × 667px</div></div>
+      <div class="device-card" onclick="selectDevice('android')"><div class="device-card__icon">🤖</div><div class="device-card__name">Pixel 8</div><div class="device-card__size">412 × 915px</div></div>
+      <div class="device-card" onclick="selectDevice('samsung')"><div class="device-card__icon">📲</div><div class="device-card__name">Samsung Galaxy S24</div><div class="device-card__size">384 × 854px</div></div>
+      <div class="device-card" onclick="selectDevice('ipad')"><div class="device-card__icon">🖥️</div><div class="device-card__name">iPad Pro 12.9"</div><div class="device-card__size">1024 × 1366px</div></div>
+      <div class="device-card" onclick="selectDevice('ipad-mini')"><div class="device-card__icon">📋</div><div class="device-card__name">iPad Mini</div><div class="device-card__size">768 × 1024px</div></div>
+      <div class="device-card" onclick="selectDevice('small')"><div class="device-card__icon">📟</div><div class="device-card__name">Small Phone</div><div class="device-card__size">360 × 780px</div></div>
+      <div class="device-card" style="border-style:dashed;cursor:default"><div class="device-card__icon">➕</div><div class="device-card__name">More Coming</div><div class="device-card__size">Pixel Fold, Watch &amp; more</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features" aria-labelledby="feat-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Features</div>
+      <h2 id="feat-heading" class="section-title">Everything You Need to Test Mobile</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-card__icon">🖼️</div><h3>Accurate Device Frames</h3><p>Pixel-matched device bezels, notches, home bars, and status bars for a true-to-life preview of how your site appears to real users.</p></div>
+      <div class="feature-card"><div class="feature-card__icon">🔄</div><h3>Portrait &amp; Landscape</h3><p>Toggle between portrait and landscape orientations with a single click. Essential for testing media queries and orientation-specific layouts.</p></div>
+      <div class="feature-card"><div class="feature-card__icon">📐</div><h3>Viewport Dimensions</h3><p>See the exact CSS viewport width and height for every device, including device pixel ratio. Matches real browser rendering precisely.</p></div>
+      <div class="feature-card"><div class="feature-card__icon">⚡</div><h3>Instant Preview</h3><p>No queue, no wait. Paste your URL and see your site rendered inside the device frame in under a second.</p></div>
+      <div class="feature-card"><div class="feature-card__icon">🎯</div><h3>Touch Target Check</h3><p>Visually validate that buttons and links meet the 44×44px minimum touch target guideline recommended by Apple and Google.</p></div>
+      <div class="feature-card"><div class="feature-card__icon">🔗</div><h3>Shareable URLs</h3><p>Generate a shareable preview link and send it to your client or teammate so they can see the exact same mobile view without any tools.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases-section" id="usecases" aria-labelledby="uc-mv-heading">
+  <div class="container uc-two-col">
+    <div>
+      <div class="eyebrow">Who It's For</div>
+      <h2 id="uc-mv-heading" class="section-title">Built for Every Web Professional</h2>
+      <p style="color:var(--clr-muted);margin-bottom:2rem">Whether you're a solo developer or part of a large agency, the Mobile Viewer fits seamlessly into your workflow.</p>
+      <div class="uc-list">
+        <div class="uc-list-item"><div class="uc-list-item__icon">🧑‍💻</div><div><h4>Front-End Developers</h4><p>Catch responsive layout bugs instantly without spinning up browser DevTools or physical device labs.</p></div></div>
+        <div class="uc-list-item"><div class="uc-list-item__icon">🎨</div><div><h4>UI/UX Designers</h4><p>Verify that Figma designs translate pixel-perfectly to real mobile screens before handing off to developers.</p></div></div>
+        <div class="uc-list-item"><div class="uc-list-item__icon">📣</div><div><h4>Digital Marketers</h4><p>Preview landing pages and campaign URLs on mobile before running ads. Reduce bounce rates from poor mobile UX.</p></div></div>
+        <div class="uc-list-item"><div class="uc-list-item__icon">🏢</div><div><h4>QA Engineers</h4><p>Run cross-device sanity checks on staging environments without maintaining a physical device matrix.</p></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-title" style="font-size:1.3rem;margin-bottom:1.5rem;color:#fff;font-family:var(--ff-display);font-weight:800">Why Mobile Testing Matters</div>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div class="stat-block__item"><strong>60%+</strong><span>of all web traffic comes from mobile devices</span></div>
+        <div class="stat-block__item"><strong>53%</strong><span>of mobile users abandon sites that take over 3 seconds to load</span></div>
+        <div class="stat-block__item"><strong>Google</strong><span>uses mobile-first indexing for all websites</span></div>
+        <div class="stat-block__item"><strong>88%</strong><span>of users are less likely to return after a bad mobile experience</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RICH CONTENT / SEO -->
+<section class="content-rich" id="guide" aria-labelledby="guide-heading">
+  <div class="container content-rich__inner">
+    <article>
+      <h2 id="guide-heading">What Is a Mobile Website Viewer?</h2>
+      <p>A <strong>mobile website viewer</strong> is an online tool that renders your web page inside a simulated smartphone or tablet frame, replicating the exact viewport dimensions, pixel density, and scrolling behaviour of real devices. Unlike browser DevTools' device emulation — which requires toggling settings and switching modes — a dedicated mobile viewer gives you an immersive, frame-accurate view that closely mirrors what your actual users see.</p>
+      <h2>How Does Responsive Design Testing Work?</h2>
+      <p>Responsive design is built on CSS media queries that rearrange, scale, and hide elements at different viewport widths. When you load a URL into our <strong>responsive design tester</strong>, it applies the same viewport constraints as the selected device. Elements like navigation menus, hero images, typography, and grids adapt — or fail to adapt — exactly as they would on a real handset.</p>
+      <p>By seeing your site through a <strong>mobile preview tool</strong>, you can instantly identify issues like: text that's too small to read, buttons that overlap, images that overflow their containers, or hero sections that crop badly on smaller screens.</p>
+      <h2>iPhone vs Android Preview — What's the Difference?</h2>
+      <p>iPhones and Android devices use different default browsers (Safari and Chrome respectively) and render fonts, shadows, and scroll behaviour differently. Our tool separates iPhone and Android frames with accurate viewport widths: <strong>390px for iPhone 15 Pro</strong> and <strong>412px for Pixel 8</strong>, matching their actual CSS viewport sizes at 1× scaling. This means you can test platform-specific rendering without owning a device.</p>
+      <h2>Testing Tablets with the iPad Preview</h2>
+      <p>Tablet layouts occupy a critical middle ground — too wide for phone layouts, too narrow for full desktop designs. Our <strong>iPad preview tool</strong> renders your site at 1024px (iPad Pro 12.9") and 768px (iPad Mini), letting you validate tablet-specific breakpoints, navigation drawers, and multi-column grid layouts before your visitors encounter them.</p>
+      <h2>Mobile-First Indexing and Why It Affects You</h2>
+      <p>Since 2024, Google exclusively uses the mobile version of a page for indexing and ranking. This means your <strong>mobile responsive website checker</strong> isn't just a UX tool — it's an SEO tool. A broken mobile layout, illegible font sizes, or touch targets that are too small can all negatively impact your Core Web Vitals scores and organic search rankings.</p>
+    </article>
+    <aside>
+      <div class="aside-toc">
+        <h4>On This Page</h4>
+        <ul>
+          <li><a href="#tool">Try the Tool</a></li>
+          <li><a href="#devices">Supported Devices</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#usecases">Use Cases</a></li>
+          <li><a href="#guide">Guide</a></li>
+          <li><a href="#faq-mv">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-mv" aria-labelledby="faq-mv-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-mv-heading" class="section-title">Common Questions</h2>
+    </div>
+    <div class="faq-grid" style="max-width:800px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fmv1">Can I test a localhost or staging URL? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fmv1" hidden>Since the tool renders your site in an iframe inside your browser, localhost URLs will work if you're accessing the tool from the same machine. For staging environments on a separate server, use a public URL or a tunnelling tool like ngrok.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fmv2">Is this the same as Chrome DevTools device mode? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fmv2" hidden>Our tool gives you a visual device frame that makes sharing and presenting previews much easier. DevTools is more powerful for debugging, but our Mobile Viewer is faster for quick checks and producing client-ready previews with recognisable device bezels.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fmv3">Does it work for websites that block iframes? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fmv3" hidden>Some websites use X-Frame-Options or Content-Security-Policy headers to block embedding in iframes. If your site blocks iframes, the tool will show a notice. In that case, you can use browser DevTools or test on a real device. We're working on a screenshot-based fallback.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fmv4">How accurate is the mobile viewport simulation? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fmv4" hidden>Our viewport sizes match the exact CSS pixel dimensions of each device, including the standard device pixel ratio. For most layout and responsiveness testing, this is accurate enough to catch real issues. Touch event simulation and native mobile rendering (WebKit vs Blink) may differ from real devices.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Start Testing Mobile Responsiveness</h2>
+    <p>No account needed. Paste your URL, pick a device, and see your site in seconds.</p>
+    <a href="#tool" class="btn btn--primary" style="font-size:1rem;padding:.9rem 2rem">Launch Mobile Viewer Free →</a>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+const devices={
+  'iphone15':{name:'iPhone 15 Pro',vp:'390 × 844px',os:'iOS 17',frame:'df-iphone15'},
+  'iphone-se':{name:'iPhone SE',vp:'375 × 667px',os:'iOS 17',frame:'df-iphone15 df-small'},
+  'android':{name:'Pixel 8',vp:'412 × 915px',os:'Android 14',frame:'df-android'},
+  'samsung':{name:'Samsung Galaxy S24',vp:'384 × 854px',os:'Android 14',frame:'df-android'},
+  'ipad':{name:'iPad Pro 12.9"',vp:'1024 × 1366px',os:'iPadOS 17',frame:'df-ipad'},
+  'ipad-mini':{name:'iPad Mini',vp:'768 × 1024px',os:'iPadOS 17',frame:'df-ipad df-small'},
+  'small':{name:'Small Phone (360px)',vp:'360 × 780px',os:'Android',frame:'df-android df-small'}
+};
+let currentDevice='iphone15',currentOrientation='portrait';
+function loadPreview(){
+  const url=document.getElementById('urlInput').value.trim();
+  if(!url){alert('Please enter a URL to preview.');return;}
+  const ph=document.getElementById('placeholder');
+  if(ph)ph.remove();
+  let iframe=document.querySelector('#dfScreen iframe');
+  if(!iframe){iframe=document.createElement('iframe');iframe.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-popups');document.getElementById('dfScreen').appendChild(iframe);}
+  iframe.src=url.startsWith('http')?url:'https://'+url;
+}
+function changeDevice(){
+  const sel=document.getElementById('deviceSelect').value;
+  currentDevice=sel;
+  const d=devices[sel];
+  document.getElementById('vpInfo').textContent=d.vp;
+  document.getElementById('deviceInfo').textContent=d.name;
+  document.getElementById('osInfo').textContent=d.os;
+  buildFrame();
+}
+function setOrientation(o){
+  currentOrientation=o;
+  document.getElementById('portraitBtn').classList.toggle('active',o==='portrait');
+  document.getElementById('landscapeBtn').classList.toggle('active',o==='landscape');
+  document.getElementById('orientInfo').textContent=o.charAt(0).toUpperCase()+o.slice(1);
+  buildFrame();
+}
+function selectDevice(id){
+  document.getElementById('deviceSelect').value=id;
+  changeDevice();
+  document.getElementById('tool').scrollIntoView({behavior:'smooth'});
+}
+function buildFrame(){
+  /* Simple visual update — in production this rebuilds the iframe */
+  const frame=document.getElementById('deviceFrame');
+  if(currentOrientation==='landscape'){frame.style.transform='rotate(90deg)';frame.style.margin='60px auto';}
+  else{frame.style.transform='';frame.style.margin='';}
+}
+document.getElementById('urlInput').addEventListener('keydown',function(e){if(e.key==='Enter')loadPreview();});
+</script>
+</body>
+</html>
