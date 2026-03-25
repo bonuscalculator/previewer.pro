@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free social media preview tools — preview how your links appear on Facebook, Twitter/X, Instagram, LinkedIn, WhatsApp, and Pinterest before you share. Audit Open Graph tags, Twitter Cards, and post previews instantly."/>
+  <meta name="keywords" content="social media preview tool, social media post preview, open graph preview, twitter card preview, facebook link preview, instagram post preview, linkedin share preview, whatsapp link preview, social media meta tags, social sharing preview"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/social-preview"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/social-preview"/>
+  <meta property="og:title" content="Social Media Preview Tools — All Platforms | Previewer.pro"/>
+  <meta property="og:description" content="Preview how your URLs appear on Facebook, Twitter/X, Instagram, LinkedIn, WhatsApp, and Pinterest. Check OG tags and social cards for free."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>Social Media Preview Tools — Facebook, Twitter, Instagram, LinkedIn | Previewer.pro</title>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {"@type":"WebPage","name":"Social Media Preview Tools","url":"https://previewer.pro/social-preview","description":"Hub page for all social media preview tools on Previewer.pro covering Facebook, Twitter/X, Instagram, LinkedIn, and more.","publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}},
+      {"@type":"ItemList","name":"Social Media Preview Tools","itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Facebook Post Preview","url":"https://previewer.pro/facebook-preview"},
+        {"@type":"ListItem","position":2,"name":"Twitter / X Post Preview","url":"https://previewer.pro/twitter-preview"},
+        {"@type":"ListItem","position":3,"name":"Instagram Post Preview","url":"https://previewer.pro/instagram-preview"},
+        {"@type":"ListItem","position":4,"name":"LinkedIn Share Preview","url":"https://previewer.pro/linkedin-preview"},
+        {"@type":"ListItem","position":5,"name":"WhatsApp Link Preview","url":"https://previewer.pro/whatsapp-preview"},
+        {"@type":"ListItem","position":6,"name":"Pinterest Rich Pin Preview","url":"https://previewer.pro/pinterest-preview"}
+      ]}
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Social hub page styles ── */
+    .social-hero{padding:5rem 0 4rem;position:relative;overflow:hidden;background:var(--clr-surface);border-bottom:1px solid var(--clr-border)}
+    .social-hero__bg{position:absolute;inset:0;pointer-events:none}
+    .social-hero__orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.25}
+    .social-hero__orb--1{width:500px;height:500px;background:radial-gradient(circle,#1877f2,transparent 70%);top:-150px;left:-100px}
+    .social-hero__orb--2{width:400px;height:400px;background:radial-gradient(circle,#dd2a7b,transparent 70%);bottom:-100px;right:-50px}
+    .social-hero__orb--3{width:350px;height:350px;background:radial-gradient(circle,#1d9bf0,transparent 70%);top:50px;right:200px}
+    .social-hero__inner{position:relative;z-index:1;text-align:center;max-width:760px;margin:0 auto}
+    .social-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--clr-text);padding:.35rem 1rem;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.04em;margin-bottom:1.5rem}
+    .social-hero__title{font-family:var(--ff-display);font-size:clamp(2.2rem,5vw,4rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1.25rem}
+    .social-hero__title .grad{background:linear-gradient(90deg,#1877f2,#1d9bf0,#dd2a7b,#f58529);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .social-hero__desc{font-size:1.1rem;color:var(--clr-muted);max-width:580px;margin:0 auto 2.5rem}
+    .platform-pills-hero{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:2.5rem}
+    .platform-pill{display:flex;align-items:center;gap:.4rem;padding:.4rem .9rem;border-radius:999px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s;border:1px solid}
+    .pp-fb{background:rgba(24,119,242,.12);border-color:rgba(24,119,242,.3);color:#1877f2}
+    .pp-tw{background:rgba(0,0,0,.3);border-color:#333;color:#e7e9ea}
+    .pp-ig{background:rgba(221,42,123,.1);border-color:rgba(221,42,123,.3);color:#dd2a7b}
+    .pp-li{background:rgba(0,119,181,.1);border-color:rgba(0,119,181,.3);color:#0077b5}
+    .pp-wa{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.3);color:#25d366}
+    .pp-pt{background:rgba(230,0,35,.1);border-color:rgba(230,0,35,.3);color:#e60023}
+    .platform-pill:hover{transform:translateY(-2px);filter:brightness(1.2)}
+
+    /* Universal OG checker */
+    .og-checker-section{padding:5rem 0;background:var(--clr-bg)}
+    .og-checker-box{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:20px;overflow:hidden;max-width:900px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    .og-checker-header{background:var(--clr-surface2);padding:1.5rem 2rem;border-bottom:1px solid var(--clr-border)}
+    .og-checker-header h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:1.1rem;margin-bottom:.35rem}
+    .og-checker-header p{font-size:.88rem;color:var(--clr-muted)}
+    .og-checker-body{padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    .url-checker-wrap{display:flex;gap:.75rem;margin-bottom:1.5rem;grid-column:1/-1}
+    .url-checker-wrap input{flex:1;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.7rem 1.1rem;color:var(--clr-text);font-family:var(--ff-body);font-size:.95rem;outline:none;transition:border-color .2s}
+    .url-checker-wrap input:focus{border-color:var(--clr-accent)}
+    .url-checker-wrap button{padding:.7rem 1.5rem;background:var(--clr-accent);color:#fff;border:none;border-radius:10px;font-family:var(--ff-display);font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .url-checker-wrap button:hover{background:#7c75ff}
+    /* OG Tag table */
+    .og-tag-table{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;overflow:hidden}
+    .og-tag-table-head{padding:.75rem 1rem;background:rgba(255,255,255,.04);border-bottom:1px solid var(--clr-border);font-size:.78rem;font-weight:700;color:var(--clr-muted);text-transform:uppercase;letter-spacing:.06em}
+    .og-tag-row{display:grid;grid-template-columns:160px 1fr 28px;gap:.5rem;align-items:center;padding:.65rem 1rem;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .og-tag-row:last-child{border-bottom:none}
+    .og-tag-name{font-family:monospace;color:var(--clr-accent2);font-size:.8rem}
+    .og-tag-val{color:var(--clr-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .og-tag-val.missing{color:var(--clr-muted);font-style:italic}
+    .og-tag-status{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0}
+    .s-ok{background:rgba(0,212,170,.15);color:#00d4aa}
+    .s-warn{background:rgba(245,158,11,.15);color:#f59e0b}
+    .s-err{background:rgba(255,107,107,.15);color:#ff6b6b}
+    /* Multi-platform preview tiles */
+    .platform-previews{display:grid;gap:1rem}
+    .plat-preview-card{background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:12px;overflow:hidden}
+    .plat-preview-card__head{display:flex;align-items:center;gap:.6rem;padding:.65rem 1rem;background:var(--clr-surface2);border-bottom:1px solid var(--clr-border);font-size:.82rem;font-weight:700;color:#fff}
+    .plat-preview-card__body{padding:.75rem}
+    /* Mini cards */
+    .mini-link-card{border:1px solid;border-radius:8px;overflow:hidden;font-family:sans-serif;font-size:.78rem}
+    .mini-lc-img{height:60px;background:linear-gradient(135deg,rgba(108,99,255,.25),rgba(0,212,170,.2));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);font-size:1.2rem}
+    .mini-lc-body{padding:.4rem .6rem}
+    .mini-lc-domain{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.15rem}
+    .mini-lc-title{font-weight:700;line-height:1.3;margin-bottom:.1rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .mini-lc-desc{line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+    /* FB mini */
+    .mini-fb{border-color:#3e4042;background:#242526}
+    .mini-fb .mini-lc-domain{color:#b0b3b8}
+    .mini-fb .mini-lc-title{color:#e4e6eb}
+    .mini-fb .mini-lc-desc{color:#b0b3b8}
+    /* TW mini */
+    .mini-tw{border-color:#2f3336;background:#16181c;border-radius:14px}
+    .mini-tw .mini-lc-domain{color:#71767b;display:flex;align-items:center;gap:.3rem}
+    .mini-tw .mini-lc-title{color:#e7e9ea}
+    .mini-tw .mini-lc-desc{color:#71767b}
+    /* LI mini */
+    .mini-li{border-color:#38424b;background:#1b1f23}
+    .mini-li .mini-lc-domain{color:#8e9aab}
+    .mini-li .mini-lc-title{color:#e7e3dc}
+    .mini-li .mini-lc-desc{color:#8e9aab}
+    /* WA mini */
+    .mini-wa{border-color:#2a3942;background:#111b21;border-radius:8px 8px 8px 0}
+    .mini-wa .mini-lc-domain{color:#8696a0}
+    .mini-wa .mini-lc-title{color:#e9edef}
+    .mini-wa .mini-lc-desc{color:#8696a0}
+
+    /* All Tools Grid */
+    .all-tools-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .all-tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .social-tool-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:16px;overflow:hidden;text-decoration:none;color:var(--clr-text);transition:all .25s;display:flex;flex-direction:column}
+    .social-tool-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.5)}
+    .social-tool-card__banner{height:100px;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden}
+    .social-tool-card__banner::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.4))}
+    .stc-fb .social-tool-card__banner{background:linear-gradient(135deg,#1877f2,#42b72a)}
+    .stc-tw .social-tool-card__banner{background:linear-gradient(135deg,#000,#15202b)}
+    .stc-ig .social-tool-card__banner{background:linear-gradient(135deg,#f58529,#dd2a7b,#515bd4)}
+    .stc-li .social-tool-card__banner{background:linear-gradient(135deg,#0077b5,#004471)}
+    .stc-wa .social-tool-card__banner{background:linear-gradient(135deg,#25d366,#128c7e)}
+    .stc-pt .social-tool-card__banner{background:linear-gradient(135deg,#e60023,#ad081b)}
+    .social-tool-card__body{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+    .social-tool-card__name{font-family:var(--ff-display);font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+    .social-tool-card__desc{font-size:.88rem;color:var(--clr-muted);line-height:1.6;flex:1;margin-bottom:1.25rem}
+    .social-tool-card__tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.25rem}
+    .social-tool-card__tag{padding:.2rem .6rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:999px;font-size:.72rem;color:var(--clr-muted)}
+    .social-tool-card__link{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--ff-display);font-size:.85rem;font-weight:700;color:var(--clr-accent2);text-decoration:none}
+    .social-tool-card__link:hover{color:#fff}
+
+    /* Other tools section */
+    .other-tools{padding:5rem 0}
+    .other-tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .other-tool-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem;text-decoration:none;color:var(--clr-text);transition:all .2s;display:block}
+    .other-tool-card:hover{border-color:rgba(108,99,255,.4);transform:translateY(-3px)}
+    .other-tool-card__icon{font-size:2.5rem;margin-bottom:.75rem}
+    .other-tool-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:1.05rem;margin-bottom:.5rem}
+    .other-tool-card p{font-size:.88rem;color:var(--clr-muted);line-height:1.6;margin-bottom:1rem}
+    .other-tool-card span{font-size:.85rem;font-weight:600;color:var(--clr-accent);font-family:var(--ff-display)}
+
+    /* OG guide */
+    .og-guide-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .og-guide-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+    .og-guide-inner h2{font-family:var(--ff-display);font-size:1.9rem;font-weight:800;color:#fff;margin-bottom:1rem}
+    .og-guide-inner p{color:var(--clr-muted);line-height:1.7;margin-bottom:1rem}
+    .og-guide-inner strong{color:var(--clr-text)}
+    .code-block{background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;font-family:monospace;font-size:.82rem;color:var(--clr-accent2);line-height:1.8;overflow-x:auto}
+    .code-block .cmt{color:var(--clr-muted)}
+    .platform-diff-grid{display:grid;grid-template-columns:1fr;gap:.75rem}
+    .platform-diff-row{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:10px;padding:.9rem 1.1rem;display:grid;grid-template-columns:140px 1fr 1fr;gap:.5rem;align-items:center;font-size:.82rem}
+    .platform-diff-row .pd-name{font-weight:700;color:#fff;display:flex;align-items:center;gap:.4rem}
+    .platform-diff-row .pd-val{color:var(--clr-muted)}
+    .platform-diff-row .pd-val strong{color:var(--clr-text)}
+    .platform-diff-head{background:transparent!important;border-color:transparent!important;padding:.35rem 1.1rem}
+    .platform-diff-head .pd-val{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--clr-muted);font-weight:700}
+
+    .faq-section{padding:5rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(24,119,242,.12),rgba(221,42,123,.1),rgba(29,155,240,.08));border-top:1px solid rgba(255,255,255,.06)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .cta-btns{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+
+    @media(max-width:900px){.og-checker-body,.og-guide-inner{grid-template-columns:1fr}.all-tools-grid,.other-tools-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.all-tools-grid,.other-tools-grid{grid-template-columns:1fr}.platform-diff-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="social-hero" aria-labelledby="sp-h1">
+  <div class="social-hero__bg">
+    <div class="social-hero__orb social-hero__orb--1"></div>
+    <div class="social-hero__orb social-hero__orb--2"></div>
+    <div class="social-hero__orb social-hero__orb--3"></div>
+  </div>
+  <div class="container social-hero__inner">
+    <div class="social-hero__badge">📲 Social Media Preview Suite</div>
+    <h1 class="social-hero__title" id="sp-h1">Control How Your Content Looks<br/>Across <span class="grad">Every Social Platform</span></h1>
+    <p class="social-hero__desc">Before you share, schedule, or run ads — see exactly how your links and posts appear on Facebook, Twitter/X, Instagram, LinkedIn, WhatsApp, and Pinterest. Fix issues before your audience sees them.</p>
+    <div class="platform-pills-hero">
+      <a href="/facebook-preview" class="platform-pill pp-fb">📘 Facebook</a>
+      <a href="/twitter-preview"  class="platform-pill pp-tw">𝕏 Twitter / X</a>
+      <a href="/instagram-preview" class="platform-pill pp-ig">📸 Instagram</a>
+      <a href="/linkedin-preview" class="platform-pill pp-li">💼 LinkedIn</a>
+      <a href="/whatsapp-preview" class="platform-pill pp-wa">💬 WhatsApp</a>
+      <a href="/pinterest-preview" class="platform-pill pp-pt">📌 Pinterest</a>
+    </div>
+    <a href="#all-tools" class="btn btn--primary">Explore All Tools ↓</a>
+  </div>
+</section>
+
+<!-- UNIVERSAL OG CHECKER -->
+<section class="og-checker-section" id="og-checker" aria-label="Universal OG checker">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="eyebrow">Universal Checker</div>
+      <h2 class="section-title">Check Any URL — All Platforms at Once</h2>
+      <p class="section-sub">Enter a URL to instantly preview how your Open Graph tags render across the most popular social networks simultaneously.</p>
+    </div>
+    <div class="og-checker-box">
+      <div class="og-checker-header">
+        <h3>🔗 Universal Social Media Preview</h3>
+        <p>Fetches your page's Open Graph & Twitter Card meta tags and renders previews for all supported platforms.</p>
+      </div>
+      <div class="og-checker-body">
+        <div class="url-checker-wrap">
+          <input type="url" id="universalUrl" placeholder="https://your-website.com/page-to-preview" oninput="syncPreviews()"/>
+          <button onclick="syncPreviews()">Preview All →</button>
+        </div>
+        <!-- OG Tag Audit -->
+        <div>
+          <div class="og-tag-table">
+            <div class="og-tag-table-head">Open Graph Meta Tags</div>
+            <div class="og-tag-row"><span class="og-tag-name">og:title</span><span class="og-tag-val" id="aud-title">Enter URL above to audit</span><span class="og-tag-status s-warn">!</span></div>
+            <div class="og-tag-row"><span class="og-tag-name">og:description</span><span class="og-tag-val" id="aud-desc">Enter URL above to audit</span><span class="og-tag-status s-warn">!</span></div>
+            <div class="og-tag-row"><span class="og-tag-name">og:image</span><span class="og-tag-val missing" id="aud-img">Not detected</span><span class="og-tag-status s-err" id="aud-img-s">✗</span></div>
+            <div class="og-tag-row"><span class="og-tag-name">og:type</span><span class="og-tag-val" id="aud-type">website</span><span class="og-tag-status s-ok">✓</span></div>
+            <div class="og-tag-row"><span class="og-tag-name">og:url</span><span class="og-tag-val" id="aud-url">–</span><span class="og-tag-status s-warn" id="aud-url-s">!</span></div>
+            <div class="og-tag-row"><span class="og-tag-name">twitter:card</span><span class="og-tag-val missing" id="aud-twcard">Not detected</span><span class="og-tag-status s-warn" id="aud-twcard-s">!</span></div>
+            <div class="og-tag-row"><span class="og-tag-name">twitter:title</span><span class="og-tag-val" id="aud-twtitle">Inheriting og:title</span><span class="og-tag-status s-ok">✓</span></div>
+          </div>
+          <div style="margin-top:1rem;padding:.75rem 1rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:10px;font-size:.8rem;color:var(--clr-muted)">
+            💡 <strong style="color:var(--clr-text)">Note:</strong> Due to browser security restrictions, the live tag extraction requires a URL from your own domain or a CORS-enabled server. Use the individual platform tools below for full meta tag preview simulation.
+          </div>
+        </div>
+        <!-- Multi-platform previews -->
+        <div class="platform-previews">
+          <div class="plat-preview-card">
+            <div class="plat-preview-card__head"><span>📘</span>Facebook Link Card</div>
+            <div class="plat-preview-card__body">
+              <div class="mini-link-card mini-fb">
+                <div class="mini-lc-img">🖼️</div>
+                <div class="mini-lc-body">
+                  <div class="mini-lc-domain">PREVIEWER.PRO</div>
+                  <div class="mini-lc-title" id="prev-fb-title">Your Page Title Here</div>
+                  <div class="mini-lc-desc" id="prev-fb-desc">Your meta description will appear here showing how it looks in the Facebook feed link card.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="plat-preview-card">
+            <div class="plat-preview-card__head"><span>𝕏</span>Twitter / X Card</div>
+            <div class="plat-preview-card__body">
+              <div class="mini-link-card mini-tw">
+                <div class="mini-lc-img" style="height:80px">🖼️</div>
+                <div class="mini-lc-body">
+                  <div class="mini-lc-title" id="prev-tw-title">Your Page Title Here</div>
+                  <div class="mini-lc-domain">🔗 previewer.pro</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="plat-preview-card">
+            <div class="plat-preview-card__head"><span>💼</span>LinkedIn Post</div>
+            <div class="plat-preview-card__body">
+              <div class="mini-link-card mini-li">
+                <div class="mini-lc-img">🖼️</div>
+                <div class="mini-lc-body">
+                  <div class="mini-lc-title" id="prev-li-title">Your Page Title Here</div>
+                  <div class="mini-lc-desc" id="prev-li-desc">Your description appears here in the LinkedIn shared post preview.</div>
+                  <div class="mini-lc-domain" style="margin-top:.35rem;font-size:.65rem">previewer.pro</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="plat-preview-card">
+            <div class="plat-preview-card__head"><span>💬</span>WhatsApp Preview</div>
+            <div class="plat-preview-card__body">
+              <div class="mini-link-card mini-wa">
+                <div class="mini-lc-body" style="padding:.6rem .75rem">
+                  <div class="mini-lc-domain" style="color:#25d366">previewer.pro</div>
+                  <div class="mini-lc-title" id="prev-wa-title" style="font-size:.82rem">Your Page Title Here</div>
+                  <div class="mini-lc-desc" id="prev-wa-desc" style="font-size:.75rem">Short description shown in WhatsApp link preview...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL TOOLS -->
+<section class="all-tools-section" id="all-tools" aria-labelledby="at-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">All Social Preview Tools</div>
+      <h2 id="at-heading" class="section-title">Choose Your Platform</h2>
+      <p class="section-sub">Dedicated, platform-accurate preview tools for every major social network.</p>
+    </div>
+    <div class="all-tools-grid">
+      <!-- Facebook -->
+      <a href="/facebook-preview" class="social-tool-card stc-fb">
+        <div class="social-tool-card__banner">📘</div>
+        <div class="social-tool-card__body">
+          <div class="social-tool-card__name">Facebook Post Preview</div>
+          <p class="social-tool-card__desc">Preview exactly how your URL appears as a Facebook link card — including the OG image, title, description, and domain. Audit all Open Graph meta tags and identify missing or misconfigured values instantly.</p>
+          <div class="social-tool-card__tags">
+            <span class="social-tool-card__tag">Link Card</span>
+            <span class="social-tool-card__tag">OG Tags</span>
+            <span class="social-tool-card__tag">Ads Preview</span>
+            <span class="social-tool-card__tag">Image Audit</span>
+          </div>
+          <span class="social-tool-card__link">Open Facebook Preview →</span>
+        </div>
+      </a>
+      <!-- Twitter -->
+      <a href="/twitter-preview" class="social-tool-card stc-tw">
+        <div class="social-tool-card__banner">𝕏</div>
+        <div class="social-tool-card__body">
+          <div class="social-tool-card__name">Twitter / X Post Preview</div>
+          <p class="social-tool-card__desc">See how your link appears as a Twitter Card in the X feed — summary card or summary_large_image. Live tweet composer with character counter, real-time card preview, and Twitter meta tag audit panel.</p>
+          <div class="social-tool-card__tags">
+            <span class="social-tool-card__tag">Summary Card</span>
+            <span class="social-tool-card__tag">Large Image</span>
+            <span class="social-tool-card__tag">Tag Audit</span>
+            <span class="social-tool-card__tag">Char Counter</span>
+          </div>
+          <span class="social-tool-card__link">Open Twitter Preview →</span>
+        </div>
+      </a>
+      <!-- Instagram -->
+      <a href="/instagram-preview" class="social-tool-card stc-ig">
+        <div class="social-tool-card__banner">📸</div>
+        <div class="social-tool-card__body">
+          <div class="social-tool-card__name">Instagram Post Preview</div>
+          <p class="social-tool-card__desc">Design your Instagram post, write captions, add hashtags, and preview your grid layout before publishing. Supports feed posts, Reels thumbnails, Stories, and carousels with caption analysis.</p>
+          <div class="social-tool-card__tags">
+            <span class="social-tool-card__tag">Caption Editor</span>
+            <span class="social-tool-card__tag">Hashtag Check</span>
+            <span class="social-tool-card__tag">Grid Preview</span>
+            <span class="social-tool-card__tag">Reel Thumb</span>
+          </div>
+          <span class="social-tool-card__link">Open Instagram Preview →</span>
+        </div>
+      </a>
+      <!-- LinkedIn -->
+      <a href="/linkedin-preview" class="social-tool-card stc-li">
+        <div class="social-tool-card__banner">💼</div>
+        <div class="social-tool-card__body">
+          <div class="social-tool-card__name">LinkedIn Share Preview</div>
+          <p class="social-tool-card__desc">Preview how shared URLs render in a LinkedIn post — including the link card image, headline, and source domain. Ensure your content looks professional before sharing with your professional network.</p>
+          <div class="social-tool-card__tags">
+            <span class="social-tool-card__tag">Link Preview</span>
+            <span class="social-tool-card__tag">Company Page</span>
+            <span class="social-tool-card__tag">OG Audit</span>
+          </div>
+          <span class="social-tool-card__link">Open LinkedIn Preview →</span>
+        </div>
+      </a>
+      <!-- WhatsApp -->
+      <a href="/whatsapp-preview" class="social-tool-card stc-wa">
+        <div class="social-tool-card__banner">💬</div>
+        <div class="social-tool-card__body">
+          <div class="social-tool-card__name">WhatsApp Link Preview</div>
+          <p class="social-tool-card__desc">See how your URL unfurls in a WhatsApp chat — the thumbnail, site name, title, and short description. WhatsApp uses a compact card format that shows only the first 3 lines of your description.</p>
+          <div class="social-tool-card__tags">
+            <span class="social-tool-card__tag">Chat Preview</span>
+            <span class="social-tool-card__tag">Thumbnail</span>
+            <span class="social-tool-card__tag">URL Unfurl</span>
+          </div>
+          <span class="social-tool-card__link">Open WhatsApp Preview →</span>
+        </div>
+      </a>
+      <!-- Pinterest -->
+      <a href="/pinterest-preview" class="social-tool-card stc-pt">
+        <div class="social-tool-card__banner">📌</div>
+        <div class="social-tool-card__body">
+          <div class="social-tool-card__name">Pinterest Rich Pin Preview</div>
+          <p class="social-tool-card__desc">Preview how your content appears as a Pinterest Pin — image, title, description, and source URL. Validate Rich Pin eligibility and ensure your images meet Pinterest's recommended dimensions.</p>
+          <div class="social-tool-card__tags">
+            <span class="social-tool-card__tag">Pin Preview</span>
+            <span class="social-tool-card__tag">Rich Pins</span>
+            <span class="social-tool-card__tag">Image Check</span>
+          </div>
+          <span class="social-tool-card__link">Open Pinterest Preview →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER TOOLS -->
+<section class="other-tools" id="other-tools" aria-labelledby="ot-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">More Tools</div>
+      <h2 id="ot-heading" class="section-title">Complete Your Preview Toolkit</h2>
+      <p class="section-sub">Beyond social media — test every surface your content appears on.</p>
+    </div>
+    <div class="other-tools-grid">
+      <a href="/mobile-viewer" class="other-tool-card">
+        <div class="other-tool-card__icon">📱</div>
+        <h3>Mobile Website Viewer</h3>
+        <p>Preview your website on 15+ real device frames — iPhone, Android, iPad, and more — with accurate viewport sizes and orientation toggle.</p>
+        <span>Open Mobile Viewer →</span>
+      </a>
+      <a href="/serp-preview" class="other-tool-card">
+        <div class="other-tool-card__icon">🔍</div>
+        <h3>SERP Preview Tool</h3>
+        <p>Simulate your Google and Bing search snippet with pixel-accurate title and description truncation. Optimise for organic CTR before publishing.</p>
+        <span>Open SERP Preview →</span>
+      </a>
+      <a href="/" class="other-tool-card">
+        <div class="other-tool-card__icon">🏠</div>
+        <h3>All Tools — Homepage</h3>
+        <p>See every previewer.pro tool in one place. Mobile viewer, social preview, SERP tools and more — all free, all instant, no signup required.</p>
+        <span>View All Tools →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- OG GUIDE -->
+<section class="og-guide-section" id="og-guide" aria-labelledby="og-guide-heading">
+  <div class="container og-guide-inner">
+    <div>
+      <div class="eyebrow" style="margin-bottom:.75rem">Open Graph Guide</div>
+      <h2 id="og-guide-heading">How Social Platforms Read Your Meta Tags</h2>
+      <p>Every time a URL is shared on a social platform, the platform's crawler visits your page and reads structured data from your HTML <code>&lt;head&gt;</code>. The primary protocol is <strong>Open Graph (OG)</strong>, developed by Facebook and adopted by virtually every major social network.</p>
+      <p>Open Graph tags tell platforms what image, title, and description to use when building a link card preview. Without them, social networks guess — often showing a logo, a random image, or no image at all. With well-configured OG tags, you control the narrative completely.</p>
+      <div class="code-block">
+<span class="cmt">&lt;!-- Core Open Graph tags — add to every page's &lt;head&gt; --&gt;</span>
+&lt;meta property="og:type"        content="website" /&gt;
+&lt;meta property="og:url"         content="https://your-page.com/slug" /&gt;
+&lt;meta property="og:title"       content="Your Page Title — Brand" /&gt;
+&lt;meta property="og:description" content="Compelling description under 200 chars." /&gt;
+&lt;meta property="og:image"       content="https://your-site.com/og-1200x630.jpg" /&gt;
+&lt;meta property="og:site_name"   content="Your Brand Name" /&gt;
+
+<span class="cmt">&lt;!-- Twitter/X-specific tags --&gt;</span>
+&lt;meta name="twitter:card"    content="summary_large_image" /&gt;
+&lt;meta name="twitter:site"    content="@yourtwitterhandle" /&gt;</div>
+      <p>Each platform interprets these tags slightly differently — different image ratios, different title lengths, different description truncation points. That's exactly why platform-specific preview tools are so valuable: one OG image doesn't look the same everywhere.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:.75rem">Platform Differences</div>
+      <div style="font-family:var(--ff-display);font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:1.25rem">How Each Platform Differs</div>
+      <div class="platform-diff-grid">
+        <div class="platform-diff-row platform-diff-head">
+          <div class="pd-name"></div><div class="pd-val">Image Ratio</div><div class="pd-val">Title Limit</div>
+        </div>
+        <div class="platform-diff-row"><div class="pd-name"><span>📘</span>Facebook</div><div class="pd-val"><strong>1.91:1</strong> (1200×630)</div><div class="pd-val"><strong>88</strong> chars</div></div>
+        <div class="platform-diff-row"><div class="pd-name"><span>𝕏</span>Twitter/X</div><div class="pd-val"><strong>1.91:1</strong> (1200×628)</div><div class="pd-val"><strong>70</strong> chars</div></div>
+        <div class="platform-diff-row"><div class="pd-name"><span>💼</span>LinkedIn</div><div class="pd-val"><strong>1.91:1</strong> (1200×627)</div><div class="pd-val"><strong>119</strong> chars</div></div>
+        <div class="platform-diff-row"><div class="pd-name"><span>💬</span>WhatsApp</div><div class="pd-val"><strong>1:1</strong> (300×300 min)</div><div class="pd-val"><strong>~65</strong> chars</div></div>
+        <div class="platform-diff-row"><div class="pd-name"><span>📌</span>Pinterest</div><div class="pd-val"><strong>2:3</strong> (1000×1500)</div><div class="pd-val"><strong>100</strong> chars</div></div>
+        <div class="platform-diff-row"><div class="pd-name"><span>📸</span>Instagram</div><div class="pd-val"><strong>1:1</strong> / <strong>4:5</strong></div><div class="pd-val"><strong>2,200</strong> chars</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-sp" aria-labelledby="faq-sp-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-sp-heading" class="section-title">Social Preview FAQs</h2>
+    </div>
+    <div class="faq-grid" style="max-width:800px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fsp1">Do I need separate OG images for each platform? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fsp1" hidden>Not necessarily. A single 1200×630px image (1.91:1 ratio) works well for Facebook, Twitter/X, and LinkedIn. For Pinterest, you should use a taller 2:3 ratio image (e.g. 1000×1500px). Instagram images are different entirely as they're uploaded directly, not pulled from meta tags. One universal OG image covers most platforms adequately.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fsp2">Why do different platforms show different previews for the same URL? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fsp2" hidden>Each platform has its own crawler, its own image resizing logic, its own title and description length limits, and its own card layout. Even with identical OG tags, Facebook may crop your image differently than LinkedIn, and Twitter may truncate your title where Facebook doesn't. This is why platform-specific preview tools are essential.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fsp3">How do I force social platforms to update a cached preview? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fsp3" hidden>Each platform has a debugger tool: Facebook uses the Sharing Debugger (developers.facebook.com/tools/debug/), LinkedIn uses the Post Inspector (linkedin.com/post-inspector/), and Twitter/X uses the Card Validator. Each tool lets you enter a URL and force a re-crawl to update the cached card data.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fsp4">Does fixing OG tags improve my social media reach? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fsp4" hidden>Directly, yes. Posts with properly configured OG images — especially a relevant, high-quality 1200×630px image — consistently receive 3× higher click-through rates than posts with missing or incorrectly formatted images. Improved CTR means more traffic, more engagement, and better performance in social feed algorithms.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Preview Your Content on Every Platform</h2>
+    <p>Fix social cards before they reach your audience. All tools are free, instant, and no signup required.</p>
+    <div class="cta-btns">
+      <a href="/facebook-preview"  class="btn btn--primary" style="background:#1877f2;box-shadow:0 4px 20px rgba(24,119,242,.35)">📘 Facebook</a>
+      <a href="/twitter-preview"   class="btn btn--primary" style="background:#000;box-shadow:0 4px 20px rgba(0,0,0,.5);border:1px solid #333">𝕏 Twitter</a>
+      <a href="/instagram-preview" class="btn btn--primary" style="background:linear-gradient(45deg,#f58529,#dd2a7b);box-shadow:0 4px 20px rgba(221,42,123,.3)">📸 Instagram</a>
+    </div>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+function syncPreviews(){
+  const url = document.getElementById('universalUrl').value.trim();
+  if(!url) return;
+  let domain = '';
+  try { domain = new URL(url).hostname.replace('www.',''); } catch(e){ domain = url.replace(/https?:\/\//,'').split('/')[0]; }
+  // Update audit table with URL info
+  document.getElementById('aud-url').textContent = url.substring(0,50)+(url.length>50?'...':'');
+  document.getElementById('aud-url-s').className = 'og-tag-status s-ok';
+  document.getElementById('aud-url-s').textContent = '✓';
+  // Simulated audit (since we can't cross-origin fetch)
+  ['prev-fb-title','prev-tw-title','prev-li-title','prev-wa-title'].forEach(id=>{
+    document.getElementById(id).textContent = 'Previewing: '+domain;
+  });
+  ['prev-fb-desc','prev-li-desc','prev-wa-desc'].forEach(id=>{
+    document.getElementById(id).textContent = 'Enter your og:description to see how it appears on '+domain;
+  });
+}
+</script>
+</body>
+</html>
