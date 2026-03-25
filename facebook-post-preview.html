@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free Facebook post preview tool — see exactly how your URL link card, Open Graph image, title, and description appear when shared on Facebook. Audit OG tags instantly."/>
+  <meta name="keywords" content="Facebook post preview, Facebook link card preview, Open Graph preview, og:image preview, Facebook share preview, OG tag checker, Facebook meta tag validator, facebook link preview tool, og preview tool"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://previewer.pro/facebook-post-preview"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/facebook-post-preview"/>
+  <meta property="og:title" content="Facebook Post & Link Card Preview Tool — Free OG Checker | Previewer.pro"/>
+  <meta property="og:description" content="Preview how your URL appears when shared on Facebook. Check OG image, title, description, and meta tags instantly."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>Facebook Post & Link Card Preview Tool — Free Open Graph Checker | Previewer.pro</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Facebook Post Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/facebook-post-preview","description":"Preview how your URL and Open Graph tags appear when shared on Facebook, including link cards, images, and descriptions.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root{--fb-bg:#18191a;--fb-surface:#242526;--fb-surface2:#3a3b3c;--fb-border:#3e4042;--fb-text:#e4e6eb;--fb-muted:#b0b3b8;--fb-blue:#1877f2;--fb-hover:#263951}
+    .app-hero{padding:3.5rem 0 2rem;background:var(--clr-surface);border-bottom:1px solid var(--clr-border)}
+    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+    .app-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(24,119,242,.12);border:1px solid rgba(24,119,242,.3);color:var(--fb-blue);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .app-hero__title{font-family:var(--ff-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .app-hero__title span{color:var(--fb-blue)}
+    /* Facebook UI mock */
+    .fb-app{background:var(--fb-bg);border:1px solid var(--fb-border);border-radius:12px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;max-width:500px}
+    .fb-header{background:var(--fb-surface);padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--fb-border)}
+    .fb-logo{color:var(--fb-blue);font-size:1.6rem;font-weight:900}
+    .fb-header-icons{display:flex;gap:.4rem}
+    .fb-header-icons span{background:var(--fb-surface2);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer}
+    .fb-post{padding:1rem}
+    .fb-post-head{display:flex;align-items:center;gap:.65rem;margin-bottom:.75rem}
+    .fb-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--fb-blue),#42b72a);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.9rem}
+    .fb-name-wrap{}
+    .fb-name{font-size:.9rem;font-weight:700;color:var(--fb-text)}
+    .fb-meta{font-size:.78rem;color:var(--fb-muted);display:flex;align-items:center;gap:.25rem}
+    .fb-post-text{font-size:.92rem;color:var(--fb-text);margin-bottom:.75rem;line-height:1.5;word-break:break-word}
+    /* Link card */
+    .fb-link-card{border:1px solid var(--fb-border);border-radius:8px;overflow:hidden;cursor:pointer;transition:background .2s}
+    .fb-link-card:hover{background:var(--fb-hover)}
+    .fb-card-img{width:100%;height:240px;background:linear-gradient(135deg,rgba(24,119,242,.35),rgba(0,186,124,.2));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .fb-card-img img{width:100%;height:100%;object-fit:cover}
+    .fb-card-img-placeholder{display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.25);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+    .fb-card-body{padding:.75rem 1rem;background:var(--fb-surface)}
+    .fb-card-domain{font-size:.72rem;color:var(--fb-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem}
+    .fb-card-title{font-size:.9rem;font-weight:700;color:var(--fb-text);line-height:1.3;margin-bottom:.15rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .fb-card-desc{font-size:.82rem;color:var(--fb-muted);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    /* Reactions */
+    .fb-actions{display:flex;border-top:1px solid var(--fb-border);margin-top:.75rem}
+    .fb-action{flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.6rem;font-size:.85rem;color:var(--fb-muted);cursor:pointer;border-radius:6px;transition:background .2s;font-weight:600}
+    .fb-action:hover{background:var(--fb-surface2)}
+    /* Tool */
+    .fb-tool{background:var(--clr-bg);padding:4rem 0}
+    .fb-tool-box{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    .fb-input-panel{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:16px;padding:2rem}
+    .fb-input-panel h3{font-family:var(--ff-display);font-weight:700;color:#fff;margin-bottom:1.5rem;font-size:1rem}
+    .form-group{margin-bottom:1.25rem}
+    .form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--clr-muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+    .form-group input,.form-group textarea{width:100%;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.65rem 1rem;color:var(--clr-text);font-family:var(--ff-body);font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical}
+    .form-group input:focus,.form-group textarea:focus{border-color:var(--fb-blue)}
+    .form-group textarea{min-height:80px}
+    .form-btn{width:100%;padding:.75rem;background:var(--fb-blue);color:#fff;border:none;border-radius:10px;font-family:var(--ff-display);font-weight:700;font-size:.95rem;cursor:pointer;transition:all .2s}
+    .form-btn:hover{background:#166fe5;transform:translateY(-1px)}
+    .og-audit{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem;margin-top:1rem}
+    .og-audit h4{font-family:var(--ff-display);font-weight:700;font-size:.9rem;color:#fff;margin-bottom:1rem}
+    .og-row{display:flex;align-items:flex-start;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .og-row:last-child{border-bottom:none}
+    .og-status{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;margin-top:.1rem}
+    .og-status--ok{background:rgba(0,186,124,.15);color:#00ba7c}
+    .og-status--warn{background:rgba(245,158,11,.15);color:#f59e0b}
+    .og-status--err{background:rgba(239,68,68,.15);color:#ef4444}
+    .og-name{font-weight:600;color:var(--clr-muted);min-width:140px;flex-shrink:0}
+    .og-val{color:var(--clr-text);word-break:break-all;line-height:1.4}
+    /* Sections */
+    .og-guide-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .og-props-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2rem}
+    .og-prop-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem;transition:all .2s}
+    .og-prop-card:hover{border-color:rgba(24,119,242,.4)}
+    .og-prop-card .prop-tag{font-family:monospace;font-size:.8rem;color:var(--fb-blue);background:rgba(24,119,242,.1);padding:.2rem .5rem;border-radius:4px;display:inline-block;margin-bottom:.5rem}
+    .og-prop-card h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:.35rem}
+    .og-prop-card p{font-size:.83rem;color:var(--clr-muted);line-height:1.5}
+    .img-sizes{padding:5rem 0}
+    .sizes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .size-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;overflow:hidden;transition:all .2s}
+    .size-card:hover{border-color:rgba(24,119,242,.4);transform:translateY(-3px)}
+    .size-card__img{height:120px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;font-family:var(--ff-display)}
+    .size-card__body{padding:1.25rem}
+    .size-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.35rem}
+    .size-card p{font-size:.83rem;color:var(--clr-muted)}
+    .size-badge{display:inline-block;background:rgba(24,119,242,.12);border:1px solid rgba(24,119,242,.2);color:var(--fb-blue);padding:.15rem .5rem;border-radius:4px;font-size:.75rem;font-weight:600;margin-bottom:.5rem}
+    .content-rich{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .content-rich__inner{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+    .content-rich h2{font-family:var(--ff-display);font-size:1.6rem;font-weight:800;color:#fff;margin:1.5rem 0 .75rem}
+    .content-rich h2:first-child{margin-top:0}
+    .content-rich p{color:var(--clr-muted);margin-bottom:1rem;line-height:1.7}
+    .content-rich strong{color:var(--clr-text)}
+    .code-block{background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:1rem 1.25rem;margin:1rem 0;font-family:monospace;font-size:.82rem;color:var(--clr-accent2);line-height:1.8;overflow-x:auto}
+    .code-block .comment{color:var(--clr-muted)}
+    .aside-toc{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;position:sticky;top:80px;align-self:start}
+    .aside-toc h4{font-family:var(--ff-display);font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-muted);margin-bottom:1rem}
+    .aside-toc ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .aside-toc ul li a{color:var(--clr-text);text-decoration:none;font-size:.88rem;opacity:.75;transition:opacity .2s}
+    .aside-toc ul li a:hover{opacity:1;color:var(--fb-blue)}
+    .faq-section{padding:5rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(24,119,242,.15),rgba(66,183,42,.1));border-top:1px solid rgba(24,119,242,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .btn-fb{background:var(--fb-blue)!important;box-shadow:0 4px 20px rgba(24,119,242,.35)!important}
+    .btn-fb:hover{background:#166fe5!important}
+    @media(max-width:900px){.hero-grid,.fb-tool-box,.og-props-grid,.content-rich__inner{grid-template-columns:1fr}.sizes-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.sizes-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="app-hero" aria-labelledby="fb-h1">
+  <div class="container hero-grid">
+    <div>
+      <div class="app-hero__badge">📘 Facebook Post Preview Tool</div>
+      <h1 class="app-hero__title" id="fb-h1">Preview How Your Link Appears<br/><span>on Facebook</span></h1>
+      <p style="color:var(--clr-muted);font-size:1.05rem;margin-bottom:1.5rem">See exactly how your URL's Open Graph image, title, and description appear in a Facebook post link card — before you share it or run ads. Audit every OG meta tag instantly.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem">
+        <span class="chip">OG Image Preview</span><span class="chip">Link Card Preview</span><span class="chip">Meta Tag Audit</span><span class="chip">Ad Preview</span>
+      </div>
+      <a href="#fb-tool" class="btn btn--primary btn-fb">Preview Facebook Post →</a>
+    </div>
+    <div aria-hidden="true">
+      <div class="fb-app" style="max-width:380px;margin:0 auto">
+        <div class="fb-header">
+          <span class="fb-logo">f</span>
+          <div class="fb-header-icons"><span>🏠</span><span>👥</span><span>🔔</span></div>
+        </div>
+        <div class="fb-post">
+          <div class="fb-post-head">
+            <div class="fb-avatar">P</div>
+            <div class="fb-name-wrap">
+              <div class="fb-name">Previewer Pro</div>
+              <div class="fb-meta">2 mins ago · 🌐</div>
+            </div>
+          </div>
+          <div class="fb-post-text">Check how your links look on Facebook before sharing! 🔗</div>
+          <div class="fb-link-card">
+            <div class="fb-card-img"><div class="fb-card-img-placeholder"><span>🖼️</span><span>OG Image</span></div></div>
+            <div class="fb-card-body">
+              <div class="fb-card-domain">PREVIEWER.PRO</div>
+              <div class="fb-card-title">Facebook Post Preview Tool — Previewer.pro</div>
+              <div class="fb-card-desc">See how your shared links appear on Facebook with accurate OG tag rendering.</div>
+            </div>
+          </div>
+          <div class="fb-actions">
+            <div class="fb-action">👍 Like</div>
+            <div class="fb-action">💬 Comment</div>
+            <div class="fb-action">↗️ Share</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="fb-tool" id="fb-tool" aria-label="Facebook post preview tool">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="eyebrow">Live Preview</div>
+      <h2 class="section-title">Facebook Post Preview</h2>
+    </div>
+    <div class="fb-tool-box">
+      <div class="fb-input-panel">
+        <h3>📝 Open Graph Settings</h3>
+        <div class="form-group">
+          <label for="fb-url">Page URL</label>
+          <input type="url" id="fb-url" placeholder="https://your-page.com" oninput="updateFbPreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="fb-post-text">Post Text (optional)</label>
+          <textarea id="fb-post-text" placeholder="What's on your mind?" oninput="updateFbPreview()" style="min-height:60px">Check out this amazing resource we just published! 🚀</textarea>
+        </div>
+        <div class="form-group">
+          <label for="fb-title">og:title</label>
+          <input type="text" id="fb-title" placeholder="Page title" value="Your Page Title Here" oninput="updateFbPreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="fb-desc">og:description</label>
+          <textarea id="fb-desc" placeholder="Page description..." oninput="updateFbPreview()" style="min-height:70px">This is the description shown below the title in the Facebook link card preview.</textarea>
+        </div>
+        <div class="form-group">
+          <label for="fb-domain">og:site_name / Domain</label>
+          <input type="text" id="fb-domain" placeholder="example.com" value="PREVIEWER.PRO" oninput="updateFbPreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="fb-img">og:image URL</label>
+          <input type="url" id="fb-img" placeholder="https://your-site.com/og-image.jpg" oninput="updateFbPreview()"/>
+        </div>
+        <div class="form-group">
+          <label for="fb-type">og:type</label>
+          <input type="text" id="fb-type" placeholder="website" value="website" oninput="updateFbPreview()"/>
+        </div>
+        <button class="form-btn" onclick="updateFbPreview()">Update Preview →</button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem">
+        <div>
+          <div class="eyebrow" style="margin-bottom:.75rem">Facebook Feed Preview</div>
+          <div class="fb-app" id="fbPreview">
+            <div class="fb-header">
+              <span class="fb-logo">f</span>
+              <div class="fb-header-icons"><span>🏠</span><span>👥</span><span>🔔</span></div>
+            </div>
+            <div class="fb-post">
+              <div class="fb-post-head">
+                <div class="fb-avatar">Y</div>
+                <div class="fb-name-wrap">
+                  <div class="fb-name">Your Page Name</div>
+                  <div class="fb-meta">Just now · 🌐</div>
+                </div>
+              </div>
+              <div class="fb-post-text" id="fbPreviewText">Check out this amazing resource we just published! 🚀</div>
+              <div class="fb-link-card" id="fbCard">
+                <div class="fb-card-img" id="fbCardImg">
+                  <div class="fb-card-img-placeholder"><span>🖼️</span><span>og:image Preview</span></div>
+                </div>
+                <div class="fb-card-body">
+                  <div class="fb-card-domain" id="fbCardDomain">PREVIEWER.PRO</div>
+                  <div class="fb-card-title" id="fbCardTitle">Your Page Title Here</div>
+                  <div class="fb-card-desc" id="fbCardDesc">This is the description shown below the title in the Facebook link card preview.</div>
+                </div>
+              </div>
+              <div class="fb-actions">
+                <div class="fb-action">👍 Like</div>
+                <div class="fb-action">💬 Comment</div>
+                <div class="fb-action">↗️ Share</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- OG Audit -->
+        <div class="og-audit">
+          <h4>🔍 Open Graph Audit</h4>
+          <div class="og-row"><div class="og-status og-status--ok" id="a-title-s">✓</div><div class="og-name">og:title</div><div class="og-val" id="a-title">Your Page Title Here</div></div>
+          <div class="og-row"><div class="og-status og-status--ok" id="a-desc-s">✓</div><div class="og-name">og:description</div><div class="og-val" id="a-desc">This is the description...</div></div>
+          <div class="og-row"><div class="og-status og-status--warn" id="a-img-s">!</div><div class="og-name">og:image</div><div class="og-val" id="a-img">Not specified — link card may not show image</div></div>
+          <div class="og-row"><div class="og-status og-status--ok">✓</div><div class="og-name">og:type</div><div class="og-val" id="a-type">website</div></div>
+          <div class="og-row"><div class="og-status og-status--ok" id="a-url-s">✓</div><div class="og-name">og:url</div><div class="og-val" id="a-url">(enter URL above)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OG PROPERTIES GUIDE -->
+<section class="og-guide-section" id="og-guide" aria-labelledby="og-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Open Graph Protocol</div>
+      <h2 id="og-heading" class="section-title">Essential OG Meta Tags for Facebook</h2>
+      <p class="section-sub">These are the Open Graph properties Facebook reads to build your link card. Each one controls a specific part of the preview.</p>
+    </div>
+    <div class="og-props-grid">
+      <div class="og-prop-card"><span class="prop-tag">og:title</span><h4>Page Title</h4><p>The main headline of the link card. Facebook truncates at ~88 characters on desktop. Keep your most important information front-loaded. Recommended: 60–90 characters.</p></div>
+      <div class="og-prop-card"><span class="prop-tag">og:description</span><h4>Description</h4><p>A brief summary shown below the title. Facebook typically shows 2–3 lines (~200–300 characters). Use it to complement the title and add a compelling reason to click.</p></div>
+      <div class="og-prop-card"><span class="prop-tag">og:image</span><h4>Share Image</h4><p>The dominant visual element of the card. Recommended: 1200×630px. Minimum: 200×200px. Facebook ignores images smaller than 200px. Use JPG or PNG for best compatibility.</p></div>
+      <div class="og-prop-card"><span class="prop-tag">og:url</span><h4>Canonical URL</h4><p>The canonical URL of your page. Facebook uses this to deduplicate shares — all shares of this URL will aggregate Likes and comments together in the social graph.</p></div>
+      <div class="og-prop-card"><span class="prop-tag">og:type</span><h4>Content Type</h4><p>Tells Facebook what kind of object this is. Common values: <code>website</code>, <code>article</code>, <code>product</code>, <code>video.movie</code>. Most pages should use <code>website</code> or <code>article</code>.</p></div>
+      <div class="og-prop-card"><span class="prop-tag">og:site_name</span><h4>Site Name</h4><p>Your brand or site name, shown in small text above the title. Helps establish brand recognition when your link is shared across Facebook. Keep it short and recognisable.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE SIZE GUIDE -->
+<section class="img-sizes" id="image-sizes" aria-labelledby="is-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Image Requirements</div>
+      <h2 id="is-heading" class="section-title">Facebook OG Image Size Guide</h2>
+      <p class="section-sub">Use the right image dimensions to ensure your link card always looks sharp on Facebook.</p>
+    </div>
+    <div class="sizes-grid">
+      <div class="size-card">
+        <div class="size-card__img" style="background:linear-gradient(135deg,rgba(24,119,242,.3),rgba(24,119,242,.1))">1200<span style="font-size:.9rem">×</span>630</div>
+        <div class="size-card__body">
+          <span class="size-badge">✅ Recommended</span>
+          <h3>Standard OG Image</h3>
+          <p>The universal OG image size that works perfectly on Facebook, LinkedIn, Twitter/X, and most other platforms. Ratio: 1.91:1.</p>
+        </div>
+      </div>
+      <div class="size-card">
+        <div class="size-card__img" style="background:linear-gradient(135deg,rgba(66,183,42,.25),rgba(66,183,42,.08))">1080<span style="font-size:.9rem">×</span>1080</div>
+        <div class="size-card__body">
+          <span class="size-badge">✅ Square Format</span>
+          <h3>Square Image</h3>
+          <p>Works well in Facebook feed and Instagram. Ratio 1:1. Facebook will crop this to 1.91:1 for standard link cards but keeps it square in carousel ads.</p>
+        </div>
+      </div>
+      <div class="size-card">
+        <div class="size-card__img" style="background:linear-gradient(135deg,rgba(239,68,68,.2),rgba(239,68,68,.05))">200<span style="font-size:.9rem">×</span>200</div>
+        <div class="size-card__body">
+          <span class="size-badge" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.2);color:#f59e0b">⚠️ Minimum</span>
+          <h3>Minimum Size</h3>
+          <p>Facebook will refuse to render images smaller than 200×200px. Images between 200px and 599px may render as small thumbnails rather than full-width cards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RICH CONTENT -->
+<section class="content-rich" id="guide" aria-labelledby="guide-heading">
+  <div class="container content-rich__inner">
+    <article>
+      <h2 id="guide-heading">How Does Facebook Read Open Graph Tags?</h2>
+      <p>When a user shares a URL on Facebook — either by pasting it in a post, clicking Share, or using Facebook's Share Dialog — Facebook's crawler (called <strong>facebookexternalhit</strong>) visits the URL and reads the page's Open Graph meta tags from the HTML <code>&lt;head&gt;</code>. These tags tell Facebook what image, title, and description to display in the link card.</p>
+      <p>Our <strong>Facebook post preview tool</strong> simulates this process by rendering the tag values you input into a pixel-accurate mockup of a Facebook feed card, so you can see exactly how your content will appear before publishing.</p>
+      <h2>The Correct OG Meta Tags Structure</h2>
+      <div class="code-block">
+        <div class="comment">&lt;!-- Essential Facebook / Open Graph tags --&gt;</div>
+        &lt;meta property="og:type"        content="website" /&gt;<br/>
+        &lt;meta property="og:url"         content="https://your-page.com/" /&gt;<br/>
+        &lt;meta property="og:title"       content="Your Page Title — Brand" /&gt;<br/>
+        &lt;meta property="og:description" content="A compelling description under 200 chars." /&gt;<br/>
+        &lt;meta property="og:image"       content="https://your-site.com/og-1200x630.jpg" /&gt;<br/>
+        &lt;meta property="og:site_name"   content="Your Brand Name" /&gt;<br/>
+        &lt;meta property="og:locale"      content="en_US" /&gt;
+      </div>
+      <h2>Facebook Link Card vs Facebook Ad Preview</h2>
+      <p>It's important to understand that <strong>organic link cards</strong> (when someone shares a URL in a regular post) and <strong>Facebook Ads link card previews</strong> use the same OG tags but may render them slightly differently. In Ads Manager, you can set a custom headline and description that overrides OG tags. Our tool previews the organic link card — the experience someone sees when they share your URL in their own feed.</p>
+      <h2>Why Is Facebook Showing Old Preview Data?</h2>
+      <p>Facebook caches Open Graph data aggressively — sometimes for weeks. After updating your OG tags, you must use the <strong>Facebook Sharing Debugger</strong> (formerly Open Graph Debugger) to flush the cache for a specific URL. Enter your URL, click "Debug", then click "Scrape Again" to force Facebook to re-crawl and update the cached card data.</p>
+    </article>
+    <aside>
+      <div class="aside-toc">
+        <h4>On This Page</h4>
+        <ul>
+          <li><a href="#fb-tool">Live Preview Tool</a></li>
+          <li><a href="#og-guide">OG Tag Guide</a></li>
+          <li><a href="#image-sizes">Image Sizes</a></li>
+          <li><a href="#guide">How It Works</a></li>
+          <li><a href="#faq-fb">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-fb" aria-labelledby="faq-fb-heading">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-fb-heading" class="section-title">Facebook Preview FAQs</h2>
+    </div>
+    <div class="faq-grid" style="max-width:800px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="ffb1">Why doesn't my Facebook link card show an image? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="ffb1" hidden>The most common reasons: (1) og:image is missing or the URL returns an error, (2) the image is smaller than 200×200px, (3) the image URL requires authentication, (4) Facebook's cached version is stale — use the Sharing Debugger to re-scrape. Also ensure the og:image URL is absolute, not relative.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="ffb2">Can I use WebP images for og:image? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="ffb2" hidden>Facebook officially supports JPG, PNG, GIF (static), and as of 2021, WebP images. However, for maximum compatibility across all platforms (Twitter, LinkedIn, WhatsApp, etc.), JPEG or PNG with a .jpg/.png extension are still the safest choice.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="ffb3">Does og:description affect Facebook SEO or reach? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="ffb3" hidden>Facebook's algorithm doesn't directly use og:description as a ranking signal, but a well-written description that encourages engagement (Likes, comments, shares) will indirectly improve your post's organic reach through Facebook's engagement-based feed algorithm.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="ffb4">How long does Facebook cache OG data? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="ffb4" hidden>Facebook caches Open Graph data for approximately 30 days by default. After updating your meta tags, use the Facebook Sharing Debugger (developers.facebook.com/tools/debug/) and click "Scrape Again" to force an immediate re-crawl of your URL.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Perfect Your Facebook Link Cards</h2>
+    <p>Ensure every shared URL shows the right image, title, and description — before it reaches your audience.</p>
+    <a href="#fb-tool" class="btn btn--primary btn-fb" style="font-size:1rem;padding:.9rem 2rem">Preview Facebook Post Free →</a>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+function updateFbPreview(){
+  const postText=document.getElementById('fb-post-text').value;
+  const title=document.getElementById('fb-title').value;
+  const desc=document.getElementById('fb-desc').value;
+  const domain=document.getElementById('fb-domain').value;
+  const img=document.getElementById('fb-img').value;
+  const type=document.getElementById('fb-type').value;
+  const url=document.getElementById('fb-url').value;
+  document.getElementById('fbPreviewText').textContent=postText;
+  document.getElementById('fbCardTitle').textContent=title||'Page Title';
+  document.getElementById('fbCardDesc').textContent=desc||'Page description...';
+  document.getElementById('fbCardDomain').textContent=(domain||'example.com').toUpperCase();
+  const imgEl=document.getElementById('fbCardImg');
+  if(img){imgEl.innerHTML='<img src="'+img+'" alt="OG image" style="width:100%;height:100%;object-fit:cover"/>';}
+  else{imgEl.innerHTML='<div class="fb-card-img-placeholder"><span>🖼️</span><span>og:image Preview</span></div>';}
+  // Audit
+  document.getElementById('a-title').textContent=title;
+  document.getElementById('a-desc').textContent=desc.substring(0,60)+(desc.length>60?'...':'');
+  document.getElementById('a-type').textContent=type||'website';
+  document.getElementById('a-url').textContent=url||'(enter URL)';
+  if(img){document.getElementById('a-img').textContent=img.substring(0,45)+'...';document.getElementById('a-img-s').className='og-status og-status--ok';document.getElementById('a-img-s').textContent='✓';}
+  else{document.getElementById('a-img').textContent='Not specified — card may not show image';document.getElementById('a-img-s').className='og-status og-status--warn';document.getElementById('a-img-s').textContent='!';}
+  if(title.length>90){document.getElementById('a-title-s').className='og-status og-status--warn';document.getElementById('a-title-s').textContent='!';}
+  else{document.getElementById('a-title-s').className='og-status og-status--ok';document.getElementById('a-title-s').textContent='✓';}
+}
+</script>
+</body>
+</html>
