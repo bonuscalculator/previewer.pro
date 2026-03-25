@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Free LinkedIn post preview tool — see exactly how your URL, article, or company post appears in LinkedIn feeds. Preview link cards, article posts, personal posts, and company page posts with full OG tag audit. Advanced options for carousel, poll, and document post formats."/>
+  <meta name="keywords" content="LinkedIn post preview, LinkedIn link preview, LinkedIn share preview, LinkedIn article preview, LinkedIn OG preview, LinkedIn meta tags, LinkedIn company post preview, LinkedIn feed simulator, LinkedIn card preview, LinkedIn marketing tool"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://www.previewer.pro/linkedin-post-preview"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://previewer.pro/linkedin-post-preview"/>
+  <meta property="og:title" content="LinkedIn Post Preview Tool — Feed & Link Card Simulator | Previewer.pro"/>
+  <meta property="og:description" content="Preview personal posts, company posts, article shares, and link cards in the LinkedIn feed. Full OG audit and advanced post format options."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <title>LinkedIn Post Preview Tool — Feed Simulator & Link Card Checker | Previewer.pro</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"LinkedIn Post Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/linkedin-post-preview","description":"Preview LinkedIn posts including personal, company, article, and link card formats with OG tag audit and engagement metrics simulation.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Personal & Company post","Link card preview","Article preview","OG tag audit","Engagement simulation","Multiple post formats"],"publisher":{"@type":"Organization","name":"Previewer.pro","url":"https://previewer.pro"}}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    :root{
+      --li-bg:#1b1f23;--li-surface:#1b2432;--li-surface2:#232c38;
+      --li-border:#38424b;--li-text:#e7e3dc;--li-muted:#8e9aab;
+      --li-blue:#0a66c2;--li-blue2:#70b5f9;
+      --li-green:#057642;--li-green2:#0caa41;
+    }
+    /* Hero */
+    .li-hero{padding:3.5rem 0 0;background:var(--clr-surface);border-bottom:1px solid var(--clr-border);position:relative;overflow:hidden}
+    .li-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--li-blue),var(--li-blue2),var(--li-blue))}
+    .li-hero__inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;padding-bottom:3rem}
+    .li-hero__badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(10,102,194,.1);border:1px solid rgba(10,102,194,.25);color:var(--li-blue2);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;margin-bottom:1rem}
+    .li-hero__title{font-family:var(--ff-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1rem}
+    .li-hero__title span{color:var(--li-blue2)}
+    /* Tool */
+    .li-tool{background:var(--clr-bg);padding:4rem 0}
+    .li-grid{display:grid;grid-template-columns:400px 1fr;gap:2.5rem;align-items:start}
+    /* Input panel */
+    .li-inputs{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:18px;overflow:hidden;position:sticky;top:80px}
+    .li-tabs{display:flex;border-bottom:1px solid var(--clr-border)}
+    .li-tab{flex:1;padding:.7rem .5rem;background:none;border:none;color:var(--clr-muted);font-family:var(--ff-display);font-weight:600;font-size:.78rem;cursor:pointer;transition:all .2s;position:relative;text-align:center}
+    .li-tab.active{color:#fff;background:rgba(10,102,194,.08)}
+    .li-tab.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--li-blue)}
+    .li-body{padding:1.5rem 1.75rem}
+    .fg{margin-bottom:1.2rem}
+    .fg label{display:block;font-size:.78rem;font-weight:600;color:var(--clr-muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between;align-items:center}
+    .fg label span.cnt{font-weight:700;font-size:.7rem}
+    .cnt-ok{color:var(--clr-accent2)}.cnt-warn{color:#f59e0b}.cnt-over{color:#ff6b6b}
+    .fg input,.fg textarea,.fg select{width:100%;background:var(--clr-bg);border:1.5px solid var(--clr-border);border-radius:10px;padding:.65rem 1rem;color:var(--clr-text);font-family:var(--ff-body);font-size:.9rem;outline:none;transition:border-color .2s;resize:none}
+    .fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--li-blue)}
+    .fg textarea{min-height:80px}
+    /* Post type selector */
+    .post-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}
+    .pt-btn{padding:.5rem .35rem;background:var(--clr-surface2);border:1.5px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;font-family:var(--ff-display)}
+    .pt-btn.active{background:rgba(10,102,194,.12);border-color:var(--li-blue);color:var(--li-blue2)}
+    /* Account type */
+    .acct-btns{display:flex;gap:.4rem}
+    .acct-btn{flex:1;padding:.45rem;background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.8rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s;text-align:center}
+    .acct-btn.active{background:rgba(10,102,194,.12);border-color:var(--li-blue);color:var(--li-blue2)}
+    /* Toggles */
+    .toggle-group{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:10px;padding:.5rem .75rem}
+    .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--clr-border)}
+    .toggle-row:last-child{border-bottom:none}
+    .trl{color:var(--clr-text);font-size:.87rem}
+    .trs{font-size:.72rem;color:var(--clr-muted)}
+    .toggle{width:40px;height:22px;background:var(--clr-border);border-radius:999px;position:relative;cursor:pointer;transition:background .2s;border:none;flex-shrink:0}
+    .toggle.on{background:var(--li-blue)}
+    .toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+    .toggle.on::after{transform:translateX(18px)}
+    .li-submit{width:100%;padding:.8rem;background:var(--li-blue);color:#fff;border:none;border-radius:12px;font-family:var(--ff-display);font-weight:800;font-size:.95rem;cursor:pointer;transition:all .2s;margin-top:1.25rem}
+    .li-submit:hover{background:#004182;transform:translateY(-1px)}
+
+    /* ── LinkedIn Feed UI ── */
+    .li-feed-wrap{background:var(--li-bg);border-radius:14px;overflow:hidden;border:1px solid var(--li-border)}
+    .li-topnav{background:var(--li-surface);border-bottom:1px solid var(--li-border);padding:.5rem 1rem;display:flex;align-items:center;gap:.75rem}
+    .li-logo{color:var(--li-blue);font-weight:900;font-size:1.5rem;letter-spacing:-.02em}
+    .li-search{flex:1;max-width:240px;background:var(--li-surface2);border:1px solid var(--li-border);border-radius:4px;padding:.35rem .75rem;display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--li-muted)}
+    .li-nav-icons{display:flex;gap:.75rem;color:var(--li-muted);font-size:.85rem;margin-left:auto}
+    .li-nav-item{display:flex;flex-direction:column;align-items:center;gap:.1rem;cursor:pointer;padding:.25rem .35rem;border-radius:4px;transition:background .2s}
+    .li-nav-item span{font-size:.65rem}
+    .li-nav-item:hover{background:rgba(255,255,255,.06)}
+    .li-nav-item.active{color:#fff}
+    .li-nav-item.active .li-nav-underline{width:100%;height:2px;background:var(--li-blue);border-radius:1px}
+    /* Feed layout */
+    .li-feed-layout{display:grid;grid-template-columns:1fr;padding:1rem;gap:0}
+    /* Post card */
+    .li-post-card{background:var(--li-surface);border:1px solid var(--li-border);border-radius:8px;margin-bottom:.75rem;overflow:hidden}
+    .li-post-header{display:flex;align-items:flex-start;gap:.65rem;padding:.85rem .85rem .5rem}
+    .li-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;flex-shrink:0;color:#fff;position:relative}
+    .li-avatar .li-conn-badge{position:absolute;bottom:-2px;right:-2px;background:var(--li-surface);border-radius:999px;padding:.05rem .25rem;font-size:.5rem;color:var(--li-blue2);border:1px solid var(--li-border);font-weight:700;white-space:nowrap}
+    .li-post-author{flex:1}
+    .li-author-name{font-size:.9rem;font-weight:700;color:var(--li-text);display:flex;align-items:center;gap:.35rem}
+    .li-author-verified{color:var(--li-blue2);font-size:.8rem}
+    .li-author-title{font-size:.75rem;color:var(--li-muted);line-height:1.3;margin:.05rem 0}
+    .li-post-time{font-size:.72rem;color:var(--li-muted);display:flex;align-items:center;gap:.25rem}
+    .li-post-dots{color:var(--li-muted);cursor:pointer;padding:.25rem;font-size:1.1rem;line-height:1}
+    .li-follow-btn{color:var(--li-blue2);font-size:.82rem;font-weight:700;cursor:pointer;border:none;background:none;padding:.25rem .6rem;border-radius:16px;transition:background .2s;white-space:nowrap}
+    .li-follow-btn:hover{background:rgba(10,102,194,.1)}
+    /* Post body */
+    .li-post-text-wrap{padding:.1rem .85rem .75rem}
+    .li-post-text{font-size:.88rem;color:var(--li-text);line-height:1.55;word-break:break-word}
+    .li-post-text .li-hashtag{color:var(--li-blue2);cursor:pointer}
+    .li-see-more{color:var(--li-muted);font-size:.82rem;cursor:pointer}
+    .li-see-more:hover{text-decoration:underline}
+    /* Link card */
+    .li-link-card{margin:.1rem .85rem .75rem;border:1px solid var(--li-border);border-radius:4px;overflow:hidden;cursor:pointer;transition:background .2s}
+    .li-link-card:hover{background:rgba(255,255,255,.03)}
+    .li-lc-img{width:100%;height:200px;background:linear-gradient(135deg,rgba(10,102,194,.3),rgba(0,119,181,.2));display:flex;align-items:center;justify-content:center;font-size:3rem;color:rgba(255,255,255,.2);overflow:hidden;position:relative}
+    .li-lc-img img{width:100%;height:100%;object-fit:cover;display:none}
+    .li-lc-body{padding:.7rem .85rem;background:var(--li-surface2)}
+    .li-lc-title{font-size:.88rem;font-weight:700;color:var(--li-text);line-height:1.3;margin-bottom:.2rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .li-lc-source{font-size:.75rem;color:var(--li-muted)}
+    .li-lc-desc{font-size:.78rem;color:var(--li-muted);line-height:1.4;margin-top:.15rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    /* Article post */
+    .li-article-card{margin:.1rem .85rem .75rem;border:1px solid var(--li-border);border-radius:4px;overflow:hidden;cursor:pointer;transition:background .2s;display:flex}
+    .li-article-card:hover{background:rgba(255,255,255,.03)}
+    .li-article-img{width:120px;min-height:80px;background:linear-gradient(135deg,rgba(10,102,194,.3),rgba(0,119,181,.2));display:flex;align-items:center;justify-content:center;font-size:2rem;color:rgba(255,255,255,.2);flex-shrink:0;overflow:hidden}
+    .li-article-img img{width:100%;height:100%;object-fit:cover;display:none}
+    .li-article-body{padding:.65rem .75rem;flex:1}
+    .li-article-title{font-size:.85rem;font-weight:700;color:var(--li-text);line-height:1.3;margin-bottom:.25rem}
+    .li-article-meta{font-size:.72rem;color:var(--li-muted)}
+    /* Image post */
+    .li-image-post{margin:.1rem 0 .75rem;width:100%;max-height:400px;background:linear-gradient(135deg,rgba(10,102,194,.25),rgba(0,119,181,.15));display:flex;align-items:center;justify-content:center;font-size:3.5rem;color:rgba(255,255,255,.2);overflow:hidden}
+    .li-image-post img{width:100%;height:100%;object-fit:cover;max-height:400px;display:none}
+    /* Reactions bar */
+    .li-reactions-summary{padding:.45rem .85rem;border-top:1px solid var(--li-border);border-bottom:1px solid var(--li-border);display:flex;align-items:center;justify-content:space-between;font-size:.75rem;color:var(--li-muted)}
+    .li-reaction-icons{display:flex;gap:-.1rem}
+    .li-r-icon{width:18px;height:18px;border-radius:50%;background:var(--li-surface);border:1.5px solid var(--li-surface);display:inline-flex;align-items:center;justify-content:center;font-size:.65rem}
+    .li-actions-bar{display:flex;padding:.3rem .5rem}
+    .li-action{flex:1;display:flex;align-items:center;justify-content:center;gap:.35rem;padding:.5rem .3rem;border-radius:4px;font-size:.82rem;color:var(--li-muted);cursor:pointer;transition:background .2s;font-weight:600}
+    .li-action:hover{background:rgba(255,255,255,.06);color:var(--li-text)}
+    /* Repost */
+    .li-repost-badge{background:rgba(255,255,255,.04);border-top:1px solid var(--li-border);padding:.45rem .85rem;font-size:.72rem;color:var(--li-muted);display:flex;align-items:center;gap:.35rem}
+    /* Newsletter post */
+    .li-newsletter-card{margin:.1rem .85rem .75rem;background:var(--li-surface2);border:1px solid var(--li-border);border-radius:8px;padding:1rem;display:flex;gap:.75rem}
+    .li-nl-icon{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--li-blue),#70b5f9);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+    .li-nl-title{font-size:.88rem;font-weight:700;color:var(--li-text);margin-bottom:.2rem}
+    .li-nl-sub{font-size:.75rem;color:var(--li-muted)}
+    .li-nl-follow{display:inline-flex;align-items:center;gap:.25rem;margin-top:.35rem;color:var(--li-blue2);font-size:.78rem;font-weight:700;cursor:pointer;border:1px solid var(--li-blue2);border-radius:16px;padding:.2rem .65rem}
+    /* Poll */
+    .li-poll{margin:.1rem .85rem .75rem}
+    .li-poll-question{font-size:.88rem;font-weight:700;color:var(--li-text);margin-bottom:.75rem}
+    .li-poll-option{background:rgba(10,102,194,.08);border:1.5px solid var(--li-blue);border-radius:4px;padding:.55rem .85rem;margin-bottom:.4rem;font-size:.85rem;color:var(--li-text);cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:space-between}
+    .li-poll-option:hover{background:rgba(10,102,194,.15)}
+    .li-poll-meta{font-size:.72rem;color:var(--li-muted);margin-top:.5rem}
+    /* OG Audit */
+    .li-audit{background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem}
+    .li-audit h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem}
+    .audit-row{display:flex;align-items:flex-start;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .audit-row:last-child{border-bottom:none}
+    .a-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;margin-top:.05rem}
+    .a-ok{background:rgba(0,212,170,.12);color:#00d4aa}
+    .a-warn{background:rgba(245,158,11,.12);color:#f59e0b}
+    .a-err{background:rgba(255,107,107,.12);color:#ff6b6b}
+    .audit-field{min-width:140px;font-family:monospace;color:var(--clr-accent2);font-size:.79rem;font-weight:600;flex-shrink:0}
+    .audit-val{color:var(--clr-text);word-break:break-all;line-height:1.4}
+    .audit-hint{font-size:.74rem;color:var(--clr-muted);margin-top:.1rem}
+    /* Engagement panel */
+    .li-engagement{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:12px;padding:1.25rem}
+    .li-engagement h4{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.9rem;margin-bottom:1rem}
+    .eng-row{display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--clr-border);font-size:.82rem}
+    .eng-row:last-child{border-bottom:none}
+    .eng-metric{min-width:120px;color:var(--clr-muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    .eng-input{flex:1;background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:6px;padding:.35rem .65rem;color:var(--clr-text);font-size:.82rem;outline:none;font-family:var(--ff-body)}
+    .eng-input:focus{border-color:var(--li-blue)}
+    /* Sections */
+    .tips-section{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .tip-card{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.75rem;transition:all .2s}
+    .tip-card:hover{border-color:rgba(10,102,194,.4);transform:translateY(-3px)}
+    .tip-card__icon{font-size:2rem;margin-bottom:.75rem}
+    .tip-card h3{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.5rem}
+    .tip-card p{font-size:.87rem;color:var(--clr-muted);line-height:1.6}
+    .content-rich{padding:5rem 0;background:var(--clr-surface);border-top:1px solid var(--clr-border)}
+    .cr-inner{display:grid;grid-template-columns:2fr 1fr;gap:3rem}
+    .cr-inner h2{font-family:var(--ff-display);font-size:1.5rem;font-weight:800;color:#fff;margin:1.5rem 0 .75rem}
+    .cr-inner h2:first-child{margin-top:0}
+    .cr-inner p{color:var(--clr-muted);margin-bottom:1rem;line-height:1.7}
+    .cr-inner strong{color:var(--clr-text)}
+    .aside-toc{background:var(--clr-surface2);border:1px solid var(--clr-border);border-radius:14px;padding:1.5rem;position:sticky;top:80px;align-self:start}
+    .aside-toc h4{font-family:var(--ff-display);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-muted);margin-bottom:1rem}
+    .aside-toc ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+    .aside-toc ul li a{color:var(--clr-text);text-decoration:none;font-size:.86rem;opacity:.7;transition:opacity .2s}
+    .aside-toc ul li a:hover{opacity:1;color:var(--li-blue2)}
+    .faq-section{padding:5rem 0}
+    .cta-strip{padding:4rem 0;background:linear-gradient(135deg,rgba(10,102,194,.15),rgba(112,181,249,.08));border-top:1px solid rgba(10,102,194,.2)}
+    .cta-strip__inner{text-align:center}
+    .cta-strip h2{font-family:var(--ff-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:.75rem}
+    .cta-strip p{color:var(--clr-muted);margin-bottom:1.5rem}
+    .btn-li{background:var(--li-blue)!important;box-shadow:0 4px 20px rgba(10,102,194,.35)!important}
+    .btn-li:hover{background:#004182!important;transform:translateY(-2px)!important}
+    @media(max-width:1100px){.li-grid{grid-template-columns:1fr}.li-inputs{position:static}}
+    @media(max-width:900px){.li-hero__inner,.tips-grid,.cr-inner{grid-template-columns:1fr}}
+    @media(max-width:600px){.post-type-grid{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+
+<!-- HERO -->
+<section class="li-hero" aria-labelledby="li-h1">
+  <div class="container li-hero__inner">
+    <div>
+      <div class="li-hero__badge">💼 LinkedIn Post Preview Tool</div>
+      <h1 class="li-hero__title" id="li-h1">Preview Your LinkedIn Posts<br/><span>Before You Publish</span></h1>
+      <p style="color:var(--clr-muted);font-size:1.05rem;margin-bottom:1.5rem">See exactly how your posts, link cards, articles, images, polls, and documents appear in the LinkedIn feed — for personal profiles and company pages. Full OG tag audit, engagement metrics editor, and multi-format simulation.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem">
+        <span class="chip">Link Card Preview</span><span class="chip">Article Post</span>
+        <span class="chip">Company Page</span><span class="chip">Poll Preview</span><span class="chip">OG Audit</span>
+      </div>
+      <a href="#li-tool" class="btn btn--primary btn-li">Preview LinkedIn Post ↓</a>
+    </div>
+    <!-- Hero visual -->
+    <div aria-hidden="true" style="display:flex;justify-content:center">
+      <div style="width:340px;background:var(--li-bg);border:1px solid var(--li-border);border-radius:10px;overflow:hidden">
+        <div style="background:var(--li-surface);padding:.5rem .85rem;display:flex;align-items:center;gap:.6rem;border-bottom:1px solid var(--li-border)">
+          <span style="color:var(--li-blue);font-weight:900;font-size:1.3rem">in</span>
+          <div style="flex:1;background:var(--li-surface2);border-radius:4px;padding:.3rem .65rem;font-size:.72rem;color:var(--li-muted)">🔍 Search</div>
+        </div>
+        <div style="padding:.75rem .85rem">
+          <div style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.6rem">
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--li-blue),var(--li-blue2));flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">P</div>
+            <div>
+              <div style="font-size:.82rem;font-weight:700;color:var(--li-text)">Previewer Pro</div>
+              <div style="font-size:.68rem;color:var(--li-muted)">Product Team · 2h · 🌐</div>
+            </div>
+          </div>
+          <div style="font-size:.8rem;color:var(--li-text);margin-bottom:.65rem;line-height:1.5">Excited to share our latest LinkedIn preview tool! See exactly how your posts look in the feed 🚀 #LinkedInTips #Marketing</div>
+          <div style="border:1px solid var(--li-border);border-radius:4px;overflow:hidden">
+            <div style="height:110px;background:linear-gradient(135deg,rgba(10,102,194,.3),rgba(112,181,249,.2));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:rgba(255,255,255,.25)">💼</div>
+            <div style="padding:.55rem .65rem;background:var(--li-surface2)">
+              <div style="font-size:.8rem;font-weight:700;color:var(--li-text);margin-bottom:.15rem">LinkedIn Post Preview Tool — Previewer.pro</div>
+              <div style="font-size:.7rem;color:var(--li-muted)">previewer.pro</div>
+            </div>
+          </div>
+          <div style="padding:.4rem 0;border-top:1px solid var(--li-border);margin-top:.5rem;display:flex;justify-content:space-between;font-size:.72rem;color:var(--li-muted)">
+            <span>👍❤️🔥 128 reactions</span><span>24 comments · 38 reposts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section class="li-tool" id="li-tool" aria-label="LinkedIn post preview tool">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="eyebrow">Live Preview</div>
+      <h2 class="section-title">LinkedIn Post Preview</h2>
+    </div>
+    <div class="li-grid">
+
+      <!-- INPUT PANEL -->
+      <div class="li-inputs">
+        <div class="li-tabs">
+          <button class="li-tab active" onclick="liSwitchTab('post',this)">📝 Post</button>
+          <button class="li-tab" onclick="liSwitchTab('link',this)">🔗 Link</button>
+          <button class="li-tab" onclick="liSwitchTab('author',this)">👤 Author</button>
+          <button class="li-tab" onclick="liSwitchTab('advanced',this)">⚙️ Advanced</button>
+        </div>
+
+        <!-- POST TAB -->
+        <div class="li-body" id="litab-post">
+          <div class="fg">
+            <label>Post Format</label>
+            <div class="post-type-grid">
+              <button class="pt-btn active" onclick="setPostType('link',this)">🔗 Link</button>
+              <button class="pt-btn" onclick="setPostType('text',this)">📝 Text</button>
+              <button class="pt-btn" onclick="setPostType('image',this)">🖼️ Image</button>
+              <button class="pt-btn" onclick="setPostType('article',this)">📰 Article</button>
+              <button class="pt-btn" onclick="setPostType('poll',this)">📊 Poll</button>
+              <button class="pt-btn" onclick="setPostType('document',this)">📄 Doc</button>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Account Type</label>
+            <div class="acct-btns">
+              <button class="acct-btn active" onclick="setAcctType('personal',this)">👤 Personal</button>
+              <button class="acct-btn" onclick="setAcctType('company',this)">🏢 Company</button>
+              <button class="acct-btn" onclick="setAcctType('creator',this)">⭐ Creator</button>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="li-post-text">Post Text <span id="li-text-cnt" class="cnt cnt-ok">0 / 3000</span></label>
+            <textarea id="li-post-text" style="min-height:110px" maxlength="3000" oninput="updateLiPreview();liTextCount()" placeholder="Write your LinkedIn post here…">Excited to introduce our free LinkedIn Post Preview Tool! 🚀
+
+See exactly how your posts, link cards, and articles look in the LinkedIn feed BEFORE publishing.
+
+✅ Personal & Company page previews
+✅ Link card simulation with OG audit
+✅ Poll & document post formats
+✅ Engagement metrics customisation
+
+Try it now → previewer.pro/linkedin-post-preview
+
+#LinkedInTips #SocialMedia #Marketing #ContentCreation</textarea>
+          </div>
+          <!-- Poll options (conditional) -->
+          <div id="poll-options-wrap" style="display:none">
+            <div class="fg">
+              <label for="li-poll-q">Poll Question</label>
+              <input type="text" id="li-poll-q" placeholder="What's your question?" value="What type of LinkedIn content gets you the most engagement?" oninput="updateLiPreview()"/>
+            </div>
+            <div class="fg">
+              <label>Poll Options</label>
+              <input type="text" id="po1" value="Images / Infographics" oninput="updateLiPreview()" style="margin-bottom:.4rem"/>
+              <input type="text" id="po2" value="Text-only posts" oninput="updateLiPreview()" style="margin-bottom:.4rem"/>
+              <input type="text" id="po3" value="Video content" oninput="updateLiPreview()" style="margin-bottom:.4rem"/>
+              <input type="text" id="po4" value="Link posts / Articles" oninput="updateLiPreview()"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- LINK TAB -->
+        <div class="li-body" id="litab-link" style="display:none">
+          <div class="fg">
+            <label for="li-url">Page URL</label>
+            <input type="url" id="li-url" placeholder="https://your-site.com/page" value="https://previewer.pro/linkedin-post-preview" oninput="updateLiPreview()"/>
+          </div>
+          <div class="fg">
+            <label for="li-og-title">og:title <span id="li-title-cnt" class="cnt cnt-ok">0/119</span></label>
+            <input type="text" id="li-og-title" placeholder="Page title for link card" value="LinkedIn Post Preview Tool — Feed Simulator | Previewer.pro" maxlength="150" oninput="updateLiPreview();liTitleCount()"/>
+          </div>
+          <div class="fg">
+            <label for="li-og-desc">og:description <span id="li-desc-cnt" class="cnt cnt-ok">0/200</span></label>
+            <textarea id="li-og-desc" placeholder="Page description…" maxlength="250" oninput="updateLiPreview();liDescCount()">Preview personal posts, company posts, article shares, and link cards in the LinkedIn feed. Full OG audit and advanced post format options.</textarea>
+          </div>
+          <div class="fg">
+            <label for="li-og-source">Source / Domain</label>
+            <input type="text" id="li-og-source" placeholder="previewer.pro" value="previewer.pro" oninput="updateLiPreview()"/>
+          </div>
+          <div class="fg">
+            <label for="li-og-img">og:image URL</label>
+            <input type="url" id="li-og-img" placeholder="https://your-site.com/og-image.jpg" oninput="updateLiPreview()"/>
+          </div>
+        </div>
+
+        <!-- AUTHOR TAB -->
+        <div class="li-body" id="litab-author" style="display:none">
+          <div class="fg">
+            <label for="li-name">Name / Company Name</label>
+            <input type="text" id="li-name" placeholder="Jane Smith / Acme Corp" value="Alex Chen" oninput="updateLiPreview()"/>
+          </div>
+          <div class="fg">
+            <label for="li-headline">Headline / Tagline</label>
+            <input type="text" id="li-headline" placeholder="Senior Product Manager at TechCorp" value="Head of Growth at TechCorp · LinkedIn Top Voice" oninput="updateLiPreview()"/>
+          </div>
+          <div class="fg">
+            <label for="li-avatar-color">Avatar Gradient (pick colour)</label>
+            <select id="li-avatar-color" onchange="updateLiPreview()">
+              <option value="linear-gradient(135deg,#0a66c2,#70b5f9)">LinkedIn Blue</option>
+              <option value="linear-gradient(135deg,#6c63ff,#00d4aa)">Purple-Teal</option>
+              <option value="linear-gradient(135deg,#f58529,#dd2a7b)">Instagram</option>
+              <option value="linear-gradient(135deg,#25d366,#128c7e)">Green</option>
+              <option value="linear-gradient(135deg,#ff6b6b,#ffd93d)">Warm</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="li-connections">Connections label</label>
+            <select id="li-connections" onchange="updateLiPreview()">
+              <option value="1st">1st — Direct connection</option>
+              <option value="2nd" selected>2nd — Connection of connection</option>
+              <option value="3rd">3rd+ — Out of network</option>
+              <option value="">No badge</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="li-post-time">Post Time</label>
+            <input type="text" id="li-post-time" placeholder="e.g. 2h · 🌐" value="2h · 🌐" oninput="updateLiPreview()"/>
+          </div>
+        </div>
+
+        <!-- ADVANCED TAB -->
+        <div class="li-body" id="litab-advanced" style="display:none">
+          <div class="fg">
+            <div class="toggle-group">
+              <div class="toggle-row">
+                <div><div class="trl">Show Repost badge</div><div class="trs">Simulates a reposted post</div></div>
+                <button class="toggle" id="tog-repost" onclick="this.classList.toggle('on');updateLiPreview()"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="trl">Creator mode badge</div><div class="trs">Shows "Follow" instead of "Connect"</div></div>
+                <button class="toggle" id="tog-creator" onclick="this.classList.toggle('on');updateLiPreview()"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="trl">Newsletter post</div><div class="trs">Show newsletter subscribe card</div></div>
+                <button class="toggle" id="tog-newsletter" onclick="this.classList.toggle('on');updateLiPreview()"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="trl">Sponsored / Promoted</div><div class="trs">Adds "Promoted" label</div></div>
+                <button class="toggle" id="tog-sponsored" onclick="this.classList.toggle('on');updateLiPreview()"></button>
+              </div>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Engagement Numbers</label>
+            <div class="li-engagement" style="background:var(--clr-bg);border-radius:10px">
+              <div class="eng-row"><div class="eng-metric">Reactions</div><input class="eng-input" id="eng-reactions" value="128" oninput="updateLiPreview()"/></div>
+              <div class="eng-row"><div class="eng-metric">Comments</div><input class="eng-input" id="eng-comments" value="24" oninput="updateLiPreview()"/></div>
+              <div class="eng-row"><div class="eng-metric">Reposts</div><input class="eng-input" id="eng-reposts" value="38" oninput="updateLiPreview()"/></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:0 1.75rem 1.75rem">
+          <button class="li-submit" onclick="updateLiPreview()">Update Preview →</button>
+        </div>
+      </div>
+
+      <!-- PREVIEW PANE -->
+      <div style="display:flex;flex-direction:column;gap:1.75rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+          <div class="eyebrow" style="margin-bottom:0">LinkedIn Feed Preview</div>
+          <div style="display:flex;gap:.4rem">
+            <button class="pvtab active" id="lv-feed" onclick="setLiView('feed',this)" style="padding:.4rem .9rem;background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.8rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s">🖥 Desktop</button>
+            <button class="pvtab" id="lv-mobile" onclick="setLiView('mobile',this)" style="padding:.4rem .9rem;background:var(--clr-surface);border:1px solid var(--clr-border);border-radius:8px;color:var(--clr-muted);font-size:.8rem;font-weight:600;font-family:var(--ff-display);cursor:pointer;transition:all .2s">📱 Mobile</button>
+          </div>
+        </div>
+
+        <!-- FEED VIEW -->
+        <div id="lview-feed">
+          <div class="li-feed-wrap">
+            <div class="li-topnav">
+              <span class="li-logo">in</span>
+              <div class="li-search"><span>🔍</span><span>Search</span></div>
+              <div class="li-nav-icons">
+                <div class="li-nav-item active">🏠<span>Home</span><div class="li-nav-underline"></div></div>
+                <div class="li-nav-item">👥<span>Network</span></div>
+                <div class="li-nav-item">💼<span>Jobs</span></div>
+                <div class="li-nav-item">💬<span>Messaging</span></div>
+                <div class="li-nav-item">🔔<span>Alerts</span></div>
+              </div>
+            </div>
+            <div style="padding:.85rem;background:var(--li-bg)">
+              <!-- THE POST -->
+              <div class="li-post-card" id="liMainPost">
+                <!-- Populated by JS -->
+              </div>
+              <!-- Dummy post below -->
+              <div class="li-post-card" style="opacity:.4">
+                <div class="li-post-header">
+                  <div class="li-avatar" style="background:linear-gradient(135deg,#25d366,#128c7e)">M</div>
+                  <div class="li-post-author">
+                    <div class="li-author-name">Maria Garcia</div>
+                    <div class="li-author-title">VP Marketing at Global Tech · 2nd</div>
+                    <div class="li-post-time">4h · 🌐</div>
+                  </div>
+                </div>
+                <div class="li-post-text-wrap"><div class="li-post-text">Great insights on content strategy this week! The data doesn't lie — authentic storytelling always wins. 📊 <span class="li-hashtag">#ContentMarketing</span> <span class="li-hashtag">#B2B</span></div></div>
+                <div class="li-reactions-summary"><div><span class="li-r-icon">👍</span><span class="li-r-icon">❤️</span> 89</div><span>12 comments</span></div>
+                <div class="li-actions-bar"><div class="li-action">👍 Like</div><div class="li-action">💬 Comment</div><div class="li-action">🔁 Repost</div><div class="li-action">↗️ Send</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOBILE VIEW -->
+        <div id="lview-mobile" style="display:none">
+          <div style="max-width:360px;background:var(--li-bg);border:1px solid var(--li-border);border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5)">
+            <div style="background:var(--li-surface);padding:.4rem .75rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--li-border)">
+              <span style="color:var(--li-blue);font-weight:900;font-size:1.2rem">in</span>
+              <div style="display:flex;gap:.5rem;font-size:.85rem">🔍 💬 🔔</div>
+            </div>
+            <div style="padding:.65rem" id="liMobilePost">
+              <!-- Same post, smaller -->
+            </div>
+          </div>
+        </div>
+
+        <!-- OG Audit -->
+        <div class="li-audit">
+          <h4>🔍 LinkedIn OG Tag Audit</h4>
+          <div id="liAuditRows"><!-- Populated by JS --></div>
+        </div>
+
+        <!-- Engagement panel -->
+        <div class="li-engagement">
+          <h4>📊 Post Engagement Simulation</h4>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem">
+            <div style="background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:.75rem;text-align:center">
+              <div style="font-family:var(--ff-display);font-size:1.4rem;font-weight:800;color:var(--li-blue2)" id="disp-reactions">128</div>
+              <div style="font-size:.72rem;color:var(--clr-muted)">Reactions</div>
+            </div>
+            <div style="background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:.75rem;text-align:center">
+              <div style="font-family:var(--ff-display);font-size:1.4rem;font-weight:800;color:var(--li-blue2)" id="disp-comments">24</div>
+              <div style="font-size:.72rem;color:var(--clr-muted)">Comments</div>
+            </div>
+            <div style="background:var(--clr-bg);border:1px solid var(--clr-border);border-radius:10px;padding:.75rem;text-align:center">
+              <div style="font-family:var(--ff-display);font-size:1.4rem;font-weight:800;color:var(--li-blue2)" id="disp-reposts">38</div>
+              <div style="font-size:.72rem;color:var(--clr-muted)">Reposts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="tips-section" id="tips" aria-labelledby="li-tips-h">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Best Practices</div>
+      <h2 id="li-tips-h" class="section-title">LinkedIn Post Optimisation Tips</h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card"><div class="tip-card__icon">🔗</div><h3>Link Card Image: 1200×627px</h3><p>LinkedIn's recommended OG image size is 1200×627px (1.91:1 ratio). Images below 200×110px won't generate a card at all. Use bold, text-overlaid images for best CTR — LinkedIn audiences respond to value-forward visuals.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">✂️</div><h3>Hook in the First 3 Lines</h3><p>LinkedIn shows approximately 3 lines of post text before the "see more" cutoff. Put your most compelling statement, question, or hook in the first 3 lines to stop the scroll and encourage clicks to expand.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">🏷️</div><h3>3–5 Relevant Hashtags</h3><p>LinkedIn recommends 3–5 hashtags per post. Use a mix of high-volume (#Marketing) and niche (#B2BSaas) hashtags. Adding hashtags in the post body outperforms adding them in comments for reach.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">📰</div><h3>Native Articles vs Link Posts</h3><p>LinkedIn natively boosts content that keeps users on the platform. Text-only posts and native articles typically receive 3–4× more organic reach than link posts. Consider repurposing blog content as LinkedIn articles.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">📊</div><h3>Use Polls for Engagement</h3><p>LinkedIn polls receive 5× more impressions than standard posts due to algorithm promotion. Ask genuinely interesting questions relevant to your audience — the real value is in the comment discussion the poll generates.</p></div>
+      <div class="tip-card"><div class="tip-card__icon">🕐</div><h3>Post Timing Matters</h3><p>LinkedIn's peak engagement times are Tuesday–Thursday between 8–10am and 12pm in your audience's timezone. The algorithm gives posts an initial push — the first 90 minutes of engagement determine organic reach.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<section class="content-rich" id="guide" aria-labelledby="li-guide-h">
+  <div class="container cr-inner">
+    <article>
+      <h2 id="li-guide-h">How LinkedIn Reads Open Graph Tags for Link Previews</h2>
+      <p>When you share a URL in a LinkedIn post, LinkedIn's crawler reads your page's Open Graph meta tags to build the link card. The title, description, and image are all pulled from <code>og:title</code>, <code>og:description</code>, and <code>og:image</code> respectively. LinkedIn uses its own crawler ("LinkedInBot") and caches card data independently of other platforms.</p>
+      <p>LinkedIn's link card shows a <strong>single large image</strong> (no carousel), followed by the page title, source domain, and a short description. The title is truncated at approximately 119 characters, and the description at around 250 characters. Our preview tool simulates these exact truncation points.</p>
+      <h2>LinkedIn vs Facebook vs Twitter — Key Differences</h2>
+      <p>While all three platforms use Open Graph tags, they differ in: <strong>LinkedIn</strong> shows the source domain (not og:site_name) prominently below the title; <strong>LinkedIn's image aspect ratio</strong> is 1.91:1, same as Facebook but displayed larger; <strong>LinkedIn caches link data</strong> for approximately 7 days; and LinkedIn's Post Inspector tool (at linkedin.com/post-inspector/) lets you force a re-crawl.</p>
+      <h2>LinkedIn Company Pages vs Personal Profiles</h2>
+      <p>Content posted from personal profiles with Creator Mode enabled tends to receive significantly more organic reach than company page posts in 2025. This is because LinkedIn's algorithm prioritises person-to-person connections over brand broadcasting. For maximum reach: publish content from a personal profile and reference (or tag) your company page in the post.</p>
+    </article>
+    <aside>
+      <div class="aside-toc">
+        <h4>On This Page</h4>
+        <ul>
+          <li><a href="#li-tool">Preview Tool</a></li>
+          <li><a href="#tips">Optimisation Tips</a></li>
+          <li><a href="#guide">LinkedIn Guide</a></li>
+          <li><a href="#faq-li">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq-li" aria-labelledby="faq-li-h">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">FAQ</div>
+      <h2 id="faq-li-h" class="section-title">LinkedIn Preview FAQs</h2>
+    </div>
+    <div class="faq-grid" style="max-width:780px;margin:0 auto;border:1px solid var(--clr-border);border-radius:var(--radius);overflow:hidden">
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fli1">What image size should I use for LinkedIn link cards? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fli1" hidden>LinkedIn recommends 1200×627px (1.91:1 aspect ratio) for link card images. Minimum size is 200×110px, but images this small will render as tiny thumbnails. For maximum visual impact, use 1200×627px at 300 DPI. LinkedIn will centre-crop images that are not exactly 1.91:1, so keep important content away from the edges.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fli2">Why is LinkedIn showing an old link preview? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fli2" hidden>LinkedIn caches link card data for approximately 7 days. To force LinkedIn to re-crawl and update the cached data, use the LinkedIn Post Inspector tool at linkedin.com/post-inspector/. Enter your URL and click "Inspect" to trigger a fresh crawl. This is the only official way to clear LinkedIn's link preview cache.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fli3">Do link posts get less reach than native LinkedIn content? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fli3" hidden>Yes — LinkedIn's algorithm generally prioritises content that keeps users on the platform. Text-only posts, native articles, and document posts typically receive 2–4× more impressions than link posts. A common workaround is to post text-only content with a link in the first comment, mentioning "link in comments" in the post body.</div></div>
+      <div class="faq-item"><button class="faq-item__q" aria-expanded="false" aria-controls="fli4">What is the character limit for LinkedIn posts? <span class="faq-chevron">+</span></button><div class="faq-item__a" id="fli4" hidden>LinkedIn posts support up to 3,000 characters. However, only the first ~200–270 characters (approximately 3 lines) are visible before the "see more" button appears. Your hook — the most important sentence — must appear in these first 3 lines to stop the scroll and encourage full post reads.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip" aria-label="Call to action">
+  <div class="container cta-strip__inner">
+    <h2>Publish LinkedIn Posts That Drive Results</h2>
+    <p>Preview every format before you post — link cards, articles, polls, and more. All free, no signup required.</p>
+    <a href="#li-tool" class="btn btn--primary btn-li" style="font-size:1rem;padding:.9rem 2rem">Preview LinkedIn Post Free →</a>
+  </div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+let liPostType='link', liAcctType='personal', liView='feed';
+
+function liSwitchTab(t,btn){
+  ['post','link','author','advanced'].forEach(id=>{document.getElementById('litab-'+id).style.display='none'});
+  document.getElementById('litab-'+t).style.display='block';
+  document.querySelectorAll('.li-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setPostType(t,btn){
+  liPostType=t;
+  document.querySelectorAll('.post-type-grid .pt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('poll-options-wrap').style.display=t==='poll'?'block':'none';
+  updateLiPreview();
+}
+function setAcctType(t,btn){
+  liAcctType=t;
+  document.querySelectorAll('.acct-btns .acct-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateLiPreview();
+}
+function setLiView(v,btn){
+  liView=v;
+  ['feed','mobile'].forEach(id=>{document.getElementById('lview-'+id).style.display='none'});
+  document.querySelectorAll('#lv-feed,#lv-mobile').forEach(b=>b.classList.remove('active'));
+  document.getElementById('lview-'+v).style.display='block';
+  btn.classList.add('active');
+}
+function liTextCount(){
+  const len=document.getElementById('li-post-text').value.length;
+  const el=document.getElementById('li-text-cnt');
+  el.textContent=len.toLocaleString()+' / 3,000';
+  el.className='cnt '+(len>2800?'cnt-over':len>2200?'cnt-warn':'cnt-ok');
+}
+function liTitleCount(){
+  const len=document.getElementById('li-og-title').value.length;
+  const el=document.getElementById('li-title-cnt');
+  el.textContent=len+'/119';
+  el.className='cnt '+(len>119?'cnt-over':len>90?'cnt-warn':'cnt-ok');
+}
+function liDescCount(){
+  const len=document.getElementById('li-og-desc').value.length;
+  const el=document.getElementById('li-desc-cnt');
+  el.textContent=len+'/200';
+  el.className='cnt '+(len>200?'cnt-over':len>160?'cnt-warn':'cnt-ok');
+}
+
+function buildPostHTML(isMobile=false){
+  const postText=document.getElementById('li-post-text').value;
+  const url=document.getElementById('li-url').value;
+  const ogTitle=document.getElementById('li-og-title').value||'Page Title';
+  const ogDesc=document.getElementById('li-og-desc').value||'';
+  const ogSource=document.getElementById('li-og-source').value||'';
+  const ogImg=document.getElementById('li-og-img').value;
+  const name=document.getElementById('li-name')?.value||'Alex Chen';
+  const headline=document.getElementById('li-headline')?.value||'Product Manager';
+  const avatarGrad=document.getElementById('li-avatar-color')?.value||'linear-gradient(135deg,#0a66c2,#70b5f9)';
+  const connections=document.getElementById('li-connections')?.value||'2nd';
+  const postTime=document.getElementById('li-post-time')?.value||'2h · 🌐';
+  const reactions=document.getElementById('eng-reactions')?.value||'128';
+  const comments=document.getElementById('eng-comments')?.value||'24';
+  const reposts=document.getElementById('eng-reposts')?.value||'38';
+  const isRepost=document.getElementById('tog-repost')?.classList.contains('on');
+  const isCreator=document.getElementById('tog-creator')?.classList.contains('on');
+  const isNewsletter=document.getElementById('tog-newsletter')?.classList.contains('on');
+  const isSponsored=document.getElementById('tog-sponsored')?.classList.contains('on');
+
+  // Text truncation
+  const maxChars = isMobile ? 140 : 220;
+  const isLong = postText.length > maxChars;
+  const displayText = isLong ? postText.substring(0, maxChars) : postText;
+  const formattedText = displayText.replace(/(#\w+)/g, '<span class="li-hashtag">$1</span>');
+
+  // Images
+  const imgHtml = ogImg
+    ? `<img src="${ogImg}" alt="Post image" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'" onload="this.style.display='block'"/>`
+    : '';
+
+  // Build content based on post type
+  let contentHtml = '';
+  if(liPostType === 'link'){
+    contentHtml = `<div class="li-link-card">
+      <div class="li-lc-img" style="height:${isMobile?'160px':'200px'}">${imgHtml || '🔗'}</div>
+      <div class="li-lc-body">
+        <div class="li-lc-title">${ogTitle}</div>
+        <div class="li-lc-source">${ogSource}</div>
+        <div class="li-lc-desc">${ogDesc}</div>
+      </div>
+    </div>`;
+  } else if(liPostType === 'image'){
+    contentHtml = `<div class="li-image-post" style="height:${isMobile?'240px':'320px'}">${imgHtml || '<span style="font-size:3.5rem;color:rgba(255,255,255,.2)">🖼️</span>'}</div>`;
+  } else if(liPostType === 'article'){
+    contentHtml = `<div class="li-article-card">
+      <div class="li-article-img" style="width:${isMobile?'90px':'120px'};min-height:${isMobile?'65px':'80px'}">${imgHtml || '<span>📰</span>'}</div>
+      <div class="li-article-body">
+        <div class="li-article-title">${ogTitle}</div>
+        <div class="li-article-meta">${ogSource} · Article</div>
+      </div>
+    </div>`;
+  } else if(liPostType === 'poll'){
+    const q=document.getElementById('li-poll-q')?.value||'Your question here?';
+    const opts=[1,2,3,4].map(i=>document.getElementById('po'+i)?.value||'Option '+i).filter(o=>o);
+    contentHtml = `<div class="li-poll">
+      <div class="li-poll-question">${q}</div>
+      ${opts.map(o=>`<div class="li-poll-option">${o}</div>`).join('')}
+      <div class="li-poll-meta">0 votes · 7 days left</div>
+    </div>`;
+  } else if(liPostType === 'document'){
+    contentHtml = `<div style="margin:.1rem .85rem .75rem;background:var(--li-surface2);border:1px solid var(--li-border);border-radius:4px;padding:1.25rem;display:flex;gap:.75rem;align-items:center">
+      <div style="font-size:2.5rem">📄</div>
+      <div><div style="font-size:.88rem;font-weight:700;color:var(--li-text)">${ogTitle}</div><div style="font-size:.75rem;color:var(--li-muted)">PDF Document · Click to view</div></div>
+    </div>`;
+  }
+
+  const newsletterHtml = isNewsletter ? `<div class="li-newsletter-card" style="margin:.5rem .85rem .75rem">
+    <div class="li-nl-icon">📰</div>
+    <div><div class="li-nl-title">${name}'s Newsletter</div><div class="li-nl-sub">Growth & Marketing insights · 2.4K subscribers</div>
+    <div class="li-nl-follow">+ Subscribe</div></div>
+  </div>` : '';
+
+  const repostHtml = isRepost ? `<div class="li-repost-badge">🔁 ${name} reposted this</div>` : '';
+  const sponsoredHtml = isSponsored ? `<div style="font-size:.68rem;color:var(--li-muted);padding:.1rem .85rem 0">Promoted</div>` : '';
+  const followOrConnect = isCreator || liAcctType==='company' ? 'Follow' : 'Connect';
+
+  return `${repostHtml}
+  <div class="li-post-header">
+    <div class="li-avatar" style="background:${avatarGrad}">
+      ${name.charAt(0).toUpperCase()}
+      ${connections?`<div class="li-conn-badge">${connections}</div>`:''}
+    </div>
+    <div class="li-post-author">
+      <div class="li-author-name">${name} ${liAcctType==='company'?'<span style="font-size:.7rem;background:rgba(10,102,194,.1);border:1px solid rgba(10,102,194,.2);padding:.05rem .3rem;border-radius:3px;color:var(--li-blue2)">Page</span>':''}</div>
+      <div class="li-author-title">${headline}</div>
+      <div class="li-post-time">${postTime}</div>
+    </div>
+    <button class="li-follow-btn">+ ${followOrConnect}</button>
+    <div class="li-post-dots">⋯</div>
+  </div>
+  ${sponsoredHtml}
+  <div class="li-post-text-wrap">
+    <div class="li-post-text">${formattedText}${isLong?`<span class="li-see-more"> …see more</span>`:''}</div>
+  </div>
+  ${contentHtml}
+  ${newsletterHtml}
+  <div class="li-reactions-summary">
+    <div style="display:flex;align-items:center;gap:.35rem">
+      <span>👍❤️🔥</span><span id="${isMobile?'m-':''}disp-r">${reactions} reactions</span>
+    </div>
+    <span>${comments} comments · ${reposts} reposts</span>
+  </div>
+  <div class="li-actions-bar">
+    <div class="li-action">👍 Like</div>
+    <div class="li-action">💬 Comment</div>
+    <div class="li-action">🔁 Repost</div>
+    <div class="li-action">↗️ Send</div>
+  </div>`;
+}
+
+function runLiAudit(){
+  const url=document.getElementById('li-url').value;
+  const title=document.getElementById('li-og-title').value;
+  const desc=document.getElementById('li-og-desc').value;
+  const img=document.getElementById('li-og-img').value;
+  const source=document.getElementById('li-og-source').value;
+
+  const checks=[
+    {field:'og:title', val:title||'—', ok:title.length>0&&title.length<=119, warn:title.length>119, hint:title.length>119?'Title exceeds 119 chars — will be truncated in LinkedIn':'Title is within LinkedIn\'s display limit'},
+    {field:'og:description', val:desc.substring(0,50)+(desc.length>50?'…':''), ok:desc.length>=30&&desc.length<=200, warn:desc.length>200, hint:desc.length>200?'Description may be truncated':'Description length is good for LinkedIn'},
+    {field:'og:image', val:imgUrl=>imgUrl?imgUrl.substring(0,45)+'…':'Not set',ok:!!img,warn:false,hint:img?'Image URL set':'No og:image — LinkedIn link card will have no thumbnail'},
+    {field:'og:url', val:url.substring(0,45)+(url.length>45?'…':''), ok:url.startsWith('https://'), warn:url.startsWith('http://')&&!url.startsWith('https://'), hint:url.startsWith('https://')?'HTTPS URL verified':'⚠️ HTTP URL — ensure HTTPS for best LinkedIn compatibility'},
+    {field:'og:site_name', val:source||'—', ok:!!source, warn:!source, hint:source?'Site name present':'Recommend adding og:site_name for brand visibility in link card'},
+  ];
+
+  const rows=checks.map(c=>`<div class="audit-row">
+    <div class="a-icon ${c.ok?'a-ok':c.warn?'a-warn':'a-err'}">${c.ok?'✓':c.warn?'!':'✗'}</div>
+    <div class="audit-field">${c.field}</div>
+    <div>
+      <div class="audit-val">${typeof c.val==='function'?c.val(img):c.val}</div>
+      <div class="audit-hint">${c.hint||''}</div>
+    </div>
+  </div>`).join('');
+  document.getElementById('liAuditRows').innerHTML=rows;
+}
+
+function updateLiPreview(){
+  const reactions=document.getElementById('eng-reactions')?.value||'128';
+  const comments=document.getElementById('eng-comments')?.value||'24';
+  const reposts=document.getElementById('eng-reposts')?.value||'38';
+
+  // Update display numbers
+  const dr=document.getElementById('disp-reactions');const dc=document.getElementById('disp-comments');const drp=document.getElementById('disp-reposts');
+  if(dr)dr.textContent=reactions;if(dc)dc.textContent=comments;if(drp)drp.textContent=reposts;
+
+  // Build posts
+  document.getElementById('liMainPost').innerHTML=buildPostHTML(false);
+  document.getElementById('liMobilePost').innerHTML=buildPostHTML(true);
+
+  runLiAudit();
+}
+
+// Init
+updateLiPreview();
+liTextCount();
+liTitleCount();
+liDescCount();
+</script>
+</body>
+</html>
