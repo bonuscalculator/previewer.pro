@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Free Facebook post preview tool — compose and preview how your Facebook post looks before publishing. Supports photo, video, text, event posts, and stories with dark/light mode simulation."/>
+<meta name="keywords" content="facebook post preview, facebook post simulator, facebook feed preview, facebook post appearance, social media post preview tool"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://www.previewer.pro/facebook-post-preview"/>
+<meta property="og:title" content="Facebook Post Preview Tool | Previewer.pro"/>
+<meta property="og:description" content="Compose any Facebook post and instantly preview how it appears in the feed. Photo, video, text, event, background color posts with dark and light mode."/>
+<title>Facebook Post Preview Tool — Compose & Simulate Posts | Previewer.pro</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Facebook Post Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/facebook-post-preview","description":"Compose and preview Facebook posts before publishing.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pp:#07080d;--ps:#0f1118;--ps2:#161824;--pb:rgba(255,255,255,.08);
+  --pt:#e8eaf2;--pm:#8b90a8;--pa:#6c63ff;--pa2:#00d4aa;
+  --ffd:'Syne',sans-serif;--ffb:'DM Sans',sans-serif;
+  --fb-bg:#18191a;--fb-s:#242526;--fb-c:#3a3b3c;
+  --fb-bd:#3e4042;--fb-t:#e4e6eb;--fb-m:#b0b3b8;
+  --fb-blue:#1877f2;--fb-green:#42b72a;
+}
+body{font-family:var(--ffb);background:var(--pp);color:var(--pt);min-height:100vh;overflow-x:hidden}
+.app-grid{display:grid;grid-template-columns:370px 1fr;min-height:100vh}
+
+/* Composer */
+.cmp{background:var(--ps);border-right:1px solid var(--pb);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow:hidden}
+.cmp-top{padding:1rem 1.2rem .7rem;border-bottom:1px solid var(--pb);flex-shrink:0}
+.back-a{display:inline-flex;align-items:center;gap:.35rem;color:var(--pm);font-size:.76rem;text-decoration:none;margin-bottom:.5rem;transition:color .2s}
+.back-a:hover{color:var(--pt)}
+.cmp-title{font-family:var(--ffd);font-size:.98rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:.45rem}
+.plat-badge{background:rgba(24,119,242,.15);border:1px solid rgba(24,119,242,.28);color:#70a8ff;font-size:.66rem;font-weight:700;padding:.18rem .5rem;border-radius:999px}
+.tabs{display:flex;border-bottom:1px solid var(--pb);flex-shrink:0}
+.tab{flex:1;padding:.58rem .3rem;background:none;border:none;color:var(--pm);font-size:.73rem;font-weight:600;cursor:pointer;font-family:var(--ffb);transition:all .2s;position:relative;text-align:center;white-space:nowrap}
+.tab.on{color:#fff;background:rgba(24,119,242,.06)}
+.tab.on::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--fb-blue)}
+.cmp-body{flex:1;overflow-y:auto;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.85rem;scrollbar-width:thin;scrollbar-color:var(--pb) transparent}
+
+/* Form */
+.fg{display:flex;flex-direction:column;gap:.28rem}
+.lbl{font-size:.7rem;font-weight:600;color:var(--pm);text-transform:uppercase;letter-spacing:.07em;display:flex;justify-content:space-between;align-items:center}
+.cnt-ok{color:var(--pa2);font-size:.7rem;font-weight:700}
+.cnt-warn{color:#f59e0b;font-size:.7rem;font-weight:700}
+.cnt-over{color:#ef4444;font-size:.7rem;font-weight:700}
+input,textarea,select{background:var(--pp);border:1.5px solid var(--pb);border-radius:9px;padding:.54rem .82rem;color:var(--pt);font-family:var(--ffb);font-size:.87rem;outline:none;transition:border-color .2s;width:100%;resize:none}
+input:focus,textarea:focus,select:focus{border-color:var(--fb-blue)}
+textarea{min-height:88px;line-height:1.5}
+.pills{display:flex;flex-wrap:wrap;gap:.32rem}
+.pl{padding:.28rem .65rem;border:1.5px solid var(--pb);border-radius:999px;background:var(--ps2);color:var(--pm);font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ffb)}
+.pl.on{border-color:var(--fb-blue);background:rgba(24,119,242,.12);color:#70a8ff}
+.sws{display:flex;gap:.38rem;flex-wrap:wrap}
+.sw{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:all .2s;flex-shrink:0}
+.sw.on{border-color:#fff;transform:scale(1.22)}
+.tog-wrap{background:var(--ps2);border:1px solid var(--pb);border-radius:9px;padding:.45rem .7rem}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.38rem 0;border-bottom:1px solid var(--pb);gap:.4rem}
+.tog-row:last-child{border-bottom:none}
+.tog-lbl{font-size:.83rem;color:var(--pt)}
+.tog-sub{font-size:.68rem;color:var(--pm);margin-top:.05rem}
+.twitch{width:34px;height:19px;border-radius:999px;background:var(--pb);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.twitch.on{background:var(--fb-blue)}
+.twitch::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;background:#fff;border-radius:50%;transition:transform .2s}
+.twitch.on::after{transform:translateX(15px)}
+.rxn-g{display:grid;grid-template-columns:repeat(3,1fr);gap:.38rem}
+.rxn-f label{font-size:.66rem;color:var(--pm);font-weight:600;text-align:center;display:block;margin-bottom:.18rem}
+.rxn-f input{padding:.28rem .4rem;text-align:center;font-size:.8rem}
+.upd{width:100%;padding:.72rem;background:var(--fb-blue);color:#fff;border:none;border-radius:9px;font-family:var(--ffd);font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s}
+.upd:hover{background:#166fe5;transform:translateY(-1px)}
+
+/* Right */
+.right{background:var(--pp);display:flex;flex-direction:column;gap:1.4rem;padding:1.4rem}
+.pbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.65rem}
+.pbar h2{font-family:var(--ffd);font-weight:700;font-size:.88rem;color:#fff}
+.vtabs{display:flex;gap:.32rem;flex-wrap:wrap}
+.vt{padding:.35rem .8rem;background:var(--ps);border:1px solid var(--pb);border-radius:7px;color:var(--pm);font-size:.76rem;font-weight:600;font-family:var(--ffd);cursor:pointer;transition:all .2s}
+.vt.on{background:rgba(24,119,242,.12);border-color:var(--fb-blue);color:#70a8ff}
+.mode-row{display:flex;background:var(--ps);border:1px solid var(--pb);border-radius:7px;padding:.18rem}
+.mbtn{padding:.26rem .6rem;border:none;border-radius:5px;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ffb);background:none;color:var(--pm)}
+.mbtn.on{background:var(--fb-blue);color:#fff}
+
+/* Facebook UI */
+.fb-ui{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;max-width:680px;width:100%;margin:0 auto}
+.fb-ui .feed{background:var(--fb-bg);border-radius:10px;overflow:hidden;border:1px solid var(--fb-bd)}
+.fb-ui .feed.lm{background:#f0f2f5;border-color:#dddfe2}
+/* Nav */
+.fb-nav{background:var(--fb-s);padding:.48rem .85rem;display:flex;align-items:center;gap:.55rem;border-bottom:1px solid var(--fb-bd)}
+.feed.lm .fb-nav{background:#fff;border-color:#dddfe2}
+.fb-logo{color:var(--fb-blue);font-size:1.65rem;font-weight:900;line-height:1}
+.fb-srch{background:var(--fb-c);border-radius:18px;padding:.32rem .75rem;font-size:.78rem;color:var(--fb-m);display:flex;align-items:center;gap:.3rem;flex:1;max-width:200px}
+.feed.lm .fb-srch{background:#e4e6eb;color:#65676b}
+.fb-icons{display:flex;gap:.28rem;margin-left:auto}
+.fb-ico{width:34px;height:34px;background:var(--fb-c);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.87rem;cursor:pointer;flex-shrink:0}
+.feed.lm .fb-ico{background:#e4e6eb}
+/* Stories */
+.fb-sts{display:flex;gap:.45rem;padding:.6rem .85rem;overflow-x:auto;border-bottom:1px solid var(--fb-bd);background:var(--fb-s);scrollbar-width:none}
+.fb-sts::-webkit-scrollbar{display:none}
+.feed.lm .fb-sts{background:#fff;border-color:#dddfe2}
+.st-item{flex-shrink:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.18rem}
+.st-thumb{width:60px;height:100px;border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:.28rem}
+.st-bg{position:absolute;inset:0}
+.st-av{width:22px;height:22px;border-radius:50%;border:2px solid var(--fb-blue);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:#fff;position:relative;z-index:1}
+.st-add{width:60px;height:100px;border-radius:10px;background:var(--fb-c);border:1px dashed var(--fb-bd);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:.2rem;flex-shrink:0}
+.feed.lm .st-add{background:#e4e6eb;border-color:#dddfe2}
+.st-add-ico{width:30px;height:30px;background:var(--fb-blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;font-weight:700}
+.st-name{font-size:.62rem;color:var(--fb-m);text-align:center;width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.feed.lm .st-name{color:#65676b}
+/* Stub composer */
+.fb-stub{background:var(--fb-s);border-bottom:1px solid var(--fb-bd);padding:.55rem .85rem;display:flex;align-items:center;gap:.55rem}
+.feed.lm .fb-stub{background:#fff;border-color:#dddfe2}
+.stub-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1877f2,#42b72a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.88rem;flex-shrink:0}
+.stub-inp{flex:1;background:var(--fb-c);border-radius:18px;padding:.48rem .92rem;font-size:.83rem;color:var(--fb-m);cursor:text}
+.feed.lm .stub-inp{background:#e4e6eb;color:#65676b}
+/* Post card */
+.fb-post{background:var(--fb-s);border:1px solid var(--fb-bd);margin:.45rem;border-radius:8px;overflow:hidden}
+.feed.lm .fb-post{background:#fff;border-color:#dddfe2}
+/* Post header */
+.post-hd{display:flex;align-items:flex-start;gap:.58rem;padding:.78rem .82rem .35rem;position:relative}
+.post-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.9rem;flex-shrink:0}
+.post-info{flex:1;min-width:0}
+.post-name{font-size:.88rem;font-weight:700;color:var(--fb-t);display:flex;align-items:center;gap:.28rem;flex-wrap:wrap;line-height:1.25}
+.feed.lm .post-name{color:#050505}
+.post-meta{font-size:.73rem;color:var(--fb-m);display:flex;align-items:center;gap:.22rem;flex-wrap:wrap;margin-top:.08rem}
+.feed.lm .post-meta{color:#65676b}
+.post-more{color:var(--fb-m);cursor:pointer;font-size:1.18rem;position:absolute;top:.72rem;right:.75rem;line-height:1}
+.vbadge{color:var(--fb-blue);font-size:.78rem}
+.spbadge{font-size:.66rem;background:rgba(24,119,242,.12);border:1px solid rgba(24,119,242,.2);color:#70a8ff;padding:.08rem .38rem;border-radius:4px}
+.feeling{color:var(--fb-blue);font-size:.8rem}
+/* Post text */
+.post-txt{padding:.2rem .82rem .6rem;font-size:.9rem;color:var(--fb-t);line-height:1.55;word-break:break-word;white-space:pre-wrap}
+.feed.lm .post-txt{color:#050505}
+.post-txt.lg{font-size:1.3rem;font-weight:600;line-height:1.35}
+.post-txt.xl{font-size:1.68rem;font-weight:700;line-height:1.2}
+.post-txt.bg-txt{border-radius:8px;min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;margin:.1rem .82rem .5rem;padding:2rem;font-size:1.55rem;font-weight:700;line-height:1.3;color:#fff}
+.hsh{color:var(--fb-blue)}.mnt{color:var(--fb-blue)}
+/* Location */
+.post-loc{padding:.08rem .82rem .42rem;font-size:.8rem;color:var(--fb-m);display:flex;align-items:center;gap:.28rem}
+.feed.lm .post-loc{color:#65676b}
+/* Media */
+.med-wrap{width:100%;position:relative;overflow:hidden;background:var(--fb-c)}
+.feed.lm .med-wrap{background:#e4e6eb}
+.med-img{width:100%;display:block;max-height:500px;object-fit:cover}
+.med-ph{height:255px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;background:linear-gradient(135deg,rgba(24,119,242,.16),rgba(66,183,42,.12));color:rgba(255,255,255,.22);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.multi-g{display:grid;gap:2px}
+.multi-g.two{grid-template-columns:1fr 1fr}
+.multi-g.three{grid-template-columns:1fr 1fr}
+.multi-g.three .mc:first-child{grid-column:1/-1}
+.mc{background:var(--fb-c);min-height:155px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.mc img{width:100%;height:100%;object-fit:cover;display:none}
+.mc-ph{font-size:2rem;color:rgba(255,255,255,.14)}
+.vid-wrap{aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
+.vid-play{width:52px;height:52px;background:rgba(0,0,0,.65);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.45rem}
+.vid-dur{position:absolute;bottom:.55rem;left:.72rem;background:rgba(0,0,0,.7);color:#fff;font-size:.68rem;padding:.14rem .42rem;border-radius:4px;font-family:monospace}
+.wmk{position:absolute;top:.52rem;right:.7rem;background:rgba(0,0,0,.5);color:#fff;font-size:.68rem;padding:.12rem .38rem;border-radius:4px}
+/* Event */
+.ev-card{margin:.1rem .82rem .5rem;border:1px solid var(--fb-bd);border-radius:10px;overflow:hidden}
+.feed.lm .ev-card{border-color:#dddfe2}
+.ev-img{height:138px;background:linear-gradient(135deg,rgba(24,119,242,.4),rgba(66,183,42,.28));display:flex;align-items:center;justify-content:center;font-size:2.8rem;position:relative;overflow:hidden}
+.ev-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.ev-body{padding:.72rem;background:var(--fb-c)}
+.feed.lm .ev-body{background:#e4e6eb}
+.ev-date{font-size:.72rem;color:var(--fb-blue);font-weight:700;text-transform:uppercase;margin-bottom:.18rem}
+.ev-title{font-size:.88rem;font-weight:700;color:var(--fb-t);margin-bottom:.18rem}
+.feed.lm .ev-title{color:#050505}
+.ev-meta{font-size:.73rem;color:var(--fb-m)}
+.feed.lm .ev-meta{color:#65676b}
+.ev-btns{display:flex;gap:.45rem;margin-top:.58rem}
+.ev-btn{flex:1;padding:.4rem;border-radius:7px;font-size:.78rem;font-weight:600;cursor:pointer;border:none;font-family:var(--ffb)}
+.ev-btn.p{background:var(--fb-blue);color:#fff}
+.ev-btn.s{background:#4e4f50;color:#e4e6eb}
+.feed.lm .ev-btn.s{background:#dddfe2;color:#050505}
+/* Reactions */
+.rxn-bar{display:flex;align-items:center;justify-content:space-between;padding:.36rem .82rem;border-top:1px solid var(--fb-bd);border-bottom:1px solid var(--fb-bd);font-size:.79rem;color:var(--fb-m)}
+.feed.lm .rxn-bar{border-color:#dddfe2;color:#65676b}
+.rxn-icos{display:flex;align-items:center}
+.rxn-ico{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--fb-s);margin-right:-5px;display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.feed.lm .rxn-ico{border-color:#fff}
+/* Actions */
+.act-bar{display:flex;border-bottom:1px solid var(--fb-bd)}
+.feed.lm .act-bar{border-color:#dddfe2}
+.act-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:.32rem;padding:.55rem .22rem;font-size:.83rem;font-weight:600;color:var(--fb-m);cursor:pointer;border-radius:5px;margin:.18rem .28rem;transition:background .2s}
+.act-btn:hover{background:rgba(255,255,255,.05)}
+.feed.lm .act-btn{color:#65676b}
+.feed.lm .act-btn:hover{background:#f0f2f5}
+/* Comments */
+.cmts{padding:.55rem .82rem .7rem;background:var(--fb-s);border-top:1px solid var(--fb-bd)}
+.feed.lm .cmts{background:#fff;border-color:#dddfe2}
+.cmt{display:flex;gap:.5rem;margin-bottom:.5rem;align-items:flex-start}
+.cmt-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#e4a03a,#e44d3a);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;margin-top:.14rem}
+.cmt-bbl{background:var(--fb-c);border-radius:14px;padding:.38rem .7rem;flex:1}
+.feed.lm .cmt-bbl{background:#e4e6eb}
+.cmt-name{font-size:.76rem;font-weight:700;color:var(--fb-t);margin-bottom:.04rem}
+.feed.lm .cmt-name{color:#050505}
+.cmt-txt{font-size:.8rem;color:var(--fb-m)}
+.feed.lm .cmt-txt{color:#65676b}
+/* Dummy */
+.fb-dummy{background:var(--fb-s);border:1px solid var(--fb-bd);margin:.45rem;border-radius:8px;padding:.82rem;opacity:.4}
+.feed.lm .fb-dummy{background:#fff;border-color:#dddfe2}
+.dum-hd{display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem}
+.dum-av{width:34px;height:34px;border-radius:50%;background:var(--fb-c);flex-shrink:0}
+.feed.lm .dum-av{background:#e4e6eb}
+.dum-l{height:8px;background:var(--fb-c);border-radius:4px;margin-bottom:.3rem}
+.feed.lm .dum-l{background:#e4e6eb}
+.dum-img{height:130px;background:var(--fb-c);border-radius:6px;margin-top:.5rem}
+.feed.lm .dum-img{background:#e4e6eb}
+/* Mobile frame */
+.mob-wrap{display:flex;justify-content:center}
+.mob-f{width:355px;border-radius:36px;overflow:hidden;border:2px solid #2a2a2a;box-shadow:0 0 0 1px #3a3a3a,0 26px 65px rgba(0,0,0,.6);background:#111}
+.mob-notch{height:26px;background:#000;display:flex;align-items:center;justify-content:center}
+.mob-pill{width:88px;height:17px;background:#0a0a0a;border-radius:0 0 11px 11px;display:flex;align-items:center;justify-content:center;gap:5px}
+.mob-cam{width:6px;height:6px;background:#111;border-radius:50%;border:1px solid #222}
+.mob-mic{width:30px;height:3px;background:#111;border-radius:999px}
+.mob-scroll{max-height:620px;overflow-y:auto;scrollbar-width:none}
+.mob-scroll::-webkit-scrollbar{display:none}
+/* Story frame */
+.story-frame-wrap{display:flex;justify-content:center}
+.story-f{width:275px;height:490px;border-radius:14px;position:relative;overflow:hidden;box-shadow:0 18px 55px rgba(0,0,0,.5)}
+.st-fbg{position:absolute;inset:0;background:linear-gradient(160deg,rgba(24,119,242,.7),rgba(66,183,42,.5))}
+.st-fimg{position:absolute;inset:0;z-index:0}
+.st-ui{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:.62rem .65rem}
+.st-prog{display:flex;gap:.22rem;margin-bottom:.55rem}
+.st-seg{flex:1;height:2px;background:rgba(255,255,255,.35);border-radius:1px;overflow:hidden}
+.st-seg-f{height:100%;background:#fff;border-radius:1px}
+.st-hd{display:flex;align-items:center;gap:.45rem}
+.st-hd-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;border:1.5px solid #fff;flex-shrink:0}
+.st-hd-name{font-size:.75rem;font-weight:700;color:#fff}
+.st-hd-time{font-size:.62rem;color:rgba(255,255,255,.68);margin-left:.18rem}
+.st-hd-close{margin-left:auto;color:#fff;font-size:.95rem;cursor:pointer}
+.st-main{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;font-size:1.25rem;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.45);padding:.85rem;line-height:1.3}
+.st-reply{display:flex;align-items:center;gap:.45rem;margin-top:auto}
+.st-rinput{flex:1;border:1.5px solid rgba(255,255,255,.5);border-radius:18px;padding:.35rem .75rem;font-size:.75rem;color:#fff;background:transparent}
+/* Analysis */
+.anal{background:var(--ps);border:1px solid var(--pb);border-radius:11px;padding:1.05rem}
+.anal h3{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.8rem}
+.an-row{display:flex;align-items:flex-start;gap:.5rem;padding:.42rem 0;border-bottom:1px solid var(--pb);font-size:.8rem}
+.an-row:last-child{border-bottom:none}
+.an-ic{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;flex-shrink:0;margin-top:.05rem}
+.ic-ok{background:rgba(0,212,170,.12);color:#00d4aa}
+.ic-wn{background:rgba(245,158,11,.12);color:#f59e0b}
+.ic-in{background:rgba(24,119,242,.12);color:#70a8ff}
+.an-txt{color:var(--pm)}.an-txt strong{color:var(--pt)}
+/* Tips */
+.tips-g{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.tip-card{background:var(--ps);border:1px solid var(--pb);border-radius:10px;padding:.95rem;transition:all .2s}
+.tip-card:hover{border-color:rgba(24,119,242,.3);transform:translateY(-2px)}
+.tip-card .ico{font-size:1.25rem;margin-bottom:.38rem}
+.tip-card h4{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.78rem;margin-bottom:.22rem}
+.tip-card p{font-size:.74rem;color:var(--pm);line-height:1.5}
+/* FAQ */
+.faq-box{background:var(--ps);border:1px solid var(--pb);border-radius:11px;overflow:hidden}
+.fq{width:100%;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:none;border:none;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--pt);font-family:var(--ffb);text-align:left;transition:background .2s;border-bottom:1px solid var(--pb)}
+.fq:last-of-type{border-bottom:none}
+.fq:hover{background:rgba(255,255,255,.03)}
+.fq-chev{color:var(--pm);transition:transform .2s;flex-shrink:0}
+.fq[aria-expanded="true"] .fq-chev{transform:rotate(45deg);color:var(--fb-blue)}
+.fa{padding:.65rem 1rem .85rem;font-size:.82rem;color:var(--pm);line-height:1.6;border-bottom:1px solid var(--pb)}
+/* CTA */
+.cta{background:linear-gradient(135deg,rgba(24,119,242,.13),rgba(66,183,42,.07));border:1px solid rgba(24,119,242,.2);border-radius:13px;padding:1.65rem;text-align:center}
+.cta h3{font-family:var(--ffd);font-weight:800;font-size:1.3rem;color:#fff;margin-bottom:.42rem}
+.cta p{color:var(--pm);margin-bottom:1rem;font-size:.86rem}
+.cta-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.cta-a{padding:.55rem 1.28rem;border-radius:999px;font-family:var(--ffd);font-weight:700;font-size:.82rem;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.35rem}
+.ca-ig{background:linear-gradient(45deg,#f58529,#dd2a7b);color:#fff}
+.ca-tw{background:#000;color:#e7e9ea;border:1px solid #333}
+.ca-gh{background:transparent;color:var(--pt);border:1px solid var(--pb)}
+.ca-gh:hover{border-color:var(--pa)}
+@media(max-width:980px){.app-grid{grid-template-columns:1fr}.cmp{height:auto;position:static;border-right:none;border-bottom:1px solid var(--pb)}.tips-g{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<div class="app-grid">
+
+<!-- COMPOSER -->
+<aside class="cmp" aria-label="Facebook post composer">
+  <div class="cmp-top">
+    <a href="/social-preview" class="back-a">← All Social Tools</a>
+    <div class="cmp-title">📘 Facebook Post Preview <span class="plat-badge">SIMULATOR</span></div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="fbSwitchTab('content',this)">Content</button>
+    <button class="tab" onclick="fbSwitchTab('media',this)">Media</button>
+    <button class="tab" onclick="fbSwitchTab('author',this)">Author</button>
+    <button class="tab" onclick="fbSwitchTab('stats',this)">Stats</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="cmp-body" id="fbt-content">
+    <div class="fg"><span class="lbl">Post Type</span>
+      <div class="pills">
+        <button class="pl on" onclick="setFbType('photo',this)">📷 Photo</button>
+        <button class="pl" onclick="setFbType('video',this)">🎬 Video</button>
+        <button class="pl" onclick="setFbType('text',this)">📝 Text</button>
+        <button class="pl" onclick="setFbType('event',this)">📅 Event</button>
+        <button class="pl" onclick="setFbType('bg',this)">🎨 BG Color</button>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="lbl" for="fb-cap">Post Text <span id="fb-cap-c" class="cnt-ok">0/63,206</span></label>
+      <textarea id="fb-cap" oninput="fbRender();fbCapCnt()">Just discovered an amazing free tool for social media creators! 🚀
+
+Preview your Facebook, Instagram &amp; Twitter posts BEFORE publishing — no more feed surprises.
+
+Try it free → previewer.pro
+
+#ContentCreator #SocialMedia #FacebookMarketing</textarea>
+    </div>
+    <div class="fg"><label class="lbl">Feeling / Activity</label>
+      <select id="fb-feeling" onchange="fbRender()">
+        <option value="">None</option><option value="😊 feeling excited">😊 Excited</option>
+        <option value="❤️ feeling loved">❤️ Loved</option><option value="🎉 celebrating">🎉 Celebrating</option>
+        <option value="💪 feeling motivated">💪 Motivated</option><option value="🙏 feeling grateful">🙏 Grateful</option>
+        <option value="📣 announcing something">📣 Announcing</option>
+      </select>
+    </div>
+    <div class="fg"><label class="lbl">📍 Location</label><input type="text" id="fb-loc" placeholder="Add location…" oninput="fbRender()"/></div>
+    <div class="fg" id="fb-bg-sec" style="display:none">
+      <label class="lbl">Background Color</label>
+      <div class="sws" id="fb-bg-sws">
+        <div class="sw on" style="background:linear-gradient(135deg,#1877f2,#0d47a1)" onclick="setFbBg(this,'linear-gradient(135deg,#1877f2,#0d47a1)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#e44d3a,#f5a623)" onclick="setFbBg(this,'linear-gradient(135deg,#e44d3a,#f5a623)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#42b72a,#1b5e20)" onclick="setFbBg(this,'linear-gradient(135deg,#42b72a,#1b5e20)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#9c27b0,#7b1fa2)" onclick="setFbBg(this,'linear-gradient(135deg,#9c27b0,#7b1fa2)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#e91e63,#880e4f)" onclick="setFbBg(this,'linear-gradient(135deg,#e91e63,#880e4f)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#ff5722,#bf360c)" onclick="setFbBg(this,'linear-gradient(135deg,#ff5722,#bf360c)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#00bcd4,#006064)" onclick="setFbBg(this,'linear-gradient(135deg,#00bcd4,#006064)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#f5c842,#e65100)" onclick="setFbBg(this,'linear-gradient(135deg,#f5c842,#e65100)')"></div>
+      </div>
+    </div>
+    <div class="fg" id="fb-ev-sec" style="display:none">
+      <label class="lbl">Event Name</label><input id="fb-ev-name" value="Product Launch 2025" oninput="fbRender()"/>
+      <label class="lbl" style="margin-top:.4rem">Date & Time</label><input id="fb-ev-date" value="Sat · Mar 29 · 7:00 PM EDT" oninput="fbRender()"/>
+      <label class="lbl" style="margin-top:.4rem">Location</label><input id="fb-ev-loc" value="Tech Hub, San Francisco" oninput="fbRender()"/>
+      <label class="lbl" style="margin-top:.4rem">Attendees</label><input id="fb-ev-att" value="284 interested · 91 going" oninput="fbRender()"/>
+    </div>
+    <div class="fg"><label class="lbl">Privacy</label>
+      <div class="pills" id="fb-priv-pills">
+        <button class="pl on" onclick="setFbPriv('🌍 Public',this)">🌍 Public</button>
+        <button class="pl" onclick="setFbPriv('👥 Friends',this)">👥 Friends</button>
+        <button class="pl" onclick="setFbPriv('👤 Only me',this)">👤 Only me</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIA -->
+  <div class="cmp-body" id="fbt-media" style="display:none">
+    <div class="fg"><label class="lbl">Image URL</label><input type="url" id="fb-img1" placeholder="https://example.com/photo.jpg" oninput="fbRender()"/></div>
+    <div class="fg"><label class="lbl">2nd Image (multi-photo)</label><input type="url" id="fb-img2" placeholder="2nd image URL" oninput="fbRender()"/></div>
+    <div class="fg"><label class="lbl">3rd Image</label><input type="url" id="fb-img3" placeholder="3rd image URL" oninput="fbRender()"/></div>
+    <div class="fg" id="fb-vd-sec"><label class="lbl">Video Duration</label><input id="fb-vdur" value="2:34" oninput="fbRender()"/></div>
+    <div class="fg"><label class="lbl">Watermark / Credit</label><input id="fb-wmk" placeholder="@yourbrand" oninput="fbRender()"/></div>
+  </div>
+
+  <!-- AUTHOR -->
+  <div class="cmp-body" id="fbt-author" style="display:none">
+    <div class="fg"><label class="lbl">Name / Page</label><input id="fb-aname" value="Previewer Pro" oninput="fbRender()"/></div>
+    <div class="fg"><label class="lbl">Account Type</label>
+      <div class="pills" id="fb-acct-pills">
+        <button class="pl on" onclick="setFbAcct('personal',this)">👤 Personal</button>
+        <button class="pl" onclick="setFbAcct('page',this)">📘 Page</button>
+        <button class="pl" onclick="setFbAcct('group',this)">👥 Group</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Verified / Sponsored</label>
+      <div class="pills" id="fb-ver-pills">
+        <button class="pl on" onclick="setFbVer(false,this)">No badge</button>
+        <button class="pl" onclick="setFbVer(true,this)">✓ Verified</button>
+      </div>
+      <div class="pills" style="margin-top:.35rem" id="fb-sp-pills">
+        <button class="pl on" onclick="setFbSp(false,this)">Not sponsored</button>
+        <button class="pl" onclick="setFbSp(true,this)">Sponsored</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Avatar Color</label>
+      <div class="sws" id="fb-av-sws">
+        <div class="sw on" style="background:linear-gradient(135deg,#1877f2,#42b72a)" onclick="setFbAv(this,'linear-gradient(135deg,#1877f2,#42b72a)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#e44d3a,#f5a623)" onclick="setFbAv(this,'linear-gradient(135deg,#e44d3a,#f5a623)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#9c27b0,#e91e63)" onclick="setFbAv(this,'linear-gradient(135deg,#9c27b0,#e91e63)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#00bcd4,#4caf50)" onclick="setFbAv(this,'linear-gradient(135deg,#00bcd4,#4caf50)')"></div>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Post Time</label><input id="fb-ptime" value="2h" oninput="fbRender()"/></div>
+    <div class="fg"><label class="lbl">Display Toggles</label>
+      <div class="tog-wrap">
+        <div class="tog-row"><div><div class="tog-lbl">Show Stories bar</div></div><button class="twitch on" id="tog-sts" onclick="this.classList.toggle('on');fbRender()"></button></div>
+        <div class="tog-row"><div><div class="tog-lbl">Show Composer</div></div><button class="twitch on" id="tog-cmp" onclick="this.classList.toggle('on');fbRender()"></button></div>
+        <div class="tog-row"><div><div class="tog-lbl">Show Comments</div></div><button class="twitch on" id="tog-cmts" onclick="this.classList.toggle('on');fbRender()"></button></div>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="lbl">Comment 1</label>
+      <input id="fc1n" value="Sarah Johnson" oninput="fbRender()"/>
+      <input id="fc1t" value="This is so helpful! 🙌" style="margin-top:.3rem" oninput="fbRender()"/>
+    </div>
+    <div class="fg">
+      <label class="lbl">Comment 2</label>
+      <input id="fc2n" value="Mike Torres" oninput="fbRender()"/>
+      <input id="fc2t" value="Finally — a real preview tool 👏" style="margin-top:.3rem" oninput="fbRender()"/>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="cmp-body" id="fbt-stats" style="display:none">
+    <div class="fg"><label class="lbl">Reactions</label>
+      <div class="rxn-g">
+        <div class="rxn-f"><label>👍 Like</label><input id="rxl" value="1.2K" oninput="fbRender()"/></div>
+        <div class="rxn-f"><label>❤️ Love</label><input id="rxlv" value="284" oninput="fbRender()"/></div>
+        <div class="rxn-f"><label>😂 Haha</label><input id="rxh" value="67" oninput="fbRender()"/></div>
+        <div class="rxn-f"><label>😮 Wow</label><input id="rxw" value="31" oninput="fbRender()"/></div>
+        <div class="rxn-f"><label>😢 Sad</label><input id="rxs" value="8" oninput="fbRender()"/></div>
+        <div class="rxn-f"><label>😡 Angry</label><input id="rxa" value="4" oninput="fbRender()"/></div>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Comments Label</label><input id="fb-cmt-cnt" value="48 comments" oninput="fbRender()"/></div>
+    <div class="fg"><label class="lbl">Shares Label</label><input id="fb-shr-cnt" value="12 shares" oninput="fbRender()"/></div>
+    <button class="upd" onclick="fbRender()">🔄 Update Preview</button>
+  </div>
+</aside>
+
+<!-- RIGHT PANEL -->
+<main class="right">
+  <div class="pbar">
+    <h2>Facebook Feed Preview</h2>
+    <div class="vtabs">
+      <button class="vt on" id="fv-desk" onclick="setFbView('desk',this)">🖥 Desktop</button>
+      <button class="vt" id="fv-mob" onclick="setFbView('mob',this)">📱 Mobile</button>
+      <button class="vt" id="fv-story" onclick="setFbView('story',this)">⭕ Story</button>
+    </div>
+    <div class="mode-row">
+      <button class="mbtn on" id="fbm-dk" onclick="setFbMode('dark',this)">🌙 Dark</button>
+      <button class="mbtn" id="fbm-lm" onclick="setFbMode('light',this)">☀️ Light</button>
+    </div>
+  </div>
+
+  <!-- Desktop view -->
+  <div id="fbv-desk" class="fb-ui">
+    <div class="feed" id="fbFeedDesk">
+      <div class="fb-nav">
+        <span class="fb-logo">f</span>
+        <div class="fb-srch">🔍 Search Facebook</div>
+        <div class="fb-icons">
+          <div class="fb-ico">🏠</div><div class="fb-ico">👥</div><div class="fb-ico">▶️</div>
+          <div class="fb-ico" id="fb-nav-av" style="background:linear-gradient(135deg,#1877f2,#42b72a);color:#fff;font-weight:700;font-size:.78rem">P</div>
+        </div>
+      </div>
+      <div id="fb-sts-desk"></div>
+      <div id="fb-cmp-desk"></div>
+      <div id="fb-post-desk"></div>
+      <div class="fb-dummy">
+        <div class="dum-hd"><div class="dum-av"></div><div style="flex:1"><div class="dum-l" style="width:58%"></div><div class="dum-l" style="width:38%;margin-top:4px"></div></div></div>
+        <div class="dum-l" style="width:90%"></div><div class="dum-l" style="width:68%;margin-top:4px"></div><div class="dum-img"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile view -->
+  <div id="fbv-mob" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="feed" id="fbFeedMob">
+          <div class="fb-nav" style="padding:.38rem .72rem">
+            <span class="fb-logo">f</span>
+            <div class="fb-icons" style="margin-left:auto"><div class="fb-ico">🔍</div><div class="fb-ico">💬</div><div class="fb-ico">🔔</div></div>
+          </div>
+          <div id="fb-post-mob"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story view -->
+  <div id="fbv-story" style="display:none" class="story-frame-wrap">
+    <div class="story-f">
+      <div class="st-fbg" id="fb-st-bg"></div>
+      <div class="st-fimg" id="fb-st-img"></div>
+      <div class="st-ui">
+        <div class="st-prog"><div class="st-seg"><div class="st-seg-f" style="width:38%"></div></div><div class="st-seg"></div><div class="st-seg"></div></div>
+        <div class="st-hd">
+          <div class="st-hd-av" id="fb-st-av" style="background:linear-gradient(135deg,#1877f2,#42b72a)">P</div>
+          <span class="st-hd-name" id="fb-st-name">Previewer Pro</span>
+          <span class="st-hd-time">Now</span>
+          <span class="st-hd-close">✕</span>
+        </div>
+        <div class="st-main" id="fb-st-text">Your story text appears here</div>
+        <div class="st-reply"><div class="st-rinput">Send message…</div><span style="color:#fff;font-size:1rem">↗️</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis -->
+  <div class="anal"><h3>📊 Post Analysis</h3><div id="fb-anal"></div></div>
+
+  <!-- Tips -->
+  <div><h3 style="font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.75rem">💡 Facebook Tips</h3>
+    <div class="tips-g">
+      <div class="tip-card"><div class="ico">🖼️</div><h4>Optimal Image</h4><p>Use 1200×630px for photo posts. Square 1200×1200 works best on mobile feed presence.</p></div>
+      <div class="tip-card"><div class="ico">✂️</div><h4>Hook Early</h4><p>Only ~125 chars show before "See More." Lead with your value prop in the first line.</p></div>
+      <div class="tip-card"><div class="ico">🏷️</div><h4>1–3 Hashtags</h4><p>Facebook recommends 1–3 targeted hashtags. More than 5 actively reduces organic reach.</p></div>
+      <div class="tip-card"><div class="ico">📅</div><h4>Best Times</h4><p>Tue–Thu 9–11am and 1–3pm local time show highest engagement across most industries.</p></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div><h3 style="font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.65rem">❓ FAQs</h3>
+    <div class="faq-box">
+      <button class="fq" aria-expanded="false" aria-controls="fq1">How many characters can a Facebook post have? <span class="fq-chev">+</span></button>
+      <div class="fa" id="fq1" hidden>Facebook posts support up to 63,206 characters. However, only ~125–400 characters display before the "See More" link. Write your hook in the first 2–3 lines so it's visible without clicking.</div>
+      <button class="fq" aria-expanded="false" aria-controls="fq2">Do images get more reach than text posts? <span class="fq-chev">+</span></button>
+      <div class="fa" id="fq2" hidden>Images typically generate 2–3× more engagement than text-only posts. Native video gets even higher reach. High-quality text posts from genuine personal profiles can outperform low-quality image posts from Pages.</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h3>Preview on Other Platforms</h3>
+    <p>See how your content looks across every social network — free, instant, no signup.</p>
+    <div class="cta-row">
+      <a href="/instagram-post-preview" class="cta-a ca-ig">📸 Instagram</a>
+      <a href="/twitter-post-preview" class="cta-a ca-tw">𝕏 Twitter / X</a>
+      <a href="/social-preview" class="cta-a ca-gh">All Tools →</a>
+    </div>
+  </div>
+</main>
+</div>
+
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+var fbType='photo',fbMode='dark',fbView='desk',fbAcct='personal';
+var fbVer=false,fbSp=false,fbBg='linear-gradient(135deg,#1877f2,#0d47a1)';
+var fbAv='linear-gradient(135deg,#1877f2,#42b72a)',fbPriv='🌍 Public';
+
+function fbSwitchTab(t,b){
+  ['content','media','author','stats'].forEach(function(id){document.getElementById('fbt-'+id).style.display='none';});
+  document.getElementById('fbt-'+t).style.display='flex';
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+  b.classList.add('on');
+}
+function setFbType(t,b){
+  fbType=t;
+  document.querySelectorAll('#fbt-content .pills:first-of-type .pl').forEach(function(x){x.classList.remove('on');});
+  b.classList.add('on');
+  document.getElementById('fb-bg-sec').style.display=t==='bg'?'flex':'none';
+  document.getElementById('fb-ev-sec').style.display=t==='event'?'flex':'none';
+  document.getElementById('fb-vd-sec').style.display=t==='video'?'flex':'none';
+  fbRender();
+}
+function setFbMode(m,b){fbMode=m;document.querySelectorAll('.mbtn').forEach(function(x){x.classList.remove('on');});b.classList.add('on');document.querySelectorAll('.feed').forEach(function(f){f.classList.toggle('lm',m==='light');});fbRender();}
+function setFbView(v,b){fbView=v;['desk','mob','story'].forEach(function(id){document.getElementById('fbv-'+id).style.display='none';});document.getElementById('fbv-'+v).style.display=v==='desk'?'block':'flex';document.querySelectorAll('.vt').forEach(function(x){x.classList.remove('on');});b.classList.add('on');}
+function setFbBg(el,c){fbBg=c;document.querySelectorAll('#fb-bg-sws .sw').forEach(function(s){s.classList.remove('on');});el.classList.add('on');fbRender();}
+function setFbAv(el,g){fbAv=g;document.querySelectorAll('#fb-av-sws .sw').forEach(function(s){s.classList.remove('on');});el.classList.add('on');fbRender();}
+function setFbAcct(t,b){fbAcct=t;document.querySelectorAll('#fb-acct-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');fbRender();}
+function setFbVer(v,b){fbVer=v;document.querySelectorAll('#fb-ver-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');fbRender();}
+function setFbSp(v,b){fbSp=v;document.querySelectorAll('#fb-sp-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');fbRender();}
+function setFbPriv(p,b){fbPriv=p;document.querySelectorAll('#fb-priv-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');fbRender();}
+function fbCapCnt(){var l=document.getElementById('fb-cap').value.length;var el=document.getElementById('fb-cap-c');el.textContent=l.toLocaleString()+'/63,206';el.className=l>50000?'cnt-over':l>30000?'cnt-warn':'cnt-ok';}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmt(t){return esc(t).replace(/(#\w+)/g,'<span class="hsh">$1</span>').replace(/(@\w+)/g,'<span class="mnt">$1</span>').replace(/\n/g,'<br/>');}
+
+function fbRender(){
+  var cap=document.getElementById('fb-cap').value;
+  var img1=document.getElementById('fb-img1').value;
+  var img2=document.getElementById('fb-img2').value;
+  var img3=document.getElementById('fb-img3').value;
+  var author=document.getElementById('fb-aname').value||'Your Name';
+  var ptime=document.getElementById('fb-ptime').value||'2h';
+  var feeling=document.getElementById('fb-feeling').value;
+  var loc=document.getElementById('fb-loc').value;
+  var rxl=document.getElementById('rxl').value;
+  var cmtcnt=document.getElementById('fb-cmt-cnt').value;
+  var shrcnt=document.getElementById('fb-shr-cnt').value;
+  var showCmts=document.getElementById('tog-cmts').classList.contains('on');
+  var fc1n=document.getElementById('fc1n').value;
+  var fc1t=document.getElementById('fc1t').value;
+  var fc2n=document.getElementById('fc2n').value;
+  var fc2t=document.getElementById('fc2t').value;
+  var vdur=document.getElementById('fb-vdur').value;
+  var wmk=document.getElementById('fb-wmk').value;
+  var evName=document.getElementById('fb-ev-name').value;
+  var evDate=document.getElementById('fb-ev-date').value;
+  var evLoc=document.getElementById('fb-ev-loc').value;
+  var evAtt=document.getElementById('fb-ev-att').value;
+  var init=author.charAt(0).toUpperCase();
+
+  // Story
+  document.getElementById('fb-st-av').textContent=init;
+  document.getElementById('fb-st-av').style.background=fbAv;
+  document.getElementById('fb-st-name').textContent=author;
+  document.getElementById('fb-st-text').textContent=cap.substring(0,110)||'Your story text';
+  document.getElementById('fb-st-bg').style.background=fbType==='bg'?fbBg:'linear-gradient(160deg,rgba(24,119,242,.7),rgba(66,183,42,.5))';
+  var stImgEl=document.getElementById('fb-st-img');
+  stImgEl.innerHTML=img1?'<img src="'+img1+'" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>':'';
+
+  // Nav avatar
+  var nav=document.getElementById('fb-nav-av');if(nav){nav.textContent=init;nav.style.background=fbAv;}
+
+  // Stories bar
+  var showSts=document.getElementById('tog-sts').classList.contains('on');
+  var stsHTML=showSts?'<div class="fb-sts"><div class="st-add"><div class="st-add-ico">+</div></div>'+['Sarah','Mike','Alex'].map(function(n,i){return '<div class="st-item"><div class="st-thumb"><div class="st-bg" style="background:linear-gradient(135deg,hsl('+(i*90)+',68%,38%),hsl('+(i*90+60)+',68%,28%))"></div><div class="st-av" style="background:linear-gradient(135deg,hsl('+(i*90)+',68%,38%),hsl('+(i*90+60)+',68%,28%))">'+n.charAt(0)+'</div></div><div class="st-name">'+n+'</div></div>';}).join('')+'</div>':'';
+  var stEl=document.getElementById('fb-sts-desk');if(stEl)stEl.innerHTML=stsHTML;
+
+  // Composer stub
+  var showCmp=document.getElementById('tog-cmp').classList.contains('on');
+  var cmpHTML=showCmp?'<div class="fb-stub"><div class="stub-av" style="background:'+fbAv+'">'+init+'</div><div class="stub-inp">What\'s on your mind, '+author.split(' ')[0]+'?</div></div>':'';
+  var cmpEl=document.getElementById('fb-cmp-desk');if(cmpEl)cmpEl.innerHTML=cmpHTML;
+
+  // Media
+  var mediaHTML='';
+  if(fbType==='photo'){
+    var imgs=[img1,img2,img3].filter(function(u){return u;});
+    if(imgs.length===0){mediaHTML='<div class="med-wrap"><div class="med-ph"><span style="font-size:2.8rem">🖼️</span><span>Add image URL in Media tab</span></div></div>';}
+    else if(imgs.length===1){mediaHTML='<div class="med-wrap">'+(wmk?'<div class="wmk">'+esc(wmk)+'</div>':'')+'<img class="med-img" src="'+imgs[0]+'" onerror="this.parentElement.innerHTML=\'<div class=med-ph><span style=font-size:2.8rem>🖼️</span><span>Image Preview</span></div>\'"/></div>';}
+    else{var cls=imgs.length===2?'two':'three';mediaHTML='<div class="multi-g '+cls+'">'+imgs.map(function(u){return '<div class="mc"><img src="'+u+'" onload="this.style.display=\'block\'" onerror="this.remove()"/><div class="mc-ph">🖼️</div></div>';}).join('')+'</div>';}
+  }else if(fbType==='video'){
+    var th=img1?'<img src="'+img1+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.65" onerror="this.remove()"/>':'';
+    mediaHTML='<div class="med-wrap"><div class="vid-wrap">'+th+'<div class="vid-play">▶️</div>'+(vdur?'<div class="vid-dur">'+esc(vdur)+'</div>':'')+'</div></div>';
+  }else if(fbType==='event'){
+    var evImg=img1?'<img src="'+img1+'" onload="this.style.display=\'block\'" onerror="this.remove()"/>':'';
+    mediaHTML='<div class="ev-card"><div class="ev-img">'+evImg+'<span>📅</span></div><div class="ev-body"><div class="ev-date">'+esc(evDate)+'</div><div class="ev-title">'+esc(evName)+'</div><div class="ev-meta">📍 '+esc(evLoc)+' · 👥 '+esc(evAtt)+'</div><div class="ev-btns"><button class="ev-btn p">Interested</button><button class="ev-btn s">Share</button></div></div></div>';
+  }
+
+  var maxP=400;var isLong=cap.length>maxP;
+  var dispCap=isLong?fmt(cap.substring(0,maxP))+'<span style="color:var(--fb-m)"> …See more</span>':fmt(cap);
+  var tsz=fbType==='bg'?'':cap.length<80?'xl':cap.length<220?'lg':'';
+  var textHTML=fbType==='bg'?'<div class="post-txt bg-txt" style="background:'+fbBg+'">'+fmt(cap)+'</div>':'<div class="post-txt'+( tsz?' '+tsz:'')+'">' +dispCap+'</div>';
+  var locHTML=loc?'<div class="post-loc">📍 '+esc(loc)+'</div>':'';
+  var feelingHTML=feeling?'<span class="feeling"> is '+esc(feeling)+'</span>':'';
+  var verHTML=fbVer?'<span class="vbadge">✓</span>':'';
+  var spHTML=fbSp?'<span class="spbadge">Sponsored</span>':'';
+  var acctHTML=fbAcct==='page'?'<span style="font-size:.68rem;background:rgba(24,119,242,.12);border:1px solid rgba(24,119,242,.2);color:#70a8ff;padding:.07rem .32rem;border-radius:3px">Page</span>':'';
+
+  var cmtsHTML='';
+  if(showCmts&&fc1n&&fc1t){cmtsHTML='<div class="cmts"><div class="cmt"><div class="cmt-av">S</div><div><div class="cmt-bbl"><div class="cmt-name">'+esc(fc1n)+'</div><div class="cmt-txt">'+esc(fc1t)+'</div></div></div></div>'+(fc2n&&fc2t?'<div class="cmt"><div class="cmt-av" style="background:linear-gradient(135deg,#1abc9c,#148f77)">M</div><div><div class="cmt-bbl"><div class="cmt-name">'+esc(fc2n)+'</div><div class="cmt-txt">'+esc(fc2t)+'</div></div></div></div>':'')+'</div>';}
+
+  var html='<div class="fb-post"><div class="post-hd"><div class="post-av" style="background:'+fbAv+'">'+init+'</div><div class="post-info"><div class="post-name">'+esc(author)+verHTML+acctHTML+spHTML+feelingHTML+'</div><div class="post-meta"><span>'+esc(ptime)+'</span><span>·</span><span>'+esc(fbPriv)+'</span></div></div><div class="post-more">···</div></div>'+locHTML+(fbType!=='bg'?textHTML:'')+mediaHTML+(fbType==='bg'?textHTML:'')+'<div class="rxn-bar"><div style="display:flex;align-items:center;gap:.32rem"><div class="rxn-icos"><div class="rxn-ico" style="background:#2078f4">👍</div><div class="rxn-ico" style="background:#e44d3a">❤️</div><div class="rxn-ico" style="background:#f5a623">😂</div></div><span>'+esc(rxl)+'</span></div><div style="display:flex;gap:.65rem"><span>'+esc(cmtcnt)+'</span><span>'+esc(shrcnt)+'</span></div></div><div class="act-bar"><div class="act-btn">👍 Like</div><div class="act-btn">💬 Comment</div><div class="act-btn">↗️ Share</div></div>'+cmtsHTML+'</div>';
+
+  ['fb-post-desk','fb-post-mob'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=html;});
+  document.querySelectorAll('.feed').forEach(function(f){f.classList.toggle('lm',fbMode==='light');});
+
+  // Analysis
+  var tags=(cap.match(/#\w+/g)||[]);
+  var rows=[
+    {ok:cap.length>0,w:false,label:'Text',d:cap.length+' chars · '+tags.length+' hashtag'+(tags.length!==1?'s':'')},
+    {ok:cap.length<=400||fbType==='bg',w:cap.length>400&&fbType!=='bg',label:'Visibility',d:cap.length<=400?'Hook visible before "See More"':'Long — key message may be hidden on mobile'},
+    {ok:!!img1||fbType==='text'||fbType==='bg'||fbType==='event',w:fbType==='photo'&&!img1,label:'Media',d:img1?'Image URL set':fbType==='photo'?'⚠ No image — add URL in Media tab':'Non-photo post'},
+    {ok:fbPriv==='🌍 Public',w:fbPriv!=='🌍 Public',label:'Reach',d:'Privacy: '+fbPriv},
+  ];
+  document.getElementById('fb-anal').innerHTML=rows.map(function(r){return '<div class="an-row"><div class="an-ic '+(r.ok?'ic-ok':r.w?'ic-wn':'ic-in')+'">'+(r.ok?'✓':r.w?'!':'i')+'</div><div class="an-txt"><strong>'+r.label+':</strong> '+r.d+'</div></div>';}).join('');
+}
+
+// Init
+document.getElementById('fbt-content').style.display='flex';
+fbRender();fbCapCnt();
+</script>
+</body>
+</html>
