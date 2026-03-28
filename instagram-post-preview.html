@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Free Instagram post preview tool — compose and preview how your Instagram feed post, reel, story, or carousel looks before publishing. Advanced options for caption, hashtags, filters, aspect ratio, and engagement stats."/>
+<meta name="keywords" content="instagram post preview, instagram post simulator, instagram feed preview, instagram post appearance, instagram reel preview, instagram story preview, instagram carousel preview"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://www.previewer.pro/instagram-post-preview"/>
+<meta property="og:title" content="Instagram Post Preview Tool | Previewer.pro"/>
+<meta property="og:description" content="Compose and preview Instagram feed posts, reels, stories, and carousels exactly as they appear in the app. Advanced hashtag analysis, filter simulation, and grid preview."/>
+<title>Instagram Post Preview Tool — Feed, Reel & Story Simulator | Previewer.pro</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Instagram Post Preview Tool","applicationCategory":"DeveloperApplication","operatingSystem":"Web","url":"https://previewer.pro/instagram-post-preview","description":"Compose and preview Instagram posts, reels, and stories exactly as they appear in the feed.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pp:#07080d;--ps:#0f1118;--ps2:#161824;--pb:rgba(255,255,255,.08);
+  --pt:#e8eaf2;--pm:#8b90a8;--ffd:'Syne',sans-serif;--ffb:'DM Sans',sans-serif;
+  --ig-bg:#000;--ig-s:#121212;--ig-c:#1a1a1a;--ig-bd:#262626;
+  --ig-t:#f5f5f5;--ig-m:#a8a8a8;--ig-blue:#0095f6;
+  --ig-g1:#f58529;--ig-g2:#dd2a7b;--ig-g3:#8134af;--ig-g4:#515bd4;
+}
+body{font-family:var(--ffb);background:var(--pp);color:var(--pt);min-height:100vh;overflow-x:hidden}
+.ig-grad{background:linear-gradient(45deg,var(--ig-g1),var(--ig-g2),var(--ig-g3),var(--ig-g4))}
+.app-grid{display:grid;grid-template-columns:370px 1fr;min-height:100vh}
+/* Composer */
+.cmp{background:var(--ps);border-right:1px solid var(--pb);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow:hidden}
+.cmp-top{padding:1rem 1.2rem .7rem;border-bottom:1px solid var(--pb);flex-shrink:0}
+.back-a{display:inline-flex;align-items:center;gap:.35rem;color:var(--pm);font-size:.76rem;text-decoration:none;margin-bottom:.5rem;transition:color .2s}
+.back-a:hover{color:var(--pt)}
+.cmp-title{font-family:var(--ffd);font-size:.98rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:.45rem}
+.plat-badge{font-size:.66rem;font-weight:700;padding:.18rem .5rem;border-radius:999px;background:linear-gradient(45deg,rgba(245,133,41,.18),rgba(221,42,123,.18));border:1px solid rgba(221,42,123,.28);color:#dd2a7b}
+.tabs{display:flex;border-bottom:1px solid var(--pb);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:.58rem .55rem;background:none;border:none;color:var(--pm);font-size:.72rem;font-weight:600;cursor:pointer;font-family:var(--ffb);transition:all .2s;position:relative;white-space:nowrap}
+.tab.on{color:#fff;background:rgba(221,42,123,.06)}
+.tab.on::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ig-g1),var(--ig-g2))}
+.cmp-body{flex:1;overflow-y:auto;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.85rem;scrollbar-width:thin;scrollbar-color:var(--pb) transparent}
+/* Form */
+.fg{display:flex;flex-direction:column;gap:.28rem}
+.lbl{font-size:.7rem;font-weight:600;color:var(--pm);text-transform:uppercase;letter-spacing:.07em;display:flex;justify-content:space-between;align-items:center}
+.cnt-ok{color:#00d4aa;font-size:.7rem;font-weight:700}.cnt-warn{color:#f59e0b;font-size:.7rem;font-weight:700}.cnt-over{color:#ef4444;font-size:.7rem;font-weight:700}
+input,textarea,select{background:var(--pp);border:1.5px solid var(--pb);border-radius:9px;padding:.54rem .82rem;color:var(--pt);font-family:var(--ffb);font-size:.87rem;outline:none;transition:border-color .2s;width:100%;resize:none}
+input:focus,textarea:focus,select:focus{border-color:var(--ig-g2)}
+textarea{min-height:92px;line-height:1.5}
+.pills{display:flex;flex-wrap:wrap;gap:.32rem}
+.pl{padding:.28rem .65rem;border:1.5px solid var(--pb);border-radius:999px;background:var(--ps2);color:var(--pm);font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ffb)}
+.pl.on{border-color:var(--ig-g2);background:rgba(221,42,123,.1);color:var(--ig-g2)}
+.sws{display:flex;gap:.38rem;flex-wrap:wrap}
+.sw{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:all .2s;flex-shrink:0}
+.sw.on{border-color:#fff;transform:scale(1.22)}
+.tog-wrap{background:var(--ps2);border:1px solid var(--pb);border-radius:9px;padding:.45rem .7rem}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.38rem 0;border-bottom:1px solid var(--pb);gap:.4rem}
+.tog-row:last-child{border-bottom:none}
+.tog-lbl{font-size:.83rem;color:var(--pt)}
+.twitch{width:34px;height:19px;border-radius:999px;background:var(--pb);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.twitch.on{background:var(--ig-g2)}
+.twitch::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;background:#fff;border-radius:50%;transition:transform .2s}
+.twitch.on::after{transform:translateX(15px)}
+/* Filter grid */
+.filter-g{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}
+.filter-item{border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.filter-item.on{border-color:var(--ig-g2)}
+.filter-th{height:48px;display:flex;align-items:center;justify-content:center;font-size:.58rem;color:rgba(255,255,255,.5);font-weight:600;text-align:center}
+.filter-name{font-size:.62rem;text-align:center;padding:.18rem;background:var(--ps2);color:var(--pm)}
+.upd{width:100%;padding:.72rem;border:none;border-radius:9px;font-family:var(--ffd);font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s;background:linear-gradient(45deg,var(--ig-g1),var(--ig-g2),var(--ig-g3));color:#fff}
+.upd:hover{opacity:.9;transform:translateY(-1px)}
+/* Right */
+.right{background:var(--pp);display:flex;flex-direction:column;gap:1.4rem;padding:1.4rem}
+.pbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.65rem}
+.pbar h2{font-family:var(--ffd);font-weight:700;font-size:.88rem;color:#fff}
+.vtabs{display:flex;gap:.32rem;flex-wrap:wrap}
+.vt{padding:.35rem .8rem;background:var(--ps);border:1px solid var(--pb);border-radius:7px;color:var(--pm);font-size:.76rem;font-weight:600;font-family:var(--ffd);cursor:pointer;transition:all .2s}
+.vt.on{background:rgba(221,42,123,.1);border-color:var(--ig-g2);color:var(--ig-g2)}
+/* Mobile frame */
+.mob-wrap{display:flex;justify-content:center}
+.mob-f{width:355px;border-radius:36px;overflow:hidden;border:2px solid #1a1a1a;box-shadow:0 0 0 1px #333,0 26px 65px rgba(0,0,0,.65);background:#000}
+.mob-notch{height:26px;background:#000;display:flex;align-items:center;justify-content:center}
+.mob-pill{width:88px;height:17px;background:#0a0a0a;border-radius:0 0 11px 11px;display:flex;align-items:center;justify-content:center;gap:5px}
+.mob-cam{width:6px;height:6px;background:#111;border-radius:50%;border:1px solid #222}
+.mob-mic{width:30px;height:3px;background:#111;border-radius:999px}
+.mob-scroll{max-height:650px;overflow-y:auto;scrollbar-width:none}
+.mob-scroll::-webkit-scrollbar{display:none}
+/* IG UI */
+.ig-ui{background:var(--ig-bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.ig-nav{background:var(--ig-bg);padding:.6rem .88rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ig-bd)}
+.ig-logo{font-family:var(--ffd);font-size:1.2rem;font-weight:800;color:var(--ig-t)}
+.ig-nav-icons{display:flex;gap:.75rem;color:var(--ig-t);font-size:1.1rem}
+/* Stories */
+.ig-sts{display:flex;gap:.65rem;padding:.72rem .88rem;overflow-x:auto;border-bottom:1px solid var(--ig-bd);scrollbar-width:none}
+.ig-sts::-webkit-scrollbar{display:none}
+.ig-st-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;flex-shrink:0;cursor:pointer}
+.ig-st-ring{padding:2px;border-radius:50%;background:linear-gradient(45deg,var(--ig-g1),var(--ig-g2),var(--ig-g3));display:flex}
+.ig-st-ring.seen{background:var(--ig-bd)}
+.ig-st-ring.add{background:none;border:2px solid var(--ig-bd);padding:0}
+.ig-st-av{width:52px;height:52px;border-radius:50%;background:var(--ig-c);border:2px solid var(--ig-bg);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--ig-t);font-weight:700}
+.ig-st-name{font-size:.64rem;color:var(--ig-t);max-width:62px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ig-add-plus{width:20px;height:20px;background:var(--ig-blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;font-weight:700;border:1.5px solid var(--ig-bg);position:absolute;bottom:-1px;right:-1px}
+/* Post */
+.ig-post{border-bottom:1px solid var(--ig-bd);padding-bottom:.45rem}
+/* Post header */
+.ig-post-hd{display:flex;align-items:center;gap:.62rem;padding:.65rem .88rem}
+.ig-av-wrap{position:relative;display:inline-flex;flex-shrink:0}
+.ig-av-ring{padding:2px;border-radius:50%;background:linear-gradient(45deg,var(--ig-g1),var(--ig-g2),var(--ig-g3));display:flex}
+.ig-av-ring.no-story{background:transparent;border:1px solid var(--ig-bd);padding:1px}
+.ig-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.82rem;border:2px solid var(--ig-bg);background:linear-gradient(135deg,var(--ig-g1),var(--ig-g2))}
+.ig-post-info{flex:1;min-width:0}
+.ig-uname{font-size:.88rem;font-weight:700;color:var(--ig-t);display:flex;align-items:center;gap:.28rem}
+.ig-verified{color:var(--ig-blue);font-size:.8rem}
+.ig-location{font-size:.7rem;color:var(--ig-t);display:block;margin-top:.04rem}
+.ig-collab{font-size:.76rem;color:var(--ig-blue);display:flex;align-items:center;gap:.22rem;margin-top:.04rem}
+.ig-post-more{color:var(--ig-t);cursor:pointer;font-size:1.2rem;line-height:1;margin-left:auto}
+.ig-sp-lbl{font-size:.66rem;color:var(--ig-m);background:rgba(255,255,255,.05);border:1px solid var(--ig-bd);padding:.08rem .38rem;border-radius:4px}
+/* Media area */
+.ig-media{width:100%;position:relative;overflow:hidden;background:var(--ig-c)}
+.ig-aspect{position:relative;width:100%}
+.ig-aspect.sq{aspect-ratio:1/1}.ig-aspect.p45{aspect-ratio:4/5}.ig-aspect.ls{aspect-ratio:16/9}.ig-aspect.reel{aspect-ratio:9/16}
+.ig-aspect img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.ig-aspect-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;color:rgba(255,255,255,.2);font-size:.73rem;text-transform:uppercase;letter-spacing:.05em}
+/* Filter overlay */
+.ig-filter-ov{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply}
+/* Carousel dots */
+.ig-dots{position:absolute;bottom:.55rem;left:50%;transform:translateX(-50%);display:flex;gap:.28rem;z-index:2}
+.ig-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}
+.ig-dot.on{background:var(--ig-blue)}
+/* Reel UI */
+.ig-reel-r{position:absolute;right:.75rem;bottom:4.5rem;display:flex;flex-direction:column;gap:1.25rem;align-items:center;z-index:2}
+.ig-reel-act{display:flex;flex-direction:column;align-items:center;gap:.2rem;cursor:pointer}
+.ig-reel-icon{font-size:1.4rem}
+.ig-reel-cnt{font-size:.63rem;color:#fff;font-weight:600}
+.ig-reel-bot{position:absolute;bottom:1.2rem;left:.88rem;right:5rem;z-index:2}
+.ig-reel-uname{font-size:.82rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+.ig-reel-cap{font-size:.74rem;color:rgba(255,255,255,.8);line-height:1.4}
+.ig-reel-audio{display:flex;align-items:center;gap:.38rem;margin-top:.45rem;font-size:.7rem;color:rgba(255,255,255,.7)}
+.ig-reel-disc{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--ig-g1),var(--ig-g2));animation:spin .8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Story */
+.ig-story-full{width:100%;aspect-ratio:9/16;position:relative;overflow:hidden}
+.ig-st-prog{position:absolute;top:.72rem;left:.72rem;right:.72rem;z-index:2;display:flex;gap:.2rem}
+.ig-st-pseg{flex:1;height:2px;background:rgba(255,255,255,.38);border-radius:1px;overflow:hidden}
+.ig-st-pf{height:100%;background:#fff;border-radius:1px}
+.ig-st-header{position:absolute;top:1.45rem;left:.72rem;right:.72rem;z-index:2;display:flex;align-items:center;gap:.55rem}
+.ig-st-close{margin-left:auto;color:#fff;font-size:1.15rem;cursor:pointer}
+.ig-st-content{position:absolute;inset:0;z-index:0}
+.ig-st-content img{width:100%;height:100%;object-fit:cover;display:none}
+.ig-st-sticker{position:absolute;bottom:28%;left:50%;transform:translateX(-50%);z-index:2;background:rgba(0,0,0,.5);color:#fff;padding:.45rem .95rem;border-radius:18px;font-size:.83rem;font-weight:600;text-align:center;white-space:nowrap}
+.ig-st-reply{position:absolute;bottom:.75rem;left:.72rem;right:.72rem;z-index:2;display:flex;align-items:center;gap:.45rem}
+.ig-st-rinput{flex:1;border:1.5px solid rgba(255,255,255,.4);border-radius:18px;padding:.38rem .82rem;font-size:.76rem;color:#fff;background:transparent}
+/* Actions */
+.ig-acts{display:flex;align-items:center;padding:.55rem .88rem .32rem}
+.ig-acts-l{display:flex;gap:.72rem;align-items:center}
+.ig-act-ico{font-size:1.28rem;cursor:pointer;transition:transform .15s}
+.ig-act-ico:hover{transform:scale(1.15)}
+.ig-save{margin-left:auto;font-size:1.22rem;cursor:pointer}
+/* Likes */
+.ig-likes{padding:.1rem .88rem;font-size:.88rem;font-weight:700;color:var(--ig-t)}
+/* Caption */
+.ig-cap{padding:0 .88rem .25rem;font-size:.88rem;color:var(--ig-t);line-height:1.55;word-break:break-word}
+.ig-hsh{color:var(--ig-blue);cursor:pointer}.ig-mnt{color:var(--ig-blue);cursor:pointer}
+.ig-more{color:var(--ig-m);cursor:pointer}
+/* Comments */
+.ig-view-cmts{padding:.05rem .88rem;font-size:.8rem;color:var(--ig-m);cursor:pointer}
+.ig-cmt{display:flex;align-items:flex-start;gap:.48rem;padding:.22rem .88rem}
+.ig-cmt-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#e4a03a,#e44d3a);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff}
+.ig-cmt-body{flex:1;font-size:.82rem;color:var(--ig-t);line-height:1.4}
+.ig-cmt-heart{color:var(--ig-m);font-size:.73rem;margin-left:auto;cursor:pointer}
+.ig-ts{padding:.22rem .88rem .72rem;font-size:.68rem;color:var(--ig-m);text-transform:uppercase;letter-spacing:.03em}
+/* Grid */
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--ig-bg)}
+.ig-gc{aspect-ratio:1;background:var(--ig-c);position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ig-gc img{width:100%;height:100%;object-fit:cover;display:none}
+.ig-gc-ph{font-size:1.5rem;color:rgba(255,255,255,.14)}
+.ig-gc.hl{outline:2.5px solid var(--ig-g2);outline-offset:-2.5px}
+.ig-reel-badge{position:absolute;top:.32rem;right:.32rem;color:#fff;font-size:.82rem}
+/* Profile header */
+.ig-profile-hd{padding:.72rem .88rem;border-bottom:1px solid var(--ig-bd)}
+.ig-profile-row{display:flex;align-items:center;gap:.72rem;margin-bottom:.62rem}
+.ig-profile-av{width:58px;height:58px;border-radius:50%;padding:2px;background:linear-gradient(45deg,var(--ig-g1),var(--ig-g2),var(--ig-g3));flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ig-profile-av-inner{width:100%;height:100%;border-radius:50%;background:var(--ig-c);border:2px solid var(--ig-bg);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#fff}
+.ig-stats{display:flex;gap:1.4rem;flex:1}
+.ig-stat{text-align:center;display:flex;flex-direction:column;gap:.08rem}
+.ig-stat strong{font-size:.9rem;font-weight:700;color:var(--ig-t)}
+.ig-stat span{font-size:.68rem;color:var(--ig-m)}
+.ig-profile-name{font-size:.82rem;font-weight:700;color:var(--ig-t);margin-bottom:.12rem}
+.ig-profile-bio{font-size:.78rem;color:var(--ig-t);line-height:1.5;margin-bottom:.45rem}
+.ig-profile-btns{display:flex;gap:.45rem}
+.ig-profile-btn{flex:1;padding:.42rem;border-radius:8px;background:rgba(255,255,255,.1);border:1px solid var(--ig-bd);color:var(--ig-t);font-size:.8rem;font-weight:600;cursor:pointer;font-family:var(--ffb)}
+/* Analysis */
+.anal{background:var(--ps);border:1px solid var(--pb);border-radius:11px;padding:1.05rem}
+.anal h3{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.8rem}
+.an-row{display:flex;align-items:flex-start;gap:.5rem;padding:.42rem 0;border-bottom:1px solid var(--pb);font-size:.8rem}
+.an-row:last-child{border-bottom:none}
+.an-ic{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;flex-shrink:0;margin-top:.05rem}
+.ic-ok{background:rgba(0,212,170,.12);color:#00d4aa}.ic-wn{background:rgba(245,158,11,.12);color:#f59e0b}.ic-in{background:rgba(221,42,123,.12);color:#dd2a7b}
+.an-txt{color:var(--pm)}.an-txt strong{color:var(--pt)}
+/* Tips */
+.tips-g{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.tip-card{background:var(--ps);border:1px solid var(--pb);border-radius:10px;padding:.95rem;transition:all .2s}
+.tip-card:hover{border-color:rgba(221,42,123,.3);transform:translateY(-2px)}
+.tip-card .ico{font-size:1.25rem;margin-bottom:.38rem}
+.tip-card h4{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.78rem;margin-bottom:.22rem}
+.tip-card p{font-size:.74rem;color:var(--pm);line-height:1.5}
+/* FAQ */
+.faq-box{background:var(--ps);border:1px solid var(--pb);border-radius:11px;overflow:hidden}
+.fq{width:100%;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:none;border:none;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--pt);font-family:var(--ffb);text-align:left;transition:background .2s;border-bottom:1px solid var(--pb)}
+.fq:last-of-type{border-bottom:none}
+.fq:hover{background:rgba(255,255,255,.03)}
+.fq-chev{color:var(--pm);transition:transform .2s;flex-shrink:0}
+.fq[aria-expanded="true"] .fq-chev{transform:rotate(45deg);color:var(--ig-g2)}
+.fa{padding:.65rem 1rem .85rem;font-size:.82rem;color:var(--pm);line-height:1.6;border-bottom:1px solid var(--pb)}
+/* CTA */
+.cta{background:linear-gradient(135deg,rgba(245,133,41,.1),rgba(221,42,123,.1),rgba(129,52,175,.08));border:1px solid rgba(221,42,123,.2);border-radius:13px;padding:1.65rem;text-align:center}
+.cta h3{font-family:var(--ffd);font-weight:800;font-size:1.3rem;color:#fff;margin-bottom:.42rem}
+.cta p{color:var(--pm);margin-bottom:1rem;font-size:.86rem}
+.cta-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.cta-a{padding:.55rem 1.28rem;border-radius:999px;font-family:var(--ffd);font-weight:700;font-size:.82rem;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.35rem}
+.ca-fb{background:#1877f2;color:#fff}.ca-tw{background:#000;color:#e7e9ea;border:1px solid #333}.ca-gh{background:transparent;color:var(--pt);border:1px solid var(--pb)}
+@media(max-width:980px){.app-grid{grid-template-columns:1fr}.cmp{height:auto;position:static;border-right:none;border-bottom:1px solid var(--pb)}.tips-g{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<div class="app-grid">
+
+<!-- COMPOSER -->
+<aside class="cmp" aria-label="Instagram post composer">
+  <div class="cmp-top">
+    <a href="/social-preview" class="back-a">← All Social Tools</a>
+    <div class="cmp-title">📸 Instagram Post Preview <span class="plat-badge">SIMULATOR</span></div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="igTab('content',this)">Content</button>
+    <button class="tab" onclick="igTab('media',this)">Media</button>
+    <button class="tab" onclick="igTab('profile',this)">Profile</button>
+    <button class="tab" onclick="igTab('caption',this)">Caption</button>
+    <button class="tab" onclick="igTab('advanced',this)">Advanced</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="cmp-body" id="igt-content">
+    <div class="fg"><label class="lbl">Format</label>
+      <div class="pills">
+        <button class="pl on" onclick="setIgType('feed',this)">📷 Feed</button>
+        <button class="pl" onclick="setIgType('reel',this)">🎬 Reel</button>
+        <button class="pl" onclick="setIgType('story',this)">⭕ Story</button>
+        <button class="pl" onclick="setIgType('carousel',this)">📑 Carousel</button>
+      </div>
+    </div>
+    <div class="fg" id="ig-ratio-sec">
+      <label class="lbl">Aspect Ratio</label>
+      <div class="pills" id="ig-ratio-pills">
+        <button class="pl on" onclick="setIgRatio('sq',this)">■ 1:1</button>
+        <button class="pl" onclick="setIgRatio('p45',this)">▮ 4:5</button>
+        <button class="pl" onclick="setIgRatio('ls',this)">▬ 16:9</button>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="lbl" for="ig-cap">Caption <span id="ig-cap-c" class="cnt-ok">0/2,200</span></label>
+      <textarea id="ig-cap" oninput="igRender();igCapCnt()">✨ Just found the most useful tool for content creators!
+
+Preview your Instagram posts, reels &amp; stories BEFORE hitting publish — see exactly how your feed will look 📱
+
+🔗 Link in bio → previewer.pro
+
+Drop a 🔥 if this is helpful!
+.
+.
+.
+#ContentCreator #Instagram #SocialMedia #MarketingTips #InstagramTips #DigitalMarketing</textarea>
+    </div>
+    <div class="fg"><label class="lbl">📍 Location</label><input id="ig-loc" placeholder="Add location…" value="San Francisco, CA" oninput="igRender()"/></div>
+    <div class="fg" id="ig-story-sec" style="display:none">
+      <label class="lbl">Story Sticker Text</label><input id="ig-sticker" value="Link in bio ↑" oninput="igRender()"/>
+      <label class="lbl" style="margin-top:.4rem">Story Background</label>
+      <div class="sws" id="ig-story-bgs">
+        <div class="sw on" style="background:linear-gradient(135deg,#f58529,#dd2a7b)" onclick="setIgStBg(this,'linear-gradient(135deg,#f58529,#dd2a7b)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#8134af,#515bd4)" onclick="setIgStBg(this,'linear-gradient(135deg,#8134af,#515bd4)')"></div>
+        <div class="sw" style="background:#111" onclick="setIgStBg(this,'#111')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#1877f2,#42b72a)" onclick="setIgStBg(this,'linear-gradient(135deg,#1877f2,#42b72a)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#e44d3a,#f5a623)" onclick="setIgStBg(this,'linear-gradient(135deg,#e44d3a,#f5a623)')"></div>
+      </div>
+    </div>
+    <div class="fg" id="ig-reel-sec" style="display:none">
+      <label class="lbl">Reel Duration</label><input id="ig-rdur" value="0:30" oninput="igRender()"/>
+      <label class="lbl" style="margin-top:.4rem">Audio Track</label><input id="ig-raudio" value="Original Audio" oninput="igRender()"/>
+    </div>
+  </div>
+
+  <!-- MEDIA -->
+  <div class="cmp-body" id="igt-media" style="display:none">
+    <div class="fg"><label class="lbl">Image URL</label><input type="url" id="ig-img1" placeholder="https://example.com/photo.jpg" oninput="igRender()"/></div>
+    <div class="fg" id="ig-carousel-imgs">
+      <label class="lbl">Carousel Slides (2–4 additional)</label>
+      <input type="url" id="ig-img2" placeholder="2nd slide URL" style="margin-bottom:.35rem" oninput="igRender()"/>
+      <input type="url" id="ig-img3" placeholder="3rd slide URL" style="margin-bottom:.35rem" oninput="igRender()"/>
+      <input type="url" id="ig-img4" placeholder="4th slide URL" oninput="igRender()"/>
+    </div>
+    <div class="fg">
+      <label class="lbl">Filter</label>
+      <div class="filter-g" id="ig-filter-g"></div>
+    </div>
+    <div class="fg"><label class="lbl">Alt Text</label><input id="ig-alt" placeholder="Describe the image" oninput="igRender()"/></div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="cmp-body" id="igt-profile" style="display:none">
+    <div class="fg"><label class="lbl">Username</label><input id="ig-uname" value="creativestudio" oninput="igRender()"/></div>
+    <div class="fg"><label class="lbl">Full Name</label><input id="ig-fname" value="Creative Studio ✨" oninput="igRender()"/></div>
+    <div class="fg"><label class="lbl">Bio</label><textarea id="ig-bio" style="min-height:58px" oninput="igRender()">Digital content creator 📱 | Tips &amp; tools for creators 🎨 | Collab → DM me</textarea></div>
+    <div class="fg"><label class="lbl">Verified</label>
+      <div class="pills" id="ig-ver-pills">
+        <button class="pl on" onclick="setIgVer(false,this)">None</button>
+        <button class="pl" onclick="setIgVer(true,this)">✓ Verified</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Collab Post</label>
+      <div class="pills" id="ig-collab-pills">
+        <button class="pl on" onclick="setIgCollab(false,this)">Solo</button>
+        <button class="pl" onclick="setIgCollab(true,this)">Collab</button>
+      </div>
+    </div>
+    <div class="fg" id="ig-collab-sec" style="display:none"><label class="lbl">Collab Partner</label><input id="ig-collab-user" value="designpartner" oninput="igRender()"/></div>
+    <div class="fg"><label class="lbl">Avatar Color</label>
+      <div class="sws" id="ig-av-sws">
+        <div class="sw on" style="background:linear-gradient(135deg,#f58529,#dd2a7b)" onclick="setIgAv(this,'linear-gradient(135deg,#f58529,#dd2a7b)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#8134af,#515bd4)" onclick="setIgAv(this,'linear-gradient(135deg,#8134af,#515bd4)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#25d366,#128c7e)" onclick="setIgAv(this,'linear-gradient(135deg,#25d366,#128c7e)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#1877f2,#00d4aa)" onclick="setIgAv(this,'linear-gradient(135deg,#1877f2,#00d4aa)')"></div>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Post Time</label><input id="ig-ptime" value="2 HOURS AGO" oninput="igRender()"/></div>
+    <div class="fg"><label class="lbl">Profile Stats</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem">
+        <input id="ig-posts" placeholder="Posts" value="284" oninput="igRender()"/>
+        <input id="ig-followers" placeholder="Followers" value="24.8K" oninput="igRender()"/>
+        <input id="ig-following" placeholder="Following" value="412" oninput="igRender()"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAPTION OPTIONS -->
+  <div class="cmp-body" id="igt-caption" style="display:none">
+    <div class="fg"><label class="lbl">First Comment (hashtags)</label><textarea id="ig-first-cmt" style="min-height:58px" oninput="igRender()">#contentcreator #instagram #socialmedia #digitalmarketing</textarea></div>
+    <div class="fg"><label class="lbl">Show Comments</label>
+      <div class="tog-wrap">
+        <div class="tog-row"><div class="tog-lbl">Display sample comments</div><button class="twitch on" id="tog-igcmts" onclick="this.classList.toggle('on');igRender()"></button></div>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Comment 1</label>
+      <input id="ic1u" value="sarah_creates" oninput="igRender()"/>
+      <input id="ic1t" value="Absolutely love this! Saved 🙌✨" style="margin-top:.3rem" oninput="igRender()"/>
+    </div>
+    <div class="fg"><label class="lbl">Comment 2</label>
+      <input id="ic2u" value="mike.design" oninput="igRender()"/>
+      <input id="ic2t" value="Game changer for content creators 🔥" style="margin-top:.3rem" oninput="igRender()"/>
+    </div>
+  </div>
+
+  <!-- ADVANCED -->
+  <div class="cmp-body" id="igt-advanced" style="display:none">
+    <div class="fg"><label class="lbl">Likes Count</label><input id="ig-likes" value="2,847" oninput="igRender()"/></div>
+    <div class="fg"><label class="lbl">Sponsored</label>
+      <div class="pills" id="ig-sp-pills">
+        <button class="pl on" onclick="setIgSp(false,this)">No</button>
+        <button class="pl" onclick="setIgSp(true,this)">Sponsored</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Display Options</label>
+      <div class="tog-wrap">
+        <div class="tog-row"><div class="tog-lbl">Show Stories bar</div><button class="twitch on" id="tog-igsts" onclick="this.classList.toggle('on');igRender()"></button></div>
+        <div class="tog-row"><div class="tog-lbl">Show action buttons</div><button class="twitch on" id="tog-igacts" onclick="this.classList.toggle('on');igRender()"></button></div>
+        <div class="tog-row"><div class="tog-lbl">Show likes count</div><button class="twitch on" id="tog-iglikes" onclick="this.classList.toggle('on');igRender()"></button></div>
+      </div>
+    </div>
+    <button class="upd" onclick="igRender()">🔄 Update Preview</button>
+  </div>
+</aside>
+
+<!-- RIGHT -->
+<main class="right">
+  <div class="pbar">
+    <h2>Instagram Preview</h2>
+    <div class="vtabs">
+      <button class="vt on" id="igv-feed" onclick="setIgView('feed',this)">📱 Feed</button>
+      <button class="vt" id="igv-profile" onclick="setIgView('profile',this)">👤 Profile</button>
+      <button class="vt" id="igv-explore" onclick="setIgView('explore',this)">🔍 Explore</button>
+    </div>
+    <div id="ig-format-badge" style="font-size:.76rem;color:var(--pm);background:var(--ps);border:1px solid var(--pb);padding:.32rem .72rem;border-radius:7px">📷 Feed · 1:1</div>
+  </div>
+
+  <!-- Feed -->
+  <div id="igv-feed" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="ig-ui">
+          <div class="ig-nav"><span class="ig-logo">Instagram</span><div class="ig-nav-icons"><span>❤️</span><span>✉️</span></div></div>
+          <div id="ig-sts-bar"></div>
+          <div id="ig-feed-post"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile -->
+  <div id="igv-profile" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="ig-ui">
+          <div class="ig-nav">
+            <span style="font-size:1rem;font-weight:700;color:var(--ig-t)" id="ig-profile-uname-nav">creativestudio</span>
+            <div class="ig-nav-icons"><span style="font-size:.9rem">➕</span><span>☰</span></div>
+          </div>
+          <div class="ig-profile-hd" id="ig-profile-hd"></div>
+          <div style="display:flex;border-bottom:1px solid var(--ig-bd)">
+            <div style="flex:1;padding:.62rem;text-align:center;font-size:1rem;border-bottom:1.5px solid var(--ig-t);color:var(--ig-t)">⊞</div>
+            <div style="flex:1;padding:.62rem;text-align:center;font-size:.95rem;color:var(--ig-m)">📌</div>
+            <div style="flex:1;padding:.62rem;text-align:center;font-size:.95rem;color:var(--ig-m)">🎬</div>
+            <div style="flex:1;padding:.62rem;text-align:center;font-size:.95rem;color:var(--ig-m)">🏷️</div>
+          </div>
+          <div class="ig-grid" id="ig-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Explore -->
+  <div id="igv-explore" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="ig-ui">
+          <div class="ig-nav"><div style="flex:1;background:var(--ig-c);border-radius:9px;padding:.38rem .78rem;font-size:.78rem;color:var(--ig-m)">🔍 Search</div></div>
+          <div class="ig-grid" id="ig-explore-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis -->
+  <div class="anal"><h3>📊 Caption & Post Analysis</h3><div id="ig-anal"></div></div>
+
+  <!-- Tips -->
+  <div><h3 style="font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.75rem">💡 Instagram Tips</h3>
+    <div class="tips-g">
+      <div class="tip-card"><div class="ico">📐</div><h4>4:5 Portrait Wins</h4><p>The 4:5 ratio takes up the most vertical feed space. 1080×1350px is the highest-impact format for engagement.</p></div>
+      <div class="tip-card"><div class="ico">🪝</div><h4>Hook in Line 1</h4><p>Only ~125 chars show before "more." Put your strongest statement or question in the very first line.</p></div>
+      <div class="tip-card"><div class="ico">#️⃣</div><h4>5–15 Hashtags</h4><p>Meta recommends 5–15 relevant hashtags. Niche tags outperform mega-popular ones for actual reach.</p></div>
+      <div class="tip-card"><div class="ico">🎬</div><h4>Reels Get Priority</h4><p>Instagram's algorithm promotes Reels 3–5× more than static posts. Convert top content to Reel format.</p></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div><h3 style="font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.65rem">❓ FAQs</h3>
+    <div class="faq-box">
+      <button class="fq" aria-expanded="false" aria-controls="igfq1">What's the best image size for Instagram feed posts? <span class="fq-chev">+</span></button>
+      <div class="fa" id="igfq1" hidden>For feed posts, 1080×1350px (4:5 portrait) occupies the most vertical space and performs best. Square (1080×1080px) is the safest universal format. Landscape (1080×566px) takes up the least feed space. For Reels, always use 1080×1920px (9:16) for full-screen viewing.</div>
+      <button class="fq" aria-expanded="false" aria-controls="igfq2">How many hashtags should I use on Instagram? <span class="fq-chev">+</span></button>
+      <div class="fa" id="igfq2" hidden>Meta's guidance (2024) recommends 5–15 highly relevant hashtags per post. Using the first comment for hashtags keeps captions clean while maintaining discoverability. Mix large, medium, and niche hashtags for the best balance of reach and ranking chance.</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h3>Preview on Other Platforms</h3>
+    <p>See how your content looks across every social network — free, instant, no signup.</p>
+    <div class="cta-row">
+      <a href="/facebook-post-preview" class="cta-a ca-fb">📘 Facebook</a>
+      <a href="/twitter-post-preview" class="cta-a ca-tw">𝕏 Twitter / X</a>
+      <a href="/social-preview" class="cta-a ca-gh">All Tools →</a>
+    </div>
+  </div>
+</main>
+</div>
+
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+var igType='feed',igRatio='sq',igView='feed';
+var igVer=false,igCollab=false,igSp=false;
+var igAv='linear-gradient(135deg,#f58529,#dd2a7b)';
+var igStBg='linear-gradient(135deg,#f58529,#dd2a7b)';
+var igFilter='none';
+
+var filters=[
+  {n:'Normal',c:'none',bg:'#555'},
+  {n:'Clarendon',c:'contrast(1.2) saturate(1.35)',bg:'linear-gradient(135deg,#5b9bd5,#88c0d0)'},
+  {n:'Gingham',c:'brightness(1.05) sepia(.1)',bg:'linear-gradient(135deg,#f0e4c8,#e8d5a3)'},
+  {n:'Moon',c:'grayscale(1) brightness(1.1)',bg:'linear-gradient(135deg,#bbb,#888)'},
+  {n:'Lark',c:'contrast(.9) saturate(1.4) brightness(1.1)',bg:'linear-gradient(135deg,#d4f0c8,#a8e6a3)'},
+  {n:'Reyes',c:'sepia(.2) brightness(1.1) contrast(.85)',bg:'linear-gradient(135deg,#d4b896,#c8a87a)'},
+  {n:'Ludwig',c:'brightness(1.05) saturate(.9)',bg:'linear-gradient(135deg,#d0c4b8,#c4b4a0)'},
+  {n:'Valencia',c:'contrast(1.08) brightness(1.08) saturate(1.2)',bg:'linear-gradient(135deg,#f0c070,#e88040)'},
+];
+
+function buildFilterGrid(){
+  var g=document.getElementById('ig-filter-g');
+  g.innerHTML=filters.map(function(f,i){return '<div class="filter-item'+(i===0?' on':'')+'" onclick="setIgFilter(this,\''+f.c+'\')" title="'+f.n+'"><div class="filter-th" style="background:'+f.bg+';filter:'+f.c+'">'+f.n+'</div><div class="filter-name">'+f.n+'</div></div>';}).join('');
+}
+function setIgFilter(el,c){igFilter=c;document.querySelectorAll('.filter-item').forEach(function(x){x.classList.remove('on');});el.classList.add('on');igRender();}
+function igTab(t,b){['content','media','profile','caption','advanced'].forEach(function(id){document.getElementById('igt-'+id).style.display='none';});document.getElementById('igt-'+t).style.display='flex';document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});b.classList.add('on');}
+function setIgType(t,b){igType=t;document.querySelectorAll('#igt-content .pills:first-of-type .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');document.getElementById('ig-story-sec').style.display=t==='story'?'flex':'none';document.getElementById('ig-reel-sec').style.display=t==='reel'?'flex':'none';document.getElementById('ig-ratio-sec').style.display=(t==='story'||t==='reel')?'none':'flex';igRender();}
+function setIgRatio(r,b){igRatio=r;document.querySelectorAll('#ig-ratio-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');igRender();}
+function setIgView(v,b){igView=v;['feed','profile','explore'].forEach(function(id){document.getElementById('igv-'+id).style.display='none';});document.getElementById('igv-'+v).style.display='flex';document.querySelectorAll('.vt').forEach(function(x){x.classList.remove('on');});b.classList.add('on');}
+function setIgVer(v,b){igVer=v;document.querySelectorAll('#ig-ver-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');igRender();}
+function setIgCollab(v,b){igCollab=v;document.querySelectorAll('#ig-collab-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');document.getElementById('ig-collab-sec').style.display=v?'flex':'none';igRender();}
+function setIgSp(v,b){igSp=v;document.querySelectorAll('#ig-sp-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');igRender();}
+function setIgAv(el,g){igAv=g;document.querySelectorAll('#ig-av-sws .sw').forEach(function(s){s.classList.remove('on');});el.classList.add('on');igRender();}
+function setIgStBg(el,bg){igStBg=bg;document.querySelectorAll('#ig-story-bgs .sw').forEach(function(s){s.classList.remove('on');});el.classList.add('on');igRender();}
+function igCapCnt(){var l=document.getElementById('ig-cap').value.length;var el=document.getElementById('ig-cap-c');el.textContent=l.toLocaleString()+'/2,200';el.className=l>2000?'cnt-over':l>1800?'cnt-warn':'cnt-ok';}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtCap(t,max){var tags=t.match(/#\w+/g)||[];var isLong=t.length>max;var d=isLong?t.substring(0,max):t;var r=esc(d).replace(/(#\w+)/g,'<span class="ig-hsh">$1</span>').replace(/(@\w+)/g,'<span class="ig-mnt">$1</span>').replace(/\n/g,'<br/>');return r+(isLong?'<span class="ig-more"> … more</span>':'');}
+
+function buildMedia(){
+  var img1=document.getElementById('ig-img1').value;
+  var img2=document.getElementById('ig-img2').value;
+  var img3=document.getElementById('ig-img3').value;
+  var img4=document.getElementById('ig-img4').value;
+  var flt=igFilter==='none'?'':igFilter;
+  var uname=document.getElementById('ig-uname').value||'username';
+  var cap=document.getElementById('ig-cap').value;
+  var rdur=document.getElementById('ig-rdur').value||'0:30';
+  var raudio=document.getElementById('ig-raudio').value||'Original Audio';
+  var likes=document.getElementById('ig-likes').value||'2,847';
+  var sticker=document.getElementById('ig-sticker').value;
+
+  if(igType==='story'){
+    var stBg=img1?'#000':igStBg;
+    var stImgH=img1?'<img src="'+img1+'" style="display:block;filter:'+flt+'" onerror="this.remove()" onload="this.style.display=\'block\'"/>':'';
+    return '<div class="ig-story-full" style="background:'+stBg+'"><div class="ig-st-prog"><div class="ig-st-pseg"><div class="ig-st-pf" style="width:38%"></div></div><div class="ig-st-pseg"></div><div class="ig-st-pseg"></div></div><div class="ig-st-header"><div style="width:26px;height:26px;border-radius:50%;background:'+igAv+';display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;border:1.5px solid #fff">'+uname.charAt(0).toUpperCase()+'</div><span style="font-size:.75rem;font-weight:700;color:#fff">'+esc(uname)+'</span><span style="font-size:.62rem;color:rgba(255,255,255,.68);margin-left:.18rem">Now</span><span class="ig-st-close">✕</span></div><div class="ig-st-content">'+stImgH+'</div>'+(sticker?'<div class="ig-st-sticker">'+esc(sticker)+'</div>':'')+'<div class="ig-st-reply"><div class="ig-st-rinput">Send message…</div><span style="color:#fff;font-size:1.05rem">❤️</span></div></div>';
+  }
+  if(igType==='reel'){
+    var imgH=img1?'<img src="'+img1+'" style="position:absolute;width:100%;height:100%;object-fit:cover;filter:'+flt+'" onerror="this.remove()" onload="this.style.display=\'block\'"/>':'<div class="ig-aspect-ph"><span style="font-size:3rem">🎬</span><span>Reel Preview</span></div>';
+    return '<div class="ig-aspect reel" style="position:relative;background:#000">'+imgH+'<div class="ig-reel-r"><div class="ig-reel-act"><div style="width:32px;height:32px;border-radius:50%;background:'+igAv+';display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff">'+uname.charAt(0).toUpperCase()+'</div><div style="width:17px;height:17px;background:var(--ig-blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:700;margin:-4px auto 0">+</div></div><div class="ig-reel-act"><div class="ig-reel-icon">❤️</div><div class="ig-reel-cnt">'+esc(likes)+'</div></div><div class="ig-reel-act"><div class="ig-reel-icon">💬</div><div class="ig-reel-cnt">124</div></div><div class="ig-reel-act"><div class="ig-reel-icon">↗️</div><div class="ig-reel-cnt">89</div></div><div class="ig-reel-act"><div class="ig-reel-icon">⋯</div></div></div><div class="ig-reel-bot"><div class="ig-reel-uname">'+esc(uname)+(igVer?' ✓':'')+'</div><div class="ig-reel-cap">'+esc(cap.substring(0,80))+(cap.length>80?'…':'')+'</div><div class="ig-reel-audio"><div class="ig-reel-disc"></div>'+esc(raudio)+' · '+esc(rdur)+'</div></div></div>';
+  }
+  var ratioClass=igRatio;
+  if(igType==='carousel'){
+    var imgs=[img1,img2,img3,img4].filter(function(u){return u;});
+    var dotCount=Math.max(imgs.length||1,2);
+    var dotsH=Array.from({length:dotCount},function(_,i){return '<div class="ig-dot'+(i===0?' on':'')+'"></div>';}).join('');
+    var mainImg=imgs.length>0?'<img src="'+imgs[0]+'" style="position:absolute;width:100%;height:100%;object-fit:cover;filter:'+flt+'" onerror="this.remove()" onload="this.style.display=\'block\'"/>':'';
+    return '<div class="ig-aspect '+ratioClass+'" style="position:relative;background:linear-gradient(135deg,rgba(245,133,41,.18),rgba(221,42,123,.14))">'+mainImg+'<div class="ig-aspect-ph"><span style="font-size:2.5rem">📑</span><span>Carousel</span></div><div class="ig-dots">'+dotsH+'</div><div style="position:absolute;top:.5rem;right:.5rem;color:#fff;font-size:.95rem">⬜</div></div>';
+  }
+  var imgH=img1?'<img src="'+img1+'" style="position:absolute;width:100%;height:100%;object-fit:cover;filter:'+flt+'" onerror="this.remove()" onload="this.style.display=\'block\'"/>':'<div class="ig-aspect-ph"><span style="font-size:2.5rem">🖼️</span><span>Add image URL in Media tab</span></div>';
+  return '<div class="ig-aspect '+ratioClass+'" style="position:relative;background:linear-gradient(135deg,rgba(245,133,41,.15),rgba(221,42,123,.12))">'+imgH+'</div>';
+}
+
+function buildGrid(){
+  var img1=document.getElementById('ig-img1').value;
+  var flt=igFilter==='none'?'':igFilter;
+  var emojis=['🌆','🌿','📸','☕','🎨','🏙️','🌸','🎵'];
+  var grads=['rgba(245,133,41,.18)','rgba(221,42,123,.18)','rgba(129,52,175,.18)','rgba(81,91,212,.18)','rgba(37,211,102,.18)','rgba(255,107,107,.18)','rgba(245,158,11,.18)','rgba(0,212,170,.18)'];
+  var currentImg=img1?'<img src="'+img1+'" style="width:100%;height:100%;object-fit:cover;filter:'+flt+';display:none" onerror="this.remove()" onload="this.style.display=\'block\'"/>':'';
+  var typeBadge=igType==='reel'?'<div class="ig-reel-badge">🎬</div>':igType==='carousel'?'<div class="ig-reel-badge">📑</div>':'';
+  var cells='<div class="ig-gc hl">'+currentImg+'<div class="ig-gc-ph">✨</div>'+typeBadge+'</div>';
+  for(var i=0;i<8;i++){cells+='<div class="ig-gc"><div class="ig-gc-ph" style="background:'+grads[i]+';width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:rgba(255,255,255,.22)">'+emojis[i]+'</div></div>';}
+  return cells;
+}
+
+function buildProfile(){
+  var uname=document.getElementById('ig-uname').value||'username';
+  var fname=document.getElementById('ig-fname').value||'Full Name';
+  var bio=document.getElementById('ig-bio').value||'Your bio';
+  var posts=document.getElementById('ig-posts').value||'0';
+  var followers=document.getElementById('ig-followers').value||'0';
+  var following=document.getElementById('ig-following').value||'0';
+  var init=uname.charAt(0).toUpperCase();
+  document.getElementById('ig-profile-uname-nav').textContent=uname;
+  document.getElementById('ig-profile-hd').innerHTML='<div class="ig-profile-row"><div class="ig-profile-av"><div class="ig-profile-av-inner" style="background:'+igAv+'">'+init+'</div></div><div class="ig-stats"><div class="ig-stat"><strong>'+esc(posts)+'</strong><span>posts</span></div><div class="ig-stat"><strong>'+esc(followers)+'</strong><span>followers</span></div><div class="ig-stat"><strong>'+esc(following)+'</strong><span>following</span></div></div></div><div class="ig-profile-name">'+esc(fname)+(igVer?' <span style="color:var(--ig-blue)">✓</span>':'')+'</div><div class="ig-profile-bio">'+esc(bio)+'</div><div class="ig-profile-btns"><button class="ig-profile-btn">Follow</button><button class="ig-profile-btn">Message</button><button class="ig-profile-btn" style="flex:0;padding:.42rem .65rem">👤+</button></div>';
+  var g=document.getElementById('ig-grid');if(g)g.innerHTML=buildGrid();
+  var eg=document.getElementById('ig-explore-grid');if(eg)eg.innerHTML=buildGrid();
+}
+
+function igRender(){
+  var uname=document.getElementById('ig-uname').value||'username';
+  var cap=document.getElementById('ig-cap').value;
+  var loc=document.getElementById('ig-location')||document.getElementById('ig-loc');
+  var locVal=loc?loc.value:'';
+  // Re-read location from actual field
+  var locInput=document.getElementById('ig-loc');locVal=locInput?locInput.value:'';
+  var likes=document.getElementById('ig-likes').value||'2,847';
+  var ptime=document.getElementById('ig-ptime').value||'2 HOURS AGO';
+  var collabUser=document.getElementById('ig-collab-user').value||'partner';
+  var ic1u=document.getElementById('ic1u').value;var ic1t=document.getElementById('ic1t').value;
+  var ic2u=document.getElementById('ic2u').value;var ic2t=document.getElementById('ic2t').value;
+  var showCmts=document.getElementById('tog-igcmts').classList.contains('on');
+  var showActs=document.getElementById('tog-igacts').classList.contains('on');
+  var showLikes=document.getElementById('tog-iglikes').classList.contains('on');
+  var showSts=document.getElementById('tog-igsts').classList.contains('on');
+  var init=uname.charAt(0).toUpperCase();
+
+  // Format badge
+  var rL=igType==='reel'?'9:16':igType==='story'?'9:16':igRatio==='p45'?'4:5':igRatio==='ls'?'16:9':'1:1';
+  var typeIcon=igType==='feed'?'📷':igType==='reel'?'🎬':igType==='story'?'⭕':'📑';
+  document.getElementById('ig-format-badge').textContent=typeIcon+' '+igType.charAt(0).toUpperCase()+igType.slice(1)+' · '+rL;
+
+  // Stories bar
+  var stsEl=document.getElementById('ig-sts-bar');
+  if(stsEl){stsEl.innerHTML=showSts?'<div class="ig-sts"><div class="ig-st-item"><div class="ig-st-ring add" style="border:2px solid var(--ig-bd);padding:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center;border-radius:50%;position:relative"><div class="ig-st-av" style="background:'+igAv+';width:52px;height:52px;border:none">'+init+'</div><div class="ig-add-plus">+</div></div><div class="ig-st-name" style="color:var(--ig-m)">Your story</div></div>'+['sarah','alex','mike_v'].map(function(n,i){return '<div class="ig-st-item"><div class="ig-st-ring"><div class="ig-st-av" style="background:linear-gradient(135deg,hsl('+(i*90+30)+',68%,38%),hsl('+(i*90+90)+',68%,28%));width:52px;height:52px;border:none">'+n.charAt(0).toUpperCase()+'</div></div><div class="ig-st-name">'+n+'</div></div>';}).join('')+'</div>':'';
+  }
+
+  // Build media
+  var mediaH=buildMedia();
+
+  // Story/reel are their own format
+  var isStReel=(igType==='story'||igType==='reel');
+  var cmtsH='';
+  if(showCmts&&!isStReel){cmtsH='<div class="ig-view-cmts">View all comments</div>'+(ic1u&&ic1t?'<div class="ig-cmt"><div class="ig-cmt-av">S</div><div class="ig-cmt-body"><span style="font-weight:700">'+esc(ic1u)+'</span> '+esc(ic1t)+'</div><span class="ig-cmt-heart">🤍</span></div>':'')+(ic2u&&ic2t?'<div class="ig-cmt"><div class="ig-cmt-av" style="background:linear-gradient(135deg,#8134af,#515bd4)">M</div><div class="ig-cmt-body"><span style="font-weight:700">'+esc(ic2u)+'</span> '+esc(ic2t)+'</div><span class="ig-cmt-heart">🤍</span></div>':'');}
+
+  var collabH=igCollab?'<div class="ig-collab">& <strong>'+esc(collabUser)+'</strong></div>':'';
+  var spH=igSp?'<span class="ig-sp-lbl">Sponsored</span>':'';
+
+  var postH;
+  if(isStReel){postH='<div class="ig-post">'+mediaH+'</div>';}
+  else{postH='<div class="ig-post"><div class="ig-post-hd"><div class="ig-av-wrap"><div class="ig-av-ring"><div class="ig-av" style="background:'+igAv+'">'+init+'</div></div></div><div class="ig-post-info"><div class="ig-uname">'+esc(uname)+(igVer?' <span class="ig-verified">✓</span>':'')+spH+'</div>'+(locVal?'<span class="ig-location">'+esc(locVal)+'</span>':'')+collabH+'</div><div class="ig-post-more">···</div></div>'+mediaH+(showActs?'<div class="ig-acts"><div class="ig-acts-l"><span class="ig-act-ico">🤍</span><span class="ig-act-ico">💬</span><span class="ig-act-ico">✈️</span></div><span class="ig-save">🔖</span></div>':'')+(showLikes?'<div class="ig-likes">'+esc(likes)+' likes</div>':'')+'<div class="ig-cap"><span style="font-weight:700">'+esc(uname)+'</span> '+fmtCap(cap,200)+'</div>'+cmtsH+'<div class="ig-ts">'+esc(ptime)+'</div></div>';}
+
+  var feedEl=document.getElementById('ig-feed-post');if(feedEl)feedEl.innerHTML=postH;
+  buildProfile();
+
+  // Analysis
+  var tags=(cap.match(/#\w+/g)||[]);
+  var rows=[
+    {ok:cap.length>0,w:false,label:'Caption',d:cap.length+' chars · '+tags.length+' hashtag'+(tags.length!==1?'s':'')},
+    {ok:cap.length<=125,w:cap.length>125&&cap.length<=300,label:'Hook Visibility',d:cap.length<=125?'Full caption visible before "more"':cap.length<=300?'Caption truncated — hook may be cut':'Long — users must tap "more" to read'},
+    {ok:tags.length>=3&&tags.length<=15,w:tags.length>15||tags.length<3,label:'Hashtags',d:tags.length+' hashtags — '+(tags.length<3?'too few (aim 5–15)':tags.length>15?'consider reducing':'good range')},
+    {ok:igType!=='feed'||igRatio!=='ls',w:igType==='feed'&&igRatio==='ls',label:'Aspect Ratio',d:igType+' · '+(igType==='reel'||igType==='story'?'9:16 (optimal)':igRatio==='p45'?'4:5 (best reach)':igRatio==='sq'?'1:1 (safe)':'16:9 — low feed presence')},
+    {ok:!!document.getElementById('ig-img1').value,w:false,label:'Image',d:document.getElementById('ig-img1').value?'Image URL provided':'No image URL — add one in Media tab'},
+  ];
+  document.getElementById('ig-anal').innerHTML=rows.map(function(r){return '<div class="an-row"><div class="an-ic '+(r.ok?'ic-ok':r.w?'ic-wn':'ic-in')+'">'+(r.ok?'✓':r.w?'!':'i')+'</div><div class="an-txt"><strong>'+r.label+':</strong> '+r.d+'</div></div>';}).join('');
+}
+
+// Init
+buildFilterGrid();
+document.getElementById('igt-content').style.display='flex';
+igRender();igCapCnt();
+</script>
+</body>
+</html>
