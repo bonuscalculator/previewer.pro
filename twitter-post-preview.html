@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Free Twitter/X post preview tool — compose and preview exactly how your tweet looks before publishing. Supports photo tweets, video posts, polls, threads, quote tweets, and spaces with dark/light/dim mode. Upload images directly."/>
+<meta name="keywords" content="twitter post preview, x post preview, tweet simulator, twitter post composer, tweet preview tool, twitter thread preview, x post appearance"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://www.previewer.pro/twitter-post-preview"/>
+<meta property="og:title" content="Twitter/X Post Preview Tool — Compose & Simulate Tweets | Previewer.pro"/>
+<meta property="og:description" content="Compose tweets and X posts and preview exactly how they appear in the feed. Threads, polls, quotes, spaces — dark, dim, and light mode."/>
+<title>Twitter/X Post Preview Tool — Tweet & Thread Simulator | Previewer.pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pp:#07080d;--ps:#0f1118;--ps2:#161824;--pb:rgba(255,255,255,.08);
+  --pt:#e8eaf2;--pm:#8b90a8;--ffd:'Syne',sans-serif;--ffb:'DM Sans',sans-serif;
+  /* Twitter/X brand colors */
+  --tw-dark:#000000;--tw-surface:#16181c;--tw-card:#1e2126;
+  --tw-border:#2f3336;--tw-text:#e7e9ea;--tw-muted:#71767b;
+  --tw-blue:#1d9bf0;--tw-blue2:#4d9ef7;
+  --tw-green:#00ba7c;--tw-red:#f4212e;
+  /* Dim mode */
+  --tw-dim-bg:#15202b;--tw-dim-surface:#1e2732;--tw-dim-border:#38444d;
+  /* Light mode */
+  --tw-light-bg:#ffffff;--tw-light-surface:#f7f9f9;--tw-light-border:#eff3f4;
+  --tw-light-text:#0f1419;--tw-light-muted:#536471;
+}
+body{font-family:var(--ffb);background:var(--pp);color:var(--pt);min-height:100vh;overflow-x:hidden}
+.app-grid{display:grid;grid-template-columns:380px 1fr;min-height:100vh}
+
+/* ── Composer panel ── */
+.cmp{background:var(--ps);border-right:1px solid var(--pb);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow:hidden}
+.cmp-top{padding:1rem 1.25rem .75rem;border-bottom:1px solid var(--pb);flex-shrink:0}
+.back-a{display:inline-flex;align-items:center;gap:.35rem;color:var(--pm);font-size:.76rem;text-decoration:none;margin-bottom:.5rem;transition:color .2s}
+.back-a:hover{color:var(--pt)}
+.cmp-title{font-family:var(--ffd);font-size:.98rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.plat-badge{font-size:.65rem;font-weight:700;padding:.18rem .55rem;border-radius:999px;background:rgba(29,155,240,.14);border:1px solid rgba(29,155,240,.28);color:var(--tw-blue2)}
+.tabs{display:flex;border-bottom:1px solid var(--pb);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:.58rem .6rem;background:none;border:none;color:var(--pm);font-size:.73rem;font-weight:600;cursor:pointer;font-family:var(--ffb);transition:all .2s;position:relative;white-space:nowrap}
+.tab.on{color:#fff;background:rgba(29,155,240,.06)}
+.tab.on::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--tw-blue)}
+.cmp-body{flex:1;overflow-y:auto;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.88rem;scrollbar-width:thin;scrollbar-color:var(--pb) transparent}
+
+/* Form */
+.fg{display:flex;flex-direction:column;gap:.28rem}
+.lbl{font-size:.7rem;font-weight:600;color:var(--pm);text-transform:uppercase;letter-spacing:.07em;display:flex;justify-content:space-between;align-items:center}
+.cnt-ok{color:#00d4aa;font-size:.7rem;font-weight:700}.cnt-warn{color:#f59e0b;font-size:.7rem;font-weight:700}.cnt-over{color:#ef4444;font-size:.7rem;font-weight:700}
+input,textarea,select{background:var(--pp);border:1.5px solid var(--pb);border-radius:9px;padding:.55rem .88rem;color:var(--pt);font-family:var(--ffb);font-size:.87rem;outline:none;transition:border-color .2s;width:100%;resize:none}
+input:focus,textarea:focus,select:focus{border-color:var(--tw-blue)}
+textarea{min-height:88px;line-height:1.5}
+.pills{display:flex;flex-wrap:wrap;gap:.32rem}
+.pl{padding:.28rem .68rem;border:1.5px solid var(--pb);border-radius:999px;background:var(--ps2);color:var(--pm);font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ffb)}
+.pl.on{border-color:var(--tw-blue);background:rgba(29,155,240,.12);color:var(--tw-blue2)}
+.sws{display:flex;gap:.38rem;flex-wrap:wrap}
+.sw{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:all .2s;flex-shrink:0}
+.sw.on{border-color:#fff;transform:scale(1.22)}
+.tog-wrap{background:var(--ps2);border:1px solid var(--pb);border-radius:9px;padding:.45rem .72rem}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.38rem 0;border-bottom:1px solid var(--pb);gap:.4rem}
+.tog-row:last-child{border-bottom:none}
+.tog-lbl{font-size:.83rem;color:var(--pt)}
+.twitch{width:34px;height:19px;border-radius:999px;background:var(--pb);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.twitch.on{background:var(--tw-blue)}
+.twitch::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;background:#fff;border-radius:50%;transition:transform .2s}
+.twitch.on::after{transform:translateX(15px)}
+
+/* Image upload */
+.img-upload-area{position:relative;border:2px dashed var(--pb);border-radius:10px;cursor:pointer;transition:all .2s;overflow:hidden}
+.img-upload-area:hover{border-color:var(--tw-blue);background:rgba(29,155,240,.04)}
+.img-upload-inner{padding:1rem;display:flex;flex-direction:column;align-items:center;gap:.45rem;text-align:center}
+.img-upload-icon{font-size:2rem;color:var(--pm)}
+.img-upload-txt{font-size:.8rem;color:var(--pm)}
+.img-upload-hint{font-size:.7rem;color:var(--pm);opacity:.7}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-preview-wrap{position:relative;border-radius:10px;overflow:hidden}
+.img-preview-wrap img{width:100%;max-height:180px;object-fit:cover;display:block;border-radius:10px}
+.img-remove-btn{position:absolute;top:.4rem;right:.4rem;background:rgba(0,0,0,.7);border:none;border-radius:50%;width:24px;height:24px;color:#fff;font-size:.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.img-remove-btn:hover{background:rgba(244,33,46,.8)}
+
+/* Poll options */
+.poll-opts{display:flex;flex-direction:column;gap:.38rem}
+.poll-opt-inp{background:var(--pp);border:1.5px solid var(--pb);border-radius:8px;padding:.5rem .78rem;color:var(--pt);font-size:.85rem;outline:none;width:100%;font-family:var(--ffb);transition:border-color .2s}
+.poll-opt-inp:focus{border-color:var(--tw-blue)}
+
+/* Thread tweets */
+.thread-list{display:flex;flex-direction:column;gap:.65rem}
+.thread-tweet{background:var(--pp);border:1.5px solid var(--pb);border-radius:10px;padding:.72rem;position:relative}
+.thread-tweet-num{position:absolute;top:.5rem;right:.65rem;font-size:.66rem;color:var(--pm);font-weight:600}
+.thread-ta{background:none;border:none;padding:0;color:var(--pt);font-family:var(--ffb);font-size:.85rem;resize:none;min-height:60px;outline:none;width:100%}
+.thread-add-btn{display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.5rem;border:1.5px dashed var(--pb);border-radius:9px;color:var(--pm);font-size:.82rem;cursor:pointer;transition:all .2s;background:none;width:100%}
+.thread-add-btn:hover{border-color:var(--tw-blue);color:var(--tw-blue2)}
+
+/* Stats */
+.stats-g{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.stat-f label{font-size:.68rem;color:var(--pm);font-weight:600;text-align:center;display:block;margin-bottom:.18rem}
+.stat-f input{padding:.3rem .45rem;text-align:center;font-size:.82rem}
+
+.upd{width:100%;padding:.75rem;border:none;border-radius:9px;font-family:var(--ffd);font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s;background:var(--tw-blue);color:#fff;margin-top:.25rem}
+.upd:hover{background:#1a8cd8;transform:translateY(-1px)}
+
+/* ── Right panel ── */
+.right{background:var(--pp);display:flex;flex-direction:column;gap:1.4rem;padding:1.4rem}
+.pbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.65rem}
+.pbar h2{font-family:var(--ffd);font-weight:700;font-size:.9rem;color:#fff}
+.vtabs{display:flex;gap:.32rem;flex-wrap:wrap}
+.vt{padding:.35rem .82rem;background:var(--ps);border:1px solid var(--pb);border-radius:7px;color:var(--pm);font-size:.76rem;font-weight:600;font-family:var(--ffd);cursor:pointer;transition:all .2s}
+.vt.on{background:rgba(29,155,240,.12);border-color:var(--tw-blue);color:var(--tw-blue2)}
+.mode-row{display:flex;background:var(--ps);border:1px solid var(--pb);border-radius:8px;padding:.22rem}
+.mbtn{padding:.28rem .62rem;border:none;border-radius:5px;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ffb);background:none;color:var(--pm)}
+.mbtn.on{background:var(--tw-blue);color:#fff}
+
+/* ── Mobile frame ── */
+.mob-wrap{display:flex;justify-content:center}
+.mob-f{width:355px;border-radius:38px;overflow:hidden;border:2px solid #2a2a2a;box-shadow:0 0 0 1px #3a3a3a,0 28px 70px rgba(0,0,0,.65);background:#000}
+.mob-notch{height:28px;background:#000;display:flex;align-items:center;justify-content:center}
+.mob-pill{width:90px;height:18px;background:#0a0a0a;border-radius:0 0 12px 12px;display:flex;align-items:center;justify-content:center;gap:5px}
+.mob-cam{width:7px;height:7px;background:#111;border-radius:50%;border:1px solid #222}
+.mob-mic{width:32px;height:4px;background:#111;border-radius:999px}
+.mob-scroll{max-height:660px;overflow-y:auto;scrollbar-width:none}
+.mob-scroll::-webkit-scrollbar{display:none}
+
+/* ── Twitter/X UI ── */
+.tw-ui{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.tw-ui.dark{background:var(--tw-dark)}
+.tw-ui.dim{background:var(--tw-dim-bg)}
+.tw-ui.light{background:var(--tw-light-bg)}
+/* Nav */
+.tw-nav{padding:.58rem .88rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--tw-border);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+.tw-ui.dark .tw-nav{background:rgba(0,0,0,.85);border-color:var(--tw-border)}
+.tw-ui.dim .tw-nav{background:rgba(21,32,43,.85);border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-nav{background:rgba(255,255,255,.85);border-color:var(--tw-light-border)}
+.tw-logo{font-size:1.45rem;font-weight:900}
+.tw-ui.dark .tw-logo,.tw-ui.dim .tw-logo{color:var(--tw-text)}
+.tw-ui.light .tw-logo{color:var(--tw-light-text)}
+/* Tab bar */
+.tw-tabbar{display:flex;border-bottom:1px solid var(--tw-border)}
+.tw-ui.dim .tw-tabbar{border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-tabbar{border-color:var(--tw-light-border)}
+.tw-tabi{flex:1;padding:.68rem .5rem;font-size:.84rem;font-weight:700;cursor:pointer;text-align:center;position:relative;transition:color .2s}
+.tw-ui.dark .tw-tabi{color:var(--tw-muted)}
+.tw-ui.dim .tw-tabi{color:var(--tw-muted)}
+.tw-ui.light .tw-tabi{color:var(--tw-light-muted)}
+.tw-tabi.act{color:var(--tw-text)}
+.tw-ui.light .tw-tabi.act{color:var(--tw-light-text)}
+.tw-tabi.act::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:58%;height:4px;background:var(--tw-blue);border-radius:2px}
+/* Tweet row */
+.tw-tweet{display:flex;gap:.62rem;padding:.85rem .88rem;border-bottom:1px solid var(--tw-border);cursor:pointer;transition:background .15s;position:relative}
+.tw-ui.dim .tw-tweet{border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-tweet{border-color:var(--tw-light-border)}
+.tw-tweet:hover{background:rgba(255,255,255,.03)}
+.tw-ui.light .tw-tweet:hover{background:rgba(0,0,0,.02)}
+/* Thread connector */
+.tw-tweet.thread-first::after,.tw-tweet.thread-mid::after{content:'';position:absolute;left:1.88rem;top:3.5rem;bottom:0;width:2px;background:var(--tw-border)}
+.tw-ui.dim .tw-tweet.thread-first::after,.tw-ui.dim .tw-tweet.thread-mid::after{background:var(--tw-dim-border)}
+.tw-ui.light .tw-tweet.thread-first::after,.tw-ui.light .tw-tweet.thread-mid::after{background:var(--tw-light-border)}
+/* Left col */
+.tw-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.tw-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.9rem;background:var(--tw-blue);position:relative;z-index:1}
+/* Right col */
+.tw-right{flex:1;min-width:0}
+.tw-author-row{display:flex;align-items:center;gap:.28rem;flex-wrap:wrap;margin-bottom:.18rem}
+.tw-name{font-size:.9rem;font-weight:700}
+.tw-ui.dark .tw-name,.tw-ui.dim .tw-name{color:var(--tw-text)}
+.tw-ui.light .tw-name{color:var(--tw-light-text)}
+.tw-ver{font-size:.8rem}
+.tw-handle,.tw-dot,.tw-time{font-size:.87rem;color:var(--tw-muted)}
+.tw-ui.light .tw-handle,.tw-ui.light .tw-dot,.tw-ui.light .tw-time{color:var(--tw-light-muted)}
+.tw-more{color:var(--tw-muted);margin-left:auto;cursor:pointer;font-size:1rem}
+.tw-ui.light .tw-more{color:var(--tw-light-muted)}
+/* Premium badge */
+.tw-premium{background:linear-gradient(135deg,var(--tw-blue),#7856ff);border-radius:999px;padding:.08rem .42rem;font-size:.63rem;font-weight:700;color:#fff}
+/* Tweet text */
+.tw-text{font-size:.95rem;line-height:1.55;margin-bottom:.62rem;word-break:break-word;white-space:pre-wrap}
+.tw-ui.dark .tw-text,.tw-ui.dim .tw-text{color:var(--tw-text)}
+.tw-ui.light .tw-text{color:var(--tw-light-text)}
+.tw-text-lg{font-size:1.4rem;font-weight:400;line-height:1.4}
+.tw-hsh{color:var(--tw-blue);cursor:pointer}.tw-mnt{color:var(--tw-blue);cursor:pointer}
+/* Media */
+.tw-media{border-radius:14px;overflow:hidden;border:1px solid var(--tw-border);margin-bottom:.62rem;position:relative}
+.tw-ui.dim .tw-media{border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-media{border-color:var(--tw-light-border)}
+.tw-media img{width:100%;display:block;max-height:400px;object-fit:cover}
+.tw-media-ph{height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;background:linear-gradient(135deg,rgba(29,155,240,.14),rgba(120,86,255,.1));color:rgba(255,255,255,.22);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.tw-media-grid{display:grid;gap:2px;border-radius:14px;overflow:hidden}
+.tw-media-grid.g2{grid-template-columns:1fr 1fr}
+.tw-media-grid.g3{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+.tw-media-grid.g3 .tw-mc:first-child{grid-column:1/-1}
+.tw-mc{background:rgba(29,155,240,.08);min-height:140px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.tw-mc img{width:100%;height:100%;object-fit:cover;display:none}
+.tw-mc-ph{font-size:2rem;color:rgba(255,255,255,.14)}
+/* Gif badge */
+.tw-gif{position:absolute;bottom:.42rem;left:.42rem;background:rgba(0,0,0,.7);color:#fff;font-size:.63rem;font-weight:700;padding:.13rem .4rem;border-radius:4px}
+/* Poll */
+.tw-poll{margin-bottom:.62rem;display:flex;flex-direction:column;gap:.45rem}
+.tw-poll-opt{border:1.5px solid var(--tw-border);border-radius:999px;padding:.52rem .95rem;font-size:.87rem;cursor:pointer;position:relative;overflow:hidden;transition:border-color .2s}
+.tw-ui.dim .tw-poll-opt{border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-poll-opt{border-color:var(--tw-light-border)}
+.tw-poll-opt:hover{border-color:var(--tw-blue)}
+.tw-poll-bar{position:absolute;inset:0;background:rgba(29,155,240,.14);transform:scaleX(0);transform-origin:left;transition:transform .6s ease;border-radius:999px}
+.tw-poll-txt{position:relative;z-index:1;display:flex;justify-content:space-between}
+.tw-poll-pct{font-size:.8rem;color:var(--tw-muted);font-weight:600}
+.tw-ui.light .tw-poll-pct{color:var(--tw-light-muted)}
+.tw-poll-lead .tw-poll-bar{transform:scaleX(1);background:rgba(29,155,240,.18)}
+.tw-ui.dark .tw-poll-label,.tw-ui.dim .tw-poll-label{color:var(--tw-text)}
+.tw-ui.light .tw-poll-label{color:var(--tw-light-text)}
+.tw-poll-meta{font-size:.78rem;color:var(--tw-muted);padding:.18rem 0}
+.tw-ui.light .tw-poll-meta{color:var(--tw-light-muted)}
+/* Quote tweet */
+.tw-quote{border:1.5px solid var(--tw-border);border-radius:12px;padding:.72rem;margin-bottom:.62rem;cursor:pointer}
+.tw-ui.dim .tw-quote{border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-quote{border-color:var(--tw-light-border)}
+.tw-quote-hd{display:flex;align-items:center;gap:.38rem;margin-bottom:.32rem}
+.tw-quote-av{width:17px;height:17px;border-radius:50%;background:linear-gradient(135deg,#f58529,#dd2a7b);display:flex;align-items:center;justify-content:center;font-size:.52rem;font-weight:700;color:#fff}
+.tw-quote-name{font-size:.8rem;font-weight:700}
+.tw-ui.dark .tw-quote-name,.tw-ui.dim .tw-quote-name{color:var(--tw-text)}
+.tw-ui.light .tw-quote-name{color:var(--tw-light-text)}
+.tw-quote-handle{font-size:.78rem;color:var(--tw-muted)}
+.tw-ui.light .tw-quote-handle{color:var(--tw-light-muted)}
+.tw-quote-text{font-size:.83rem;color:var(--tw-muted);line-height:1.45}
+.tw-ui.light .tw-quote-text{color:var(--tw-light-muted)}
+/* Spaces */
+.tw-spaces{border:1.5px solid var(--tw-border);border-radius:14px;padding:.95rem;margin-bottom:.62rem;background:linear-gradient(135deg,rgba(120,86,255,.12),rgba(29,155,240,.08))}
+.tw-ui.dim .tw-spaces{border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-spaces{border-color:var(--tw-light-border)}
+.tw-spaces-live{background:var(--tw-red);color:#fff;font-size:.63rem;font-weight:700;padding:.13rem .42rem;border-radius:4px;margin-bottom:.45rem;display:inline-block}
+.tw-spaces-title{font-size:.9rem;font-weight:700;margin-bottom:.32rem}
+.tw-ui.dark .tw-spaces-title,.tw-ui.dim .tw-spaces-title{color:var(--tw-text)}
+.tw-ui.light .tw-spaces-title{color:var(--tw-light-text)}
+.tw-spaces-hosts{display:flex;align-items:center;gap:.32rem;margin-bottom:.45rem}
+.tw-spaces-av{width:24px;height:24px;border-radius:50%;border:2px solid var(--tw-dark);margin-right:-6px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#fff;font-weight:700}
+.tw-ui.light .tw-spaces-av{border-color:var(--tw-light-bg)}
+.tw-spaces-meta{font-size:.75rem;color:var(--tw-muted)}
+.tw-ui.light .tw-spaces-meta{color:var(--tw-light-muted)}
+.tw-spaces-btn{background:var(--tw-text);color:var(--tw-dark);border:none;border-radius:999px;padding:.32rem .82rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-top:.4rem}
+.tw-ui.light .tw-spaces-btn{background:var(--tw-light-text);color:var(--tw-light-bg)}
+/* Community note */
+.tw-cn{background:rgba(247,158,0,.07);border:1px solid rgba(247,158,0,.2);border-radius:12px;padding:.72rem;margin-bottom:.62rem;font-size:.8rem}
+.tw-cn-hd{display:flex;align-items:center;gap:.4rem;margin-bottom:.32rem;font-size:.78rem;color:#f79e00;font-weight:700}
+.tw-cn-text{color:var(--tw-muted);line-height:1.5}
+.tw-ui.light .tw-cn-text{color:var(--tw-light-muted)}
+/* Reply restriction */
+.tw-reply-restrict{display:flex;align-items:center;gap:.35rem;font-size:.8rem;color:var(--tw-blue);margin-bottom:.5rem;font-weight:600}
+/* Actions */
+.tw-acts{display:flex;align-items:center;justify-content:space-between;padding:.15rem 0}
+.tw-act{display:flex;align-items:center;gap:.3rem;color:var(--tw-muted);font-size:.82rem;cursor:pointer;padding:.3rem .38rem;border-radius:999px;transition:all .2s;user-select:none}
+.tw-ui.light .tw-act{color:var(--tw-light-muted)}
+.tw-act:hover{color:var(--tw-blue);background:rgba(29,155,240,.1)}
+.tw-act.rt:hover{color:var(--tw-green);background:rgba(0,186,124,.1)}
+.tw-act.lk:hover{color:var(--tw-red);background:rgba(244,33,46,.1)}
+/* Detail view engagement row */
+.tw-detail-eng{display:flex;gap:1.25rem;padding:.75rem 0;border-top:1px solid var(--tw-border);border-bottom:1px solid var(--tw-border);margin-top:.45rem}
+.tw-ui.dim .tw-detail-eng{border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-detail-eng{border-color:var(--tw-light-border)}
+.tw-eng-item{display:flex;flex-direction:column;gap:.08rem}
+.tw-eng-val{font-size:.9rem;font-weight:700}
+.tw-ui.dark .tw-eng-val,.tw-ui.dim .tw-eng-val{color:var(--tw-text)}
+.tw-ui.light .tw-eng-val{color:var(--tw-light-text)}
+.tw-eng-lbl{font-size:.72rem;color:var(--tw-muted)}
+.tw-ui.light .tw-eng-lbl{color:var(--tw-light-muted)}
+/* Notification */
+.tw-notif{display:flex;gap:.72rem;padding:.75rem .88rem;border-bottom:1px solid var(--tw-border);cursor:pointer;transition:background .15s}
+.tw-ui.dim .tw-notif{border-color:var(--tw-dim-border)}
+.tw-ui.light .tw-notif{border-color:var(--tw-light-border)}
+.tw-notif:hover{background:rgba(255,255,255,.03)}
+.tw-ui.light .tw-notif:hover{background:rgba(0,0,0,.02)}
+.tw-notif-icon{font-size:1.3rem;flex-shrink:0;margin-top:.15rem}
+.tw-notif-text{font-size:.87rem;line-height:1.5}
+.tw-ui.dark .tw-notif-text,.tw-ui.dim .tw-notif-text{color:var(--tw-text)}
+.tw-ui.light .tw-notif-text{color:var(--tw-light-text)}
+.tw-notif-text strong{font-weight:700}
+.tw-notif-time{font-size:.76rem;color:var(--tw-muted)}
+.tw-ui.light .tw-notif-time{color:var(--tw-light-muted)}
+/* Analysis */
+.anal{background:var(--ps);border:1px solid var(--pb);border-radius:11px;padding:1.05rem}
+.anal h3{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.8rem}
+.an-row{display:flex;align-items:flex-start;gap:.5rem;padding:.42rem 0;border-bottom:1px solid var(--pb);font-size:.8rem}
+.an-row:last-child{border-bottom:none}
+.an-ic{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;flex-shrink:0;margin-top:.05rem}
+.ic-ok{background:rgba(0,212,170,.12);color:#00d4aa}.ic-wn{background:rgba(245,158,11,.12);color:#f59e0b}.ic-in{background:rgba(29,155,240,.12);color:var(--tw-blue2)}
+.an-txt{color:var(--pm)}.an-txt strong{color:var(--pt)}
+/* Tips */
+.tips-g{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.tip-c{background:var(--ps);border:1px solid var(--pb);border-radius:10px;padding:.95rem;transition:all .2s}
+.tip-c:hover{border-color:rgba(29,155,240,.3);transform:translateY(-2px)}
+.tip-c-ico{font-size:1.25rem;margin-bottom:.38rem}
+.tip-c h4{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.78rem;margin-bottom:.22rem}
+.tip-c p{font-size:.74rem;color:var(--pm);line-height:1.5}
+/* FAQ */
+.faq-box{background:var(--ps);border:1px solid var(--pb);border-radius:11px;overflow:hidden}
+.fq{width:100%;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:none;border:none;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--pt);font-family:var(--ffb);text-align:left;transition:background .2s;border-bottom:1px solid var(--pb)}
+.fq:last-of-type{border-bottom:none}
+.fq:hover{background:rgba(255,255,255,.03)}
+.fq-chev{color:var(--pm);transition:transform .2s;flex-shrink:0}
+.fq[aria-expanded="true"] .fq-chev{transform:rotate(45deg);color:var(--tw-blue)}
+.fa{padding:.65rem 1rem .85rem;font-size:.82rem;color:var(--pm);line-height:1.6;border-bottom:1px solid var(--pb)}
+/* CTA */
+.cta{background:linear-gradient(135deg,rgba(29,155,240,.12),rgba(120,86,255,.08));border:1px solid rgba(29,155,240,.2);border-radius:13px;padding:1.65rem;text-align:center}
+.cta h3{font-family:var(--ffd);font-weight:800;font-size:1.3rem;color:#fff;margin-bottom:.42rem}
+.cta p{color:var(--pm);margin-bottom:1rem;font-size:.86rem}
+.cta-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.cta-a{padding:.55rem 1.28rem;border-radius:999px;font-family:var(--ffd);font-weight:700;font-size:.82rem;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.35rem}
+.ca-fb{background:#1877f2;color:#fff}.ca-ig{background:linear-gradient(45deg,#f58529,#dd2a7b);color:#fff}.ca-gh{background:transparent;color:var(--pt);border:1px solid var(--pb)}
+@media(max-width:980px){.app-grid{grid-template-columns:1fr}.cmp{height:auto;position:static;border-right:none;border-bottom:1px solid var(--pb)}.tips-g{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<div class="app-grid">
+
+<!-- ═════ COMPOSER ═════ -->
+<aside class="cmp" aria-label="Tweet composer">
+  <div class="cmp-top">
+    <a href="/social-preview" class="back-a">← All Social Tools</a>
+    <div class="cmp-title">𝕏 Twitter / X Post Preview <span class="plat-badge">SIMULATOR</span></div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="twTab('tweet',this)">Tweet</button>
+    <button class="tab" onclick="twTab('thread',this)">Thread</button>
+    <button class="tab" onclick="twTab('media',this)">Media</button>
+    <button class="tab" onclick="twTab('profile',this)">Profile</button>
+    <button class="tab" onclick="twTab('advanced',this)">Advanced</button>
+  </div>
+
+  <!-- TWEET TAB -->
+  <div class="cmp-body" id="twt-tweet">
+    <div class="fg"><label class="lbl">Format</label>
+      <div class="pills">
+        <button class="pl on" onclick="setTwType('tweet',this)">💬 Tweet</button>
+        <button class="pl" onclick="setTwType('poll',this)">📊 Poll</button>
+        <button class="pl" onclick="setTwType('quote',this)">🔁 Quote</button>
+        <button class="pl" onclick="setTwType('spaces',this)">🎙️ Spaces</button>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="lbl" for="tw-text">Tweet Text <span id="tw-cnt" class="cnt-ok">0 / 280</span></label>
+      <textarea id="tw-text" oninput="twRender();twCount()" maxlength="280">Just discovered the most accurate Twitter/X post preview tool online! 🚀
+
+See EXACTLY how your tweets look before publishing — dark, dim &amp; light mode, threads, polls, everything.
+
+Try it free → previewer.pro 🔗
+
+#Twitter #X #SocialMedia #ContentCreation</textarea>
+    </div>
+    <!-- Poll options -->
+    <div id="tw-poll-sec" style="display:none">
+      <div class="fg"><label class="lbl">Poll Options</label>
+        <div class="poll-opts">
+          <input class="poll-opt-inp" id="po1" value="Yes, absolutely! 🔥" oninput="twRender()"/>
+          <input class="poll-opt-inp" id="po2" value="Not sure yet 🤔" oninput="twRender()"/>
+          <input class="poll-opt-inp" id="po3" value="No, not really" oninput="twRender()"/>
+          <input class="poll-opt-inp" id="po4" placeholder="4th option (optional)" oninput="twRender()"/>
+        </div>
+      </div>
+      <div class="fg"><label class="lbl">Poll Duration</label>
+        <select id="tw-poll-dur" onchange="twRender()">
+          <option>1 day</option><option selected>3 days</option><option>7 days</option>
+        </select>
+      </div>
+    </div>
+    <!-- Quote tweet -->
+    <div id="tw-quote-sec" style="display:none">
+      <div class="fg"><label class="lbl">Quoted Name</label><input id="tw-q-name" value="ContentPro" oninput="twRender()"/></div>
+      <div class="fg"><label class="lbl">Quoted @handle</label><input id="tw-q-handle" value="@contentpro" oninput="twRender()"/></div>
+      <div class="fg"><label class="lbl">Quoted Text</label><textarea id="tw-q-text" style="min-height:60px" oninput="twRender()">This is the original tweet being quoted. Great content here!</textarea></div>
+    </div>
+    <!-- Spaces -->
+    <div id="tw-spaces-sec" style="display:none">
+      <div class="fg"><label class="lbl">Space Title</label><input id="tw-sp-title" value="The Future of Social Media Marketing" oninput="twRender()"/></div>
+      <div class="fg"><label class="lbl">Status</label>
+        <div class="pills">
+          <button class="pl on" onclick="setSpStatus('live',this)">🔴 Live</button>
+          <button class="pl" onclick="setSpStatus('scheduled',this)">📅 Scheduled</button>
+          <button class="pl" onclick="setSpStatus('ended',this)">⚫ Ended</button>
+        </div>
+      </div>
+      <div class="fg"><label class="lbl">Listeners</label><input id="tw-sp-listeners" value="847 listening" oninput="twRender()"/></div>
+    </div>
+    <div class="fg"><label class="lbl">Reply Permission</label>
+      <select id="tw-reply-perm" onchange="twRender()">
+        <option value="">Everyone can reply</option>
+        <option value="👥 Accounts you follow">Accounts you follow</option>
+        <option value="👤 Only mentioned accounts">Only mentioned</option>
+        <option value="✅ Verified accounts">Verified only</option>
+        <option value="🔖 Subscribers">Subscribers only</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- THREAD TAB -->
+  <div class="cmp-body" id="twt-thread" style="display:none">
+    <div style="font-size:.8rem;color:var(--pm);padding:.15rem 0;border-bottom:1px solid var(--pb);margin-bottom:.3rem">Each tweet is 280 chars. Build a full thread below.</div>
+    <div class="thread-list" id="thread-list">
+      <div class="thread-tweet"><span class="thread-tweet-num">1/</span><textarea class="thread-ta" oninput="twRender()">🧵 Thread: How to maximise your Twitter/X reach in 2025
+
+I tested every strategy over 6 months. Here's what actually works:</textarea></div>
+      <div class="thread-tweet"><span class="thread-tweet-num">2/</span><textarea class="thread-ta" oninput="twRender()">1/ POSTING TIMES
+
+Forget generic advice. Your optimal time depends entirely on your specific audience timezone.
+
+Use X Analytics → check when YOUR followers are most active. Everyone's data is different.</textarea></div>
+      <div class="thread-tweet"><span class="thread-tweet-num">3/</span><textarea class="thread-ta" oninput="twRender()">2/ THE ALGO TRUTH
+
+Replies drive far more reach than reposts in 2025. The algorithm heavily weights posts that generate real conversation.
+
+Ask questions. Create debate. Drive replies. 🔑</textarea></div>
+    </div>
+    <button class="thread-add-btn" onclick="addThreadTweet()">+ Add tweet to thread</button>
+  </div>
+
+  <!-- MEDIA TAB -->
+  <div class="cmp-body" id="twt-media" style="display:none">
+    <div class="fg"><label class="lbl">Upload Image</label>
+      <div class="img-upload-area" id="tw-upload-area">
+        <div class="img-upload-inner">
+          <div class="img-upload-icon">🖼️</div>
+          <div class="img-upload-txt">Click or drag &amp; drop to upload</div>
+          <div class="img-upload-hint">JPG, PNG, GIF, WebP • Max 5MB</div>
+        </div>
+        <input type="file" id="tw-img-file" accept="image/*" onchange="handleTwImg(event)"/>
+      </div>
+      <div id="tw-img-preview" style="display:none" class="img-preview-wrap">
+        <img id="tw-img-preview-el" src="" alt="Preview"/>
+        <button class="img-remove-btn" onclick="removeTwImg()">✕</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Or paste Image URL</label>
+      <input type="url" id="tw-img-url" placeholder="https://example.com/image.jpg" oninput="twImgUrl()"/>
+    </div>
+    <div class="fg"><label class="lbl">Additional Images (2–4)</label>
+      <input type="url" id="tw-img2" placeholder="2nd image URL" style="margin-bottom:.35rem" oninput="twRender()"/>
+      <input type="url" id="tw-img3" placeholder="3rd image URL" oninput="twRender()"/>
+    </div>
+    <div class="fg"><label class="lbl">Media Type</label>
+      <div class="pills">
+        <button class="pl on" onclick="setTwMedia('photo',this)">📷 Photo</button>
+        <button class="pl" onclick="setTwMedia('gif',this)">🎞️ GIF</button>
+        <button class="pl" onclick="setTwMedia('video',this)">🎬 Video</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Alt Text</label><input id="tw-alt" placeholder="Describe the image for screen readers" oninput="twRender()"/></div>
+  </div>
+
+  <!-- PROFILE TAB -->
+  <div class="cmp-body" id="twt-profile" style="display:none">
+    <div class="fg"><label class="lbl">Display Name</label><input id="tw-name" value="Previewer Pro" oninput="twRender()"/></div>
+    <div class="fg"><label class="lbl">@handle</label><input id="tw-handle" value="previewerpro" oninput="twRender()"/></div>
+    <div class="fg"><label class="lbl">Verification / Badge</label>
+      <div class="pills" id="tw-badge-pills">
+        <button class="pl on" onclick="setTwBadge('none',this)">None</button>
+        <button class="pl" onclick="setTwBadge('blue',this)">✓ Blue</button>
+        <button class="pl" onclick="setTwBadge('gold',this)">✓ Gold (Org)</button>
+        <button class="pl" onclick="setTwBadge('gov',this)">🏛️ Gov</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">X Premium</label>
+      <div class="pills" id="tw-prem-pills">
+        <button class="pl on" onclick="setTwPrem(false,this)">None</button>
+        <button class="pl" onclick="setTwPrem(true,this)">Premium+</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Avatar Color</label>
+      <div class="sws" id="tw-av-sws">
+        <div class="sw on" style="background:linear-gradient(135deg,#1d9bf0,#7856ff)" onclick="setTwAv(this,'linear-gradient(135deg,#1d9bf0,#7856ff)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#f58529,#dd2a7b)" onclick="setTwAv(this,'linear-gradient(135deg,#f58529,#dd2a7b)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#00ba7c,#0095f6)" onclick="setTwAv(this,'linear-gradient(135deg,#00ba7c,#0095f6)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#f59e0b,#e44d3a)" onclick="setTwAv(this,'linear-gradient(135deg,#f59e0b,#e44d3a)')"></div>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Post Time</label><input id="tw-ptime" value="2h" oninput="twRender()"/></div>
+  </div>
+
+  <!-- ADVANCED TAB -->
+  <div class="cmp-body" id="twt-advanced" style="display:none">
+    <div class="fg"><label class="lbl">Engagement Stats</label>
+      <div class="stats-g">
+        <div class="stat-f"><label>💬 Replies</label><input id="st-replies" value="284" oninput="twRender()"/></div>
+        <div class="stat-f"><label>🔁 Reposts</label><input id="st-reposts" value="1.2K" oninput="twRender()"/></div>
+        <div class="stat-f"><label>❤️ Likes</label><input id="st-likes" value="4.8K" oninput="twRender()"/></div>
+        <div class="stat-f"><label>📊 Views</label><input id="st-views" value="48.3K" oninput="twRender()"/></div>
+        <div class="stat-f"><label>🔖 Bookmarks</label><input id="st-bookmarks" value="892" oninput="twRender()"/></div>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Community Note</label>
+      <div class="pills" id="tw-cn-pills">
+        <button class="pl on" onclick="setTwCN(false,this)">Hidden</button>
+        <button class="pl" onclick="setTwCN(true,this)">Show Note</button>
+      </div>
+    </div>
+    <div class="fg" id="tw-cn-sec" style="display:none">
+      <label class="lbl">Note Text</label>
+      <textarea id="tw-cn-text" style="min-height:60px" oninput="twRender()">This claim is missing context. Multiple fact-checking organizations have found the statistics cited are from 2019 and may not reflect current data.</textarea>
+    </div>
+    <div class="fg"><label class="lbl">Display Toggles</label>
+      <div class="tog-wrap">
+        <div class="tog-row"><div class="tog-lbl">Show notification view</div><button class="twitch" id="tog-notif" onclick="this.classList.toggle('on');twRender()"></button></div>
+        <div class="tog-row"><div class="tog-lbl">Show engagement detail row</div><button class="twitch on" id="tog-detail" onclick="this.classList.toggle('on');twRender()"></button></div>
+      </div>
+    </div>
+    <button class="upd" onclick="twRender()">🔄 Update Preview</button>
+  </div>
+</aside>
+
+<!-- ═════ RIGHT PANEL ═════ -->
+<main class="right">
+  <div class="pbar">
+    <h2>Twitter / X Post Preview</h2>
+    <div class="vtabs">
+      <button class="vt on" id="twv-feed" onclick="setTwView('feed',this)">🏠 Feed</button>
+      <button class="vt" id="twv-thread" onclick="setTwView('thread',this)">🧵 Thread</button>
+      <button class="vt" id="twv-detail" onclick="setTwView('detail',this)">📄 Detail</button>
+      <button class="vt" id="twv-notif" onclick="setTwView('notif',this)">🔔 Notif</button>
+    </div>
+    <div class="mode-row">
+      <button class="mbtn on" id="twm-dark" onclick="setTwMode('dark',this)">🌙 Dark</button>
+      <button class="mbtn" id="twm-dim" onclick="setTwMode('dim',this)">🌆 Dim</button>
+      <button class="mbtn" id="twm-light" onclick="setTwMode('light',this)">☀️ Light</button>
+    </div>
+  </div>
+
+  <!-- Feed view -->
+  <div id="twv-feed" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="tw-ui dark" id="twFeed">
+          <div class="tw-nav">
+            <span class="tw-logo">𝕏</span>
+            <div style="display:flex;gap:.6rem;font-size:.95rem" id="twNavIcons">🔍 ✉️</div>
+          </div>
+          <div class="tw-tabbar">
+            <div class="tw-tabi act">For you</div>
+            <div class="tw-tabi">Following</div>
+          </div>
+          <div id="tw-feed-post"></div>
+          <!-- Dummy post below -->
+          <div class="tw-tweet" style="opacity:.4">
+            <div class="tw-left"><div class="tw-av" style="background:linear-gradient(135deg,#f58529,#dd2a7b)">S</div></div>
+            <div class="tw-right">
+              <div class="tw-author-row"><span class="tw-name">Sarah Johnson</span><span class="tw-dot">·</span><span class="tw-time">4h</span><span class="tw-more">···</span></div>
+              <div class="tw-text">Love when you find tools that actually work 🙌 <span class="tw-hsh">#SocialMedia</span></div>
+              <div class="tw-acts"><div class="tw-act">💬 48</div><div class="tw-act rt">🔁 12</div><div class="tw-act lk">❤️ 284</div><div class="tw-act">📊 8.2K</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thread view -->
+  <div id="twv-thread" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="tw-ui dark" id="twThreadFeed">
+          <div class="tw-nav"><span class="tw-logo">𝕏</span><div style="font-size:.9rem;font-weight:700" class="tw-logo" id="tw-thread-nav-txt">Thread</div></div>
+          <div id="tw-thread-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail view -->
+  <div id="twv-detail" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="tw-ui dark" id="twDetailFeed">
+          <div class="tw-nav"><span style="font-size:.9rem;font-weight:700;color:var(--tw-text)">← Post</span></div>
+          <div id="tw-detail-post"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification view -->
+  <div id="twv-notif" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="tw-ui dark" id="twNotifFeed">
+          <div class="tw-nav"><span class="tw-logo">𝕏</span><span style="font-size:.88rem;color:var(--tw-text);font-weight:700">Notifications</span></div>
+          <div id="tw-notif-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis -->
+  <div class="anal"><h3>📊 Tweet Analysis</h3><div id="tw-anal"></div></div>
+
+  <!-- Tips -->
+  <div><h3 style="font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.75rem">💡 Twitter / X Tips</h3>
+    <div class="tips-g">
+      <div class="tip-c"><div class="tip-c-ico">✂️</div><h4>Hook First 2 Lines</h4><p>X shows the first 2–3 lines before "Show more." Put your hook, question, or bold claim at the very start.</p></div>
+      <div class="tip-c"><div class="tip-c-ico">🧵</div><h4>Threads Get More Reach</h4><p>Threads consistently outperform single tweets in impressions. The algo rewards content that keeps users on-platform longer.</p></div>
+      <div class="tip-c"><div class="tip-c-ico">#️⃣</div><h4>1–2 Hashtags Max</h4><p>Unlike Instagram, hashtag stuffing hurts reach on X. Use 1–2 highly relevant hashtags or none at all.</p></div>
+      <div class="tip-c"><div class="tip-c-ico">📊</div><h4>Polls Drive Engagement</h4><p>Polls are one of the highest-engagement post formats on X. They force binary choices that drive comments and algorithm signals.</p></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div><h3 style="font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.65rem">❓ FAQs</h3>
+    <div class="faq-box">
+      <button class="fq" aria-expanded="false" aria-controls="twfq1">How many characters does a tweet allow? <span class="fq-chev">+</span></button>
+      <div class="fa" id="twfq1" hidden>Standard accounts have a 280-character limit. X Premium subscribers get up to 4,000 characters (basic) or 25,000 characters (Premium+). URLs always count as 23 characters regardless of their actual length.</div>
+      <button class="fq" aria-expanded="false" aria-controls="twfq2">What's the best image size for a tweet? <span class="fq-chev">+</span></button>
+      <div class="fa" id="twfq2" hidden>For single image tweets, 1200×675px (16:9) renders optimally on all devices. Square (1200×1200px) works universally. Maximum file size is 5MB for images. X crops images in feed to approximately 2:1 ratio.</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h3>Preview on Other Platforms</h3>
+    <p>See exactly how your content looks across every social network — free, instant, no signup.</p>
+    <div class="cta-row">
+      <a href="/facebook-post-preview" class="cta-a ca-fb">📘 Facebook</a>
+      <a href="/instagram-post-preview" class="cta-a ca-ig">📸 Instagram</a>
+      <a href="/social-preview" class="cta-a ca-gh">All Tools →</a>
+    </div>
+  </div>
+</main>
+</div>
+
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+var twType='tweet',twMode='dark',twView='feed';
+var twBadge='none',twPrem=false,twAv='linear-gradient(135deg,#1d9bf0,#7856ff)';
+var twShowCN=false,twSpStatus='live',twMediaType='photo';
+var twImgData=null; // uploaded image data URL
+var MAX=280;
+
+// Tab switching
+function twTab(t,b){
+  ['tweet','thread','media','profile','advanced'].forEach(function(id){document.getElementById('twt-'+id).style.display='none';});
+  document.getElementById('twt-'+t).style.display='flex';
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});b.classList.add('on');
+}
+// Type
+function setTwType(t,b){
+  twType=t;
+  document.querySelectorAll('#twt-tweet .pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');
+  document.getElementById('tw-poll-sec').style.display=t==='poll'?'flex':'none';
+  document.getElementById('tw-quote-sec').style.display=t==='quote'?'flex':'none';
+  document.getElementById('tw-spaces-sec').style.display=t==='spaces'?'flex':'none';
+  twRender();
+}
+function setSpStatus(s,b){twSpStatus=s;document.querySelectorAll('#tw-spaces-sec .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');twRender();}
+function setTwMedia(t,b){twMediaType=t;document.querySelectorAll('#twt-media .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');twRender();}
+function setTwBadge(v,b){twBadge=v;document.querySelectorAll('#tw-badge-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');twRender();}
+function setTwPrem(v,b){twPrem=v;document.querySelectorAll('#tw-prem-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');twRender();}
+function setTwAv(el,g){twAv=g;document.querySelectorAll('#tw-av-sws .sw').forEach(function(s){s.classList.remove('on');});el.classList.add('on');twRender();}
+function setTwCN(v,b){twShowCN=v;document.querySelectorAll('#tw-cn-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');document.getElementById('tw-cn-sec').style.display=v?'flex':'none';twRender();}
+function setTwMode(m,b){
+  twMode=m;document.querySelectorAll('.mbtn').forEach(function(x){x.classList.remove('on');});b.classList.add('on');
+  ['twFeed','twThreadFeed','twDetailFeed','twNotifFeed'].forEach(function(id){
+    var el=document.getElementById(id);if(!el)return;
+    el.classList.remove('dark','dim','light');el.classList.add(m);
+  });
+  twRender();
+}
+function setTwView(v,b){
+  twView=v;['feed','thread','detail','notif'].forEach(function(id){document.getElementById('twv-'+id).style.display='none';});
+  document.getElementById('twv-'+v).style.display='flex';
+  document.querySelectorAll('.vt').forEach(function(x){x.classList.remove('on');});b.classList.add('on');
+}
+// Image upload
+function handleTwImg(e){
+  var f=e.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(ev){
+    twImgData=ev.target.result;
+    document.getElementById('tw-img-url').value='';
+    document.getElementById('tw-upload-area').style.display='none';
+    document.getElementById('tw-img-preview').style.display='block';
+    document.getElementById('tw-img-preview-el').src=twImgData;
+    twRender();
+  };r.readAsDataURL(f);
+}
+function removeTwImg(){twImgData=null;document.getElementById('tw-upload-area').style.display='block';document.getElementById('tw-img-preview').style.display='none';document.getElementById('tw-img-file').value='';twRender();}
+function twImgUrl(){twImgData=null;twRender();}
+// Char count
+function twCount(){
+  var l=document.getElementById('tw-text').value.length;
+  var el=document.getElementById('tw-cnt');
+  el.textContent=l+' / '+MAX;el.className=l>=MAX?'cnt-over':l>=240?'cnt-warn':'cnt-ok';
+}
+function addThreadTweet(){
+  var list=document.getElementById('thread-list');
+  var count=list.querySelectorAll('.thread-tweet').length+1;
+  var div=document.createElement('div');div.className='thread-tweet';
+  div.innerHTML='<span class="thread-tweet-num">'+count+'/</span><textarea class="thread-ta" oninput="twRender()" placeholder="Tweet '+count+'…"></textarea>';
+  list.appendChild(div);div.querySelector('textarea').focus();twRender();
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtTweet(t){return esc(t).replace(/(#\w+)/g,'<span class="tw-hsh">$1</span>').replace(/(@\w+)/g,'<span class="tw-mnt">$1</span>').replace(/\n/g,'<br/>');}
+
+function buildTwPost(compact,isThread){
+  var txt=document.getElementById('tw-text').value;
+  var name=document.getElementById('tw-name').value||'Your Name';
+  var handle=document.getElementById('tw-handle').value||'yourhandle';
+  var ptime=document.getElementById('tw-ptime').value||'2h';
+  var imgUrl=twImgData||document.getElementById('tw-img-url').value;
+  var img2=document.getElementById('tw-img2').value;
+  var img3=document.getElementById('tw-img3').value;
+  var replyPerm=document.getElementById('tw-reply-perm').value;
+  var cnTxt=document.getElementById('tw-cn-text').value;
+  var qName=document.getElementById('tw-q-name').value;
+  var qHandle=document.getElementById('tw-q-handle').value;
+  var qTxt=document.getElementById('tw-q-text').value;
+  var spTitle=document.getElementById('tw-sp-title').value;
+  var spListeners=document.getElementById('tw-sp-listeners').value;
+  var replies=document.getElementById('st-replies').value;
+  var reposts=document.getElementById('st-reposts').value;
+  var likes=document.getElementById('st-likes').value;
+  var views=document.getElementById('st-views').value;
+  var bkmarks=document.getElementById('st-bookmarks').value;
+  var showDetail=document.getElementById('tog-detail').classList.contains('on');
+  var init=name.charAt(0).toUpperCase();
+
+  var badgeHTML='';
+  if(twBadge==='blue') badgeHTML='<span class="tw-ver" style="color:var(--tw-blue)">✓</span>';
+  else if(twBadge==='gold') badgeHTML='<span class="tw-ver" style="color:#f59e0b">✓</span>';
+  else if(twBadge==='gov') badgeHTML='<span class="tw-ver">🏛️</span>';
+  var premHTML=twPrem?'<span class="tw-premium">Premium+</span>':'';
+
+  // Media
+  var mediaHTML='';
+  if(twType==='tweet'||twType==='quote'){
+    var imgs=[imgUrl,img2,img3].filter(function(u){return u;});
+    if(imgs.length===1){
+      if(twMediaType==='gif') mediaHTML='<div class="tw-media"><img src="'+imgs[0]+'" onerror="this.parentElement.innerHTML=\'<div class=tw-media-ph><span style=font-size:2.5rem>🖼️</span></div>\'"/><div class="tw-gif">GIF</div></div>';
+      else if(twMediaType==='video') mediaHTML='<div class="tw-media" style="aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden"><img src="'+imgs[0]+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7" onerror="this.remove()"/><div style="width:50px;height:50px;background:rgba(0,0,0,.65);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem">▶️</div></div>';
+      else mediaHTML='<div class="tw-media"><img src="'+imgs[0]+'" onerror="this.parentElement.innerHTML=\'<div class=tw-media-ph><span style=font-size:2.5rem>🖼️</span></div>\'"/></div>';
+    }else if(imgs.length>=2){
+      var cls=imgs.length===2?'g2':'g3';
+      mediaHTML='<div class="tw-media tw-media-grid '+cls+'">'+imgs.map(function(u){return '<div class="tw-mc"><img src="'+u+'" onload="this.style.display=\'block\'" onerror="this.remove()"/><div class="tw-mc-ph">🖼️</div></div>';}).join('')+'</div>';
+    }
+  }
+
+  // Special content
+  var specialHTML='';
+  if(twType==='poll'){
+    var opts=[document.getElementById('po1').value,document.getElementById('po2').value,document.getElementById('po3').value,document.getElementById('po4').value].filter(function(o){return o;});
+    var dur=document.getElementById('tw-poll-dur').value;
+    specialHTML='<div class="tw-poll">'+opts.map(function(o,i){return '<div class="tw-poll-opt'+(i===0?' tw-poll-lead':'')+'"><div class="tw-poll-bar"></div><div class="tw-poll-txt"><span class="tw-poll-label">'+esc(o)+'</span><span class="tw-poll-pct">'+(i===0?'42':'19')+'%</span></div></div>';}).join('')+'<div class="tw-poll-meta">'+document.getElementById('po4').value?opts.length+' choices':'3 choices'} · '+esc(dur)+' · Final results</div></div>';
+  }else if(twType==='quote'){
+    specialHTML='<div class="tw-quote"><div class="tw-quote-hd"><div class="tw-quote-av">'+esc(qName).charAt(0)+'</div><span class="tw-quote-name">'+esc(qName)+'</span><span class="tw-quote-handle">'+esc(qHandle)+'</span></div><div class="tw-quote-text">'+esc(qTxt)+'</div></div>';
+  }else if(twType==='spaces'){
+    var liveBadge=twSpStatus==='live'?'<div class="tw-spaces-live">LIVE</div>':twSpStatus==='scheduled'?'<div class="tw-spaces-live" style="background:#f59e0b">SCHEDULED</div>':'<div class="tw-spaces-live" style="background:var(--tw-muted)">ENDED</div>';
+    specialHTML='<div class="tw-spaces">'+liveBadge+'<div class="tw-spaces-title">'+esc(spTitle)+'</div><div class="tw-spaces-hosts"><div class="tw-spaces-av" style="background:'+twAv+'">'+init+'</div><div class="tw-spaces-av" style="background:linear-gradient(135deg,#f58529,#dd2a7b)">S</div></div><div class="tw-spaces-meta">'+esc(spListeners)+'</div><button class="tw-spaces-btn">Listen</button></div>';
+  }
+
+  var cnHTML=twShowCN?'<div class="tw-cn"><div class="tw-cn-hd">📝 Community Note</div><div class="tw-cn-text">'+esc(cnTxt)+'</div></div>':'';
+  var replyPermHTML=replyPerm?'<div class="tw-reply-restrict">'+esc(replyPerm)+'</div>':'';
+  var detailHTML='';
+  if(!compact&&!isThread&&showDetail){detailHTML='<div class="tw-detail-eng"><div class="tw-eng-item"><div class="tw-eng-val">'+esc(replies)+'</div><div class="tw-eng-lbl">Replies</div></div><div class="tw-eng-item"><div class="tw-eng-val">'+esc(reposts)+'</div><div class="tw-eng-lbl">Reposts</div></div><div class="tw-eng-item"><div class="tw-eng-val">'+esc(likes)+'</div><div class="tw-eng-lbl">Likes</div></div><div class="tw-eng-item"><div class="tw-eng-val">'+esc(views)+'</div><div class="tw-eng-lbl">Views</div></div><div class="tw-eng-item"><div class="tw-eng-val">'+esc(bkmarks)+'</div><div class="tw-eng-lbl">Bookmarks</div></div></div>';}
+
+  return '<div class="tw-tweet'+(isThread?' thread-first':'')+'"><div class="tw-left"><div class="tw-av" style="background:'+twAv+'">'+init+'</div></div><div class="tw-right"><div class="tw-author-row"><span class="tw-name">'+esc(name)+'</span>'+badgeHTML+premHTML+'<span class="tw-dot">·</span><span class="tw-time">'+esc(ptime)+'</span><span class="tw-more">···</span></div>'+replyPermHTML+'<div class="tw-text'+(txt.length<80?' tw-text-lg':'')+'">'+fmtTweet(txt)+'</div>'+mediaHTML+specialHTML+cnHTML+'<div class="tw-acts"><div class="tw-act">💬 '+esc(replies)+'</div><div class="tw-act rt">🔁 '+esc(reposts)+'</div><div class="tw-act lk">❤️ '+esc(likes)+'</div><div class="tw-act">📊 '+esc(views)+'</div><div class="tw-act">🔖</div></div>'+detailHTML+'</div></div>';
+}
+
+function buildNotif(){
+  var name=document.getElementById('tw-name').value||'Your Name';
+  var likes=document.getElementById('st-likes').value;
+  var reposts=document.getElementById('st-reposts').value;
+  var replies=document.getElementById('st-replies').value;
+  return ['<div class="tw-notif"><div class="tw-notif-icon">❤️</div><div><div class="tw-notif-text"><strong>Sarah Johnson</strong> and <strong>'+likes+' others</strong> liked your post</div><div class="tw-notif-time">2h</div></div></div>',
+    '<div class="tw-notif"><div class="tw-notif-icon">🔁</div><div><div class="tw-notif-text"><strong>Mike Torres</strong> and <strong>'+reposts+'</strong> reposted your post</div><div class="tw-notif-time">3h</div></div></div>',
+    '<div class="tw-notif"><div class="tw-notif-icon">💬</div><div><div class="tw-notif-text"><strong>Alex Chen</strong> replied: "This is exactly what I needed, thank you!"</div><div class="tw-notif-time">4h</div></div></div>'].join('');
+}
+
+function twRender(){
+  var allFeeds=['twFeed','twThreadFeed','twDetailFeed','twNotifFeed'];
+  allFeeds.forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove('dark','dim','light');el.classList.add(twMode);}});
+
+  var post=buildTwPost(false,false);
+  var fpEl=document.getElementById('tw-feed-post');if(fpEl)fpEl.innerHTML=post;
+
+  // Detail
+  var dpEl=document.getElementById('tw-detail-post');if(dpEl)dpEl.innerHTML=buildTwPost(false,false);
+
+  // Thread
+  var threadEls=document.querySelectorAll('.thread-ta');
+  var threadHTML='';
+  threadEls.forEach(function(ta,i){
+    var t=ta.value;if(!t)return;
+    var isLast=i===threadEls.length-1;
+    threadHTML+='<div class="tw-tweet'+(i<threadEls.length-1?' thread-first':'')+'"><div class="tw-left"><div class="tw-av" style="background:'+twAv+'">'+(document.getElementById('tw-name').value||'Y').charAt(0).toUpperCase()+'</div></div><div class="tw-right"><div class="tw-author-row"><span class="tw-name" style="font-size:.88rem">'+esc(document.getElementById('tw-name').value||'Your Name')+'</span></div><div class="tw-text">'+fmtTweet(t)+'</div><div class="tw-acts" style="font-size:.78rem"><div class="tw-act">💬</div><div class="tw-act rt">🔁</div><div class="tw-act lk">❤️</div><div class="tw-act">📊</div></div></div></div>';
+  });
+  var tcEl=document.getElementById('tw-thread-container');if(tcEl)tcEl.innerHTML=threadHTML;
+
+  // Notif
+  var ncEl=document.getElementById('tw-notif-container');if(ncEl)ncEl.innerHTML=buildNotif();
+
+  // Analysis
+  var txt=document.getElementById('tw-text').value;
+  var tags=(txt.match(/#\w+/g)||[]);
+  var imgUrl=twImgData||document.getElementById('tw-img-url').value;
+  var rows=[
+    {ok:txt.length>0,w:false,label:'Tweet Text',d:txt.length+' / 280 chars · '+tags.length+' hashtag'+(tags.length!==1?'s':'')},
+    {ok:txt.length<=280,w:txt.length>250&&txt.length<=280,label:'Character Limit',d:txt.length<=280?'Within 280-char limit':txt.length+' chars — exceeds limit'},
+    {ok:tags.length<=2,w:tags.length>2,label:'Hashtags',d:tags.length+' hashtags — '+(tags.length>2?'reduce to 1–2 for better reach':'optimal range')},
+    {ok:twType!=='tweet'||!!imgUrl||txt.length>0,w:false,label:'Media',d:imgUrl?'Image attached':'Text-only post'},
+  ];
+  document.getElementById('tw-anal').innerHTML=rows.map(function(r){return '<div class="an-row"><div class="an-ic '+(r.ok?'ic-ok':r.w?'ic-wn':'ic-in')+'">'+(r.ok?'✓':r.w?'!':'i')+'</div><div class="an-txt"><strong>'+r.label+':</strong> '+r.d+'</div></div>';}).join('');
+}
+
+document.getElementById('twt-tweet').style.display='flex';
+twRender();twCount();
+</script>
+</body>
+</html>
