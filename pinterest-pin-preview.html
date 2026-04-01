@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Free Pinterest Pin preview tool — design and preview exactly how your Pinterest Pin looks before publishing. Supports standard pins, idea pins, product pins, and carousel pins with masonry feed, board, search, and single pin views. Upload images directly."/>
+<meta name="keywords" content="pinterest pin preview, pinterest post simulator, pinterest feed preview, pinterest pin appearance, pinterest board preview, pinterest post composer, pin design tool"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://www.previewer.pro/pinterest-pin-preview"/>
+<meta property="og:title" content="Pinterest Pin Preview Tool — Design & Simulate Pins | Previewer.pro"/>
+<meta property="og:description" content="Design Pinterest pins and preview how they appear in the feed, board, search, and single pin view before publishing. Upload images, check ratios, audit Rich Pin metadata."/>
+<title>Pinterest Pin Preview Tool — Pin Designer & Board Simulator | Previewer.pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pp:#07080d;--ps:#0f1118;--ps2:#161824;--pb:rgba(255,255,255,.08);
+  --pt:#e8eaf2;--pm:#8b90a8;--ffd:'Syne',sans-serif;--ffb:'DM Sans',sans-serif;
+  --pt-red:#e60023;--pt-dark:#111;--pt-surface:#1f1f1f;
+  --pt-border:#2a2a2a;--pt-text:#efefef;--pt-muted:#767676;--pt-hover:#2d2d2d;
+}
+body{font-family:var(--ffb);background:var(--pp);color:var(--pt);min-height:100vh;overflow-x:hidden}
+.app-grid{display:grid;grid-template-columns:380px 1fr;min-height:100vh}
+/* Composer */
+.cmp{background:var(--ps);border-right:1px solid var(--pb);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow:hidden}
+.cmp-top{padding:1rem 1.25rem .75rem;border-bottom:1px solid var(--pb);flex-shrink:0}
+.back-a{display:inline-flex;align-items:center;gap:.35rem;color:var(--pm);font-size:.76rem;text-decoration:none;margin-bottom:.5rem;transition:color .2s}
+.back-a:hover{color:var(--pt)}
+.cmp-title{font-family:var(--ffd);font-size:.98rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.plat-badge{font-size:.65rem;font-weight:700;padding:.18rem .55rem;border-radius:999px;background:rgba(230,0,35,.14);border:1px solid rgba(230,0,35,.28);color:#ff6b6b}
+.tabs{display:flex;border-bottom:1px solid var(--pb);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:.58rem .6rem;background:none;border:none;color:var(--pm);font-size:.73rem;font-weight:600;cursor:pointer;font-family:var(--ffb);transition:all .2s;position:relative;white-space:nowrap}
+.tab.on{color:#fff;background:rgba(230,0,35,.06)}
+.tab.on::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--pt-red)}
+.cmp-body{flex:1;overflow-y:auto;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.88rem;scrollbar-width:thin;scrollbar-color:var(--pb) transparent}
+/* Form */
+.fg{display:flex;flex-direction:column;gap:.28rem}
+.lbl{font-size:.7rem;font-weight:600;color:var(--pm);text-transform:uppercase;letter-spacing:.07em;display:flex;justify-content:space-between;align-items:center}
+.cnt-ok{color:#00d4aa;font-size:.7rem;font-weight:700}.cnt-warn{color:#f59e0b;font-size:.7rem;font-weight:700}.cnt-over{color:#ef4444;font-size:.7rem;font-weight:700}
+input,textarea,select{background:var(--pp);border:1.5px solid var(--pb);border-radius:9px;padding:.55rem .88rem;color:var(--pt);font-family:var(--ffb);font-size:.87rem;outline:none;transition:border-color .2s;width:100%;resize:none}
+input:focus,textarea:focus,select:focus{border-color:var(--pt-red)}
+textarea{min-height:80px;line-height:1.5}
+.pills{display:flex;flex-wrap:wrap;gap:.32rem}
+.pl{padding:.28rem .68rem;border:1.5px solid var(--pb);border-radius:999px;background:var(--ps2);color:var(--pm);font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--ffb)}
+.pl.on{border-color:var(--pt-red);background:rgba(230,0,35,.12);color:#ff6b6b}
+.sws{display:flex;gap:.38rem;flex-wrap:wrap}
+.sw{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:all .2s;flex-shrink:0}
+.sw.on{border-color:#fff;transform:scale(1.22)}
+.tog-wrap{background:var(--ps2);border:1px solid var(--pb);border-radius:9px;padding:.45rem .72rem}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.38rem 0;border-bottom:1px solid var(--pb);gap:.4rem}
+.tog-row:last-child{border-bottom:none}
+.tog-lbl{font-size:.83rem;color:var(--pt)}
+.twitch{width:34px;height:19px;border-radius:999px;background:var(--pb);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.twitch.on{background:var(--pt-red)}
+.twitch::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;background:#fff;border-radius:50%;transition:transform .2s}
+.twitch.on::after{transform:translateX(15px)}
+/* Image upload */
+.img-upload-area{position:relative;border:2px dashed var(--pb);border-radius:10px;cursor:pointer;transition:all .2s;overflow:hidden}
+.img-upload-area:hover{border-color:var(--pt-red);background:rgba(230,0,35,.04)}
+.img-upload-inner{padding:1rem;display:flex;flex-direction:column;align-items:center;gap:.45rem;text-align:center}
+.img-upload-icon{font-size:2rem;color:var(--pm)}
+.img-upload-txt{font-size:.8rem;color:var(--pm)}
+.img-upload-hint{font-size:.7rem;color:var(--pm);opacity:.7}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-preview-wrap{position:relative;border-radius:10px;overflow:hidden}
+.img-preview-wrap img{width:100%;max-height:180px;object-fit:cover;display:block;border-radius:10px}
+.img-remove-btn{position:absolute;top:.4rem;right:.4rem;background:rgba(0,0,0,.7);border:none;border-radius:50%;width:24px;height:24px;color:#fff;font-size:.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.img-remove-btn:hover{background:rgba(230,0,35,.8)}
+/* Ratio visual buttons */
+.ratio-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:.42rem}
+.ratio-btn{padding:.52rem .35rem;background:var(--ps2);border:1.5px solid var(--pb);border-radius:8px;color:var(--pm);font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.22rem;font-family:var(--ffb)}
+.ratio-btn.on{background:rgba(230,0,35,.1);border-color:var(--pt-red);color:#ff6b6b}
+.ratio-vis{border-radius:3px;background:rgba(230,0,35,.25)}
+/* Audit items */
+.audit-grid{display:flex;flex-direction:column;gap:0}
+.audit-row{display:flex;align-items:flex-start;gap:.55rem;padding:.5rem 0;border-bottom:1px solid var(--pb);font-size:.8rem}
+.audit-row:last-child{border-bottom:none}
+.a-ico{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0;margin-top:.05rem}
+.ic-ok{background:rgba(0,212,170,.12);color:#00d4aa}.ic-wn{background:rgba(245,158,11,.12);color:#f59e0b}.ic-err{background:rgba(230,0,35,.12);color:var(--pt-red)}
+.a-txt{color:var(--pm)}.a-txt strong{color:var(--pt)}
+.upd{width:100%;padding:.75rem;border:none;border-radius:9px;font-family:var(--ffd);font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s;background:var(--pt-red);color:#fff;margin-top:.25rem}
+.upd:hover{background:#cc0020;transform:translateY(-1px)}
+/* Right */
+.right{background:var(--pp);display:flex;flex-direction:column;gap:1.4rem;padding:1.4rem}
+.pbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.65rem}
+.pbar h2{font-family:var(--ffd);font-weight:700;font-size:.9rem;color:#fff}
+.vtabs{display:flex;gap:.32rem;flex-wrap:wrap}
+.vt{padding:.35rem .82rem;background:var(--ps);border:1px solid var(--pb);border-radius:7px;color:var(--pm);font-size:.76rem;font-weight:600;font-family:var(--ffd);cursor:pointer;transition:all .2s}
+.vt.on{background:rgba(230,0,35,.12);border-color:var(--pt-red);color:#ff6b6b}
+/* Mobile frame */
+.mob-wrap{display:flex;justify-content:center}
+.mob-f{width:355px;border-radius:38px;overflow:hidden;border:2px solid #2a2a2a;box-shadow:0 0 0 1px #3a3a3a,0 28px 70px rgba(0,0,0,.65);background:#111}
+.mob-notch{height:28px;background:#000;display:flex;align-items:center;justify-content:center}
+.mob-pill{width:90px;height:18px;background:#0a0a0a;border-radius:0 0 12px 12px;display:flex;align-items:center;justify-content:center;gap:5px}
+.mob-cam{width:7px;height:7px;background:#111;border-radius:50%;border:1px solid #222}
+.mob-mic{width:32px;height:4px;background:#111;border-radius:999px}
+.mob-scroll{max-height:660px;overflow-y:auto;scrollbar-width:none}
+.mob-scroll::-webkit-scrollbar{display:none}
+/* ── Pinterest UI ── */
+.pt-ui{background:var(--pt-dark);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.pt-nav{background:var(--pt-dark);padding:.55rem .85rem;display:flex;align-items:center;gap:.55rem;border-bottom:1px solid var(--pt-border)}
+.pt-logo{color:var(--pt-red);font-size:1.6rem;font-weight:900;line-height:1}
+.pt-nav-search{background:var(--pt-surface);border-radius:18px;padding:.35rem .78rem;font-size:.78rem;color:var(--pt-muted);display:flex;align-items:center;gap:.32rem;flex:1}
+.pt-nav-icons{display:flex;gap:.32rem;margin-left:auto}
+.pt-nav-ico{width:32px;height:32px;background:var(--pt-surface);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;flex-shrink:0}
+/* Category pills */
+.pt-cats{display:flex;gap:.42rem;padding:.58rem .85rem;overflow-x:auto;border-bottom:1px solid var(--pt-border);scrollbar-width:none}
+.pt-cats::-webkit-scrollbar{display:none}
+.pt-cat{padding:.28rem .72rem;border-radius:999px;font-size:.72rem;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.pt-cat.act{background:var(--pt-text);color:var(--pt-dark)}
+.pt-cat:not(.act){background:var(--pt-surface);color:var(--pt-text)}
+/* Masonry feed */
+.pt-masonry-wrap{padding:.65rem .85rem}
+.pt-masonry{columns:2;column-gap:.62rem}
+/* Pin card */
+.pt-pin{break-inside:avoid;margin-bottom:.62rem;border-radius:14px;overflow:hidden;background:var(--pt-surface);cursor:pointer;position:relative;transition:transform .2s}
+.pt-pin:hover{transform:scale(1.02)}
+.pt-pin:hover .pt-pin-overlay{opacity:1}
+.pt-pin.featured{outline:2.5px solid var(--pt-red);outline-offset:2px}
+.pt-pin-img-wrap{width:100%;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(230,0,35,.18),rgba(108,99,255,.14))}
+.pt-pin-img-wrap img{width:100%;display:block;object-fit:cover}
+.pt-pin-img-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,.2);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;padding:1.5rem .5rem;min-height:120px;gap:.4rem}
+.pt-pin-overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .2s;display:flex;align-items:flex-start;justify-content:flex-end;padding:.45rem}
+.pt-save-btn{background:var(--pt-red);color:#fff;border:none;border-radius:18px;padding:.28rem .72rem;font-size:.72rem;font-weight:700;cursor:pointer}
+.pt-pin-body{padding:.45rem .55rem .55rem}
+.pt-pin-title{font-size:.78rem;font-weight:700;color:var(--pt-text);line-height:1.3;margin-bottom:.18rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pt-pin-desc{font-size:.68rem;color:var(--pt-muted);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pt-pin-footer{display:flex;align-items:center;gap:.38rem;padding:.18rem .55rem .45rem}
+.pt-pin-av{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.52rem;font-weight:700;color:#fff;flex-shrink:0}
+.pt-pin-creator{font-size:.66rem;color:var(--pt-muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pt-pin-saves{font-size:.66rem;color:var(--pt-muted)}
+/* Price badge */
+.pt-price-badge{position:absolute;top:.42rem;left:.42rem;background:rgba(0,0,0,.7);color:#fff;font-size:.68rem;font-weight:700;padding:.15rem .42rem;border-radius:4px}
+/* Idea pin badge */
+.pt-idea-badge{position:absolute;top:.42rem;left:.42rem;background:linear-gradient(135deg,#f58529,#dd2a7b);color:#fff;font-size:.62rem;font-weight:700;padding:.12rem .38rem;border-radius:4px}
+/* Board view */
+.pt-board-hd{padding:.65rem .85rem;border-bottom:1px solid var(--pt-border);display:flex;align-items:center;gap:.6rem}
+.pt-board-av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,var(--pt-red),#f5a623);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem}
+.pt-board-name{font-size:.9rem;font-weight:700;color:var(--pt-text)}
+.pt-board-meta{font-size:.72rem;color:var(--pt-muted)}
+.pt-board-follow{background:var(--pt-red);color:#fff;border:none;border-radius:18px;padding:.3rem .85rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-left:auto}
+/* Board sections nav */
+.pt-board-tabs{display:flex;gap:.42rem;padding:.55rem .85rem;border-bottom:1px solid var(--pt-border);overflow-x:auto;scrollbar-width:none}
+.pt-board-tabs::-webkit-scrollbar{display:none}
+/* Single pin detail */
+.pt-single-pin{padding:0}
+.pt-sp-inner{display:flex;flex-direction:column}
+.pt-sp-img{position:relative;background:var(--pt-surface);width:100%}
+.pt-sp-img img{width:100%;display:block;max-height:420px;object-fit:cover}
+.pt-sp-img-ph{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;background:linear-gradient(135deg,rgba(230,0,35,.18),rgba(108,99,255,.14));color:rgba(255,255,255,.2);font-size:.75rem;text-transform:uppercase}
+.pt-sp-save-btn{position:absolute;top:.65rem;right:.65rem;background:var(--pt-red);color:#fff;border:none;border-radius:22px;padding:.5rem 1.15rem;font-size:.85rem;font-weight:700;cursor:pointer}
+.pt-sp-ratio{position:absolute;bottom:.5rem;left:.5rem;background:rgba(0,0,0,.7);color:#fff;font-size:.65rem;padding:.15rem .42rem;border-radius:4px}
+.pt-sp-info{padding:.85rem;background:var(--pt-surface)}
+.pt-sp-source{font-size:.72rem;color:var(--pt-muted);display:flex;align-items:center;gap:.32rem;margin-bottom:.38rem}
+.pt-sp-title{font-size:1rem;font-weight:800;color:var(--pt-text);margin-bottom:.35rem;line-height:1.3}
+.pt-sp-desc{font-size:.82rem;color:var(--pt-muted);line-height:1.6;margin-bottom:.65rem}
+.pt-sp-creator{display:flex;align-items:center;gap:.58rem;padding:.6rem 0;border-top:1px solid var(--pt-border);border-bottom:1px solid var(--pt-border);margin-bottom:.55rem}
+.pt-sp-creator-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.82rem;flex-shrink:0}
+.pt-sp-creator-name{font-size:.85rem;font-weight:700;color:var(--pt-text)}
+.pt-sp-creator-follow{background:var(--pt-text);color:var(--pt-dark);border:none;border-radius:18px;padding:.3rem .82rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-left:auto}
+.pt-sp-tags{display:flex;flex-wrap:wrap;gap:.38rem}
+.pt-sp-tag{padding:.22rem .62rem;background:rgba(255,255,255,.08);border-radius:999px;font-size:.7rem;color:var(--pt-muted)}
+/* Search view */
+.pt-search-bar{padding:.5rem .85rem;background:var(--pt-dark);border-bottom:1px solid var(--pt-border)}
+.pt-search-bar-inner{background:var(--pt-surface);border-radius:18px;padding:.38rem .78rem;display:flex;align-items:center;gap:.32rem;font-size:.8rem;color:var(--pt-muted)}
+.pt-search-masonry{columns:3;column-gap:.45rem;padding:.55rem .85rem}
+/* Ratio guide panel */
+.ratio-guide{background:var(--ps);border:1px solid var(--pb);border-radius:12px;padding:1.1rem}
+.ratio-guide h3{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.8rem}
+.rg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}
+.rg-item{background:var(--ps2);border:1px solid var(--pb);border-radius:10px;padding:.75rem;text-align:center;transition:all .2s}
+.rg-item.current{border-color:var(--pt-red);background:rgba(230,0,35,.07)}
+.rg-item:hover{border-color:rgba(230,0,35,.35);transform:translateY(-2px)}
+.rg-vis{margin:0 auto .38rem;background:linear-gradient(135deg,rgba(230,0,35,.22),rgba(230,0,35,.07));border-radius:4px}
+.rg-name{font-size:.72rem;font-weight:700;color:#fff}
+.rg-px{font-size:.64rem;color:var(--pm)}
+.rg-badge{font-size:.62rem;padding:.1rem .35rem;border-radius:3px;margin-top:.22rem;display:inline-block}
+.rb-best{background:rgba(0,212,170,.12);color:#00d4aa}
+.rb-good{background:rgba(108,99,255,.1);color:#a89cff}
+.rb-ok{background:rgba(255,255,255,.06);color:var(--pm)}
+/* Rich pin audit */
+.rich-audit{background:var(--ps);border:1px solid var(--pb);border-radius:12px;padding:1.1rem}
+.rich-audit-hd{display:flex;align-items:center;gap:.68rem;margin-bottom:1rem}
+.ra-score{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ffd);font-weight:800;font-size:.98rem;flex-shrink:0}
+.ra-great{background:rgba(0,212,170,.14);color:#00d4aa;border:2px solid rgba(0,212,170,.28)}
+.ra-good{background:rgba(108,99,255,.12);color:#a89cff;border:2px solid rgba(108,99,255,.22)}
+.ra-fair{background:rgba(245,158,11,.1);color:#f59e0b;border:2px solid rgba(245,158,11,.22)}
+.ra-poor{background:rgba(230,0,35,.1);color:var(--pt-red);border:2px solid rgba(230,0,35,.2)}
+.ra-title{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.88rem}
+.ra-sub{font-size:.76rem;color:var(--pm)}
+/* Tips, FAQ, CTA (same as twitter) */
+.tips-g{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.tip-c{background:var(--ps);border:1px solid var(--pb);border-radius:10px;padding:.95rem;transition:all .2s}
+.tip-c:hover{border-color:rgba(230,0,35,.3);transform:translateY(-2px)}
+.tip-c-ico{font-size:1.25rem;margin-bottom:.38rem}
+.tip-c h4{font-family:var(--ffd);font-weight:700;color:#fff;font-size:.78rem;margin-bottom:.22rem}
+.tip-c p{font-size:.74rem;color:var(--pm);line-height:1.5}
+.faq-box{background:var(--ps);border:1px solid var(--pb);border-radius:11px;overflow:hidden}
+.fq{width:100%;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:none;border:none;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--pt);font-family:var(--ffb);text-align:left;transition:background .2s;border-bottom:1px solid var(--pb)}
+.fq:last-of-type{border-bottom:none}
+.fq:hover{background:rgba(255,255,255,.03)}
+.fq-chev{color:var(--pm);transition:transform .2s;flex-shrink:0}
+.fq[aria-expanded="true"] .fq-chev{transform:rotate(45deg);color:var(--pt-red)}
+.fa{padding:.65rem 1rem .85rem;font-size:.82rem;color:var(--pm);line-height:1.6;border-bottom:1px solid var(--pb)}
+.cta{background:linear-gradient(135deg,rgba(230,0,35,.12),rgba(255,107,107,.07));border:1px solid rgba(230,0,35,.2);border-radius:13px;padding:1.65rem;text-align:center}
+.cta h3{font-family:var(--ffd);font-weight:800;font-size:1.3rem;color:#fff;margin-bottom:.42rem}
+.cta p{color:var(--pm);margin-bottom:1rem;font-size:.86rem}
+.cta-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.cta-a{padding:.55rem 1.28rem;border-radius:999px;font-family:var(--ffd);font-weight:700;font-size:.82rem;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.35rem}
+.ca-tw{background:#000;color:#e7e9ea;border:1px solid #333}.ca-li{background:#0077b5;color:#fff}.ca-gh{background:transparent;color:var(--pt);border:1px solid var(--pb)}
+@media(max-width:980px){.app-grid{grid-template-columns:1fr}.cmp{height:auto;position:static;border-right:none;border-bottom:1px solid var(--pb)}.tips-g{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<div class="app-grid">
+
+<!-- ═════ COMPOSER ═════ -->
+<aside class="cmp" aria-label="Pinterest pin composer">
+  <div class="cmp-top">
+    <a href="/social-preview" class="back-a">← All Social Tools</a>
+    <div class="cmp-title">📌 Pinterest Pin Preview <span class="plat-badge">SIMULATOR</span></div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="ptTab('pin',this)">Pin</button>
+    <button class="tab" onclick="ptTab('image',this)">Image</button>
+    <button class="tab" onclick="ptTab('board',this)">Board</button>
+    <button class="tab" onclick="ptTab('advanced',this)">Advanced</button>
+  </div>
+
+  <!-- PIN TAB -->
+  <div class="cmp-body" id="ptt-pin">
+    <div class="fg"><label class="lbl">Pin Type</label>
+      <div class="pills">
+        <button class="pl on" onclick="setPtType('standard',this)">📌 Standard</button>
+        <button class="pl" onclick="setPtType('idea',this)">💡 Idea Pin</button>
+        <button class="pl" onclick="setPtType('product',this)">🛍️ Product</button>
+        <button class="pl" onclick="setPtType('recipe',this)">🍳 Recipe</button>
+        <button class="pl" onclick="setPtType('article',this)">📰 Article</button>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="lbl" for="pt-title">Pin Title <span id="pt-title-cnt" class="cnt-ok">0 / 100</span></label>
+      <input id="pt-title" maxlength="100" value="10 Stunning Home Decor Ideas That Will Transform Your Space" oninput="ptRender();ptTitleCnt()"/>
+    </div>
+    <div class="fg">
+      <label class="lbl" for="pt-desc">Description <span id="pt-desc-cnt" class="cnt-ok">0 / 500</span></label>
+      <textarea id="pt-desc" maxlength="500" oninput="ptRender();ptDescCnt()">Transform your living space with these breathtaking home decor ideas. From minimalist designs to bold statement pieces, find the perfect style for your home. Click to discover full tutorials and shopping guides! ✨</textarea>
+    </div>
+    <div class="fg"><label class="lbl">Destination URL</label><input type="url" id="pt-url" value="https://example.com/home-decor-ideas" oninput="ptRender()"/></div>
+    <div class="fg"><label class="lbl">Board Name</label><input id="pt-board" value="Home Decor Inspiration" oninput="ptRender()"/></div>
+    <div class="fg"><label class="lbl">Keywords / Tags</label><input id="pt-tags" placeholder="home decor, interior, modern home…" value="home decor, interior design, modern home, aesthetic" oninput="ptRender()"/></div>
+    <div id="pt-product-sec" style="display:none">
+      <div class="fg"><label class="lbl">Product Price</label><input id="pt-price" value="$49.99" oninput="ptRender()"/></div>
+      <div class="fg"><label class="lbl">Availability</label>
+        <div class="pills"><button class="pl on" onclick="setPtAvail('In stock',this)">✅ In stock</button><button class="pl" onclick="setPtAvail('Out of stock',this)">❌ Out of stock</button></div>
+      </div>
+    </div>
+    <div id="pt-recipe-sec" style="display:none">
+      <div class="fg"><label class="lbl">Servings</label><input id="pt-servings" value="4 servings" oninput="ptRender()"/></div>
+      <div class="fg"><label class="lbl">Cook Time</label><input id="pt-cooktime" value="30 minutes" oninput="ptRender()"/></div>
+    </div>
+  </div>
+
+  <!-- IMAGE TAB -->
+  <div class="cmp-body" id="ptt-image" style="display:none">
+    <div class="fg"><label class="lbl">Upload Image</label>
+      <div class="img-upload-area" id="pt-upload-area">
+        <div class="img-upload-inner">
+          <div class="img-upload-icon">📌</div>
+          <div class="img-upload-txt">Click or drag &amp; drop to upload</div>
+          <div class="img-upload-hint">JPG, PNG, WebP • Max 32MB • 2:3 ratio recommended</div>
+        </div>
+        <input type="file" id="pt-img-file" accept="image/*" onchange="handlePtImg(event)"/>
+      </div>
+      <div id="pt-img-preview" style="display:none" class="img-preview-wrap">
+        <img id="pt-img-preview-el" src="" alt="Pin preview"/>
+        <button class="img-remove-btn" onclick="removePtImg()">✕</button>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Or paste Image URL</label>
+      <input type="url" id="pt-img-url" placeholder="https://example.com/pin-image.jpg" oninput="ptImgUrl()"/>
+    </div>
+    <div class="fg"><label class="lbl">Image Aspect Ratio</label>
+      <div class="ratio-btns">
+        <button class="ratio-btn on" onclick="setPtRatio('2:3',this)" id="rb-2:3"><div class="ratio-vis" style="width:28px;height:42px"></div>2:3</button>
+        <button class="ratio-btn" onclick="setPtRatio('1:1',this)" id="rb-1:1"><div class="ratio-vis" style="width:34px;height:34px"></div>1:1</button>
+        <button class="ratio-btn" onclick="setPtRatio('4:5',this)" id="rb-4:5"><div class="ratio-vis" style="width:30px;height:37px"></div>4:5</button>
+        <button class="ratio-btn" onclick="setPtRatio('1:2',this)" id="rb-1:2"><div class="ratio-vis" style="width:24px;height:48px"></div>1:2</button>
+        <button class="ratio-btn" onclick="setPtRatio('16:9',this)" id="rb-16:9"><div class="ratio-vis" style="width:46px;height:26px"></div>16:9</button>
+        <button class="ratio-btn" onclick="setPtRatio('custom',this)" id="rb-custom"><div class="ratio-vis" style="width:32px;height:38px"></div>Custom</button>
+      </div>
+    </div>
+    <div class="fg" id="pt-custom-ratio-sec" style="display:none">
+      <label class="lbl">Custom Dimensions (px)</label>
+      <div style="display:grid;grid-template-columns:1fr 20px 1fr;gap:.4rem;align-items:center">
+        <input id="cust-w" type="number" placeholder="W" value="1000" oninput="ptRender()"/>
+        <span style="text-align:center;color:var(--pm)">×</span>
+        <input id="cust-h" type="number" placeholder="H" value="1500" oninput="ptRender()"/>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Alt Text</label><input id="pt-alt" placeholder="Describe the pin image" oninput="ptRender()"/></div>
+    <div class="fg"><label class="lbl">Text Overlay on Image</label>
+      <div class="pills">
+        <button class="pl on" onclick="setPtOverlay(false,this)">None</button>
+        <button class="pl" onclick="setPtOverlay(true,this)">Add overlay</button>
+      </div>
+    </div>
+    <div class="fg" id="pt-overlay-sec" style="display:none">
+      <input id="pt-overlay-text" value="Save This For Later! 📌" oninput="ptRender()"/>
+    </div>
+  </div>
+
+  <!-- BOARD TAB -->
+  <div class="cmp-body" id="ptt-board" style="display:none">
+    <div class="fg"><label class="lbl">Creator Name</label><input id="pt-creator" value="HomeDesignHub" oninput="ptRender()"/></div>
+    <div class="fg"><label class="lbl">Saves Count</label><input id="pt-saves" value="3.1K" oninput="ptRender()"/></div>
+    <div class="fg"><label class="lbl">Avatar Color</label>
+      <div class="sws" id="pt-av-sws">
+        <div class="sw on" style="background:linear-gradient(135deg,#e60023,#f5a623)" onclick="setPtAv(this,'linear-gradient(135deg,#e60023,#f5a623)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#f58529,#dd2a7b)" onclick="setPtAv(this,'linear-gradient(135deg,#f58529,#dd2a7b)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#1d9bf0,#7856ff)" onclick="setPtAv(this,'linear-gradient(135deg,#1d9bf0,#7856ff)')"></div>
+        <div class="sw" style="background:linear-gradient(135deg,#00ba7c,#0095f6)" onclick="setPtAv(this,'linear-gradient(135deg,#00ba7c,#0095f6)')"></div>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Board Category</label>
+      <select id="pt-cat" onchange="ptRender()">
+        <option>Home Decor</option><option>Design</option><option>Art</option>
+        <option>Fashion</option><option>Food &amp; Drink</option><option>Travel</option>
+        <option>DIY &amp; Crafts</option><option>Fitness</option><option>Beauty</option>
+      </select>
+    </div>
+    <div class="fg"><label class="lbl">Board Privacy</label>
+      <div class="pills" id="pt-priv-pills">
+        <button class="pl on" onclick="setPtPriv('Public',this)">🌍 Public</button>
+        <button class="pl" onclick="setPtPriv('Secret',this)">🔒 Secret</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADVANCED TAB -->
+  <div class="cmp-body" id="ptt-advanced" style="display:none">
+    <div class="fg"><label class="lbl">Rich Pin Type</label>
+      <div class="tog-wrap">
+        <div class="tog-row"><div><div class="tog-lbl">Article Rich Pin</div></div><button class="twitch on" id="tog-article" onclick="this.classList.toggle('on');ptRender()"></button></div>
+        <div class="tog-row"><div><div class="tog-lbl">Product Rich Pin</div></div><button class="twitch" id="tog-product" onclick="this.classList.toggle('on');ptRender()"></button></div>
+        <div class="tog-row"><div><div class="tog-lbl">Recipe Rich Pin</div></div><button class="twitch" id="tog-recipe" onclick="this.classList.toggle('on');ptRender()"></button></div>
+      </div>
+    </div>
+    <div class="fg"><label class="lbl">Display Toggles</label>
+      <div class="tog-wrap">
+        <div class="tog-row"><div><div class="tog-lbl">Show categories bar</div></div><button class="twitch on" id="tog-cats" onclick="this.classList.toggle('on');ptRender()"></button></div>
+        <div class="tog-row"><div><div class="tog-lbl">Show dummy pins</div></div><button class="twitch on" id="tog-dummy" onclick="this.classList.toggle('on');ptRender()"></button></div>
+        <div class="tog-row"><div><div class="tog-lbl">Hover effects</div></div><button class="twitch on" id="tog-hover" onclick="this.classList.toggle('on')"></button></div>
+      </div>
+    </div>
+    <button class="upd" onclick="ptRender()">🔄 Update Preview</button>
+  </div>
+</aside>
+
+<!-- ═════ RIGHT PANEL ═════ -->
+<main class="right">
+  <div class="pbar">
+    <h2>Pinterest Pin Preview</h2>
+    <div class="vtabs">
+      <button class="vt on" id="ptv-feed" onclick="setPtView('feed',this)">🏠 Feed</button>
+      <button class="vt" id="ptv-board" onclick="setPtView('board',this)">📋 Board</button>
+      <button class="vt" id="ptv-search" onclick="setPtView('search',this)">🔍 Search</button>
+      <button class="vt" id="ptv-single" onclick="setPtView('single',this)">📌 Single Pin</button>
+    </div>
+    <div id="pt-ratio-badge" style="font-size:.76rem;color:var(--pm);background:var(--ps);border:1px solid var(--pb);padding:.32rem .72rem;border-radius:7px">Ratio: 2:3 · 1000×1500px</div>
+  </div>
+
+  <!-- Feed view -->
+  <div id="ptv-feed" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="pt-ui">
+          <div class="pt-nav"><span class="pt-logo">P</span><div class="pt-nav-search">🔍 <span>home decor</span></div><div class="pt-nav-icons"><div class="pt-nav-ico">🔔</div><div class="pt-nav-ico" id="pt-nav-av" style="background:linear-gradient(135deg,#e60023,#f5a623);color:#fff;font-weight:700;font-size:.78rem">H</div></div></div>
+          <div id="pt-cats-bar"></div>
+          <div class="pt-masonry-wrap"><div class="pt-masonry" id="pt-feed-masonry"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Board view -->
+  <div id="ptv-board" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="pt-ui">
+          <div class="pt-nav"><span class="pt-logo">P</span><div class="pt-nav-icons" style="margin-left:auto"><div class="pt-nav-ico">⋯</div></div></div>
+          <div class="pt-board-hd">
+            <div class="pt-board-av" id="pt-board-av">H</div>
+            <div><div class="pt-board-name" id="pt-board-name">Home Decor Inspiration</div><div class="pt-board-meta" id="pt-board-meta">56 Pins · Public</div></div>
+            <button class="pt-board-follow">Follow</button>
+          </div>
+          <div class="pt-board-tabs" id="pt-board-tags-nav"></div>
+          <div class="pt-masonry-wrap" style="padding:.5rem .65rem"><div class="pt-masonry" id="pt-board-masonry"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search view -->
+  <div id="ptv-search" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="pt-ui">
+          <div class="pt-search-bar"><div class="pt-search-bar-inner"><span>🔍</span><span id="pt-search-query">home decor ideas</span></div></div>
+          <div id="pt-cats-bar2"></div>
+          <div class="pt-search-masonry" id="pt-search-masonry"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Single pin view -->
+  <div id="ptv-single" style="display:none" class="mob-wrap">
+    <div class="mob-f">
+      <div class="mob-notch"><div class="mob-pill"><div class="mob-cam"></div><div class="mob-mic"></div></div></div>
+      <div class="mob-scroll">
+        <div class="pt-ui">
+          <div class="pt-nav" style="padding:.42rem .72rem"><span style="color:var(--pt-text);font-size:.88rem;cursor:pointer">← </span><span class="pt-logo" style="font-size:1.2rem">P</span><div class="pt-nav-icons" style="margin-left:auto"><div class="pt-nav-ico">⋯</div></div></div>
+          <div class="pt-single-pin" id="pt-single-pin"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ratio guide -->
+  <div class="ratio-guide">
+    <h3>📐 Image Ratio Guide</h3>
+    <div class="rg-grid" id="pt-ratio-grid">
+      <div class="rg-item current" id="rgi-2:3"><div class="rg-vis" style="width:32px;height:48px"></div><div class="rg-name">2:3</div><div class="rg-px">1000×1500px</div><span class="rg-badge rb-best">Best</span></div>
+      <div class="rg-item" id="rgi-4:5"><div class="rg-vis" style="width:34px;height:42px"></div><div class="rg-name">4:5</div><div class="rg-px">1000×1250px</div><span class="rg-badge rb-good">Good</span></div>
+      <div class="rg-item" id="rgi-1:1"><div class="rg-vis" style="width:38px;height:38px"></div><div class="rg-name">1:1</div><div class="rg-px">1000×1000px</div><span class="rg-badge rb-ok">OK</span></div>
+      <div class="rg-item" id="rgi-1:2"><div class="rg-vis" style="width:26px;height:52px"></div><div class="rg-name">1:2</div><div class="rg-px">1000×2000px</div><span class="rg-badge rb-ok">Long</span></div>
+      <div class="rg-item" id="rgi-16:9"><div class="rg-vis" style="width:52px;height:29px"></div><div class="rg-name">16:9</div><div class="rg-px">1920×1080px</div><span class="rg-badge rb-ok" style="background:rgba(245,158,11,.1);color:#f59e0b">⚠ Low reach</span></div>
+      <div class="rg-item" id="rgi-custom"><div class="rg-vis" style="width:32px;height:42px"></div><div class="rg-name">Custom</div><div class="rg-px">Your size</div><span class="rg-badge rb-ok">Variable</span></div>
+    </div>
+  </div>
+
+  <!-- Rich Pin Audit -->
+  <div class="rich-audit">
+    <div class="rich-audit-hd"><div class="ra-score ra-great" id="pt-audit-score">95</div><div><div class="ra-title">Rich Pin Audit</div><div class="ra-sub" id="pt-audit-label">Excellent — Ready to publish</div></div></div>
+    <div class="audit-grid" id="pt-audit-rows"></div>
+  </div>
+
+  <!-- Tips -->
+  <div><h3 style="font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.75rem">💡 Pinterest Pin Tips</h3>
+    <div class="tips-g">
+      <div class="tip-c"><div class="tip-c-ico">📐</div><h4>Always Use 2:3 Ratio</h4><p>The 2:3 aspect ratio (1000×1500px) takes up the most vertical feed space — up to 67% higher CTR than square images.</p></div>
+      <div class="tip-c"><div class="tip-c-ico">🔑</div><h4>Keywords in Title</h4><p>Pinterest is a visual search engine. Put your primary keyword in the first 30 characters of the title for maximum discoverability.</p></div>
+      <div class="tip-c"><div class="tip-c-ico">📌</div><h4>Enable Rich Pins</h4><p>Rich Pins pull real-time metadata from your site. They show more info in search and are far more clickable than standard pins.</p></div>
+      <div class="tip-c"><div class="tip-c-ico">🔗</div><h4>Always Link to a Page</h4><p>Pins that link to specific content (not homepage) convert 8× better. Use UTM parameters to track traffic.</p></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div><h3 style="font-family:var(--ffd);font-weight:700;color:#fff;font-size:.86rem;margin-bottom:.65rem">❓ FAQs</h3>
+    <div class="faq-box">
+      <button class="fq" aria-expanded="false" aria-controls="ptfq1">What is the best image size for Pinterest? <span class="fq-chev">+</span></button>
+      <div class="fa" id="ptfq1" hidden>The recommended size is 1000×1500px at a 2:3 aspect ratio. This format occupies the most vertical space in the Pinterest feed, maximising visibility. Pinterest also accepts 1:1 and 9:16 formats, but the 2:3 ratio consistently delivers the highest engagement and click-through rates.</div>
+      <button class="fq" aria-expanded="false" aria-controls="ptfq2">How do I enable Rich Pins for my website? <span class="fq-chev">+</span></button>
+      <div class="fa" id="ptfq2" hidden>Add Schema.org markup (for Product, Recipe, or Article Rich Pins) or Open Graph tags to your page. Then use Pinterest's Rich Pin Validator to verify your markup and activate Rich Pins for your domain. Once approved, all pins from your site automatically become Rich Pins.</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h3>Preview on Other Platforms</h3>
+    <p>See how your content looks across every social network — free, instant, no signup.</p>
+    <div class="cta-row">
+      <a href="/twitter-post-preview" class="cta-a ca-tw">𝕏 Twitter / X</a>
+      <a href="/linkedin-post-preview" class="cta-a ca-li">💼 LinkedIn</a>
+      <a href="/social-preview" class="cta-a ca-gh">All Tools →</a>
+    </div>
+  </div>
+</main>
+</div>
+
+<div id="site-footer"></div>
+<script src="header.js"></script>
+<script src="footer.js"></script>
+<script src="main.js"></script>
+<script>
+var ptType='standard',ptView='feed',ptRatio='2:3';
+var ptAv='linear-gradient(135deg,#e60023,#f5a623)';
+var ptImgData=null,ptOverlay=false,ptPriv='Public',ptAvail='In stock';
+var ptSpStatus='live';
+
+var ratioDims={'2:3':'1000×1500px','1:1':'1000×1000px','4:5':'1000×1250px','1:2':'1000×2000px','16:9':'1920×1080px','custom':'Custom size'};
+var ratioAspect={'2:3':'150%','1:1':'100%','4:5':'125%','1:2':'200%','16:9':'56.25%','custom':'150%'};
+
+function ptTab(t,b){['pin','image','board','advanced'].forEach(function(id){document.getElementById('ptt-'+id).style.display='none';});document.getElementById('ptt-'+t).style.display='flex';document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});b.classList.add('on');}
+function setPtType(t,b){ptType=t;document.querySelectorAll('#ptt-pin .pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');document.getElementById('pt-product-sec').style.display=t==='product'?'flex':'none';document.getElementById('pt-recipe-sec').style.display=t==='recipe'?'flex':'none';ptRender();}
+function setPtView(v,b){ptView=v;['feed','board','search','single'].forEach(function(id){document.getElementById('ptv-'+id).style.display='none';});document.getElementById('ptv-'+v).style.display='flex';document.querySelectorAll('.vt').forEach(function(x){x.classList.remove('on');});b.classList.add('on');}
+function setPtRatio(r,b){ptRatio=r;document.querySelectorAll('.ratio-btn').forEach(function(x){x.classList.remove('on');});b.classList.add('on');document.getElementById('pt-custom-ratio-sec').style.display=r==='custom'?'flex':'none';document.querySelectorAll('[id^="rgi-"]').forEach(function(el){el.classList.remove('current');});var rgi=document.getElementById('rgi-'+r);if(rgi)rgi.classList.add('current');document.getElementById('pt-ratio-badge').textContent='Ratio: '+r+' · '+ratioDims[r];ptRender();}
+function setPtAv(el,g){ptAv=g;document.querySelectorAll('#pt-av-sws .sw').forEach(function(s){s.classList.remove('on');});el.classList.add('on');ptRender();}
+function setPtOverlay(v,b){ptOverlay=v;document.querySelectorAll('#ptt-image .pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');document.getElementById('pt-overlay-sec').style.display=v?'flex':'none';ptRender();}
+function setPtPriv(p,b){ptPriv=p;document.querySelectorAll('#pt-priv-pills .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');ptRender();}
+function setPtAvail(a,b){ptAvail=a;document.querySelectorAll('#pt-product-sec .pl').forEach(function(x){x.classList.remove('on');});b.classList.add('on');ptRender();}
+function handlePtImg(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){ptImgData=ev.target.result;document.getElementById('pt-img-url').value='';document.getElementById('pt-upload-area').style.display='none';document.getElementById('pt-img-preview').style.display='block';document.getElementById('pt-img-preview-el').src=ptImgData;ptRender();};r.readAsDataURL(f);}
+function removePtImg(){ptImgData=null;document.getElementById('pt-upload-area').style.display='block';document.getElementById('pt-img-preview').style.display='none';document.getElementById('pt-img-file').value='';ptRender();}
+function ptImgUrl(){ptImgData=null;ptRender();}
+function ptTitleCnt(){var l=document.getElementById('pt-title').value.length;var el=document.getElementById('pt-title-cnt');el.textContent=l+' / 100';el.className=l>90?'cnt-over':l>70?'cnt-warn':'cnt-ok';}
+function ptDescCnt(){var l=document.getElementById('pt-desc').value.length;var el=document.getElementById('pt-desc-cnt');el.textContent=l+' / 500';el.className=l>450?'cnt-over':l>350?'cnt-warn':'cnt-ok';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function getImgSrc(){return ptImgData||document.getElementById('pt-img-url').value||'';}
+function buildPinImgArea(featured){
+  var src=getImgSrc();
+  var padBot=ratioAspect[ptRatio]||'150%';
+  var imgHTML=src?'<img src="'+src+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()" onload="this.style.display=\'block\'"/>':'<div class="pt-pin-img-ph"><span style="font-size:2.5rem">📌</span><span>Add image in Image tab</span></div>';
+  var overlayText=ptOverlay?document.getElementById('pt-overlay-text').value:'';
+  var overHTML=overlayText?'<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);padding:.4rem .55rem;font-size:.7rem;font-weight:700;color:#fff;text-align:center">'+esc(overlayText)+'</div>':'';
+  var priceBadge=ptType==='product'?'<div class="pt-price-badge">'+esc(document.getElementById('pt-price').value)+'</div>':'';
+  var ideaBadge=ptType==='idea'?'<div class="pt-idea-badge">IDEA</div>':'';
+  return '<div class="pt-pin-img-wrap" style="padding-bottom:'+padBot+';position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(230,0,35,.18),rgba(108,99,255,.14))">'+imgHTML+overHTML+priceBadge+ideaBadge+'<div class="pt-pin-overlay"><button class="pt-save-btn">Save</button></div></div>';
+}
+
+function buildPinCard(featured,small){
+  var title=document.getElementById('pt-title').value||'Pin Title';
+  var desc=document.getElementById('pt-desc').value||'';
+  var creator=document.getElementById('pt-creator').value||'Creator';
+  var saves=document.getElementById('pt-saves').value||'0';
+  var richType=ptType!=='standard'?'<div style="font-size:.6rem;background:rgba(230,0,35,.14);color:#ff6b6b;padding:.1rem .35rem;border-radius:3px;display:inline-block;margin-bottom:.15rem;font-weight:700;text-transform:uppercase">'+ptType+'</div><br/>':'';
+  return '<div class="pt-pin'+(featured?' featured':'')+'">'+buildPinImgArea(featured)+'<div class="pt-pin-body">'+richType+'<div class="pt-pin-title">'+esc(title)+'</div>'+(small?'':'<div class="pt-pin-desc">'+esc(desc.substring(0,80))+'</div>')+'</div><div class="pt-pin-footer"><div class="pt-pin-av" style="background:'+ptAv+'">'+creator.charAt(0).toUpperCase()+'</div><div class="pt-pin-creator">'+esc(creator)+'</div><div class="pt-pin-saves">'+esc(saves)+'</div></div></div>';
+}
+
+var dummyPins=[
+  {t:'Cozy Reading Nook Ideas',h:'120px',g:'rgba(108,99,255,.2),rgba(0,212,170,.15)'},
+  {t:'Modern Kitchen Reno',h:'155px',g:'rgba(245,158,11,.2),rgba(230,0,35,.15)'},
+  {t:'Minimalist Bathroom',h:'105px',g:'rgba(0,212,170,.2),rgba(108,99,255,.15)'},
+  {t:'Boho Living Room',h:'165px',g:'rgba(255,107,107,.2),rgba(245,158,11,.15)'},
+  {t:'Garden Patio Design',h:'120px',g:'rgba(0,186,124,.2),rgba(108,99,255,.15)'},
+  {t:'Bedroom Aesthetic',h:'140px',g:'rgba(129,52,175,.2),rgba(230,0,35,.15)'},
+];
+function buildDummy(p){return '<div class="pt-pin" style="break-inside:avoid;margin-bottom:.62rem"><div class="pt-pin-img-wrap" style="height:'+p.h+';background:linear-gradient(135deg,'+p.g+');position:relative;overflow:hidden;border-radius:14px 14px 0 0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:rgba(255,255,255,.2)">🏠<div class="pt-pin-overlay"><button class="pt-save-btn">Save</button></div></div><div class="pt-pin-body"><div class="pt-pin-title">'+p.t+'</div></div><div class="pt-pin-footer"><div class="pt-pin-av" style="background:linear-gradient(135deg,#555,#333)">H</div><div class="pt-pin-creator">HomeDesign</div><div class="pt-pin-saves">1.2K</div></div></div>';}
+
+function ptRender(){
+  var creator=document.getElementById('pt-creator').value||'Creator';
+  var boardName=document.getElementById('pt-board').value||'My Board';
+  var tags=document.getElementById('pt-tags').value;
+  var title=document.getElementById('pt-title').value||'Pin Title';
+  var desc=document.getElementById('pt-desc').value||'';
+  var src=getImgSrc();
+  var init=creator.charAt(0).toUpperCase();
+
+  // Nav avatar
+  var nav=document.getElementById('pt-nav-av');if(nav){nav.textContent=init;nav.style.background=ptAv;}
+
+  // Categories bar
+  var showCats=document.getElementById('tog-cats').classList.contains('on');
+  var tagArr=tags.split(',').map(function(t){return t.trim();}).filter(function(t){return t;}).slice(0,6);
+  var catsHTML=showCats?'<div class="pt-cats"><div class="pt-cat act">All</div>'+tagArr.map(function(t){return '<div class="pt-cat">'+esc(t)+'</div>';}).join('')+'</div>':'';
+  ['pt-cats-bar','pt-cats-bar2'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=catsHTML;});
+
+  // Board header
+  var bdAv=document.getElementById('pt-board-av');if(bdAv){bdAv.textContent=init;bdAv.style.background=ptAv;}
+  var bdNm=document.getElementById('pt-board-name');if(bdNm)bdNm.textContent=boardName;
+  var bdMt=document.getElementById('pt-board-meta');if(bdMt)bdMt.textContent='56 Pins · '+ptPriv;
+  // Board tags nav
+  var btn=document.getElementById('pt-board-tags-nav');
+  if(btn)btn.innerHTML='<div class="pt-cat act" style="font-size:.72rem;padding:.25rem .65rem;background:var(--pt-text);color:var(--pt-dark);border-radius:999px;white-space:nowrap;flex-shrink:0">All Pins</div>'+tagArr.slice(0,4).map(function(t){return '<div class="pt-cat" style="font-size:.72rem;padding:.25rem .65rem;background:var(--pt-surface);color:var(--pt-text);border-radius:999px;white-space:nowrap;flex-shrink:0">'+esc(t)+'</div>';}).join('');
+
+  // Search query from first keyword
+  var firstKw=tagArr[0]||title.split(' ').slice(0,3).join(' ');
+  var sqEl=document.getElementById('pt-search-query');if(sqEl)sqEl.textContent=firstKw;
+
+  // Masonry content
+  var showDummy=document.getElementById('tog-dummy').classList.contains('on');
+  var dummyHTML=showDummy?dummyPins.map(function(p){return buildDummy(p);}).join(''):'';
+  var pinCard=buildPinCard(true,false);
+  var feedHTML=dummyHTML.substring(0,dummyHTML.indexOf('</div>')*3)+pinCard+dummyHTML.substring(dummyHTML.indexOf('</div>')*3);
+
+  var fm=document.getElementById('pt-feed-masonry');if(fm)fm.innerHTML=pinCard+dummyHTML;
+  var bm=document.getElementById('pt-board-masonry');if(bm)bm.innerHTML=pinCard+dummyHTML;
+  var sm=document.getElementById('pt-search-masonry');
+  if(sm)sm.innerHTML=buildPinCard(true,true)+dummyPins.map(function(p){return buildDummy(p);}).join('');
+
+  // Single pin
+  var imgInner=src?'<img src="'+src+'" style="width:100%;display:block;max-height:420px;object-fit:cover" onerror="this.remove()"/>':'<div class="pt-sp-img-ph"><span style="font-size:3rem">📌</span><span>Add image in Image tab</span></div>';
+  var spTagsHTML=tagArr.map(function(t){return '<span class="pt-sp-tag">'+esc(t)+'</span>';}).join('');
+  var richBadge=ptType!=='standard'?'<div style="font-size:.72rem;background:rgba(230,0,35,.14);color:#ff6b6b;padding:.18rem .55rem;border-radius:4px;display:inline-block;font-weight:700;text-transform:uppercase;margin-bottom:.38rem">'+esc(ptType)+' Rich Pin</div><br/>':'';
+  var domain='';try{domain=new URL(document.getElementById('pt-url').value).hostname.replace('www.','');}catch(e){domain=document.getElementById('pt-url').value.replace(/https?:\/\//,'').split('/')[0];}
+  var spHTML='<div class="pt-sp-img">'+imgInner+'<button class="pt-sp-save-btn">Save</button><div class="pt-sp-ratio">'+ptRatio+'</div></div><div class="pt-sp-info"><div class="pt-sp-source">🔗 '+esc(domain)+'</div>'+richBadge+'<div class="pt-sp-title">'+esc(title)+'</div><div class="pt-sp-desc">'+esc(desc)+'</div><div class="pt-sp-creator"><div class="pt-sp-creator-av" style="background:'+ptAv+'">'+init+'</div><div><div class="pt-sp-creator-name">'+esc(creator)+'</div><div style="font-size:.7rem;color:var(--pt-muted)">' +document.getElementById('pt-saves').value+' saves</div></div><button class="pt-sp-creator-follow">Follow</button></div>'+spTagsHTML+'</div>';
+  var spEl=document.getElementById('pt-single-pin');if(spEl)spEl.innerHTML=spHTML;
+
+  // Rich Pin Audit
+  var checks=[
+    {ok:title.length>=20&&title.length<=100,w:title.length>0&&title.length<20,label:'Pin Title',d:title.length===0?'No title set':title.length<20?'Title too short — aim for 40–100 chars':title.length>100?'Title exceeds 100 char limit':title.length+' chars — optimal'},
+    {ok:desc.length>=80&&desc.length<=500,w:desc.length>0&&desc.length<80,label:'Description',d:desc.length<80?'Description too short (aim 100–300 chars)':desc.length>450?'Near 500 char limit':desc.length+' chars — good'},
+    {ok:!!src,w:false,label:'Image',d:src?'Image provided':'No image — add one in the Image tab'},
+    {ok:ptRatio==='2:3'||ptRatio==='4:5',w:ptRatio==='1:1',label:'Aspect Ratio',d:ptRatio==='2:3'?'Optimal 2:3 ratio':ptRatio==='16:9'?'Low reach — switch to 2:3 for Pinterest':'Ratio: '+ptRatio},
+    {ok:!!document.getElementById('pt-url').value,w:!document.getElementById('pt-url').value,label:'Destination URL',d:document.getElementById('pt-url').value?'URL linked':'No URL — add one to drive traffic'},
+    {ok:tagArr.length>=3,w:tagArr.length<3,label:'Keywords/Tags',d:tagArr.length+' keywords — '+(tagArr.length<3?'add more for discoverability':'good coverage')},
+  ];
+  var score=Math.round(checks.filter(function(c){return c.ok;}).length/checks.length*100);
+  var scoreEl=document.getElementById('pt-audit-score');var labelEl=document.getElementById('pt-audit-label');
+  if(scoreEl){scoreEl.textContent=score;scoreEl.className='ra-score '+(score>=90?'ra-great':score>=70?'ra-good':score>=50?'ra-fair':'ra-poor');}
+  if(labelEl)labelEl.textContent=score>=90?'Excellent — Ready to publish':score>=70?'Good — Minor improvements possible':score>=50?'Fair — Several issues to address':'Needs work — Key fields missing';
+  var auditEl=document.getElementById('pt-audit-rows');
+  if(auditEl)auditEl.innerHTML=checks.map(function(c){return '<div class="audit-row"><div class="a-ico '+(c.ok?'ic-ok':c.w?'ic-wn':'ic-err')+'">'+(c.ok?'✓':c.w?'!':'✗')+'</div><div class="a-txt"><strong>'+c.label+':</strong> '+c.d+'</div></div>';}).join('');
+}
+
+document.getElementById('ptt-pin').style.display='flex';
+ptRender();ptTitleCnt();ptDescCnt();
+</script>
+</body>
+</html>
