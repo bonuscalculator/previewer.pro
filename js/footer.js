@@ -29,12 +29,12 @@
           <h4>// preview apps</h4>
           <ul>
             <li><a href="/fb-post">Facebook</a></li>
-            <li><a href="/x-post">X (formerly Twitter)</a></li>
-            <li><a href="/reddit-post">LinkedIn</a></li>
+            <li><a href="/x-post">X - Twitter</a></li>
+            <li><a href="/reddit-post">Reddit</a></li>
             <li><a href="/pinterest-pin">Pinterest</a></li>
-            <li><a href="/linkedin-post">Threads</a></li>
-            <li><a href="/insta-post">Threads</a></li>
-            <li><a href="/youtube-video">Threads</a></li>
+            <li><a href="/linkedin-post">Linkedin</a></li>
+            <li><a href="/insta-post">Instagram</a></li>
+            <li><a href="/youtube-video">Youtube</a></li>
             <li><a href="/threads-post">Threads</a></li>
           </ul>
         </div>
