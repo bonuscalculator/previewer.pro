@@ -43,7 +43,7 @@
             <li><a href="/terms">Terms of use</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/about">About</a></li>
-            <li><a href="mailto:hello@previewer.pro">Contact</a></li>
+            <li><a href="mailto:hello@previewer.pro">Email</a></li>
           </ul>
         </div>
       </div>
