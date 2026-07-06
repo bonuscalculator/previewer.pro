@@ -1,0 +1,91 @@
+/* =========================================================
+   INSTA-POST.HTML — platform-specific mockup styles
+   (shared tool-widget styles live in css/app-shared.css,
+   design tokens live in css/style.css)
+========================================================= */
+
+.insta-card{
+  width:100%;max-width:400px;
+  font-family:var(--font-body);
+  background:#fff;
+  border:1px solid #EFEFEF;
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.insta-card__header{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 12px;
+}
+.insta-card__avatar{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4);
+  color:#fff;font-family:var(--font-display);font-weight:700;font-size:.7rem;
+  display:flex;align-items:center;justify-content:center;
+  background-size:cover;background-position:center;
+  overflow:hidden;
+}
+.insta-card__headtext{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25;}
+.insta-card__username-row{display:flex;align-items:center;gap:4px;}
+.insta-card__username{font-weight:700;font-size:.85rem;color:#262626;}
+.insta-card__badge{display:inline-flex;line-height:0;}
+.insta-card__location{font-size:.72rem;color:#262626;}
+.insta-card__menu{color:#262626;font-size:.9rem;letter-spacing:1px;padding:0 4px;}
+
+.insta-card__media{
+  width:100%;
+  background:#FAFAFA;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  aspect-ratio:1/1;
+  transition:aspect-ratio .2s ease;
+}
+.insta-card__media[data-ratio="portrait"]{aspect-ratio:4/5;}
+.insta-card__media[data-ratio="landscape"]{aspect-ratio:1.91/1;}
+.insta-card__media img{width:100%;height:100%;object-fit:cover;display:block;}
+.insta-card__placeholder{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:#B0B0B0;font-size:.78rem;text-align:center;padding:20px;
+}
+
+.insta-card__actions{
+  display:flex;align-items:center;gap:16px;
+  padding:10px 12px 4px;
+  color:#262626;
+}
+.insta-icon{display:flex;line-height:0;cursor:default;}
+.insta-icon--right{margin-left:auto;}
+
+.insta-card__likes{
+  font-weight:700;font-size:.85rem;color:#262626;
+  padding:4px 12px 0;margin:0;
+}
+.insta-card__caption{
+  font-size:.85rem;line-height:1.4;color:#262626;
+  padding:6px 12px 0;margin:0;word-break:break-word;
+}
+.insta-card__caption-user{font-weight:700;margin-right:5px;}
+.insta-card__caption .more-toggle{
+  color:#8E8E8E;cursor:pointer;font-weight:400;
+}
+.insta-card__comments{
+  font-size:.78rem;color:#8E8E8E;
+  padding:6px 12px 0;margin:0;
+}
+.insta-card__time{
+  font-size:.68rem;color:#8E8E8E;letter-spacing:.02em;
+  padding:4px 12px 14px;margin:0;
+}
+
+/* dark mode variant */
+.insta-card.is-dark{background:#000;border-color:#262626;}
+.insta-card.is-dark .insta-card__username,
+.insta-card.is-dark .insta-card__location,
+.insta-card.is-dark .insta-card__menu,
+.insta-card.is-dark .insta-card__likes,
+.insta-card.is-dark .insta-card__caption{color:#F5F5F5;}
+.insta-card.is-dark .insta-card__actions{color:#F5F5F5;}
+.insta-card.is-dark .insta-card__comments,
+.insta-card.is-dark .insta-card__time{color:#A8A8A8;}
+.insta-card.is-dark .insta-card__media{background:#121212;}
+.insta-card.is-dark .insta-card__placeholder{color:#5C5C5C;}
