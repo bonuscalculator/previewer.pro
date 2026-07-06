@@ -10,77 +10,77 @@
     { 
       name: "Facebook Post", 
       icon: "f", 
-      url: "/fb-post.html", 
+      url: "/fb-post", 
       desc: "Preview Facebook posts with images, links, and reactions.",
       color: "#1877F2"
     },
     { 
       name: "X (Twitter) Post", 
       icon: "𝕏", 
-      url: "/x-post.html", 
+      url: "/x-post", 
       desc: "Check character limits, images, and dark mode for X posts.",
       color: "#111318"
     },
     { 
       name: "LinkedIn Post", 
       icon: "in", 
-      url: "/linkedin-post.html", 
+      url: "/linkedin-post", 
       desc: "Preview long-form posts with link cards and images.",
       color: "#0A66C2"
     },
     { 
       name: "Reddit Post", 
       icon: "R", 
-      url: "/reddit-post.html", 
+      url: "/reddit-post", 
       desc: "Preview titles, text/image/link posts, and NSFW tags.",
       color: "#FF4500"
     },
     { 
       name: "Pinterest Pin", 
       icon: "P", 
-      url: "/pinterest-pin.html", 
+      url: "/pinterest-pin", 
       desc: "Preview pin titles, descriptions, and image crops.",
       color: "#E60023"
     },
     { 
       name: "Threads Post", 
       icon: "@", 
-      url: "/threads-post.html", 
+      url: "/threads-post", 
       desc: "Check 500-character limits, images, and link previews.",
       color: "#111318"
     },
     { 
       name: "YouTube Video", 
       icon: "▶", 
-      url: "/yt-video.html", 
+      url: "/yt-video", 
       desc: "Preview thumbnails, titles, and channel info.",
       color: "#FF0000"
     },
     { 
       name: "Instagram Post", 
       icon: "IG", 
-      url: "/insta-post.html", 
+      url: "/insta-post", 
       desc: "Preview feed posts, carousels, and Stories.",
       color: "#833AB4"
     },
     { 
       name: "Twitter Card Validator", 
       icon: "🐦", 
-      url: "/twitter-card-validator.html", 
+      url: "/twitter-card-validator", 
       desc: "Validate Twitter Card meta tags and preview cards.",
       color: "#1DA1F2"
     },
     { 
       name: "WhatsApp Link Preview", 
       icon: "💬", 
-      url: "/whatsapp-preview.html", 
+      url: "/whatsapp-preview", 
       desc: "See how your URL looks when shared on WhatsApp.",
       color: "#25D366"
     },
     { 
       name: "SERP Preview", 
       icon: "🔍", 
-      url: "/serp-preview.html", 
+      url: "/serp-preview", 
       desc: "Preview Google search results for your page.",
       color: "#4285F4"
     }
@@ -398,7 +398,7 @@
   // Render the floating toggle, backdrop, and sidebar
   root.innerHTML = `
     <div class="tools-sidebar-overlay" id="toolsSidebarOverlay"></div>
-    <button class="tools-floating-trigger" id="toolsSidebarTrigger" title="Open Preview Tools" aria-label="Toggle preview tools sidebar">🧰</button>
+    <button class="tools-floating-trigger" id="toolsSidebarTrigger" title="Open Preview Tools" aria-label="Toggle preview tools sidebar">🔍</button>
     <aside class="tools-fixed-sidebar" id="toolsFixedSidebar" aria-label="Previewer.pro Tools Sidebar">
       <div class="tools-sb-header">
         <div>
@@ -459,7 +459,7 @@
     const isOpen = sidebar.classList.toggle("open");
     trigger.classList.toggle("active", isOpen);
     overlay.classList.toggle("visible", isOpen);
-    trigger.textContent = isOpen ? "✕" : "🧰";
+    trigger.textContent = isOpen ? "✕" : "🔍";
     if (isOpen) {
       // Focus search on open
       setTimeout(() => searchInput.focus(), 400);
@@ -473,7 +473,7 @@
     sidebar.classList.remove("open");
     trigger.classList.remove("active");
     overlay.classList.remove("visible");
-    trigger.textContent = "🧰";
+    trigger.textContent = "🔍";
     searchInput.value = "";
     sidebarBody.querySelectorAll(".tools-sb-item").forEach(el => el.classList.remove("hidden"));
   }
