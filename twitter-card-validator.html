@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twitter Card Validator — Preview & Test Your Twitter Cards | Previewer.pro</title>
+<meta name="description" content="Preview and validate your Twitter Card meta tags. Test how your URL will look when shared on X (Twitter) — see the card preview, validate meta tags, and get feedback on missing or incorrect tags.">
+<meta name="keywords" content="twitter card validator, x card validator, twitter card preview, twitter meta tags, open graph validator, social media preview">
+<meta name="author" content="Previewer.pro">
+<link rel="canonical" href="https://www.previewer.pro/twitter-card-validator">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.previewer.pro/twitter-card-validator">
+<meta property="og:title" content="Twitter Card Validator | Previewer.pro">
+<meta property="og:description" content="Preview and validate your Twitter Cards before sharing. Check meta tags, see the card preview, and get instant feedback.">
+<meta property="og:image" content="https://www.previewer.pro/assets/og-twitter-card-validator.png">
+<meta property="og:site_name" content="Previewer.pro">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Twitter Card Validator | Previewer.pro">
+<meta name="twitter:description" content="Free Twitter Card validator tool with live preview, meta tag validation, and error checking.">
+<meta name="twitter:image" content="https://www.previewer.pro/assets/og-twitter-card-validator.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/twitter-card-validator.css">
+
+<!-- JSON-LD: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Twitter Card Validator",
+  "url": "https://www.previewer.pro/twitter-card-validator",
+  "description": "Preview and validate Twitter Card meta tags for any URL. See how your content will look when shared on X (Twitter) with real-time card preview and tag validation.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Previewer.pro",
+    "url": "https://www.previewer.pro/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Twitter Card preview (summary, summary_large_image, app, player)",
+    "Meta tag validation and error checking",
+    "Open Graph tag preview fallback",
+    "Card type detection",
+    "Missing tag warnings",
+    "Image URL validation"
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.previewer.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://www.previewer.pro/#tools" },
+    { "@type": "ListItem", "position": 3, "name": "Twitter Card Validator", "item": "https://www.previewer.pro/twitter-card-validator" }
+  ]
+}
+</script>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a Twitter Card?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A Twitter Card is a preview that appears when your URL is shared on X (Twitter). It includes an image, title, description, and domain, making your content more engaging in the feed." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this validator work?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Enter any URL, and the tool fetches the meta tags from that page. It validates the Twitter Card tags, shows a live preview, and alerts you to any missing or incorrect tags." }
+    },
+    {
+      "@type": "Question",
+      "name": "What card types are supported?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The validator supports all Twitter Card types: summary, summary_large_image, app, and player. It detects the card type from your meta tags and shows the appropriate preview." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool post anything to X for me?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. This is a preview-only tool. It only fetches meta tags from your URL to validate and display a preview. It never posts to X on your behalf." }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if my page has no Twitter Card tags?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The validator will show warnings for missing tags and fall back to Open Graph tags if available. If no tags are found, it will display a generic preview with the page title." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+
+  <!-- ============ HERO / BREADCRUMB ============ -->
+  <section class="app-hero">
+    <div class="container">
+      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#platforms">Tools</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Twitter Card Validator</span>
+      </nav>
+
+      <p class="eyebrow mono reveal">$ previewer run twitter-card-validator</p>
+      <h1 class="app-hero__title reveal">Twitter Card Validator</h1>
+      <p class="app-hero__subtitle reveal">Preview and validate your Twitter Cards before sharing. Enter any URL to see how it will look on X, check your meta tags, and get instant feedback on what's missing.</p>
+      <div class="hero__actions reveal">
+        <a href="#tool" class="btn btn--primary">Start validating ↓</a>
+        <a href="#faq" class="btn btn--ghost">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE TOOL ============ -->
+  <section class="app-tool" id="tool">
+    <div class="container">
+      <div class="app-tool__grid">
+
+        <!-- FORM -->
+        <div class="editor-window app-form reveal">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono">validator.json</span>
+          </div>
+          <div class="app-form__body">
+
+            <div class="field">
+              <label class="mono" for="fieldUrl">// URL to validate</label>
+              <div class="url-input-wrap">
+                <input type="url" id="fieldUrl" placeholder="https://example.com/page-to-validate" value="https://www.previewer.pro/">
+                <button type="button" class="btn btn--primary btn--sm" id="validateBtn">Validate</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// card type</label>
+              <div class="segmented" id="cardTypeToggle">
+                <button type="button" class="segmented__btn is-active" data-type="auto">Auto-detect</button>
+                <button type="button" class="segmented__btn" data-type="summary">Summary</button>
+                <button type="button" class="segmented__btn" data-type="summary_large_image">Summary Large</button>
+                <button type="button" class="segmented__btn" data-type="app">App</button>
+                <button type="button" class="segmented__btn" data-type="player">Player</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// preview mode</label>
+              <div class="segmented" id="themeToggle">
+                <button type="button" class="segmented__btn is-active" data-theme="light">Light</button>
+                <button type="button" class="segmented__btn" data-theme="dark">Dark</button>
+              </div>
+            </div>
+
+            <div class="app-form__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn--primary btn--sm" id="downloadBtn">Download preview</button>
+            </div>
+            <p class="form-note mono">// enters your browser only — no data is stored or shared</p>
+          </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="preview-window app-preview" id="previewWindow">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono" id="previewModeLabel">light-preview.png</span>
+          </div>
+          <div class="app-preview__stage" id="previewStage">
+            
+            <!-- Card Preview -->
+            <div class="card-preview-section">
+              <p class="mono section-label">// card preview</p>
+              <div id="cardPreview">
+                <article class="twitter-card" id="twitterCard">
+                  <div class="twitter-card__body">
+                    <div class="twitter-card__image-wrap" id="cardImageWrap">
+                      <img id="cardImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'%3E%3Crect width='1200' height='630' fill='%23E8E8E8'/%3E%3Ctext x='50%25' y='50%25' font-family='monospace' font-size='36' fill='%23999' text-anchor='middle' dy='.3em'%3ENo image%3C/text%3E%3C/svg%3E" alt="Card image">
+                    </div>
+                    <div class="twitter-card__content">
+                      <p class="twitter-card__domain mono" id="cardDomain">previewer.pro</p>
+                      <h3 class="twitter-card__title" id="cardTitle">Previewer.pro — Social Media Post Preview Tool</h3>
+                      <p class="twitter-card__description" id="cardDesc">Preview your social media posts before you publish. Free, no login required.</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <!-- Validation Results -->
+            <div class="validation-section" id="validationResults">
+              <p class="mono section-label">// validation results</p>
+              <div id="validationList">
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>Card type detected</strong>
+                    <span class="validation-detail" id="detectedCardType">summary_large_image</span>
+                  </div>
+                </div>
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>twitter:card</strong>
+                    <span class="validation-detail">Present</span>
+                  </div>
+                </div>
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>twitter:title</strong>
+                    <span class="validation-detail">Present</span>
+                  </div>
+                </div>
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>twitter:description</strong>
+                    <span class="validation-detail">Present</span>
+                  </div>
+                </div>
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>twitter:image</strong>
+                    <span class="validation-detail">Present</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Raw Tags -->
+            <div class="raw-tags-section">
+              <p class="mono section-label">// meta tags found</p>
+              <pre class="raw-tags" id="rawTags"><span class="comment">&lt;!-- No tags fetched yet. Enter a URL and click Validate. --&gt;</span></pre>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY VALIDATE ============ -->
+  <section class="safe-zones">
+    <div class="container">
+      <p class="eyebrow mono reveal">// why validate</p>
+      <h2 class="section-title reveal">Why Twitter Cards matter.</h2>
+      <div class="safe-grid">
+        <article class="safe-card reveal">
+          <h3>Better engagement</h3>
+          <p>Posts with Twitter Cards get significantly higher engagement. The preview image, title, and description make your content more clickable.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Control your message</h3>
+          <p>Without proper Twitter Cards, X generates a preview based on random page content. Validate your tags to ensure the right message appears.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Multiple card types</h3>
+          <p>Different content needs different cards — summary for blog posts, large image for photos, app cards for mobile apps. Validate to choose the right one.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow mono reveal">// what's inside</p>
+      <h2 class="section-title reveal">Everything you need to validate your Twitter Cards.</h2>
+      <div class="features__grid">
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="live"></div>
+          <h3>Live card preview</h3>
+          <p>See exactly how your URL will look when shared on X — image, title, description, and domain.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="shield"></div>
+          <h3>Meta tag validation</h3>
+          <p>Automatically check for required Twitter Card tags and get instant feedback on what's missing or incorrect.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="pixel"></div>
+          <h3>All card types supported</h3>
+          <p>Summary, summary_large_image, app, and player cards — detect or manually select the card type to test.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="warn"></div>
+          <h3>Open Graph fallback</h3>
+          <p>If Twitter Card tags are missing, the validator falls back to Open Graph tags to show the best possible preview.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="fast"></div>
+          <h3>Light / dark mode</h3>
+          <p>Preview your card in both X's light and dark display modes to ensure readability in both themes.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="lock"></div>
+          <h3>No data stored</h3>
+          <p>All validation happens in your browser. URLs and meta tags are never stored or shared with any server.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="container">
+      <p class="eyebrow mono reveal">// how it works</p>
+      <h2 class="section-title reveal">Three steps, one validated card.</h2>
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--amber"></span>
+          <span class="dot dot--green"></span>
+          <span class="mono terminal__tab">zsh</span>
+        </div>
+        <div class="terminal__body mono">
+          <p><span class="prompt">$</span> enter-a-url <span class="comment">// paste the URL you want to validate</span></p>
+          <p><span class="prompt">$</span> click-validate <span class="comment">// the tool fetches and parses meta tags</span></p>
+          <p><span class="prompt">$</span> check-the-preview <span class="comment">// see the card, fix any issues, and share with confidence</span></p>
+          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section class="tips">
+    <div class="container">
+      <p class="eyebrow mono reveal">// best practices</p>
+      <h2 class="section-title reveal">Optimize your Twitter Cards.</h2>
+      <div class="tips-grid">
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">01</span>
+          <h3>Use the right card type</h3>
+          <p>Choose <code>summary_large_image</code> for content with strong visuals, <code>summary</code> for text-heavy pages, and <code>player</code> for videos.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">02</span>
+          <h3>Optimize image size</h3>
+          <p>For <code>summary_large_image</code>, use 1200×630px (2:1 ratio). For <code>summary</code>, use 120×120px. Always use high-quality images.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">03</span>
+          <h3>Keep titles short</h3>
+          <p>Titles are truncated at 70 characters on X. Put your most important message in the first 70 characters.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">04</span>
+          <h3>Add Open Graph tags</h3>
+          <p>X uses Open Graph tags as a fallback. Always include <code>og:title</code>, <code>og:description</code>, and <code>og:image</code> alongside Twitter tags.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <p class="eyebrow mono reveal">// faq</p>
+      <h2 class="section-title reveal">Questions, answered plainly.</h2>
+      <div class="faq__list reveal">
+        <details class="faq__item">
+          <summary>What is a Twitter Card?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>A Twitter Card is a preview that appears when your URL is shared on X (Twitter). It includes an image, title, description, and domain, making your content more engaging in the feed.</p>
+        </details>
+        <details class="faq__item">
+          <summary>How does this validator work?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Enter any URL, and the tool fetches the meta tags from that page. It validates the Twitter Card tags, shows a live preview, and alerts you to any missing or incorrect tags.</p>
+        </details>
+        <details class="faq__item">
+          <summary>What card types are supported?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>The validator supports all Twitter Card types: summary, summary_large_image, app, and player. It detects the card type from your meta tags and shows the appropriate preview.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool post anything to X for me?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. This is a preview-only tool. It only fetches meta tags from your URL to validate and display a preview. It never posts to X on your behalf.</p>
+        </details>
+        <details class="faq__item">
+          <summary>What happens if my page has no Twitter Card tags?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>The validator will show warnings for missing tags and fall back to Open Graph tags if available. If no tags are found, it will display a generic preview with the page title.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Is my URL stored or shared?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. All validation happens in your browser. The URL and meta tags are never stored on any server or shared with any third party.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED APPS ============ -->
+  <section class="related">
+    <div class="container">
+      <p class="eyebrow mono reveal">// more tools</p>
+      <h2 class="section-title reveal">Try our other preview tools.</h2>
+      <div class="related-grid reveal">
+        <a class="related-card" href="/fb-post"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+        <a class="related-card" href="/x-post"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+        <a class="related-card" href="/linkedin-post"><span class="platform-mark platform-mark--linkedin mono">in</span>LinkedIn</a>
+        <a class="related-card" href="/reddit-post"><span class="platform-mark" style="background:#FF4500; color:#fff; font-weight:700; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.85rem;">R</span>Reddit</a>
+        <a class="related-card" href="/pinterest-pin"><span class="platform-mark platform-mark--pinterest mono">P</span>Pinterest</a>
+        <a class="related-card" href="/threads-post"><span class="platform-mark platform-mark--threads mono">@</span>Threads</a>
+        <a class="related-card" href="/yt-video"><span class="platform-mark" style="background:#FF0000; color:#fff; font-weight:700; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.7rem;">YT</span>YouTube</a>
+        <a class="related-card" href="/insta-post"><span class="platform-mark platform-mark--instagram mono">IG</span>Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/twitter-card-validator.js"></script>
+</body>
+</html>
