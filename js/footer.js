@@ -9,7 +9,7 @@
         <div class="site-footer__brand">
           <a href="/" class="site-footer__logo">
             <span class="logo-mark" style="width:26px;height:26px;border-radius:7px;background:#1E2328;color:#fff;font-family:'JetBrains Mono',monospace;font-size:.7rem;display:inline-flex;align-items:center;justify-content:center;">&gt;_</span>
-            previewer.pro
+            Post Preview Tool
           </a>
           <p>A free, no-login preview tool for social media posts — see exactly how your caption will look before you publish it.</p>
         </div>
@@ -39,8 +39,10 @@
           <h4>// company</h4>
           <ul>
             <li><a href="/#faq">FAQ</a></li>
-            <li><a href="/privacy.html">Privacy policy</a></li>
-            <li><a href="/terms.html">Terms of use</a></li>
+            <li><a href="/privacy">Privacy policy</a></li>
+            <li><a href="/terms">Terms of use</a></li>
+            <li><a href="/contact">Terms of use</a></li>
+            <li><a href="/about">Terms of use</a></li>
             <li><a href="mailto:hello@previewer.pro">Contact</a></li>
           </ul>
         </div>
