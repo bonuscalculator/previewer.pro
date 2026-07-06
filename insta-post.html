@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Post Preview Tool — Free Caption & Photo Preview | Previewer.pro</title>
+<meta name="description" content="Preview your Instagram post before you share it. Upload a photo, check square/portrait/landscape crops, see the caption truncation fold, and count hashtags — free, no login required.">
+<meta name="keywords" content="instagram post preview, instagram caption preview, instagram photo crop preview, instagram hashtag counter, instagram mockup generator, ig post preview tool">
+<meta name="author" content="Previewer.pro">
+<link rel="canonical" href="https://www.previewer.pro/insta-post">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.previewer.pro/insta-post">
+<meta property="og:title" content="Instagram Post Preview Tool | Previewer.pro">
+<meta property="og:description" content="See exactly how your photo, crop, and caption will look on Instagram before you post it.">
+<meta property="og:image" content="https://www.previewer.pro/assets/og-insta-post.png">
+<meta property="og:site_name" content="Previewer.pro">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Instagram Post Preview Tool | Previewer.pro">
+<meta name="twitter:description" content="Free Instagram post preview tool with crop ratios, caption fold, and hashtag counter.">
+<meta name="twitter:image" content="https://www.previewer.pro/assets/og-insta-post.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/app-shared.css">
+<link rel="stylesheet" href="/css/insta-post.css">
+
+<!-- JSON-LD: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Instagram Post Preview Tool",
+  "url": "https://www.previewer.pro/insta-post",
+  "description": "Preview how a photo and caption will render on Instagram, including crop ratio, caption truncation, hashtag count, and light/dark mode, before publishing.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Previewer.pro",
+    "url": "https://www.previewer.pro/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Real-time caption preview with truncation fold",
+    "Photo upload with live preview",
+    "Square, portrait, and landscape crop ratios",
+    "2,200-character live counter",
+    "Hashtag counter",
+    "Verified badge toggle",
+    "Light and dark mode preview",
+    "Download preview as image"
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.previewer.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Preview Apps", "item": "https://www.previewer.pro/#platforms" },
+    { "@type": "ListItem", "position": 3, "name": "Instagram Post Preview", "item": "https://www.previewer.pro/insta-post" }
+  ]
+}
+</script>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the caption character limit on Instagram?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Instagram allows up to 2,200 characters in a caption, though only the first part shows before a 'more' fold in the feed. This tool counts characters live and shows the fold as you type." }
+    },
+    {
+      "@type": "Question",
+      "name": "Which crop ratios can I preview?",
+      "acceptedAnswer": { "@type": "Answer", "text": "You can preview square (1:1), portrait (4:5), and landscape (1.91:1) crops, matching the ratios Instagram supports for feed posts." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool post to Instagram for me?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. This is a preview-only tool. It never connects to your Instagram account and never publishes anything on your behalf." }
+    },
+    {
+      "@type": "Question",
+      "name": "How many hashtags should I use?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Instagram allows up to 30 hashtags per post, though many creators use far fewer. This tool counts your hashtags live so you can see exactly how many you've added." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my caption or photo stored anywhere?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Your draft caption is saved only in your own browser's local storage so it survives a refresh. Uploaded photos are not saved and nothing is sent to a server." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+
+  <!-- ============ HERO / BREADCRUMB ============ -->
+  <section class="app-hero">
+    <div class="container">
+      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#platforms">Preview apps</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Instagram post preview</span>
+      </nav>
+
+      <p class="eyebrow mono reveal">$ previewer run insta-post</p>
+      <h1 class="app-hero__title reveal">Instagram Post Preview Tool</h1>
+      <p class="app-hero__subtitle reveal">Upload a photo, write your caption, and see exactly how it renders in-feed — crop ratio, caption fold, hashtag count, and dark mode included. Free, no login.</p>
+      <div class="hero__actions reveal">
+        <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
+        <a href="#faq" class="btn btn--ghost">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE APP ============ -->
+  <section class="app-tool" id="tool">
+    <div class="container">
+      <div class="app-tool__grid">
+
+        <!-- FORM -->
+        <div class="editor-window app-form reveal">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono">post.json</span>
+          </div>
+          <div class="app-form__body">
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldUsername">// username</label>
+                <input type="text" id="fieldUsername" maxlength="30" placeholder="yourbrand">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldLocation">// location (optional)</label>
+                <input type="text" id="fieldLocation" maxlength="40" placeholder="New York, NY">
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono">// avatar</label>
+                <div class="upload-row">
+                  <button type="button" class="btn btn--ghost btn--sm" id="avatarUploadBtn">Upload image</button>
+                  <button type="button" class="btn btn--text btn--sm" id="avatarRemoveBtn">Remove</button>
+                  <input type="file" id="avatarInput" accept="image/*" hidden>
+                </div>
+              </div>
+              <div class="field field--toggle">
+                <label class="mono" for="fieldVerified">// verified badge</label>
+                <label class="switch">
+                  <input type="checkbox" id="fieldVerified">
+                  <span class="switch__track"><span class="switch__thumb"></span></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// photo</label>
+              <div class="dropzone" id="dropzone">
+                <p class="mono" id="dropzoneLabel">Click or drop a photo here</p>
+                <input type="file" id="imageInput" accept="image/*" hidden>
+              </div>
+              <div class="image-preview-row" id="imagePreviewRow" hidden>
+                <img id="imagePreviewThumb" alt="Uploaded photo thumbnail">
+                <button type="button" class="btn btn--text btn--sm" id="imageRemoveBtn">Remove photo</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// crop ratio</label>
+              <div class="segmented" id="ratioToggle">
+                <button type="button" class="segmented__btn is-active" data-ratio="square">Square 1:1</button>
+                <button type="button" class="segmented__btn" data-ratio="portrait">Portrait 4:5</button>
+                <button type="button" class="segmented__btn" data-ratio="landscape">Landscape 1.91:1</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono" for="fieldCaption">// caption</label>
+              <div class="textarea-wrap">
+                <textarea id="fieldCaption" rows="5" maxlength="2200" placeholder="Write a caption…"></textarea>
+                <svg class="char-ring" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+                  <circle class="char-ring__bg" cx="17" cy="17" r="15"></circle>
+                  <circle class="char-ring__fg" id="charRing" cx="17" cy="17" r="15"></circle>
+                </svg>
+              </div>
+              <p class="char-count mono" id="charCount">2,200 characters left · 0 hashtags</p>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldLikes">// likes</label>
+                <input type="number" id="fieldLikes" min="0" placeholder="1204">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldComments">// comments</label>
+                <input type="number" id="fieldComments" min="0" placeholder="38">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// preview mode</label>
+              <div class="segmented" id="themeToggle">
+                <button type="button" class="segmented__btn is-active" data-theme="light">Light</button>
+                <button type="button" class="segmented__btn" data-theme="dark">Dark</button>
+              </div>
+            </div>
+
+            <div class="app-form__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn--primary btn--sm" id="downloadBtn">Download preview</button>
+            </div>
+            <p class="form-note mono">// text saves to this browser only — photos are never uploaded anywhere</p>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-window app-preview" id="previewWindow">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono" id="previewModeLabel">light-preview.png</span>
+          </div>
+          <div class="app-preview__stage" id="previewStage">
+            <article class="insta-card" id="instaCard">
+              <div class="insta-card__header">
+                <span class="insta-card__avatar" id="instaAvatar">YB</span>
+                <div class="insta-card__headtext">
+                  <span class="insta-card__username-row">
+                    <span class="insta-card__username" id="instaUsername">yourbrand</span>
+                    <span class="insta-card__badge" id="instaBadge" hidden>
+                      <svg viewBox="0 0 22 22" width="14" height="14"><circle cx="11" cy="11" r="11" fill="#2F6FED"></circle><path d="M6 11.5l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </span>
+                  </span>
+                  <span class="insta-card__location mono" id="instaLocation" hidden></span>
+                </div>
+                <span class="insta-card__menu" aria-hidden="true">&#8226;&#8226;&#8226;</span>
+              </div>
+
+              <div class="insta-card__media" id="instaMedia" data-ratio="square">
+                <img id="instaImage" alt="Uploaded post photo" hidden>
+                <div class="insta-card__placeholder" id="instaPlaceholder">
+                  <svg viewBox="0 0 24 24" width="34" height="34"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"></rect><circle cx="9" cy="10" r="1.6" fill="currentColor"></circle><path d="M4 17l5-5 3 3 4-4 4 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+                  <span>Upload a photo to preview</span>
+                </div>
+              </div>
+
+              <div class="insta-card__actions">
+                <span class="insta-icon"><svg viewBox="0 0 24 24" width="23" height="23"><path d="M12 20s-7-4.4-9.5-8.8C1 8 2.5 5 5.8 5 8 5 9.6 6.3 12 9c2.4-2.7 4-4 6.2-4 3.3 0 4.8 3 3.3 6.2C19 15.6 12 20 12 20z" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg></span>
+                <span class="insta-icon"><svg viewBox="0 0 24 24" width="23" height="23"><path d="M4 5h16v10H8l-4 4V5z" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg></span>
+                <span class="insta-icon"><svg viewBox="0 0 24 24" width="23" height="23"><path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg></span>
+                <span class="insta-icon insta-icon--right"><svg viewBox="0 0 24 24" width="21" height="21"><path d="M6 3h12v18l-6-4-6 4V3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></span>
+              </div>
+
+              <p class="insta-card__likes" id="instaLikes">1,204 likes</p>
+
+              <p class="insta-card__caption" id="instaCaption">
+                <span class="insta-card__caption-user" id="instaCaptionUser">yourbrand</span>
+                <span id="instaCaptionText">Launching our summer collection this Friday ☀️ Tap the link in bio to get early access before it sells out. #summer #newdrop #earlyaccess</span>
+              </p>
+
+              <p class="insta-card__comments mono" id="instaCommentsLine">View all 38 comments</p>
+              <p class="insta-card__time mono">2 HOURS AGO</p>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY PREVIEW MATTERS ============ -->
+  <section class="safe-zones">
+    <div class="container">
+      <p class="eyebrow mono reveal">// why this matters</p>
+      <h2 class="section-title reveal">Small things that break a post.</h2>
+      <div class="safe-grid">
+        <article class="safe-card reveal">
+          <h3>Crops that cut off the subject</h3>
+          <p>Square, portrait, and landscape all crop differently. Preview all three before you decide which ratio does your photo justice.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>The caption "more" fold</h3>
+          <p>Only the first couple of lines show before Instagram folds the rest behind "more." Put your hook there, not three lines in.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Hashtag overload</h3>
+          <p>Instagram allows up to 30 hashtags, but a wall of tags can read as spammy. The live counter keeps you honest.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow mono reveal">// what's inside</p>
+      <h2 class="section-title reveal">Everything you need to check before you post.</h2>
+      <div class="features__grid">
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="pixel"></div>
+          <h3>Three crop ratios</h3>
+          <p>Preview your photo as square, portrait, or landscape — the exact ratios Instagram supports in-feed.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="live"></div>
+          <h3>Live caption fold</h3>
+          <p>See exactly where Instagram tucks your caption behind "more," so your hook lands before the fold.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="warn"></div>
+          <h3>Hashtag counter</h3>
+          <p>A running count of every hashtag in your caption, live, so you never guess how many you've used.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="shield"></div>
+          <h3>Verified badge toggle</h3>
+          <p>Flip on the checkmark to see how your post reads with a verified badge next to your username.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="fast"></div>
+          <h3>Light / dark mode</h3>
+          <p>Switch instantly between Instagram's light and dark display modes without leaving the page.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="lock"></div>
+          <h3>No login, no posting</h3>
+          <p>Nothing here connects to Instagram. It's a private, local mockup — nothing is ever published for you.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="container">
+      <p class="eyebrow mono reveal">// how it works</p>
+      <h2 class="section-title reveal">Three steps, one clean post.</h2>
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--amber"></span>
+          <span class="dot dot--green"></span>
+          <span class="mono terminal__tab">zsh</span>
+        </div>
+        <div class="terminal__body mono">
+          <p><span class="prompt">$</span> upload-your-photo <span class="comment">// pick square, portrait, or landscape</span></p>
+          <p><span class="prompt">$</span> write-your-caption <span class="comment">// watch the fold and hashtag count</span></p>
+          <p><span class="prompt">$</span> check-light-and-dark <span class="comment">// then copy it into Instagram</span></p>
+          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section class="tips">
+    <div class="container">
+      <p class="eyebrow mono reveal">// writing tips</p>
+      <h2 class="section-title reveal">Posts that earn the tap.</h2>
+      <div class="tips-grid">
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">01</span>
+          <h3>Hook before the fold</h3>
+          <p>Put your strongest line in the first sentence — everything after "more" only gets read by people who already care.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">02</span>
+          <h3>Match the crop to the shot</h3>
+          <p>Portrait (4:5) claims more feed space than square. If the photo has a clear subject, portrait usually wins.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">03</span>
+          <h3>Group hashtags at the end</h3>
+          <p>A tidy row of hashtags after your caption reads cleaner than tags scattered mid-sentence.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">04</span>
+          <h3>Check it in dark mode</h3>
+          <p>Light captions and pale graphics can wash out on Instagram's black background. The dark toggle catches it fast.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <p class="eyebrow mono reveal">// faq</p>
+      <h2 class="section-title reveal">Questions, answered plainly.</h2>
+      <div class="faq__list reveal">
+        <details class="faq__item">
+          <summary>What is the caption character limit on Instagram?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Instagram allows up to 2,200 characters in a caption, though only the first part shows before a "more" fold in the feed. This tool counts characters live and shows the fold as you type.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Which crop ratios can I preview?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>You can preview square (1:1), portrait (4:5), and landscape (1.91:1) crops, matching the ratios Instagram supports for feed posts.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool post to Instagram for me?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. This is a preview-only tool. It never connects to your Instagram account and never publishes anything on your behalf.</p>
+        </details>
+        <details class="faq__item">
+          <summary>How many hashtags should I use?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Instagram allows up to 30 hashtags per post, though many creators use far fewer. This tool counts your hashtags live so you can see exactly how many you've added.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Is my caption or photo stored anywhere?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Your draft caption is saved only in your own browser's local storage so it survives a refresh. Uploaded photos are not saved and nothing is sent to a server.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED APPS ============ -->
+  <section class="related">
+    <div class="container">
+      <p class="eyebrow mono reveal">// more preview apps</p>
+      <h2 class="section-title reveal">Previewing for another platform?</h2>
+      <div class="related-grid reveal">
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+        <a class="related-card" href="/x-post"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--linkedin mono">in</span>LinkedIn</a>
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--pinterest mono">P</span>Pinterest</a>
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--threads mono">@</span>Threads</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/main.js"></script>
+<script src="js/insta-post.js"></script>
+</body>
+</html>
