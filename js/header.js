@@ -5,7 +5,7 @@
     <div class="site-header__inner">
       <a href="/" class="site-header__logo">
         <span class="logo-mark">&gt;_</span>
-        previewer<span class="accent">.pro</span>
+        Post<span class="accent">Preview Tool</span>
       </a>
 
       <nav class="site-header__nav" id="siteNav">
