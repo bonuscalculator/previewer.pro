@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Video Preview Tool — Free Thumbnail & Title Mockup | Previewer.pro</title>
+<meta name="description" content="Preview your YouTube video thumbnail, title, and channel info before you upload. Check the 100-character title limit, upload a thumbnail, and see it in light or dark mode — free, no login required.">
+<meta name="keywords" content="youtube video preview, youtube thumbnail preview, youtube title checker, youtube mockup generator, youtube search preview">
+<meta name="author" content="Previewer.pro">
+<link rel="canonical" href="https://www.previewer.pro/yt-video">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.previewer.pro/yt-video">
+<meta property="og:title" content="YouTube Video Preview Tool | Previewer.pro">
+<meta property="og:description" content="See exactly how your video will look in YouTube search results — thumbnail, title, channel, views, and upload time — before you publish.">
+<meta property="og:image" content="https://www.previewer.pro/assets/og-yt-video.png">
+<meta property="og:site_name" content="Previewer.pro">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="YouTube Video Preview Tool | Previewer.pro">
+<meta name="twitter:description" content="Free YouTube video preview tool with thumbnail upload, title counter, channel name, views, and dark mode.">
+<meta name="twitter:image" content="https://www.previewer.pro/assets/og-yt-video.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/yt-video.css">
+
+<!-- JSON-LD: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "YouTube Video Preview Tool",
+  "url": "https://www.previewer.pro/yt-video",
+  "description": "Preview how a YouTube video will look in search results, including thumbnail, title (100 char limit), channel name, views, and upload time, with light/dark mode, before uploading.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Previewer.pro",
+    "url": "https://www.previewer.pro/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Real-time video card preview with 100-character title counter",
+    "Thumbnail image upload with live preview",
+    "Channel name, views, and upload time customization",
+    "Light and dark mode preview",
+    "Download preview as image"
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.previewer.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Preview Apps", "item": "https://www.previewer.pro/#platforms" },
+    { "@type": "ListItem", "position": 3, "name": "YouTube Video Preview", "item": "https://www.previewer.pro/yt-video" }
+  ]
+}
+</script>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the character limit for a YouTube video title?",
+      "acceptedAnswer": { "@type": "Answer", "text": "YouTube video titles are limited to 100 characters. This tool counts characters live and warns you as you approach the limit." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I preview my thumbnail with the title?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Upload a thumbnail image and it will appear inside the mockup exactly where it would in YouTube search results." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool upload my video to YouTube?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. This is a preview-only tool. It never connects to your YouTube account and never publishes anything on your behalf." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I see how my video looks in dark mode?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Use the light/dark toggle above the preview to check how your video card renders in both of YouTube's display modes." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my video title or thumbnail stored anywhere?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Your draft title is saved only in your own browser's local storage so it survives a refresh. Uploaded thumbnails are not saved and nothing is sent to a server." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+
+  <!-- ============ HERO / BREADCRUMB ============ -->
+  <section class="app-hero">
+    <div class="container">
+      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#platforms">Preview apps</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">YouTube video preview</span>
+      </nav>
+
+      <p class="eyebrow mono reveal">$ previewer run yt-video</p>
+      <h1 class="app-hero__title reveal">YouTube Video Preview Tool</h1>
+      <p class="app-hero__subtitle reveal">Write your title, upload a thumbnail, and see exactly how your video will look in YouTube search results — title limit, channel info, views, and dark mode included. Free, no login.</p>
+      <div class="hero__actions reveal">
+        <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
+        <a href="#faq" class="btn btn--ghost">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE APP ============ -->
+  <section class="app-tool" id="tool">
+    <div class="container">
+      <div class="app-tool__grid">
+
+        <!-- FORM -->
+        <div class="editor-window app-form reveal">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono">yt-video.json</span>
+          </div>
+          <div class="app-form__body">
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldChannel">// channel name</label>
+                <input type="text" id="fieldChannel" maxlength="50" placeholder="Your Channel">
+              </div>
+              <div class="field">
+                <label class="mono">// channel avatar</label>
+                <div class="upload-row">
+                  <button type="button" class="btn btn--ghost btn--sm" id="avatarUploadBtn">Upload image</button>
+                  <button type="button" class="btn btn--text btn--sm" id="avatarRemoveBtn">Remove</button>
+                  <input type="file" id="avatarInput" accept="image/*" hidden>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono" for="fieldTitle">// video title</label>
+              <div class="textarea-wrap">
+                <input type="text" id="fieldTitle" maxlength="100" placeholder="Your video title here">
+                <svg class="char-ring" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+                  <circle class="char-ring__bg" cx="17" cy="17" r="15"></circle>
+                  <circle class="char-ring__fg" id="titleRing" cx="17" cy="17" r="15"></circle>
+                </svg>
+              </div>
+              <p class="char-count mono" id="titleCount">100 characters left</p>
+            </div>
+
+            <div class="field">
+              <label class="mono">// thumbnail</label>
+              <div class="dropzone" id="dropzone">
+                <p class="mono" id="dropzoneLabel">Click or drop an image here</p>
+                <input type="file" id="imageInput" accept="image/*" hidden>
+              </div>
+              <div class="image-preview-row" id="imagePreviewRow" hidden>
+                <img id="imagePreviewThumb" alt="Uploaded image thumbnail">
+                <button type="button" class="btn btn--text btn--sm" id="imageRemoveBtn">Remove image</button>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldViews">// views</label>
+                <input type="text" id="fieldViews" maxlength="20" placeholder="1.2M">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldTime">// uploaded</label>
+                <input type="text" id="fieldTime" maxlength="20" placeholder="2 days ago">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// preview mode</label>
+              <div class="segmented" id="themeToggle">
+                <button type="button" class="segmented__btn is-active" data-theme="light">Light</button>
+                <button type="button" class="segmented__btn" data-theme="dark">Dark</button>
+              </div>
+            </div>
+
+            <div class="app-form__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn--primary btn--sm" id="downloadBtn">Download preview</button>
+            </div>
+            <p class="form-note mono">// text saves to this browser only — images are never uploaded anywhere</p>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-window app-preview" id="previewWindow">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono" id="previewModeLabel">light-preview.png</span>
+          </div>
+          <div class="app-preview__stage" id="previewStage">
+            <article class="yt-card" id="ytCard">
+              <div class="yt-card__thumbnail" id="ytThumbnail">
+                <img id="ytThumbImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%23D3D3D3'/%3E%3Ctext x='50%25' y='50%25' font-family='monospace' font-size='20' fill='%23999999' text-anchor='middle' dy='.3em'%3EThumbnail%3C/text%3E%3C/svg%3E" alt="Video thumbnail">
+                <div class="yt-card__duration">5:20</div>
+              </div>
+              <div class="yt-card__info">
+                <h3 class="yt-card__title" id="ytTitle">Your video title here</h3>
+                <div class="yt-card__meta">
+                  <span class="yt-card__channel" id="ytChannel">Your Channel</span>
+                  <span class="yt-card__dot">·</span>
+                  <span class="yt-card__views" id="ytViews">1.2M views</span>
+                  <span class="yt-card__dot">·</span>
+                  <span class="yt-card__time" id="ytTime">2 days ago</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY PREVIEW MATTERS ============ -->
+  <section class="safe-zones">
+    <div class="container">
+      <p class="eyebrow mono reveal">// why this matters</p>
+      <h2 class="section-title reveal">Small things that make a video flop.</h2>
+      <div class="safe-grid">
+        <article class="safe-card reveal">
+          <h3>The 100-character title limit</h3>
+          <p>YouTube caps titles at 100 characters. Go over and your title gets cut off in search results. Preview the exact length here.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Thumbnail crop and composition</h3>
+          <p>Your thumbnail is the first thing viewers see. Upload it here to see how it will be displayed in search, and check if the text is readable.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Dark mode readability</h3>
+          <p>Many users browse YouTube in dark mode. Toggle the preview to ensure your thumbnail and title still pop against a dark background.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow mono reveal">// what's inside</p>
+      <h2 class="section-title reveal">Everything you need to check before you upload.</h2>
+      <div class="features__grid">
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="live"></div>
+          <h3>Live title counter</h3>
+          <p>A real-time 100-character counter that warns you when you're about to hit the limit.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="pixel"></div>
+          <h3>Thumbnail upload preview</h3>
+          <p>Upload an image and see it rendered as the video thumbnail in the mockup at the exact size YouTube uses.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="shield"></div>
+          <h3>Channel and metadata</h3>
+          <p>Customize channel name, avatar, views, and upload time to see the full video card context.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="warn"></div>
+          <h3>Light / dark mode</h3>
+          <p>Switch instantly between YouTube's light and dark display modes without leaving the page.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="fast"></div>
+          <h3>Download the mockup</h3>
+          <p>Export your preview as a PNG to share with a client or teammate for approval.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="lock"></div>
+          <h3>No login, no uploading</h3>
+          <p>Nothing here connects to YouTube. It's a private, local mockup — nothing is ever uploaded for you.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="container">
+      <p class="eyebrow mono reveal">// how it works</p>
+      <h2 class="section-title reveal">Three steps, one polished video.</h2>
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--amber"></span>
+          <span class="dot dot--green"></span>
+          <span class="mono terminal__tab">zsh</span>
+        </div>
+        <div class="terminal__body mono">
+          <p><span class="prompt">$</span> write-your-title <span class="comment">// watch the 100-character ring</span></p>
+          <p><span class="prompt">$</span> upload-thumbnail <span class="comment">// drag and drop or click</span></p>
+          <p><span class="prompt">$</span> check-light-and-dark <span class="comment">// then upload it to YouTube</span></p>
+          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section class="tips">
+    <div class="container">
+      <p class="eyebrow mono reveal">// writing tips</p>
+      <h2 class="section-title reveal">Videos that get clicks.</h2>
+      <div class="tips-grid">
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">01</span>
+          <h3>Front-load the hook</h3>
+          <p>The first few words of the title are what show in search. Put the most compelling keyword or phrase right up front.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">02</span>
+          <h3>Keep it under 60 characters</h3>
+          <p>While the limit is 100, shorter titles often perform better. Preview how it looks in the mockup to see if it's scannable.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">03</span>
+          <h3>Thumbnail readability</h3>
+          <p>Text on thumbnails should be large and high-contrast. Upload your thumbnail and check it in both light and dark mode.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">04</span>
+          <h3>Check channel avatar</h3>
+          <p>Your channel avatar appears next to the video. Make sure it's recognizable and fits the context.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <p class="eyebrow mono reveal">// faq</p>
+      <h2 class="section-title reveal">Questions, answered plainly.</h2>
+      <div class="faq__list reveal">
+        <details class="faq__item">
+          <summary>What is the character limit for a YouTube video title?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>YouTube video titles are limited to 100 characters. This tool counts characters live and warns you as you approach the limit.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I preview my thumbnail with the title?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Upload a thumbnail image and it will appear inside the mockup exactly where it would in YouTube search results.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool upload my video to YouTube?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. This is a preview-only tool. It never connects to your YouTube account and never publishes anything on your behalf.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I see how my video looks in dark mode?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Use the light/dark toggle above the preview to check how your video card renders in both of YouTube's display modes.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Is my video title or thumbnail stored anywhere?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Your draft title is saved only in your own browser's local storage so it survives a refresh. Uploaded thumbnails are not saved and nothing is sent to a server.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED APPS ============ -->
+  <section class="related">
+    <div class="container">
+      <p class="eyebrow mono reveal">// more preview apps</p>
+      <h2 class="section-title reveal">Previewing for another platform?</h2>
+      <div class="related-grid reveal">
+        <a class="related-card" href="/fb-post"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+        <a class="related-card" href="/x-post"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+        <a class="related-card" href="/linkedin-post"><span class="platform-mark platform-mark--linkedin mono">in</span>LinkedIn</a>
+        <a class="related-card" href="/reddit-post"><span class="platform-mark" style="background:#FF4500; color:#fff; font-weight:700; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.85rem;">R</span>Reddit</a>
+        <a class="related-card" href="/pinterest-pin"><span class="platform-mark platform-mark--pinterest mono">P</span>Pinterest</a>
+        <a class="related-card" href="/threads-post"><span class="platform-mark platform-mark--threads mono">@</span>Threads</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/yt-video.js"></script>
+</body>
+</html>
