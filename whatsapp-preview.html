@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Link Preview Tool — See How Your URL Looks in WhatsApp | Previewer.pro</title>
+<meta name="description" content="Preview how your URL will look when shared on WhatsApp. See the link preview with image, title, description, and domain — before you send it.">
+<meta name="keywords" content="whatsapp link preview, whatsapp preview generator, link preview tool, whatsapp link checker, social media preview">
+<meta name="author" content="Previewer.pro">
+<link rel="canonical" href="https://www.previewer.pro/whatsapp-preview">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.previewer.pro/whatsapp-preview">
+<meta property="og:title" content="WhatsApp Link Preview Tool | Previewer.pro">
+<meta property="og:description" content="Preview how your URL will look when shared on WhatsApp — image, title, description, and domain.">
+<meta property="og:image" content="https://www.previewer.pro/assets/og-whatsapp-preview.png">
+<meta property="og:site_name" content="Previewer.pro">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WhatsApp Link Preview Tool | Previewer.pro">
+<meta name="twitter:description" content="Free WhatsApp link preview tool with live preview, meta tag validation, and error checking.">
+<meta name="twitter:image" content="https://www.previewer.pro/assets/og-whatsapp-preview.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/whatsapp-preview.css">
+
+<!-- JSON-LD: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "WhatsApp Link Preview Tool",
+  "url": "https://www.previewer.pro/whatsapp-preview",
+  "description": "Preview how a URL will appear when shared on WhatsApp. Validate Open Graph tags and see the link preview with image, title, description, and domain.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Previewer.pro",
+    "url": "https://www.previewer.pro/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Live WhatsApp link preview",
+    "Open Graph tag validation",
+    "Image, title, description preview",
+    "Missing tag warnings",
+    "Light and dark mode preview",
+    "Download preview as image"
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.previewer.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://www.previewer.pro/#tools" },
+    { "@type": "ListItem", "position": 3, "name": "WhatsApp Link Preview", "item": "https://www.previewer.pro/whatsapp-preview" }
+  ]
+}
+</script>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does WhatsApp generate link previews?",
+      "acceptedAnswer": { "@type": "Answer", "text": "WhatsApp uses Open Graph meta tags (og:title, og:description, og:image) from the page to generate previews. If no OG tags are found, it falls back to page title and a generic preview." }
+    },
+    {
+      "@type": "Question",
+      "name": "What meta tags does WhatsApp use?",
+      "acceptedAnswer": { "@type": "Answer", "text": "WhatsApp primarily uses og:title, og:description, and og:image. The image should be at least 200×200px for best results, with 1.91:1 aspect ratio recommended." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool send my URL to WhatsApp?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. This is a preview-only tool. It fetches the page metadata to display a preview, but never sends anything to WhatsApp or publishes on your behalf." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I test a localhost URL?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. The tool requires publicly accessible URLs to fetch meta tags. Localhost or internal network URLs cannot be reached by the proxy service." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my URL stored anywhere?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. All fetching and previewing happens in your browser. The URL and meta tags are never stored on any server." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+
+  <!-- ============ HERO / BREADCRUMB ============ -->
+  <section class="app-hero">
+    <div class="container">
+      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#platforms">Tools</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">WhatsApp Link Preview</span>
+      </nav>
+
+      <p class="eyebrow mono reveal">$ previewer run whatsapp-preview</p>
+      <h1 class="app-hero__title reveal">WhatsApp Link Preview Tool</h1>
+      <p class="app-hero__subtitle reveal">See exactly how your URL will look when shared on WhatsApp. Preview the image, title, description, and domain — before you send it.</p>
+      <div class="hero__actions reveal">
+        <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
+        <a href="#faq" class="btn btn--ghost">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE TOOL ============ -->
+  <section class="app-tool" id="tool">
+    <div class="container">
+      <div class="app-tool__grid">
+
+        <!-- FORM -->
+        <div class="editor-window app-form reveal">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono">whatsapp-preview.json</span>
+          </div>
+          <div class="app-form__body">
+
+            <div class="field">
+              <label class="mono" for="fieldUrl">// URL to preview</label>
+              <div class="url-input-wrap">
+                <input type="url" id="fieldUrl" placeholder="https://example.com/page-to-preview" value="https://www.previewer.pro/">
+                <button type="button" class="btn btn--primary btn--sm" id="previewBtn">Preview</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// manual override (optional)</label>
+              <div class="field-row">
+                <div class="field">
+                  <label class="mono" for="fieldTitle">// title</label>
+                  <input type="text" id="fieldTitle" maxlength="100" placeholder="Custom title">
+                </div>
+                <div class="field">
+                  <label class="mono" for="fieldDesc">// description</label>
+                  <input type="text" id="fieldDesc" maxlength="200" placeholder="Custom description">
+                </div>
+              </div>
+              <div class="field">
+                <label class="mono">// custom image</label>
+                <div class="dropzone" id="dropzone">
+                  <p class="mono" id="dropzoneLabel">Click or drop an image here</p>
+                  <input type="file" id="imageInput" accept="image/*" hidden>
+                </div>
+                <div class="image-preview-row" id="imagePreviewRow" hidden>
+                  <img id="imagePreviewThumb" alt="Uploaded image thumbnail">
+                  <button type="button" class="btn btn--text btn--sm" id="imageRemoveBtn">Remove image</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// preview mode</label>
+              <div class="segmented" id="themeToggle">
+                <button type="button" class="segmented__btn is-active" data-theme="light">Light</button>
+                <button type="button" class="segmented__btn" data-theme="dark">Dark</button>
+              </div>
+            </div>
+
+            <div class="app-form__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn--primary btn--sm" id="downloadBtn">Download preview</button>
+            </div>
+            <p class="form-note mono">// enters your browser only — no data is stored or shared</p>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-window app-preview" id="previewWindow">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono" id="previewModeLabel">light-preview.png</span>
+          </div>
+          <div class="app-preview__stage" id="previewStage">
+            
+            <!-- WhatsApp Preview -->
+            <div class="preview-section">
+              <p class="mono section-label">// whatsapp link preview</p>
+              <div id="previewContainer">
+                <div class="whatsapp-message" id="whatsappMessage">
+                  <div class="whatsapp-message__header">
+                    <span class="whatsapp-message__sender">You</span>
+                    <span class="whatsapp-message__time mono">Now</span>
+                  </div>
+                  <div class="whatsapp-message__body">
+                    <div class="whatsapp-card" id="whatsappCard">
+                      <div class="whatsapp-card__image-wrap" id="cardImageWrap">
+                        <img id="cardImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='209'%3E%3Crect width='400' height='209' fill='%23E8E8E8'/%3E%3Ctext x='50%25' y='50%25' font-family='monospace' font-size='24' fill='%23999' text-anchor='middle' dy='.3em'%3ENo image%3C/text%3E%3C/svg%3E" alt="Link preview image">
+                      </div>
+                      <div class="whatsapp-card__content">
+                        <p class="whatsapp-card__domain mono" id="cardDomain">previewer.pro</p>
+                        <h3 class="whatsapp-card__title" id="cardTitle">Previewer.pro — Social Media Post Preview Tool</h3>
+                        <p class="whatsapp-card__description" id="cardDesc">Preview your social media posts before you publish. Free, no login required.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Validation Results -->
+            <div class="validation-section" id="validationResults">
+              <p class="mono section-label">// meta tag validation</p>
+              <div id="validationList">
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>og:title</strong>
+                    <span class="validation-detail">Present</span>
+                  </div>
+                </div>
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>og:description</strong>
+                    <span class="validation-detail">Present</span>
+                  </div>
+                </div>
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>og:image</strong>
+                    <span class="validation-detail">Present</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Raw Tags -->
+            <div class="raw-tags-section">
+              <p class="mono section-label">// meta tags found</p>
+              <pre class="raw-tags" id="rawTags"><span class="comment">&lt;!-- No tags fetched yet. Enter a URL and click Preview. --&gt;</span></pre>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY PREVIEW MATTERS ============ -->
+  <section class="safe-zones">
+    <div class="container">
+      <p class="eyebrow mono reveal">// why preview</p>
+      <h2 class="section-title reveal">Why WhatsApp link previews matter.</h2>
+      <div class="safe-grid">
+        <article class="safe-card reveal">
+          <h3>Better engagement</h3>
+          <p>Messages with link previews get more clicks. A good preview with an image and clear title makes your content more trustworthy and clickable.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Control your message</h3>
+          <p>Without proper Open Graph tags, WhatsApp generates a generic preview. Validate your tags to ensure the right image and message appear.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Professional appearance</h3>
+          <p>When sharing links to your business, products, or content, a well-formatted preview signals professionalism and attention to detail.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow mono reveal">// what's inside</p>
+      <h2 class="section-title reveal">Everything you need to preview your WhatsApp links.</h2>
+      <div class="features__grid">
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="live"></div>
+          <h3>Live link preview</h3>
+          <p>See exactly how your URL will appear in a WhatsApp chat — image, title, description, and domain.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="shield"></div>
+          <h3>Meta tag validation</h3>
+          <p>Automatically check for required Open Graph tags and get instant feedback on what's missing.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="pixel"></div>
+          <h3>Image upload override</h3>
+          <p>Manually upload a custom image to see how it would look in the preview, without waiting for meta tags to update.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="fast"></div>
+          <h3>Light / dark mode</h3>
+          <p>Preview your link in both WhatsApp's light and dark display modes to ensure readability in both themes.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="warn"></div>
+          <h3>Manual override</h3>
+          <p>Test different titles and descriptions without modifying your page. Perfect for A/B testing.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="lock"></div>
+          <h3>No data stored</h3>
+          <p>All fetching and previewing happens in your browser. URLs and meta tags are never stored on any server.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="container">
+      <p class="eyebrow mono reveal">// how it works</p>
+      <h2 class="section-title reveal">Three steps, one preview.</h2>
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--amber"></span>
+          <span class="dot dot--green"></span>
+          <span class="mono terminal__tab">zsh</span>
+        </div>
+        <div class="terminal__body mono">
+          <p><span class="prompt">$</span> enter-a-url <span class="comment">// paste the URL you want to preview</span></p>
+          <p><span class="prompt">$</span> click-preview <span class="comment">// the tool fetches and parses meta tags</span></p>
+          <p><span class="prompt">$</span> see-the-preview <span class="comment">// check the WhatsApp preview and fix any issues</span></p>
+          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section class="tips">
+    <div class="container">
+      <p class="eyebrow mono reveal">// best practices</p>
+      <h2 class="section-title reveal">Optimize your WhatsApp link previews.</h2>
+      <div class="tips-grid">
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">01</span>
+          <h3>Use og:image</h3>
+          <p>WhatsApp prioritizes og:image. Use an image that's at least 200×200px with a 1.91:1 aspect ratio for best results.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">02</span>
+          <h3>Keep titles concise</h3>
+          <p>WhatsApp shows about 60-70 characters of the title. Put your most important message in the first 60 characters.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">03</span>
+          <h3>Write clear descriptions</h3>
+          <p>Descriptions under 150 characters perform best. Preview here to see exactly how much shows up in the card.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">04</span>
+          <h3>Use absolute image URLs</h3>
+          <p>WhatsApp requires absolute URLs (starting with https://) for images. Relative paths or localhost URLs won't work.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <p class="eyebrow mono reveal">// faq</p>
+      <h2 class="section-title reveal">Questions, answered plainly.</h2>
+      <div class="faq__list reveal">
+        <details class="faq__item">
+          <summary>How does WhatsApp generate link previews?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>WhatsApp uses Open Graph meta tags (og:title, og:description, og:image) from the page to generate previews. If no OG tags are found, it falls back to page title and a generic preview.</p>
+        </details>
+        <details class="faq__item">
+          <summary>What meta tags does WhatsApp use?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>WhatsApp primarily uses og:title, og:description, and og:image. The image should be at least 200×200px for best results, with 1.91:1 aspect ratio recommended.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool send my URL to WhatsApp?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. This is a preview-only tool. It fetches the page metadata to display a preview, but never sends anything to WhatsApp or publishes on your behalf.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I test a localhost URL?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. The tool requires publicly accessible URLs to fetch meta tags. Localhost or internal network URLs cannot be reached by the proxy service.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Is my URL stored anywhere?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. All fetching and previewing happens in your browser. The URL and meta tags are never stored on any server.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED APPS ============ -->
+  <section class="related">
+    <div class="container">
+      <p class="eyebrow mono reveal">// more tools</p>
+      <h2 class="section-title reveal">Try our other preview tools.</h2>
+      <div class="related-grid reveal">
+        <a class="related-card" href="/fb-post"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+        <a class="related-card" href="/x-post"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+        <a class="related-card" href="/linkedin-post"><span class="platform-mark platform-mark--linkedin mono">in</span>LinkedIn</a>
+        <a class="related-card" href="/reddit-post"><span class="platform-mark" style="background:#FF4500; color:#fff; font-weight:700; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.85rem;">R</span>Reddit</a>
+        <a class="related-card" href="/pinterest-pin"><span class="platform-mark platform-mark--pinterest mono">P</span>Pinterest</a>
+        <a class="related-card" href="/threads-post"><span class="platform-mark platform-mark--threads mono">@</span>Threads</a>
+        <a class="related-card" href="/yt-video"><span class="platform-mark" style="background:#FF0000; color:#fff; font-weight:700; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.7rem;">YT</span>YouTube</a>
+        <a class="related-card" href="/insta-post"><span class="platform-mark platform-mark--instagram mono">IG</span>Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/whatsapp-preview.js"></script>
+</body>
+</html>
