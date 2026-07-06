@@ -436,6 +436,7 @@ section{padding:88px 0;}
 .platform-mark--pinterest{background:#E60023;}
 .platform-mark--threads{background:#111318;}
 .platform-mark--more{background:var(--border-strong);color:var(--muted);}
+.platform-mark--instagram{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4);}
 .status-badge{
   font-size:.68rem;
   font-family:var(--font-mono);
@@ -453,6 +454,18 @@ section{padding:88px 0;}
   color:var(--muted);
   margin-top:6px;
   cursor:not-allowed;
+  text-decoration:none;
+}
+a.platform-card__cta{
+  color:var(--blue-ink);
+  font-weight:600;
+  cursor:pointer;
+}
+a.platform-card__cta:hover{text-decoration:underline;}
+.status-badge--live{
+  color:var(--green);
+  background:#EAF7F1;
+  border-color:#CDEBDB;
 }
 
 /* =========================================================
