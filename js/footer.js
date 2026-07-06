@@ -41,8 +41,8 @@
             <li><a href="/#faq">FAQ</a></li>
             <li><a href="/privacy">Privacy policy</a></li>
             <li><a href="/terms">Terms of use</a></li>
-            <li><a href="/contact">Terms of use</a></li>
-            <li><a href="/about">Terms of use</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/about">About</a></li>
             <li><a href="mailto:hello@previewer.pro">Contact</a></li>
           </ul>
         </div>
