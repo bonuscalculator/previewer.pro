@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedIn Post Preview Tool — Free Post Mockup | Previewer.pro</title>
+<meta name="description" content="Preview your LinkedIn post before you publish it. Check the 3,000-character limit, upload an image, add a link preview, and see it in light or dark mode — free, no login required.">
+<meta name="keywords" content="linkedin post preview, linkedin mockup generator, linkedin post preview tool, linkedin caption checker, linkedin image post preview">
+<meta name="author" content="Previewer.pro">
+<link rel="canonical" href="https://www.previewer.pro/linkedin-post">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.previewer.pro/linkedin-post">
+<meta property="og:title" content="LinkedIn Post Preview Tool | Previewer.pro">
+<meta property="og:description" content="See exactly how your text, image, or link post will look on LinkedIn before you hit publish.">
+<meta property="og:image" content="https://www.previewer.pro/assets/og-linkedin-post.png">
+<meta property="og:site_name" content="Previewer.pro">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LinkedIn Post Preview Tool | Previewer.pro">
+<meta name="twitter:description" content="Free LinkedIn post preview tool with character counter, image upload, link preview, and dark mode.">
+<meta name="twitter:image" content="https://www.previewer.pro/assets/og-linkedin-post.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/linkedin-post.css">
+
+<!-- JSON-LD: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "LinkedIn Post Preview Tool",
+  "url": "https://www.previewer.pro/linkedin-post",
+  "description": "Preview how a text, image, or link post will render on LinkedIn, including character count, image, link card, and light/dark mode, before publishing.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Previewer.pro",
+    "url": "https://www.previewer.pro/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Real-time post preview with 3,000-character counter",
+    "Image upload with live preview",
+    "Link preview card with title, description, domain",
+    "Author name and headline customization",
+    "Light and dark mode preview",
+    "Download preview as image"
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.previewer.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Preview Apps", "item": "https://www.previewer.pro/#platforms" },
+    { "@type": "ListItem", "position": 3, "name": "LinkedIn Post Preview", "item": "https://www.previewer.pro/linkedin-post" }
+  ]
+}
+</script>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the character limit for a LinkedIn post?",
+      "acceptedAnswer": { "@type": "Answer", "text": "LinkedIn posts can be up to 3,000 characters. This tool counts characters live and warns you as you approach the limit." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I preview an image with my LinkedIn post?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Upload an image and it will appear inside the mockup exactly where it would in a real post, so you can check the crop and composition." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I preview a link card on LinkedIn?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Toggle to link mode and fill in the URL, title, and description to see how the link preview will render in the feed." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool post to LinkedIn for me?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. This is a preview-only tool. It never connects to your LinkedIn account and never publishes anything on your behalf." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I see how my post looks in dark mode?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Use the light/dark toggle above the preview to check how your post renders in both of LinkedIn's display modes." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my post text or image stored anywhere?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Your draft text is saved only in your own browser's local storage so it survives a refresh. Uploaded images are not saved and nothing is sent to a server." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+
+  <!-- ============ HERO / BREADCRUMB ============ -->
+  <section class="app-hero">
+    <div class="container">
+      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#platforms">Preview apps</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">LinkedIn post preview</span>
+      </nav>
+
+      <p class="eyebrow mono reveal">$ previewer run linkedin-post</p>
+      <h1 class="app-hero__title reveal">LinkedIn Post Preview Tool</h1>
+      <p class="app-hero__subtitle reveal">Write your post, add an image or link, and see exactly how it renders on LinkedIn — character limit, link card, and dark mode included. Free, no login.</p>
+      <div class="hero__actions reveal">
+        <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
+        <a href="#faq" class="btn btn--ghost">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE APP ============ -->
+  <section class="app-tool" id="tool">
+    <div class="container">
+      <div class="app-tool__grid">
+
+        <!-- FORM -->
+        <div class="editor-window app-form reveal">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono">post.json</span>
+          </div>
+          <div class="app-form__body">
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldName">// display name</label>
+                <input type="text" id="fieldName" maxlength="50" placeholder="Your Name">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldHeadline">// headline</label>
+                <input type="text" id="fieldHeadline" maxlength="60" placeholder="Product Manager at Company">
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono">// avatar</label>
+                <div class="upload-row">
+                  <button type="button" class="btn btn--ghost btn--sm" id="avatarUploadBtn">Upload image</button>
+                  <button type="button" class="btn btn--text btn--sm" id="avatarRemoveBtn">Remove</button>
+                  <input type="file" id="avatarInput" accept="image/*" hidden>
+                </div>
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldTime">// time ago</label>
+                <input type="text" id="fieldTime" maxlength="20" placeholder="2h">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// post type</label>
+              <div class="segmented" id="typeToggle">
+                <button type="button" class="segmented__btn is-active" data-type="text">Text</button>
+                <button type="button" class="segmented__btn" data-type="image">Image</button>
+                <button type="button" class="segmented__btn" data-type="link">Link</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono" for="fieldText">// post text</label>
+              <div class="textarea-wrap">
+                <textarea id="fieldText" rows="6" maxlength="3000" placeholder="Write your post here…"></textarea>
+                <svg class="char-ring" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+                  <circle class="char-ring__bg" cx="17" cy="17" r="15"></circle>
+                  <circle class="char-ring__fg" id="charRing" cx="17" cy="17" r="15"></circle>
+                </svg>
+              </div>
+              <p class="char-count mono" id="charCount">3000 characters left</p>
+            </div>
+
+            <div class="field" id="imageField" hidden>
+              <label class="mono">// image</label>
+              <div class="dropzone" id="dropzone">
+                <p class="mono" id="dropzoneLabel">Click or drop an image here</p>
+                <input type="file" id="imageInput" accept="image/*" hidden>
+              </div>
+              <div class="image-preview-row" id="imagePreviewRow" hidden>
+                <img id="imagePreviewThumb" alt="Uploaded image thumbnail">
+                <button type="button" class="btn btn--text btn--sm" id="imageRemoveBtn">Remove image</button>
+              </div>
+            </div>
+
+            <div class="field" id="linkField" hidden>
+              <label class="mono">// link preview</label>
+              <div class="field-row">
+                <div class="field">
+                  <label class="mono" for="fieldLinkUrl">// URL</label>
+                  <input type="text" id="fieldLinkUrl" maxlength="100" placeholder="https://example.com">
+                </div>
+                <div class="field">
+                  <label class="mono" for="fieldLinkTitle">// title</label>
+                  <input type="text" id="fieldLinkTitle" maxlength="80" placeholder="Page title">
+                </div>
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldLinkDesc">// description</label>
+                <input type="text" id="fieldLinkDesc" maxlength="120" placeholder="A short description of the link">
+              </div>
+              <div class="field">
+                <label class="mono">// link image (optional)</label>
+                <div class="dropzone" id="linkDropzone">
+                  <p class="mono" id="linkDropzoneLabel">Click or drop an image for the link card</p>
+                  <input type="file" id="linkImageInput" accept="image/*" hidden>
+                </div>
+                <div class="image-preview-row" id="linkImagePreviewRow" hidden>
+                  <img id="linkImagePreviewThumb" alt="Link image thumbnail">
+                  <button type="button" class="btn btn--text btn--sm" id="linkImageRemoveBtn">Remove</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldLikes">// likes</label>
+                <input type="number" id="fieldLikes" min="0" placeholder="128">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldComments">// comments</label>
+                <input type="number" id="fieldComments" min="0" placeholder="42">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldReposts">// reposts</label>
+                <input type="number" id="fieldReposts" min="0" placeholder="18">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// preview mode</label>
+              <div class="segmented" id="themeToggle">
+                <button type="button" class="segmented__btn is-active" data-theme="light">Light</button>
+                <button type="button" class="segmented__btn" data-theme="dark">Dark</button>
+              </div>
+            </div>
+
+            <div class="app-form__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn--primary btn--sm" id="downloadBtn">Download preview</button>
+            </div>
+            <p class="form-note mono">// text saves to this browser only — images are never uploaded anywhere</p>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-window app-preview" id="previewWindow">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono" id="previewModeLabel">light-preview.png</span>
+          </div>
+          <div class="app-preview__stage" id="previewStage">
+            <article class="linkedin-card" id="linkedinCard">
+              <div class="linkedin-card__header">
+                <div class="linkedin-card__avatar" id="linkedinAvatar">YB</div>
+                <div class="linkedin-card__author">
+                  <span class="linkedin-card__name" id="linkedinName">Your Name</span>
+                  <span class="linkedin-card__headline" id="linkedinHeadline">Product Manager at Company</span>
+                  <span class="linkedin-card__time mono" id="linkedinTime">2h</span>
+                </div>
+              </div>
+              <div class="linkedin-card__body">
+                <p class="linkedin-card__text" id="linkedinText">Sharing some thoughts on the future of product-led growth…</p>
+
+                <div class="linkedin-card__media" id="linkedinMediaWrap" hidden>
+                  <img id="linkedinImage" alt="Uploaded post image">
+                </div>
+
+                <div class="linkedin-card__link" id="linkedinLinkWrap" hidden>
+                  <div class="linkedin-card__link-img" id="linkedinLinkImg"></div>
+                  <div class="linkedin-card__link-body">
+                    <p class="linkedin-card__link-title" id="linkedinLinkTitle">Page title</p>
+                    <p class="linkedin-card__link-desc" id="linkedinLinkDesc">A short description of the link</p>
+                    <p class="linkedin-card__link-domain mono" id="linkedinLinkDomain">example.com</p>
+                  </div>
+                </div>
+
+                <div class="linkedin-card__stats">
+                  <span class="linkedin-stat">❤️ <span id="linkedinLikes">128</span></span>
+                  <span class="linkedin-stat">💬 <span id="linkedinComments">42</span></span>
+                  <span class="linkedin-stat">🔁 <span id="linkedinReposts">18</span></span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY PREVIEW MATTERS ============ -->
+  <section class="safe-zones">
+    <div class="container">
+      <p class="eyebrow mono reveal">// why this matters</p>
+      <h2 class="section-title reveal">Small things that make a post flop.</h2>
+      <div class="safe-grid">
+        <article class="safe-card reveal">
+          <h3>The 3,000-character limit</h3>
+          <p>LinkedIn allows up to 3,000 characters, but posts longer than ~1,200 get truncated with a "see more" fold. Preview where the fold lands.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Image aspect ratio</h3>
+          <p>LinkedIn crops images to a fixed ratio in the feed. Upload yours here to check how it will be cropped before you post.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Link card preview</h3>
+          <p>The link preview pulls title, description, and image. Fill them in here to see exactly what will show up in your post.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow mono reveal">// what's inside</p>
+      <h2 class="section-title reveal">Everything you need to check before you post.</h2>
+      <div class="features__grid">
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="live"></div>
+          <h3>Live character ring</h3>
+          <p>A real-time 3,000-character counter that warns you when you're about to hit the limit.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="pixel"></div>
+          <h3>Image upload preview</h3>
+          <p>Upload an image and see it rendered inside the mockup at the exact size and position LinkedIn uses.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="shield"></div>
+          <h3>Link card preview</h3>
+          <p>Fill in URL, title, description, and image to preview the link card as it would appear in your feed.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="warn"></div>
+          <h3>Light / dark mode</h3>
+          <p>Switch instantly between LinkedIn's light and dark display modes without leaving the page.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="fast"></div>
+          <h3>Download the mockup</h3>
+          <p>Export your preview as a PNG to share with a client or teammate for approval.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="lock"></div>
+          <h3>No login, no posting</h3>
+          <p>Nothing here connects to LinkedIn. It's a private, local mockup — nothing is ever published for you.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="container">
+      <p class="eyebrow mono reveal">// how it works</p>
+      <h2 class="section-title reveal">Three steps, one polished post.</h2>
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--amber"></span>
+          <span class="dot dot--green"></span>
+          <span class="mono terminal__tab">zsh</span>
+        </div>
+        <div class="terminal__body mono">
+          <p><span class="prompt">$</span> write-your-post <span class="comment">// watch the character ring as you go</span></p>
+          <p><span class="prompt">$</span> add-an-image-or-link <span class="comment">// optional, drag and drop or click</span></p>
+          <p><span class="prompt">$</span> check-light-and-dark <span class="comment">// then copy it into LinkedIn</span></p>
+          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section class="tips">
+    <div class="container">
+      <p class="eyebrow mono reveal">// writing tips</p>
+      <h2 class="section-title reveal">Posts that get engagement.</h2>
+      <div class="tips-grid">
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">01</span>
+          <h3>Hook in the first line</h3>
+          <p>The first few lines are what show in the feed preview. Put the most compelling statement there.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">02</span>
+          <h3>Keep paragraphs short</h3>
+          <p>Dense blocks get skimmed. Break up your post into short, scannable paragraphs for better readability.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">03</span>
+          <h3>Use a high-quality image</h3>
+          <p>Images with clear focal points perform better. Use the preview to ensure your crop isn't cutting off important details.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">04</span>
+          <h3>Check link preview accuracy</h3>
+          <p>Make sure the link card's title, description, and image match your message. Preview it here to catch errors.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <p class="eyebrow mono reveal">// faq</p>
+      <h2 class="section-title reveal">Questions, answered plainly.</h2>
+      <div class="faq__list reveal">
+        <details class="faq__item">
+          <summary>What is the character limit for a LinkedIn post?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>LinkedIn posts can be up to 3,000 characters. This tool counts characters live and warns you as you approach the limit.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I preview an image with my LinkedIn post?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Upload an image and it will appear inside the mockup exactly where it would in a real post, so you can check the crop and composition.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I preview a link card on LinkedIn?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Toggle to link mode and fill in the URL, title, and description to see how the link preview will render in the feed.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool post to LinkedIn for me?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. This is a preview-only tool. It never connects to your LinkedIn account and never publishes anything on your behalf.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I see how my post looks in dark mode?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Use the light/dark toggle above the preview to check how your post renders in both of LinkedIn's display modes.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Is my post text or image stored anywhere?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Your draft text is saved only in your own browser's local storage so it survives a refresh. Uploaded images are not saved and nothing is sent to a server.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED APPS ============ -->
+  <section class="related">
+    <div class="container">
+      <p class="eyebrow mono reveal">// more preview apps</p>
+      <h2 class="section-title reveal">Previewing for another platform?</h2>
+      <div class="related-grid reveal">
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+        <a class="related-card" href="/x-post"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+        <a class="related-card" href="/reddit-post"><span class="platform-mark" style="background:#FF4500; color:#fff; font-weight:700; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.85rem;">R</span>Reddit</a>
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--pinterest mono">P</span>Pinterest</a>
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--threads mono">@</span>Threads</a>
+        <a class="related-card" href="/insta-post"><span class="platform-mark platform-mark--instagram mono">IG</span>Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/linkedin-post.js"></script>
+</body>
+</html>
