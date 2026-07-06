@@ -36,7 +36,7 @@
         </div>
 
         <div>
-          <h4>// company</h4>
+          <h4>// pages</h4>
           <ul>
             <li><a href="/#faq">FAQ</a></li>
             <li><a href="/privacy">Privacy policy</a></li>
