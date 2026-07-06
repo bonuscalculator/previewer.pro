@@ -1,0 +1,105 @@
+/* =========================================================
+   REDDIT-POST.HTML — platform-specific mockup styles
+   (shared tool-widget styles live in css/app-shared.css,
+   design tokens live in css/style.css)
+========================================================= */
+
+.reddit-card{
+  width:100%;max-width:480px;
+  font-family:var(--font-body);
+  background:#fff;
+  border:1px solid #EDEFF1;
+  border-radius:10px;
+  padding:14px 16px 12px;
+}
+
+.reddit-card__header{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-bottom:8px;
+}
+.reddit-card__avatar{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  background:#FF4500;
+  color:#fff;font-family:var(--font-display);font-weight:700;font-size:.7rem;
+  display:flex;align-items:center;justify-content:center;
+  background-size:cover;background-position:center;
+  overflow:hidden;
+}
+.reddit-card__sub{font-weight:700;font-size:.82rem;color:#1A1A1B;}
+.reddit-card__dot{color:#7C7C7C;}
+.reddit-card__meta{font-size:.76rem;color:#7C7C7C;}
+
+.reddit-card__flairs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
+.reddit-tag{
+  font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:3px;
+  text-transform:uppercase;letter-spacing:.02em;
+}
+.reddit-tag--flair{background:#E8F0FE;color:#1A5FB4;}
+.reddit-tag--nsfw{background:#FCE8E8;color:#D93A3A;}
+.reddit-tag--spoiler{background:#2D2D2D;color:#fff;}
+
+.reddit-card__title{
+  font-family:var(--font-body);
+  font-size:1.05rem;font-weight:600;line-height:1.3;
+  color:#1A1A1B;margin:0 0 8px;
+}
+
+.reddit-card__body{margin-bottom:10px;}
+.reddit-card__body-text{
+  font-size:.88rem;line-height:1.45;color:#1A1A1B;
+  margin:0 0 8px;white-space:pre-wrap;word-break:break-word;
+}
+.reddit-card__body-text:empty{display:none;}
+
+.reddit-card__media{
+  border-radius:8px;overflow:hidden;background:#F3F4F5;
+  max-height:420px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:4px;
+}
+.reddit-card__media img{width:100%;max-height:420px;object-fit:contain;display:block;}
+
+.reddit-card__link{
+  display:flex;border:1px solid #EDEFF1;border-radius:8px;overflow:hidden;
+  text-decoration:none;color:inherit;
+}
+.reddit-card__link-img{
+  width:88px;flex-shrink:0;
+  background:repeating-linear-gradient(135deg,#F3F4F5,#F3F4F5 8px,#E9EAEB 8px,#E9EAEB 16px);
+}
+.reddit-card__link-body{padding:10px 12px;min-width:0;}
+.reddit-card__link-title{font-size:.85rem;font-weight:600;margin:0 0 2px;color:#1A1A1B;}
+.reddit-card__link-domain{font-size:.7rem;color:#7C7C7C;margin:0;}
+
+.reddit-card__actions{display:flex;align-items:center;gap:10px;color:#7C7C7C;}
+.reddit-vote{
+  display:flex;align-items:center;gap:6px;
+  background:#F6F7F8;border-radius:20px;padding:4px 10px;
+}
+.reddit-vote__arrow{display:flex;line-height:0;color:#878A8C;}
+.reddit-vote__arrow--up svg{fill:#FF4500;}
+.reddit-vote__score{font-size:.8rem;font-weight:700;color:#1A1A1B;min-width:24px;text-align:center;}
+.reddit-action{
+  display:flex;align-items:center;gap:6px;
+  font-size:.8rem;font-weight:600;
+  background:#F6F7F8;border-radius:20px;padding:6px 12px;
+}
+.reddit-card__upvoted{
+  font-size:.7rem;color:#7C7C7C;margin:8px 0 0;
+}
+
+/* dark mode variant */
+.reddit-card.is-dark{background:#1A1A1B;border-color:#343536;}
+.reddit-card.is-dark .reddit-card__sub,
+.reddit-card.is-dark .reddit-card__title,
+.reddit-card.is-dark .reddit-card__body-text,
+.reddit-card.is-dark .reddit-vote__score,
+.reddit-card.is-dark .reddit-card__link-title{color:#D7DADC;}
+.reddit-card.is-dark .reddit-card__meta,
+.reddit-card.is-dark .reddit-card__dot,
+.reddit-card.is-dark .reddit-card__link-domain,
+.reddit-card.is-dark .reddit-card__upvoted{color:#818384;}
+.reddit-card.is-dark .reddit-vote,
+.reddit-card.is-dark .reddit-action{background:#272729;color:#818384;}
+.reddit-card.is-dark .reddit-card__link{border-color:#343536;}
+.reddit-card.is-dark .reddit-card__link-img{background:repeating-linear-gradient(135deg,#272729,#272729 8px,#1F1F20 8px,#1F1F20 16px);}
+.reddit-card.is-dark .reddit-card__media{background:#0B0B0B;}
