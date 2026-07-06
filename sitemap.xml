@@ -1,47 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Core Pages -->
+    <url>
+        <loc>https://www.previewer.pro/</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/about</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/contact</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/privacy</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/terms</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/cookies</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
 
+    <!-- Link Preview Tools -->
+    <url>
+        <loc>https://www.previewer.pro/facebook-link-preview</loc>
+        <lastmod>2026-03-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/instagram-link-preview</loc>
+        <lastmod>2026-03-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/linkedin-link-preview</loc>
+        <lastmod>2026-03-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/pinterest-link-preview</loc>
+        <lastmod>2026-03-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/twitter-card-validator</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/whatsapp-preview</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
 
-<url>
-  <loc>https://www.previewer.pro/</loc>
-  <lastmod>2026-03-25T11:19:16+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://www.previewer.pro/mobile-viewer</loc>
-  <lastmod>2026-03-25T11:19:16+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.previewer.pro/social-preview</loc>
-  <lastmod>2026-03-25T11:19:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.previewer.pro/serp-preview</loc>
-  <lastmod>2026-03-25T11:19:17+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.previewer.pro/facebook-post-preview</loc>
-  <lastmod>2026-03-25T11:19:17+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.previewer.pro/twitter-post-preview</loc>
-  <lastmod>2026-03-25T11:19:18+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://www.previewer.pro/instagram-post-preview</loc>
-  <lastmod>2026-03-25T11:19:18+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
+    <!-- Post Simulators -->
+    <url>
+        <loc>https://www.previewer.pro/fb-post</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/insta-post</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/linkedin-post</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/pinterest-pin</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/reddit-post</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/threads-post</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/x-post</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/yt-video</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
 
-
+    <!-- Other Tools -->
+    <url>
+        <loc>https://www.previewer.pro/serp-preview</loc>
+        <lastmod>2026-07-07</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/social-preview</loc>
+        <lastmod>2026-03-25</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://www.previewer.pro/mobile-viewer</loc>
+        <lastmod>2026-03-25</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
 </urlset>
