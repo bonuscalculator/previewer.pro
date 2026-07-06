@@ -21,28 +21,32 @@
             <li><a href="/#platforms">Preview apps</a></li>
             <li><a href="/#how">How it works</a></li>
             <li><a href="/#specs">Platform specs</a></li>
+            <li><a href="/#faq">FAQ</a></li>
           </ul>
         </div>
 
         <div>
           <h4>// preview apps</h4>
           <ul>
-            <li><a href="/#platforms">Facebook</a></li>
-            <li><a href="/#platforms">X (formerly Twitter)</a></li>
-            <li><a href="/#platforms">LinkedIn</a></li>
-            <li><a href="/#platforms">Pinterest</a></li>
-            <li><a href="/#platforms">Threads</a></li>
+            <li><a href="/fb-post">Facebook</a></li>
+            <li><a href="/x-post">X (formerly Twitter)</a></li>
+            <li><a href="/reddit-post">LinkedIn</a></li>
+            <li><a href="/pinterest-pin">Pinterest</a></li>
+            <li><a href="/linkedin-post">Threads</a></li>
+            <li><a href="/insta-post">Threads</a></li>
+            <li><a href="/youtube-video">Threads</a></li>
+            <li><a href="/threads-post">Threads</a></li>
           </ul>
         </div>
 
         <div>
           <h4>// pages</h4>
-          <ul>
-            <li><a href="/#faq">FAQ</a></li>
+          <ul>            
             <li><a href="/privacy">Privacy policy</a></li>
             <li><a href="/terms">Terms of use</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/about">About</a></li>
+            <li><a href="/cookies">Cookies Policy</a></li>
             <li><a href="mailto:hello@previewer.pro">Email</a></li>
           </ul>
         </div>
