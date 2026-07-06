@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reddit Post Preview Tool — Free Title, Image & Link Preview</title>
+<meta name="description" content="Preview your Reddit post before you submit it. Check the 300-character title limit, preview text, image, or link posts, add NSFW/spoiler tags, and see it in light or dark mode — free, no login required.">
+<meta name="keywords" content="reddit post preview, reddit title preview, reddit image post preview, reddit link post preview, reddit mockup generator, reddit character counter">
+<meta name="author" content="Previewer.pro">
+<link rel="canonical" href="https://www.previewer.pro/reddit-post">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.previewer.pro/reddit-post">
+<meta property="og:title" content="Reddit Post Preview Tool | Previewer.pro">
+<meta property="og:description" content="See exactly how your title, image, or link post will look on Reddit before you submit it.">
+<meta property="og:image" content="https://www.previewer.pro/assets/og-reddit-post.png">
+<meta property="og:site_name" content="Previewer.pro">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Reddit Post Preview Tool | Previewer.pro">
+<meta name="twitter:description" content="Free Reddit post preview tool for text, image, and link posts with title counter and NSFW/spoiler tags.">
+<meta name="twitter:image" content="https://www.previewer.pro/assets/og-reddit-post.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/app-shared.css">
+<link rel="stylesheet" href="css/reddit-post.css">
+
+<!-- JSON-LD: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Reddit Post Preview Tool",
+  "url": "https://www.previewer.pro/reddit-post",
+  "description": "Preview how a text, image, or link post will render on Reddit, including title length, community and flair, vote score, NSFW/spoiler tags, and light/dark mode, before submitting.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Previewer.pro",
+    "url": "https://www.previewer.pro/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Real-time title preview with 300-character counter",
+    "Text, image, and link post layouts",
+    "Image upload with live preview",
+    "NSFW and spoiler tag preview",
+    "Vote score and upvote percentage formatting",
+    "Light and dark mode preview",
+    "Download preview as image"
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.previewer.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Preview Apps", "item": "https://www.previewer.pro/#platforms" },
+    { "@type": "ListItem", "position": 3, "name": "Reddit Post Preview", "item": "https://www.previewer.pro/reddit-post" }
+  ]
+}
+</script>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the title character limit on Reddit?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Reddit post titles are limited to 300 characters. This tool counts characters live and warns you as you approach the limit." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I preview text, image, and link posts?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Switch between text, image, and link post types to see how each one renders differently in a Reddit feed." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool post to Reddit for me?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. This is a preview-only tool. It never connects to your Reddit account and never submits anything on your behalf." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I preview NSFW or spoiler tags?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Toggle the NSFW or spoiler tag to see how the badge appears next to your title before you post." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my post text or image stored anywhere?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Your draft title and body text are saved only in your own browser's local storage so they survive a refresh. Uploaded images are not saved and nothing is sent to a server." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+
+  <!-- ============ HERO / BREADCRUMB ============ -->
+  <section class="app-hero">
+    <div class="container">
+      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#platforms">Preview apps</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Reddit post preview</span>
+      </nav>
+
+      <p class="eyebrow mono reveal">$ previewer run reddit-post</p>
+      <h1 class="app-hero__title reveal">Reddit Post Preview Tool</h1>
+      <p class="app-hero__subtitle reveal">Write your title, pick text, image, or link, and see exactly how it renders in a Reddit feed — character limit, tags, votes, and dark mode included. Free, no login.</p>
+      <div class="hero__actions reveal">
+        <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
+        <a href="#faq" class="btn btn--ghost">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE APP ============ -->
+  <section class="app-tool" id="tool">
+    <div class="container">
+      <div class="app-tool__grid">
+
+        <!-- FORM -->
+        <div class="editor-window app-form reveal">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono">submit.json</span>
+          </div>
+          <div class="app-form__body">
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldSubreddit">// community</label>
+                <input type="text" id="fieldSubreddit" maxlength="21" placeholder="marketing">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldUsername">// posted by</label>
+                <input type="text" id="fieldUsername" maxlength="20" placeholder="yourname">
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono">// community icon</label>
+                <div class="upload-row">
+                  <button type="button" class="btn btn--ghost btn--sm" id="avatarUploadBtn">Upload image</button>
+                  <button type="button" class="btn btn--text btn--sm" id="avatarRemoveBtn">Remove</button>
+                  <input type="file" id="avatarInput" accept="image/*" hidden>
+                </div>
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldFlair">// flair (optional)</label>
+                <input type="text" id="fieldFlair" maxlength="24" placeholder="Discussion">
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field field--toggle">
+                <label class="mono" for="fieldNsfw">// NSFW tag</label>
+                <label class="switch">
+                  <input type="checkbox" id="fieldNsfw">
+                  <span class="switch__track"><span class="switch__thumb"></span></span>
+                </label>
+              </div>
+              <div class="field field--toggle">
+                <label class="mono" for="fieldSpoiler">// spoiler tag</label>
+                <label class="switch">
+                  <input type="checkbox" id="fieldSpoiler">
+                  <span class="switch__track"><span class="switch__thumb"></span></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// post type</label>
+              <div class="segmented" id="typeToggle">
+                <button type="button" class="segmented__btn is-active" data-type="text">Text</button>
+                <button type="button" class="segmented__btn" data-type="image">Image</button>
+                <button type="button" class="segmented__btn" data-type="link">Link</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono" for="fieldTitle">// title</label>
+              <div class="textarea-wrap">
+                <textarea id="fieldTitle" rows="2" maxlength="300" placeholder="An interesting, specific title"></textarea>
+                <svg class="char-ring" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+                  <circle class="char-ring__bg" cx="17" cy="17" r="15"></circle>
+                  <circle class="char-ring__fg" id="charRing" cx="17" cy="17" r="15"></circle>
+                </svg>
+              </div>
+              <p class="char-count mono" id="charCount">300 characters left</p>
+            </div>
+
+            <div class="field" id="bodyField">
+              <label class="mono" for="fieldBody">// body text</label>
+              <textarea id="fieldBody" rows="4" maxlength="4000" placeholder="Add more detail (optional)…"></textarea>
+            </div>
+
+            <div class="field" id="imageField" hidden>
+              <label class="mono">// image</label>
+              <div class="dropzone" id="dropzone">
+                <p class="mono" id="dropzoneLabel">Click or drop an image here</p>
+                <input type="file" id="imageInput" accept="image/*" hidden>
+              </div>
+              <div class="image-preview-row" id="imagePreviewRow" hidden>
+                <img id="imagePreviewThumb" alt="Uploaded image thumbnail">
+                <button type="button" class="btn btn--text btn--sm" id="imageRemoveBtn">Remove image</button>
+              </div>
+            </div>
+
+            <div class="field-row" id="linkField" hidden>
+              <div class="field">
+                <label class="mono" for="fieldLinkUrl">// link domain</label>
+                <input type="text" id="fieldLinkUrl" maxlength="60" placeholder="example.com">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldLinkTitle">// link preview title</label>
+                <input type="text" id="fieldLinkTitle" maxlength="80" placeholder="Page title shown in the card">
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldScore">// score</label>
+                <input type="number" id="fieldScore" min="0" placeholder="1204">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldUpvoted">// % upvoted</label>
+                <input type="number" id="fieldUpvoted" min="0" max="100" placeholder="94">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono" for="fieldComments">// comments</label>
+              <input type="number" id="fieldComments" min="0" placeholder="86">
+            </div>
+
+            <div class="field">
+              <label class="mono">// preview mode</label>
+              <div class="segmented" id="themeToggle">
+                <button type="button" class="segmented__btn is-active" data-theme="light">Light</button>
+                <button type="button" class="segmented__btn" data-theme="dark">Dark</button>
+              </div>
+            </div>
+
+            <div class="app-form__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn--primary btn--sm" id="downloadBtn">Download preview</button>
+            </div>
+            <p class="form-note mono">// text saves to this browser only — images are never uploaded anywhere</p>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-window app-preview" id="previewWindow">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono" id="previewModeLabel">light-preview.png</span>
+          </div>
+          <div class="app-preview__stage" id="previewStage">
+            <article class="reddit-card" id="redditCard">
+
+              <div class="reddit-card__header">
+                <span class="reddit-card__avatar" id="redditAvatar">r</span>
+                <span class="reddit-card__sub" id="redditSub">r/marketing</span>
+                <span class="reddit-card__dot">·</span>
+                <span class="reddit-card__meta mono">Posted by <span id="redditUsername">u/yourname</span> · 3h</span>
+              </div>
+
+              <div class="reddit-card__flairs" id="redditFlairs">
+                <span class="reddit-tag reddit-tag--flair" id="redditFlair" hidden>Discussion</span>
+                <span class="reddit-tag reddit-tag--nsfw" id="redditNsfw" hidden>NSFW</span>
+                <span class="reddit-tag reddit-tag--spoiler" id="redditSpoiler" hidden>SPOILER</span>
+              </div>
+
+              <h2 class="reddit-card__title" id="redditTitle">What's the one marketing tactic that actually moved the needle for you this year?</h2>
+
+              <div class="reddit-card__body" id="redditBody">
+                <p class="reddit-card__body-text" id="redditBodyText"></p>
+
+                <div class="reddit-card__media" id="redditMediaWrap" hidden>
+                  <img id="redditImage" alt="Uploaded post image">
+                </div>
+
+                <a class="reddit-card__link" id="redditLinkWrap" href="#" onclick="return false;" hidden>
+                  <div class="reddit-card__link-img"></div>
+                  <div class="reddit-card__link-body">
+                    <p class="reddit-card__link-title" id="redditLinkTitle">Page title shown in the card</p>
+                    <p class="reddit-card__link-domain mono" id="redditLinkDomain">example.com</p>
+                  </div>
+                </a>
+              </div>
+
+              <div class="reddit-card__actions">
+                <div class="reddit-vote">
+                  <span class="reddit-vote__arrow reddit-vote__arrow--up">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 4l8 9h-5v7H9v-7H4z"></path></svg>
+                  </span>
+                  <span class="reddit-vote__score mono" id="redditScore">1.2k</span>
+                  <span class="reddit-vote__arrow reddit-vote__arrow--down">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 20l-8-9h5V4h6v7h5z"></path></svg>
+                  </span>
+                </div>
+                <span class="reddit-action">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><path d="M4 5h16v10H8l-4 4V5z" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+                  <span id="redditComments">86 Comments</span>
+                </span>
+                <span class="reddit-action">
+                  <svg viewBox="0 0 24 24" width="17" height="17"><path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+                  Share
+                </span>
+              </div>
+              <p class="reddit-card__upvoted mono" id="redditUpvoted">94% Upvoted</p>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY PREVIEW MATTERS ============ -->
+  <section class="safe-zones">
+    <div class="container">
+      <p class="eyebrow mono reveal">// why this matters</p>
+      <h2 class="section-title reveal">Small things that sink a post.</h2>
+      <div class="safe-grid">
+        <article class="safe-card reveal">
+          <h3>The title is the whole pitch</h3>
+          <p>Most people decide to click based on the title alone. At 300 characters max, every word has to earn its place.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Images aren't cropped, just squeezed</h3>
+          <p>Reddit scales images to fit without cropping them. A very tall or wide image can look cramped or tiny in the feed.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Tags change how a post reveals</h3>
+          <p>NSFW and spoiler tags blur the post until someone clicks through. Preview them here so you know what readers see first.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow mono reveal">// what's inside</p>
+      <h2 class="section-title reveal">Everything you need to check before you submit.</h2>
+      <div class="features__grid">
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="live"></div>
+          <h3>Live title ring</h3>
+          <p>A real-time 300-character counter for your title, so you never get caught over the limit.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="pixel"></div>
+          <h3>Text, image & link layouts</h3>
+          <p>Switch post types and see the exact layout Reddit uses for each — no guessing which fits best.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="warn"></div>
+          <h3>NSFW & spoiler tags</h3>
+          <p>Toggle either tag to preview the badge exactly as it would appear next to your title.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="shield"></div>
+          <h3>Vote score formatting</h3>
+          <p>Enter a score and it renders in Reddit's familiar "1.2k" style, alongside an upvote percentage.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="fast"></div>
+          <h3>Light / dark mode</h3>
+          <p>Switch instantly between Reddit's light and dark display modes without leaving the page.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="lock"></div>
+          <h3>No login, no posting</h3>
+          <p>Nothing here connects to Reddit. It's a private, local mockup — nothing is ever submitted for you.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="container">
+      <p class="eyebrow mono reveal">// how it works</p>
+      <h2 class="section-title reveal">Three steps, one clean post.</h2>
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--amber"></span>
+          <span class="dot dot--green"></span>
+          <span class="mono terminal__tab">zsh</span>
+        </div>
+        <div class="terminal__body mono">
+          <p><span class="prompt">$</span> write-your-title <span class="comment">// watch the 300-character ring</span></p>
+          <p><span class="prompt">$</span> pick-a-post-type <span class="comment">// text, image, or link</span></p>
+          <p><span class="prompt">$</span> check-light-and-dark <span class="comment">// then copy it into Reddit</span></p>
+          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section class="tips">
+    <div class="container">
+      <p class="eyebrow mono reveal">// writing tips</p>
+      <h2 class="section-title reveal">Posts that survive the front page.</h2>
+      <div class="tips-grid">
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">01</span>
+          <h3>Be specific, not clickbait</h3>
+          <p>Reddit communities reward titles that describe exactly what's inside. Vague hype tends to get downvoted fast.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">02</span>
+          <h3>Match the flair to the sub</h3>
+          <p>A relevant flair signals you've read the room. Check the community's rules before you pick one.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">03</span>
+          <h3>Keep images at a normal ratio</h3>
+          <p>Extremely tall or wide images get squeezed awkwardly. Preview it here before you upload the original file.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">04</span>
+          <h3>Tag before you're asked to</h3>
+          <p>If there's any doubt, mark it NSFW or spoiler yourself — mods and readers notice when you don't.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <p class="eyebrow mono reveal">// faq</p>
+      <h2 class="section-title reveal">Questions, answered plainly.</h2>
+      <div class="faq__list reveal">
+        <details class="faq__item">
+          <summary>What is the title character limit on Reddit?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Reddit post titles are limited to 300 characters. This tool counts characters live and warns you as you approach the limit.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I preview text, image, and link posts?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Switch between text, image, and link post types to see how each one renders differently in a Reddit feed.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool post to Reddit for me?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. This is a preview-only tool. It never connects to your Reddit account and never submits anything on your behalf.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I preview NSFW or spoiler tags?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Toggle the NSFW or spoiler tag to see how the badge appears next to your title before you post.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Is my post text or image stored anywhere?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Your draft title and body text are saved only in your own browser's local storage so they survive a refresh. Uploaded images are not saved and nothing is sent to a server.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED APPS ============ -->
+  <section class="related">
+    <div class="container">
+      <p class="eyebrow mono reveal">// more preview apps</p>
+      <h2 class="section-title reveal">Previewing for another platform?</h2>
+      <div class="related-grid reveal">
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+        <a class="related-card" href="/x-post"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--linkedin mono">in</span>LinkedIn</a>
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--pinterest mono">P</span>Pinterest</a>
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--threads mono">@</span>Threads</a>
+        <a class="related-card" href="/insta-post"><span class="platform-mark platform-mark--instagram mono">IG</span>Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/reddit-post.js"></script>
+</body>
+</html>
