@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SERP Preview Tool — See How Your Page Looks in Google Search | Previewer.pro</title>
+<meta name="description" content="Preview how your page will appear in Google search results. See the title, meta description, URL, and breadcrumbs — before you publish.">
+<meta name="keywords" content="serp preview, google search preview, meta title preview, meta description checker, seo preview tool, search result preview">
+<meta name="author" content="Previewer.pro">
+<link rel="canonical" href="https://www.previewer.pro/serp-preview">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.previewer.pro/serp-preview">
+<meta property="og:title" content="SERP Preview Tool | Previewer.pro">
+<meta property="og:description" content="Preview how your page will appear in Google search results — title, meta description, URL, and breadcrumbs.">
+<meta property="og:image" content="https://www.previewer.pro/assets/og-serp-preview.png">
+<meta property="og:site_name" content="Previewer.pro">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SERP Preview Tool | Previewer.pro">
+<meta name="twitter:description" content="Free SERP preview tool with title and description character counters, URL preview, and search result simulation.">
+<meta name="twitter:image" content="https://www.previewer.pro/assets/og-serp-preview.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/serp-preview.css">
+
+<!-- JSON-LD: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SERP Preview Tool",
+  "url": "https://www.previewer.pro/serp-preview",
+  "description": "Preview how your page will appear in Google search results. Check title length (50-60 chars), meta description (150-160 chars), and see the full SERP snippet.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Previewer.pro",
+    "url": "https://www.previewer.pro/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Live Google SERP preview",
+    "Title length validation (50-60 chars recommended)",
+    "Meta description length validation (150-160 chars recommended)",
+    "URL and breadcrumb preview",
+    "Mobile SERP preview toggle",
+    "Search result date preview",
+    "Download preview as image"
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.previewer.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://www.previewer.pro/#tools" },
+    { "@type": "ListItem", "position": 3, "name": "SERP Preview", "item": "https://www.previewer.pro/serp-preview" }
+  ]
+}
+</script>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a SERP preview?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A SERP (Search Engine Results Page) preview shows how your page will appear in Google search results. It includes the title tag, meta description, and URL displayed in the search results." }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the ideal character limits for SEO?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For Google search results, titles should be 50-60 characters and meta descriptions should be 150-160 characters. Google may truncate longer text, so staying within these limits ensures your full content is visible." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Google generate the breadcrumb path?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Google generates breadcrumbs from your page URL structure or from schema.org BreadcrumbList markup. It shows a simplified path that helps users understand where the page belongs in your site hierarchy." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool connect to Google?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. This is a preview-only tool that simulates how Google displays search results. It doesn't connect to Google's API or affect your actual search ranking." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I preview mobile SERP results?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Use the desktop/mobile toggle to see how your search result will appear on mobile devices, which often show slightly different formatting and truncation." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+
+  <!-- ============ HERO / BREADCRUMB ============ -->
+  <section class="app-hero">
+    <div class="container">
+      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#platforms">Tools</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">SERP Preview</span>
+      </nav>
+
+      <p class="eyebrow mono reveal">$ previewer run serp-preview</p>
+      <h1 class="app-hero__title reveal">SERP Preview Tool</h1>
+      <p class="app-hero__subtitle reveal">See exactly how your page will appear in Google search results. Preview the title, meta description, URL, and breadcrumbs — with live character counters for SEO optimization.</p>
+      <div class="hero__actions reveal">
+        <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
+        <a href="#faq" class="btn btn--ghost">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE TOOL ============ -->
+  <section class="app-tool" id="tool">
+    <div class="container">
+      <div class="app-tool__grid">
+
+        <!-- FORM -->
+        <div class="editor-window app-form reveal">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono">serp-preview.json</span>
+          </div>
+          <div class="app-form__body">
+
+            <div class="field">
+              <label class="mono" for="fieldUrl">// page URL</label>
+              <div class="url-input-wrap">
+                <input type="url" id="fieldUrl" placeholder="https://example.com/blog/post-title">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono" for="fieldTitle">// title tag (meta title)</label>
+              <div class="textarea-wrap">
+                <input type="text" id="fieldTitle" maxlength="80" placeholder="Your SEO title here" value="SEO Best Practices for 2024: A Complete Guide">
+                <svg class="char-ring" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+                  <circle class="char-ring__bg" cx="17" cy="17" r="15"></circle>
+                  <circle class="char-ring__fg" id="titleRing" cx="17" cy="17" r="15"></circle>
+                </svg>
+              </div>
+              <p class="char-count mono" id="titleCount">60 characters (50-60 recommended)</p>
+            </div>
+
+            <div class="field">
+              <label class="mono" for="fieldDesc">// meta description</label>
+              <div class="textarea-wrap">
+                <textarea id="fieldDesc" rows="3" maxlength="200" placeholder="Your meta description here">A comprehensive guide to SEO best practices for 2024. Learn about keyword research, on-page optimization, technical SEO, and content strategy to rank higher in Google.</textarea>
+                <svg class="char-ring" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+                  <circle class="char-ring__bg" cx="17" cy="17" r="15"></circle>
+                  <circle class="char-ring__fg" id="descRing" cx="17" cy="17" r="15"></circle>
+                </svg>
+              </div>
+              <p class="char-count mono" id="descCount">160 characters (150-160 recommended)</p>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label class="mono" for="fieldBreadcrumb">// breadcrumb (optional)</label>
+                <input type="text" id="fieldBreadcrumb" maxlength="60" placeholder="Blog > SEO Guide">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldDate">// publish date (optional)</label>
+                <input type="text" id="fieldDate" placeholder="Jan 15, 2024">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// device preview</label>
+              <div class="segmented" id="deviceToggle">
+                <button type="button" class="segmented__btn is-active" data-device="desktop">Desktop</button>
+                <button type="button" class="segmented__btn" data-device="mobile">Mobile</button>
+              </div>
+            </div>
+
+            <div class="app-form__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn--primary btn--sm" id="downloadBtn">Download preview</button>
+            </div>
+            <p class="form-note mono">// all validation happens in your browser — no data is stored or shared</p>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-window app-preview" id="previewWindow">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono" id="previewModeLabel">desktop-preview.png</span>
+          </div>
+          <div class="app-preview__stage" id="previewStage">
+            
+            <!-- SERP Preview -->
+            <div class="preview-section">
+              <p class="mono section-label">// google search result preview</p>
+              <div id="previewContainer">
+                <div class="google-snippet" id="googleSnippet">
+                  <div class="google-snippet__url" id="snippetUrl">
+                    <span class="google-snippet__domain">example.com</span>
+                    <span class="google-snippet__path" id="snippetPath">› blog › seo-best-practices</span>
+                  </div>
+                  <h3 class="google-snippet__title" id="snippetTitle">SEO Best Practices for 2024: A Complete Guide</h3>
+                  <p class="google-snippet__description" id="snippetDesc">A comprehensive guide to SEO best practices for 2024. Learn about keyword research, on-page optimization, technical SEO, and content strategy to rank higher in Google.</p>
+                  <div class="google-snippet__date" id="snippetDate">Jan 15, 2024</div>
+                  <div class="google-snippet__breadcrumb" id="snippetBreadcrumb">Blog > SEO Guide</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Validation Results -->
+            <div class="validation-section" id="validationResults">
+              <p class="mono section-label">// seo validation</p>
+              <div id="validationList">
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>Title length</strong>
+                    <span class="validation-detail">60 characters (optimal)</span>
+                  </div>
+                </div>
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>Description length</strong>
+                    <span class="validation-detail">160 characters (optimal)</span>
+                  </div>
+                </div>
+                <div class="validation-item validation-item--success">
+                  <span class="validation-icon">✓</span>
+                  <div>
+                    <strong>URL format</strong>
+                    <span class="validation-detail">Valid</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Character Details -->
+            <div class="stats-section">
+              <p class="mono section-label">// character breakdown</p>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <span class="stat-card__label mono">Title</span>
+                  <span class="stat-card__value" id="statTitleLength">60</span>
+                  <span class="stat-card__bar" id="statTitleBar" style="width: 60%; background: var(--green);"></span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-card__label mono">Description</span>
+                  <span class="stat-card__value" id="statDescLength">160</span>
+                  <span class="stat-card__bar" id="statDescBar" style="width: 80%; background: var(--green);"></span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-card__label mono">URL</span>
+                  <span class="stat-card__value" id="statUrlLength">42</span>
+                  <span class="stat-card__bar" id="statUrlBar" style="width: 70%; background: var(--green);"></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY PREVIEW MATTERS ============ -->
+  <section class="safe-zones">
+    <div class="container">
+      <p class="eyebrow mono reveal">// why serp preview</p>
+      <h2 class="section-title reveal">Why SERP previews matter for SEO.</h2>
+      <div class="safe-grid">
+        <article class="safe-card reveal">
+          <h3>First impression counts</h3>
+          <p>Your SERP snippet is the first thing users see. A well-optimized title and description can increase click-through rates by up to 30%.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Avoid truncation</h3>
+          <p>Google truncates titles over 60 characters and descriptions over 160 characters. Preview your snippet to ensure your full message is visible.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Mobile vs. desktop</h3>
+          <p>Mobile SERPs show fewer characters. Use the mobile toggle to see exactly how your snippet will appear on smartphones.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow mono reveal">// what's inside</p>
+      <h2 class="section-title reveal">Everything you need to optimize your SERP snippet.</h2>
+      <div class="features__grid">
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="live"></div>
+          <h3>Live SERP preview</h3>
+          <p>See exactly how your page will appear in Google search results — title, description, URL, and breadcrumbs update in real-time.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="shield"></div>
+          <h3>Character counters</h3>
+          <p>Live counters for title (50-60 recommended) and description (150-160 recommended) with visual warnings when you're outside the ideal range.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="pixel"></div>
+          <h3>Desktop & mobile views</h3>
+          <p>Toggle between desktop and mobile SERP previews to see how your snippet looks on different devices.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="warn"></div>
+          <h3>SEO validation</h3>
+          <p>Get instant feedback on title length, description length, and URL format with color-coded status indicators.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="fast"></div>
+          <h3>Breadcrumb preview</h3>
+          <p>Add optional breadcrumbs to see how Google displays site hierarchy in search results.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="lock"></div>
+          <h3>No data stored</h3>
+          <p>All validation happens in your browser. Your data is never stored or shared with any server.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="container">
+      <p class="eyebrow mono reveal">// how it works</p>
+      <h2 class="section-title reveal">Three steps, one optimized snippet.</h2>
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--amber"></span>
+          <span class="dot dot--green"></span>
+          <span class="mono terminal__tab">zsh</span>
+        </div>
+        <div class="terminal__body mono">
+          <p><span class="prompt">$</span> write-title-and-description <span class="comment">// watch the character counters</span></p>
+          <p><span class="prompt">$</span> preview-the-snippet <span class="comment">// see it in Google's format</span></p>
+          <p><span class="prompt">$</span> check-mobile-and-desktop <span class="comment">// then optimize and publish</span></p>
+          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SEO TIPS ============ -->
+  <section class="tips">
+    <div class="container">
+      <p class="eyebrow mono reveal">// seo tips</p>
+      <h2 class="section-title reveal">Write better SERP snippets.</h2>
+      <div class="tips-grid">
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">01</span>
+          <h3>Front-load the keyword</h3>
+          <p>Put your primary keyword in the first 50-60 characters of the title where Google prioritizes it.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">02</span>
+          <h3>Include a call-to-action</h3>
+          <p>Words like "Learn," "Discover," "Guide," and "Tips" can increase click-through rates.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">03</span>
+          <h3>Match search intent</h3>
+          <p>Ensure your description aligns with what users are looking for. Answer the "why" and "what" in 150-160 characters.</p>
+        </article>
+        <article class="tips-card reveal">
+          <span class="tips-card__mark mono">04</span>
+          <h3>Use breadcrumbs</h3>
+          <p>Breadcrumbs help users understand your site structure and can improve click-through rates by showing context.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <p class="eyebrow mono reveal">// faq</p>
+      <h2 class="section-title reveal">Questions, answered plainly.</h2>
+      <div class="faq__list reveal">
+        <details class="faq__item">
+          <summary>What is a SERP preview?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>A SERP (Search Engine Results Page) preview shows how your page will appear in Google search results. It includes the title tag, meta description, and URL displayed in the search results.</p>
+        </details>
+        <details class="faq__item">
+          <summary>What are the ideal character limits for SEO?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>For Google search results, titles should be 50-60 characters and meta descriptions should be 150-160 characters. Google may truncate longer text, so staying within these limits ensures your full content is visible.</p>
+        </details>
+        <details class="faq__item">
+          <summary>How does Google generate the breadcrumb path?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Google generates breadcrumbs from your page URL structure or from schema.org BreadcrumbList markup. It shows a simplified path that helps users understand where the page belongs in your site hierarchy.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool connect to Google?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. This is a preview-only tool that simulates how Google displays search results. It doesn't connect to Google's API or affect your actual search ranking.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I preview mobile SERP results?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Use the desktop/mobile toggle to see how your search result will appear on mobile devices, which often show slightly different formatting and truncation.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool validate my schema markup?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. This tool only previews the visual appearance of your SERP snippet. For schema validation, use Google's Rich Results Test tool.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED APPS ============ -->
+  <section class="related">
+    <div class="container">
+      <p class="eyebrow mono reveal">// more tools</p>
+      <h2 class="section-title reveal">Try our other SEO tools.</h2>
+      <div class="related-grid reveal">
+        <a class="related-card" href="/fb-post"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+        <a class="related-card" href="/x-post"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+        <a class="related-card" href="/linkedin-post"><span class="platform-mark platform-mark--linkedin mono">in</span>LinkedIn</a>
+        <a class="related-card" href="/reddit-post"><span class="platform-mark" style="background:#FF4500; color:#fff; font-weight:700; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.85rem;">R</span>Reddit</a>
+        <a class="related-card" href="/pinterest-pin"><span class="platform-mark platform-mark--pinterest mono">P</span>Pinterest</a>
+        <a class="related-card" href="/threads-post"><span class="platform-mark platform-mark--threads mono">@</span>Threads</a>
+        <a class="related-card" href="/yt-video"><span class="platform-mark" style="background:#FF0000; color:#fff; font-weight:700; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.7rem;">YT</span>YouTube</a>
+        <a class="related-card" href="/insta-post"><span class="platform-mark platform-mark--instagram mono">IG</span>Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/serp-preview.js"></script>
+</body>
+</html>
