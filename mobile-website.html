@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Website Viewer — Test Any URL on 16+ Real Device Sizes | Previewer.pro</title>
+<meta name="description" content="See how any website looks on real phone and tablet screen sizes — iPhone, Samsung Galaxy, Pixel, iPad, and more. Compare devices side by side, switch orientation, and zoom. Free, no login required.">
+<meta name="keywords" content="mobile website viewer, responsive design tester, mobile preview tool, device viewport simulator, test website on mobile, iphone website preview, ipad website preview">
+<meta name="author" content="Previewer.pro">
+<link rel="canonical" href="https://previewer.pro/mobile-website.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://previewer.pro/mobile-website.html">
+<meta property="og:title" content="Mobile Website Viewer | Previewer.pro">
+<meta property="og:description" content="Preview any website on real phone and tablet screen sizes — iPhone, Galaxy, Pixel, iPad, and more — free, no login required.">
+<meta property="og:image" content="https://previewer.pro/assets/og-mobile-website.png">
+<meta property="og:site_name" content="Previewer.pro">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mobile Website Viewer | Previewer.pro">
+<meta name="twitter:description" content="Free tool to preview any website across 16+ real phone and tablet screen sizes.">
+<meta name="twitter:image" content="https://previewer.pro/assets/og-mobile-website.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/app-shared.css">
+<link rel="stylesheet" href="css/mobile-website.css">
+
+<!-- JSON-LD: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mobile Website Viewer",
+  "url": "https://previewer.pro/mobile-website.html",
+  "description": "Preview any website across real phone and tablet screen sizes, including iPhone, Samsung Galaxy, Google Pixel, and iPad, with orientation switching, zoom, and side-by-side device comparison.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Previewer.pro",
+    "url": "https://previewer.pro/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "16+ real device viewport presets",
+    "Custom width and height testing",
+    "Portrait and landscape orientation",
+    "Zoom and auto fit-to-screen scaling",
+    "Side-by-side device comparison mode",
+    "Open any preview directly in a new tab"
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://previewer.pro/" },
+    { "@type": "ListItem", "position": 2, "name": "Mobile Website Viewer", "item": "https://previewer.pro/mobile-website.html" }
+  ]
+}
+</script>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which devices can I preview a website on?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The tool includes 16+ presets covering common iPhone, Samsung Galaxy, Google Pixel, iPad, and other tablet sizes, plus a custom width and height option for any screen you need to test." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does a website appear blank in the preview?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Some websites block embedding in an iframe for security reasons using a header called X-Frame-Options or Content-Security-Policy. If a site appears blank, use the 'Open in new tab' button to view it directly instead." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this tool free to use?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Mobile Website Viewer is completely free, with no account, sign-up, or credit card required." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compare multiple devices at once?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Switch to Compare mode to view the same URL on a compact phone, a large phone, and a tablet side by side." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool store the URLs I enter?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. The URL is only used locally in your browser to load the preview. Nothing is sent to or stored on a server." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+
+  <!-- ============ HERO / BREADCRUMB ============ -->
+  <section class="app-hero">
+    <div class="container">
+      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Mobile website viewer</span>
+      </nav>
+
+      <p class="eyebrow mono reveal">$ previewer run mobile-website</p>
+      <h1 class="app-hero__title reveal">Mobile Website Viewer</h1>
+      <p class="app-hero__subtitle reveal">Paste any URL and see it on real phone and tablet screen sizes — iPhone, Samsung Galaxy, Pixel, iPad, and more. Switch orientation, zoom, or compare devices side by side. Free, no login.</p>
+      <div class="hero__actions reveal">
+        <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
+        <a href="#devices" class="btn btn--ghost">See supported devices</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE APP ============ -->
+  <section class="app-tool" id="tool">
+    <div class="container">
+      <div class="app-tool__grid">
+
+        <!-- FORM -->
+        <div class="editor-window app-form reveal">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono">viewer.json</span>
+          </div>
+          <div class="app-form__body">
+
+            <div class="field">
+              <label class="mono" for="fieldUrl">// website url</label>
+              <div class="url-row">
+                <input type="text" id="fieldUrl" placeholder="example.com" autocomplete="off" spellcheck="false">
+                <button type="button" class="btn btn--primary btn--sm" id="loadBtn">Load</button>
+              </div>
+              <div class="try-row mono" id="tryRow">
+                try: <button type="button" data-url="https://example.com">example.com</button><button type="button" data-url="https://info.cern.ch">info.cern.ch</button><button type="button" data-url="https://previewer.pro">previewer.pro</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mono">// mode</label>
+              <div class="segmented" id="modeToggle">
+                <button type="button" class="segmented__btn is-active" data-mode="single">Single device</button>
+                <button type="button" class="segmented__btn" data-mode="compare">Compare</button>
+              </div>
+            </div>
+
+            <div class="field" id="deviceField">
+              <label class="mono" for="fieldDevice">// device</label>
+              <select id="fieldDevice"></select>
+            </div>
+
+            <div class="field-row" id="customRow" hidden>
+              <div class="field">
+                <label class="mono" for="fieldCustomW">// custom width (px)</label>
+                <input type="number" id="fieldCustomW" min="200" max="2000" placeholder="390">
+              </div>
+              <div class="field">
+                <label class="mono" for="fieldCustomH">// custom height (px)</label>
+                <input type="number" id="fieldCustomH" min="300" max="2600" placeholder="844">
+              </div>
+            </div>
+
+            <div class="field" id="orientationField">
+              <label class="mono">// orientation</label>
+              <div class="segmented" id="orientationToggle">
+                <button type="button" class="segmented__btn is-active" data-orientation="portrait">Portrait</button>
+                <button type="button" class="segmented__btn" data-orientation="landscape">Landscape</button>
+              </div>
+            </div>
+
+            <div class="field" id="zoomField">
+              <label class="mono" for="fieldZoom">// zoom — <span id="zoomValue">fit</span></label>
+              <input type="range" id="fieldZoom" min="40" max="125" value="100">
+            </div>
+
+            <div class="app-form__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="refreshBtn">Refresh</button>
+              <button type="button" class="btn btn--ghost btn--sm" id="openTabBtn">Open in new tab</button>
+              <button type="button" class="btn btn--text btn--sm" id="resetBtn">Reset</button>
+            </div>
+            <p class="form-note mono" id="frameNote">// some sites block embedding — if a preview stays blank, use "open in new tab"</p>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-window app-preview" id="previewWindow">
+          <div class="editor-window__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--amber"></span>
+            <span class="dot dot--green"></span>
+            <span class="editor-window__tab mono" id="previewLabel">no url loaded</span>
+          </div>
+          <div class="app-preview__stage device-stage" id="previewStage">
+            <p class="device-stage__empty mono" id="stageEmpty">// enter a url and press load to preview</p>
+            <div class="device-stage__single" id="singleStage" hidden></div>
+            <div class="device-stage__compare" id="compareStage" hidden></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY PREVIEW MATTERS ============ -->
+  <section class="safe-zones">
+    <div class="container">
+      <p class="eyebrow mono reveal">// why this matters</p>
+      <h2 class="section-title reveal">Most of your traffic is on a screen you've never tested.</h2>
+      <div class="safe-grid">
+        <article class="safe-card reveal">
+          <h3>Breakpoints hide real bugs</h3>
+          <p>Resizing a desktop browser window isn't the same as an actual phone viewport, address bar, and touch target sizing.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Screens vary more than you think</h3>
+          <p>A compact phone and a large tablet can render the exact same layout completely differently. Checking one isn't checking all.</p>
+        </article>
+        <article class="safe-card reveal">
+          <h3>Orientation changes everything</h3>
+          <p>Menus, tables, and forms that work in portrait often break in landscape. It's worth checking both before you ship.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="container">
+      <p class="eyebrow mono reveal">// what's inside</p>
+      <h2 class="section-title reveal">Everything you need to sanity-check a layout.</h2>
+      <div class="features__grid">
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="pixel"></div>
+          <h3>16+ real device presets</h3>
+          <p>iPhone, Samsung Galaxy, Google Pixel, iPad, and more — sized to the same viewport values developers actually test against.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="live"></div>
+          <h3>Custom width & height</h3>
+          <p>Not on the list? Enter any width and height in pixels to test an exact viewport size.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="fast"></div>
+          <h3>Portrait & landscape</h3>
+          <p>Flip orientation instantly without re-selecting a device or reloading the page.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="shield"></div>
+          <h3>Compare mode</h3>
+          <p>View a compact phone, a large phone, and a tablet side by side, all loading the same URL at once.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="warn"></div>
+          <h3>Zoom & fit-to-screen</h3>
+          <p>Large tablet viewports auto-scale to fit your window, with a manual zoom slider when you want to go bigger or smaller.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-card__icon" data-icon="lock"></div>
+          <h3>No login, nothing stored</h3>
+          <p>Paste a URL and go. Nothing you enter here is sent to or saved on a server.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="container">
+      <p class="eyebrow mono reveal">// how it works</p>
+      <h2 class="section-title reveal">Three steps, one honest layout check.</h2>
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--amber"></span>
+          <span class="dot dot--green"></span>
+          <span class="mono terminal__tab">zsh</span>
+        </div>
+        <div class="terminal__body mono">
+          <p><span class="prompt">$</span> paste-a-url <span class="comment">// any public website</span></p>
+          <p><span class="prompt">$</span> pick-a-device <span class="comment">// or set a custom width and height</span></p>
+          <p><span class="prompt">$</span> flip-and-compare <span class="comment">// orientation, zoom, or side by side</span></p>
+          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUPPORTED DEVICES ============ -->
+  <section class="devices" id="devices">
+    <div class="container">
+      <p class="eyebrow mono reveal">// supported devices</p>
+      <h2 class="section-title reveal">16+ presets, plus any custom size you need.</h2>
+      <p class="section-lede reveal">Every preset uses the same CSS viewport values developers commonly test against — not raw hardware resolution, which is what actually controls layout.</p>
+      <div class="device-list-grid reveal" id="deviceListGrid">
+        <!-- populated by JS from the same device dataset used in the tool -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <p class="eyebrow mono reveal">// faq</p>
+      <h2 class="section-title reveal">Questions, answered plainly.</h2>
+      <div class="faq__list reveal">
+        <details class="faq__item">
+          <summary>Which devices can I preview a website on?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>The tool includes 16+ presets covering common iPhone, Samsung Galaxy, Google Pixel, iPad, and other tablet sizes, plus a custom width and height option for any screen you need to test.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Why does a website appear blank in the preview?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Some websites block embedding in an iframe for security reasons using a header called X-Frame-Options or Content-Security-Policy. If a site appears blank, use the "Open in new tab" button to view it directly instead.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Is this tool free to use?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. The Mobile Website Viewer is completely free, with no account, sign-up, or credit card required.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Can I compare multiple devices at once?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>Yes. Switch to Compare mode to view the same URL on a compact phone, a large phone, and a tablet side by side.</p>
+        </details>
+        <details class="faq__item">
+          <summary>Does this tool store the URLs I enter?<span class="faq__icon" aria-hidden="true">+</span></summary>
+          <p>No. The URL is only used locally in your browser to load the preview. Nothing is sent to or stored on a server.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RELATED APPS ============ -->
+  <section class="related">
+    <div class="container">
+      <p class="eyebrow mono reveal">// more preview apps</p>
+      <h2 class="section-title reveal">Previewing something else?</h2>
+      <div class="related-grid reveal">
+        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+        <a class="related-card" href="/x-post.html"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+        <a class="related-card" href="/insta-post.html"><span class="platform-mark platform-mark--instagram mono">IG</span>Instagram</a>
+        <a class="related-card" href="/reddit-post.html"><span class="platform-mark platform-mark--reddit mono">r</span>Reddit</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/header.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/mobile-website.js"></script>
+</body>
+</html>
