@@ -22,6 +22,7 @@
             <li><a href="/#how">How it works</a></li>
             <li><a href="/#specs">Platform specs</a></li>
             <li><a href="/#faq">FAQ</a></li>
+            <li><a href="/mobile-website">Mobile Viewer</a></li>
           </ul>
         </div>
 
