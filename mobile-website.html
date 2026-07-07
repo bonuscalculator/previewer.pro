@@ -1,379 +1,1828 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Website Viewer — Test Any URL on 16+ Real Device Sizes | Previewer.pro</title>
-<meta name="description" content="See how any website looks on real phone and tablet screen sizes — iPhone, Samsung Galaxy, Pixel, iPad, and more. Compare devices side by side, switch orientation, and zoom. Free, no login required.">
-<meta name="keywords" content="mobile website viewer, responsive design tester, mobile preview tool, device viewport simulator, test website on mobile, iphone website preview, ipad website preview">
-<meta name="author" content="Previewer.pro">
-<link rel="canonical" href="https://previewer.pro/mobile-website.html">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Website Viewer — Test Any URL on 16+ Real Device Sizes | Previewer.pro</title>
+    <meta name="description" content="See how any website looks on real phone and tablet screen sizes — iPhone, Samsung Galaxy, Pixel, iPad, and more. Compare devices side by side, switch orientation, and zoom. Free, no login required." />
+    <meta name="keywords" content="mobile website viewer, responsive design tester, mobile preview tool, device viewport simulator, test website on mobile, iphone website preview, ipad website preview" />
+    <meta name="author" content="Previewer.pro" />
+    <link rel="canonical" href="https://www.previewer.pro/mobile-website" />
 
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://previewer.pro/mobile-website.html">
-<meta property="og:title" content="Mobile Website Viewer | Previewer.pro">
-<meta property="og:description" content="Preview any website on real phone and tablet screen sizes — iPhone, Galaxy, Pixel, iPad, and more — free, no login required.">
-<meta property="og:image" content="https://previewer.pro/assets/og-mobile-website.png">
-<meta property="og:site_name" content="Previewer.pro">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.previewer.pro/mobile-website" />
+    <meta property="og:title" content="Mobile Website Viewer | Previewer.pro" />
+    <meta property="og:description" content="Preview any website on real phone and tablet screen sizes — iPhone, Galaxy, Pixel, iPad, and more — free, no login required." />
+    <meta property="og:image" content="https://www.previewer.pro/assets/og-mobile-website.png" />
+    <meta property="og:site_name" content="Previewer.pro" />
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Mobile Website Viewer | Previewer.pro">
-<meta name="twitter:description" content="Free tool to preview any website across 16+ real phone and tablet screen sizes.">
-<meta name="twitter:image" content="https://previewer.pro/assets/og-mobile-website.png">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mobile Website Viewer | Previewer.pro" />
+    <meta name="twitter:description" content="Free tool to preview any website across 16+ real phone and tablet screen sizes." />
+    <meta name="twitter:image" content="https://www.previewer.pro/assets/og-mobile-website.png" />
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232F6FED'/%3E%3Ctext x='7' y='22' font-family='monospace' font-size='16' fill='white'%3E%3E_%3C/text%3E%3C/svg%3E" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/app-shared.css">
-<link rel="stylesheet" href="css/mobile-website.css">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --bg: #0b0e17;
+            --surface: #131824;
+            --surface2: #1a2133;
+            --border: #2a3350;
+            --text: #eef2f8;
+            --text-dim: #8a95b8;
+            --text-mono: #b8c4e6;
+            --accent: #2f6fed;
+            --accent-hover: #4a84ff;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+            --font-display: 'Sora', var(--font-sans);
+            --transition: 0.25s ease;
+        }
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            color: var(--accent-hover);
+        }
+        .mono {
+            font-family: var(--font-mono);
+            letter-spacing: -0.01em;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
-<!-- JSON-LD: WebApplication -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Mobile Website Viewer",
-  "url": "https://previewer.pro/mobile-website.html",
-  "description": "Preview any website across real phone and tablet screen sizes, including iPhone, Samsung Galaxy, Google Pixel, and iPad, with orientation switching, zoom, and side-by-side device comparison.",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Any (Web Browser)",
-  "isPartOf": {
-    "@type": "WebSite",
-    "name": "Previewer.pro",
-    "url": "https://previewer.pro/"
-  },
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "featureList": [
-    "16+ real device viewport presets",
-    "Custom width and height testing",
-    "Portrait and landscape orientation",
-    "Zoom and auto fit-to-screen scaling",
-    "Side-by-side device comparison mode",
-    "Open any preview directly in a new tab"
-  ]
-}
-</script>
+        /* ===== HEADER ===== */
+        #site-header {
+            padding: 18px 0 12px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            background: rgba(11, 14, 23, 0.88);
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+        }
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .logo span {
+            color: var(--accent);
+        }
+        .logo small {
+            font-weight: 400;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.02em;
+            margin-left: 4px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: var(--text-dim);
+            transition: color var(--transition);
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .nav-links a.active {
+            color: #fff;
+        }
 
-<!-- JSON-LD: BreadcrumbList -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://previewer.pro/" },
-    { "@type": "ListItem", "position": 2, "name": "Mobile Website Viewer", "item": "https://previewer.pro/mobile-website.html" }
-  ]
-}
-</script>
+        /* ===== FOOTER ===== */
+        #site-footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0 32px;
+            margin-top: 60px;
+            background: var(--bg);
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 24px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        .footer-inner a {
+            color: var(--text-dim);
+        }
+        .footer-inner a:hover {
+            color: #fff;
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
 
-<!-- JSON-LD: FAQPage -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Which devices can I preview a website on?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The tool includes 16+ presets covering common iPhone, Samsung Galaxy, Google Pixel, iPad, and other tablet sizes, plus a custom width and height option for any screen you need to test." }
-    },
-    {
-      "@type": "Question",
-      "name": "Why does a website appear blank in the preview?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Some websites block embedding in an iframe for security reasons using a header called X-Frame-Options or Content-Security-Policy. If a site appears blank, use the 'Open in new tab' button to view it directly instead." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this tool free to use?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Mobile Website Viewer is completely free, with no account, sign-up, or credit card required." }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I compare multiple devices at once?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Switch to Compare mode to view the same URL on a compact phone, a large phone, and a tablet side by side." }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool store the URLs I enter?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. The URL is only used locally in your browser to load the preview. Nothing is sent to or stored on a server." }
-    }
-  ]
-}
-</script>
+        /* ===== REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== BREADCRUMB ===== */
+        .breadcrumb {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .breadcrumb a {
+            color: var(--text-dim);
+        }
+        .breadcrumb a:hover {
+            color: #fff;
+        }
+
+        /* ===== HERO ===== */
+        .app-hero {
+            padding: 40px 0 32px;
+        }
+        .eyebrow {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+        }
+        .app-hero__title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        .app-hero__subtitle {
+            font-size: 1.05rem;
+            color: var(--text-dim);
+            max-width: 680px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .hero__actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            background: transparent;
+            color: #fff;
+            font-family: var(--font-sans);
+        }
+        .btn--primary {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn--primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(47, 111, 237, 0.3);
+        }
+        .btn--ghost {
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn--ghost:hover {
+            border-color: var(--text-dim);
+            background: var(--surface2);
+        }
+        .btn--sm {
+            padding: 6px 16px;
+            font-size: 0.8rem;
+        }
+        .btn--text {
+            color: var(--text-dim);
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+        .btn--text:hover {
+            color: #fff;
+        }
+
+        /* ===== TOOL ===== */
+        .app-tool {
+            padding: 20px 0 40px;
+        }
+        .app-tool__grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+        @media (max-width: 960px) {
+            .app-tool__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Editor Window --- */
+        .editor-window {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .editor-window__bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--surface2);
+            border-bottom: 1px solid var(--border);
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot--red {
+            background: #ff5f56;
+        }
+        .dot--amber {
+            background: #ffbd2e;
+        }
+        .dot--green {
+            background: #27c93f;
+        }
+        .editor-window__tab {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-left: 8px;
+        }
+        .app-form__body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .field label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .url-row {
+            display: flex;
+            gap: 8px;
+        }
+        .url-row input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border var(--transition);
+            min-width: 0;
+        }
+        .url-row input:focus {
+            border-color: var(--accent);
+        }
+        .url-row input::placeholder {
+            color: var(--text-dim);
+            opacity: 0.5;
+        }
+        .try-row {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            margin-top: 2px;
+        }
+        .try-row button {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 2px 12px;
+            color: var(--text-dim);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .try-row button:hover {
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .segmented {
+            display: flex;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            gap: 0;
+        }
+        .segmented__btn {
+            flex: 1;
+            padding: 6px 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-align: center;
+        }
+        .segmented__btn.is-active {
+            background: var(--accent);
+            color: #fff;
+        }
+        .segmented__btn:not(.is-active):hover {
+            color: #fff;
+            background: var(--surface2);
+        }
+
+        select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a95b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+        select:focus {
+            border-color: var(--accent);
+        }
+        select option {
+            background: var(--surface);
+            color: #fff;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        input[type="number"] {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            outline: none;
+            width: 100%;
+            transition: border var(--transition);
+        }
+        input[type="number"]:focus {
+            border-color: var(--accent);
+        }
+        input[type="number"]::-webkit-inner-spin-button {
+            opacity: 0.5;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: var(--border);
+            border-radius: 2px;
+            outline: none;
+            transition: background var(--transition);
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 2px solid var(--bg);
+            box-shadow: 0 0 0 1px var(--border);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 2px solid var(--bg);
+            box-shadow: 0 0 0 1px var(--border);
+        }
+
+        .app-form__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding-top: 4px;
+            border-top: 1px solid var(--border);
+        }
+        .form-note {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-top: -6px;
+        }
+
+        /* ===== PREVIEW ===== */
+        .preview-window {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            min-height: 520px;
+            display: flex;
+            flex-direction: column;
+        }
+        .app-preview__stage {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            background: var(--bg);
+            position: relative;
+            overflow: auto;
+        }
+        .device-stage__empty {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            opacity: 0.6;
+            text-align: center;
+        }
+
+        /* ===== DEVICE FRAME ===== */
+        .device-stage__single,
+        .device-stage__compare {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .device-stage__compare {
+            flex-wrap: nowrap;
+            gap: 16px;
+            padding: 8px;
+        }
+        @media (max-width: 820px) {
+            .device-stage__compare {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+        }
+
+        .device-frame {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 32px;
+            background: #1a1f2e;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .device-frame__screen {
+            border-radius: 20px;
+            overflow: hidden;
+            background: #fff;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .device-frame__screen iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            background: #fff;
+        }
+        .device-frame__label {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            margin-top: 8px;
+            text-align: center;
+            letter-spacing: 0.02em;
+        }
+        .device-frame__badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--accent);
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            padding: 2px 10px;
+            border-radius: 100px;
+            letter-spacing: 0.04em;
+            font-weight: 600;
+        }
+
+        /* notch / punch-hole simulation */
+        .device-frame::before {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: #0b0e17;
+            border-radius: 0 0 12px 12px;
+            z-index: 2;
+            display: none;
+        }
+        .device-frame.has-notch::before {
+            display: block;
+        }
+        .device-frame.is-tablet::before {
+            display: none;
+        }
+
+        /* ===== SECTIONS ===== */
+        .safe-zones,
+        .features,
+        .how,
+        .devices,
+        .faq,
+        .related {
+            padding: 48px 0 32px;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .section-lede {
+            color: var(--text-dim);
+            max-width: 640px;
+            font-size: 1rem;
+            margin-bottom: 24px;
+        }
+
+        .safe-grid,
+        .features__grid,
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-top: 16px;
+        }
+        .safe-card,
+        .feature-card,
+        .related-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: border var(--transition), transform var(--transition);
+        }
+        .safe-card:hover,
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .safe-card h3,
+        .feature-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .safe-card p,
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+        .feature-card__icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .terminal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-top: 16px;
+            max-width: 720px;
+        }
+        .terminal__bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--surface2);
+            border-bottom: 1px solid var(--border);
+        }
+        .terminal__tab {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-left: 8px;
+        }
+        .terminal__body {
+            padding: 20px 24px;
+            font-size: 0.85rem;
+            line-height: 2;
+            color: var(--text-mono);
+        }
+        .terminal__body .prompt {
+            color: var(--accent);
+            margin-right: 8px;
+        }
+        .terminal__body .comment {
+            color: var(--text-dim);
+            opacity: 0.6;
+        }
+        .cursor-line {
+            display: flex;
+            align-items: center;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .device-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .device-list-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .device-list-item .size {
+            color: var(--text-mono);
+            font-size: 0.65rem;
+            opacity: 0.6;
+        }
+        .device-list-item .cat {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--accent);
+            background: rgba(47, 111, 237, 0.15);
+            padding: 0 8px;
+            border-radius: 100px;
+        }
+
+        .faq__list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 720px;
+            margin-top: 12px;
+        }
+        .faq__item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 0 16px;
+            transition: border var(--transition);
+        }
+        .faq__item:hover {
+            border-color: var(--text-dim);
+        }
+        .faq__item summary {
+            padding: 14px 0;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            gap: 12px;
+        }
+        .faq__item summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq__item .faq__icon {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            transition: transform var(--transition);
+            flex-shrink: 0;
+        }
+        .faq__item[open] .faq__icon {
+            transform: rotate(45deg);
+        }
+        .faq__item p {
+            padding: 0 0 16px;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .related-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            transition: all var(--transition);
+        }
+        .related-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+        .platform-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #fff;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .platform-mark--facebook {
+            background: #1877f2;
+            border-color: #1877f2;
+        }
+        .platform-mark--x {
+            background: #000;
+            border-color: #333;
+        }
+        .platform-mark--instagram {
+            background: #e4405f;
+            border-color: #e4405f;
+        }
+        .platform-mark--reddit {
+            background: #ff4500;
+            border-color: #ff4500;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .app-tool__grid {
+                gap: 16px;
+            }
+            .app-form__body {
+                padding: 14px;
+            }
+            .app-preview__stage {
+                padding: 12px;
+                min-height: 300px;
+            }
+            .device-frame {
+                padding: 8px;
+                border-radius: 20px;
+            }
+            .device-frame__screen {
+                border-radius: 12px;
+            }
+            .device-stage__compare {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .safe-grid,
+            .features__grid {
+                grid-template-columns: 1fr;
+            }
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-links {
+                gap: 12px;
+                font-size: 0.8rem;
+            }
+            .footer-inner {
+                flex-direction: column;
+            }
+            .device-list-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 420px) {
+            .device-list-grid {
+                grid-template-columns: 1fr;
+            }
+            .url-row {
+                flex-wrap: wrap;
+            }
+            .url-row input {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div id="site-header"></div>
-
-<main>
-
-  <!-- ============ HERO / BREADCRUMB ============ -->
-  <section class="app-hero">
-    <div class="container">
-      <nav class="breadcrumb mono reveal" aria-label="Breadcrumb">
-        <a href="/">Home</a>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">Mobile website viewer</span>
-      </nav>
-
-      <p class="eyebrow mono reveal">$ previewer run mobile-website</p>
-      <h1 class="app-hero__title reveal">Mobile Website Viewer</h1>
-      <p class="app-hero__subtitle reveal">Paste any URL and see it on real phone and tablet screen sizes — iPhone, Samsung Galaxy, Pixel, iPad, and more. Switch orientation, zoom, or compare devices side by side. Free, no login.</p>
-      <div class="hero__actions reveal">
-        <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
-        <a href="#devices" class="btn btn--ghost">See supported devices</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ THE APP ============ -->
-  <section class="app-tool" id="tool">
-    <div class="container">
-      <div class="app-tool__grid">
-
-        <!-- FORM -->
-        <div class="editor-window app-form reveal">
-          <div class="editor-window__bar">
-            <span class="dot dot--red"></span>
-            <span class="dot dot--amber"></span>
-            <span class="dot dot--green"></span>
-            <span class="editor-window__tab mono">viewer.json</span>
-          </div>
-          <div class="app-form__body">
-
-            <div class="field">
-              <label class="mono" for="fieldUrl">// website url</label>
-              <div class="url-row">
-                <input type="text" id="fieldUrl" placeholder="example.com" autocomplete="off" spellcheck="false">
-                <button type="button" class="btn btn--primary btn--sm" id="loadBtn">Load</button>
-              </div>
-              <div class="try-row mono" id="tryRow">
-                try: <button type="button" data-url="https://example.com">example.com</button><button type="button" data-url="https://info.cern.ch">info.cern.ch</button><button type="button" data-url="https://previewer.pro">previewer.pro</button>
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="mono">// mode</label>
-              <div class="segmented" id="modeToggle">
-                <button type="button" class="segmented__btn is-active" data-mode="single">Single device</button>
-                <button type="button" class="segmented__btn" data-mode="compare">Compare</button>
-              </div>
-            </div>
-
-            <div class="field" id="deviceField">
-              <label class="mono" for="fieldDevice">// device</label>
-              <select id="fieldDevice"></select>
-            </div>
-
-            <div class="field-row" id="customRow" hidden>
-              <div class="field">
-                <label class="mono" for="fieldCustomW">// custom width (px)</label>
-                <input type="number" id="fieldCustomW" min="200" max="2000" placeholder="390">
-              </div>
-              <div class="field">
-                <label class="mono" for="fieldCustomH">// custom height (px)</label>
-                <input type="number" id="fieldCustomH" min="300" max="2600" placeholder="844">
-              </div>
-            </div>
-
-            <div class="field" id="orientationField">
-              <label class="mono">// orientation</label>
-              <div class="segmented" id="orientationToggle">
-                <button type="button" class="segmented__btn is-active" data-orientation="portrait">Portrait</button>
-                <button type="button" class="segmented__btn" data-orientation="landscape">Landscape</button>
-              </div>
-            </div>
-
-            <div class="field" id="zoomField">
-              <label class="mono" for="fieldZoom">// zoom — <span id="zoomValue">fit</span></label>
-              <input type="range" id="fieldZoom" min="40" max="125" value="100">
-            </div>
-
-            <div class="app-form__actions">
-              <button type="button" class="btn btn--ghost btn--sm" id="refreshBtn">Refresh</button>
-              <button type="button" class="btn btn--ghost btn--sm" id="openTabBtn">Open in new tab</button>
-              <button type="button" class="btn btn--text btn--sm" id="resetBtn">Reset</button>
-            </div>
-            <p class="form-note mono" id="frameNote">// some sites block embedding — if a preview stays blank, use "open in new tab"</p>
-          </div>
+    <!-- ===== HEADER ===== -->
+    <header id="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">Previewer<span>.pro</span> <small>mobile</small></a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="/">Home</a>
+                <a href="/mobile-website" class="active">Mobile Viewer</a>
+                <a href="/x-post">X Preview</a>
+                <a href="/insta-post">Instagram</a>
+                <a href="/reddit-post">Reddit</a>
+            </nav>
         </div>
+    </header>
 
-        <!-- PREVIEW -->
-        <div class="preview-window app-preview" id="previewWindow">
-          <div class="editor-window__bar">
-            <span class="dot dot--red"></span>
-            <span class="dot dot--amber"></span>
-            <span class="dot dot--green"></span>
-            <span class="editor-window__tab mono" id="previewLabel">no url loaded</span>
-          </div>
-          <div class="app-preview__stage device-stage" id="previewStage">
-            <p class="device-stage__empty mono" id="stageEmpty">// enter a url and press load to preview</p>
-            <div class="device-stage__single" id="singleStage" hidden></div>
-            <div class="device-stage__compare" id="compareStage" hidden></div>
-          </div>
+    <!-- ===== MAIN ===== -->
+    <main>
+
+        <!-- ===== HERO ===== -->
+        <section class="app-hero">
+            <div class="container">
+                <nav class="breadcrumb mono" aria-label="Breadcrumb">
+                    <a href="/">Home</a>
+                    <span aria-hidden="true">/</span>
+                    <span aria-current="page">Mobile website viewer</span>
+                </nav>
+                <p class="eyebrow mono reveal">$ previewer run mobile-website</p>
+                <h1 class="app-hero__title reveal">Mobile Website Viewer</h1>
+                <p class="app-hero__subtitle reveal">Paste any URL and see it on real phone and tablet screen sizes — iPhone, Samsung Galaxy, Pixel, iPad, and more. Switch orientation, zoom, or compare devices side by side. Free, no login.</p>
+                <div class="hero__actions reveal">
+                    <a href="#tool" class="btn btn--primary">Start previewing ↓</a>
+                    <a href="#devices" class="btn btn--ghost">See supported devices</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TOOL ===== -->
+        <section class="app-tool" id="tool">
+            <div class="container">
+                <div class="app-tool__grid">
+
+                    <!-- FORM -->
+                    <div class="editor-window app-form reveal">
+                        <div class="editor-window__bar">
+                            <span class="dot dot--red"></span>
+                            <span class="dot dot--amber"></span>
+                            <span class="dot dot--green"></span>
+                            <span class="editor-window__tab mono">viewer.json</span>
+                        </div>
+                        <div class="app-form__body">
+
+                            <div class="field">
+                                <label class="mono" for="fieldUrl">// website url</label>
+                                <div class="url-row">
+                                    <input type="text" id="fieldUrl" placeholder="example.com" autocomplete="off" spellcheck="false" />
+                                    <button type="button" class="btn btn--primary btn--sm" id="loadBtn">Load</button>
+                                </div>
+                                <div class="try-row mono" id="tryRow">
+                                    try: <button type="button" data-url="https://example.com">example.com</button><button type="button" data-url="https://info.cern.ch">info.cern.ch</button><button type="button" data-url="https://previewer.pro">previewer.pro</button>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="mono">// mode</label>
+                                <div class="segmented" id="modeToggle">
+                                    <button type="button" class="segmented__btn is-active" data-mode="single">Single device</button>
+                                    <button type="button" class="segmented__btn" data-mode="compare">Compare</button>
+                                </div>
+                            </div>
+
+                            <div class="field" id="deviceField">
+                                <label class="mono" for="fieldDevice">// device</label>
+                                <select id="fieldDevice"></select>
+                            </div>
+
+                            <div class="field-row" id="customRow" hidden>
+                                <div class="field">
+                                    <label class="mono" for="fieldCustomW">// custom width (px)</label>
+                                    <input type="number" id="fieldCustomW" min="200" max="2000" placeholder="390" />
+                                </div>
+                                <div class="field">
+                                    <label class="mono" for="fieldCustomH">// custom height (px)</label>
+                                    <input type="number" id="fieldCustomH" min="300" max="2600" placeholder="844" />
+                                </div>
+                            </div>
+
+                            <div class="field" id="orientationField">
+                                <label class="mono">// orientation</label>
+                                <div class="segmented" id="orientationToggle">
+                                    <button type="button" class="segmented__btn is-active" data-orientation="portrait">Portrait</button>
+                                    <button type="button" class="segmented__btn" data-orientation="landscape">Landscape</button>
+                                </div>
+                            </div>
+
+                            <div class="field" id="zoomField">
+                                <label class="mono" for="fieldZoom">// zoom — <span id="zoomValue">100%</span></label>
+                                <input type="range" id="fieldZoom" min="30" max="150" value="100" />
+                            </div>
+
+                            <div class="app-form__actions">
+                                <button type="button" class="btn btn--ghost btn--sm" id="refreshBtn">Refresh</button>
+                                <button type="button" class="btn btn--ghost btn--sm" id="openTabBtn">Open in new tab</button>
+                                <button type="button" class="btn btn--text btn--sm" id="resetBtn">Reset</button>
+                            </div>
+                            <p class="form-note mono" id="frameNote">// some sites block embedding — if a preview stays blank, use "open in new tab"</p>
+                        </div>
+                    </div>
+
+                    <!-- PREVIEW -->
+                    <div class="preview-window app-preview" id="previewWindow">
+                        <div class="editor-window__bar">
+                            <span class="dot dot--red"></span>
+                            <span class="dot dot--amber"></span>
+                            <span class="dot dot--green"></span>
+                            <span class="editor-window__tab mono" id="previewLabel">no url loaded</span>
+                        </div>
+                        <div class="app-preview__stage device-stage" id="previewStage">
+                            <p class="device-stage__empty mono" id="stageEmpty">// enter a url and press load to preview</p>
+                            <div class="device-stage__single" id="singleStage" hidden></div>
+                            <div class="device-stage__compare" id="compareStage" hidden></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== WHY PREVIEW MATTERS ===== -->
+        <section class="safe-zones">
+            <div class="container">
+                <p class="eyebrow mono reveal">// why this matters</p>
+                <h2 class="section-title reveal">Most of your traffic is on a screen you've never tested.</h2>
+                <div class="safe-grid">
+                    <article class="safe-card reveal">
+                        <h3>Breakpoints hide real bugs</h3>
+                        <p>Resizing a desktop browser window isn't the same as an actual phone viewport, address bar, and touch target sizing.</p>
+                    </article>
+                    <article class="safe-card reveal">
+                        <h3>Screens vary more than you think</h3>
+                        <p>A compact phone and a large tablet can render the exact same layout completely differently. Checking one isn't checking all.</p>
+                    </article>
+                    <article class="safe-card reveal">
+                        <h3>Orientation changes everything</h3>
+                        <p>Menus, tables, and forms that work in portrait often break in landscape. It's worth checking both before you ship.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FEATURES ===== -->
+        <section class="features" id="features">
+            <div class="container">
+                <p class="eyebrow mono reveal">// what's inside</p>
+                <h2 class="section-title reveal">Everything you need to sanity-check a layout.</h2>
+                <div class="features__grid">
+                    <article class="feature-card reveal">
+                        <div class="feature-card__icon">📱</div>
+                        <h3>16+ real device presets</h3>
+                        <p>iPhone, Samsung Galaxy, Google Pixel, iPad, and more — sized to the same viewport values developers actually test against.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-card__icon">📐</div>
+                        <h3>Custom width &amp; height</h3>
+                        <p>Not on the list? Enter any width and height in pixels to test an exact viewport size.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-card__icon">🔄</div>
+                        <h3>Portrait &amp; landscape</h3>
+                        <p>Flip orientation instantly without re-selecting a device or reloading the page.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-card__icon">⇄</div>
+                        <h3>Compare mode</h3>
+                        <p>View a compact phone, a large phone, and a tablet side by side, all loading the same URL at once.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-card__icon">🔍</div>
+                        <h3>Zoom &amp; fit-to-screen</h3>
+                        <p>Large tablet viewports auto-scale to fit your window, with a manual zoom slider when you want to go bigger or smaller.</p>
+                    </article>
+                    <article class="feature-card reveal">
+                        <div class="feature-card__icon">🔒</div>
+                        <h3>No login, nothing stored</h3>
+                        <p>Paste a URL and go. Nothing you enter here is sent to or saved on a server.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HOW IT WORKS ===== -->
+        <section class="how" id="how">
+            <div class="container">
+                <p class="eyebrow mono reveal">// how it works</p>
+                <h2 class="section-title reveal">Three steps, one honest layout check.</h2>
+                <div class="terminal reveal">
+                    <div class="terminal__bar">
+                        <span class="dot dot--red"></span>
+                        <span class="dot dot--amber"></span>
+                        <span class="dot dot--green"></span>
+                        <span class="mono terminal__tab">zsh</span>
+                    </div>
+                    <div class="terminal__body mono">
+                        <p><span class="prompt">$</span> paste-a-url <span class="comment">// any public website</span></p>
+                        <p><span class="prompt">$</span> pick-a-device <span class="comment">// or set a custom width and height</span></p>
+                        <p><span class="prompt">$</span> flip-and-compare <span class="comment">// orientation, zoom, or side by side</span></p>
+                        <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== DEVICES ===== -->
+        <section class="devices" id="devices">
+            <div class="container">
+                <p class="eyebrow mono reveal">// supported devices</p>
+                <h2 class="section-title reveal">16+ presets, plus any custom size you need.</h2>
+                <p class="section-lede reveal">Every preset uses the same CSS viewport values developers commonly test against — not raw hardware resolution, which is what actually controls layout.</p>
+                <div class="device-list-grid reveal" id="deviceListGrid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FAQ ===== -->
+        <section class="faq" id="faq">
+            <div class="container">
+                <p class="eyebrow mono reveal">// faq</p>
+                <h2 class="section-title reveal">Questions, answered plainly.</h2>
+                <div class="faq__list reveal">
+                    <details class="faq__item">
+                        <summary>Which devices can I preview a website on?<span class="faq__icon" aria-hidden="true">+</span></summary>
+                        <p>The tool includes 16+ presets covering common iPhone, Samsung Galaxy, Google Pixel, iPad, and other tablet sizes, plus a custom width and height option for any screen you need to test.</p>
+                    </details>
+                    <details class="faq__item">
+                        <summary>Why does a website appear blank in the preview?<span class="faq__icon" aria-hidden="true">+</span></summary>
+                        <p>Some websites block embedding in an iframe for security reasons using a header called X-Frame-Options or Content-Security-Policy. If a site appears blank, use the "Open in new tab" button to view it directly instead.</p>
+                    </details>
+                    <details class="faq__item">
+                        <summary>Is this tool free to use?<span class="faq__icon" aria-hidden="true">+</span></summary>
+                        <p>Yes. The Mobile Website Viewer is completely free, with no account, sign-up, or credit card required.</p>
+                    </details>
+                    <details class="faq__item">
+                        <summary>Can I compare multiple devices at once?<span class="faq__icon" aria-hidden="true">+</span></summary>
+                        <p>Yes. Switch to Compare mode to view the same URL on a compact phone, a large phone, and a tablet side by side.</p>
+                    </details>
+                    <details class="faq__item">
+                        <summary>Does this tool store the URLs I enter?<span class="faq__icon" aria-hidden="true">+</span></summary>
+                        <p>No. The URL is only used locally in your browser to load the preview. Nothing is sent to or stored on a server.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== RELATED ===== -->
+        <section class="related">
+            <div class="container">
+                <p class="eyebrow mono reveal">// more preview apps</p>
+                <h2 class="section-title reveal">Previewing something else?</h2>
+                <div class="related-grid reveal">
+                    <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
+                    <a class="related-card" href="/x-post"><span class="platform-mark platform-mark--x mono">X</span>X</a>
+                    <a class="related-card" href="/insta-post"><span class="platform-mark platform-mark--instagram mono">IG</span>Instagram</a>
+                    <a class="related-card" href="/reddit-post"><span class="platform-mark platform-mark--reddit mono">r</span>Reddit</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer id="site-footer">
+        <div class="container footer-inner">
+            <span>&copy; 2026 Previewer.pro — made for developers who care about layout.</span>
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/mobile-website">Mobile Viewer</a>
+                <a href="/x-post">X Preview</a>
+                <a href="/insta-post">Instagram</a>
+                <a href="/reddit-post">Reddit</a>
+            </div>
         </div>
+    </footer>
 
-      </div>
-    </div>
-  </section>
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ============================================================
+        // main.js – shared utilities, header/footer, reveal, smooth scroll
+        // ============================================================
 
-  <!-- ============ WHY PREVIEW MATTERS ============ -->
-  <section class="safe-zones">
-    <div class="container">
-      <p class="eyebrow mono reveal">// why this matters</p>
-      <h2 class="section-title reveal">Most of your traffic is on a screen you've never tested.</h2>
-      <div class="safe-grid">
-        <article class="safe-card reveal">
-          <h3>Breakpoints hide real bugs</h3>
-          <p>Resizing a desktop browser window isn't the same as an actual phone viewport, address bar, and touch target sizing.</p>
-        </article>
-        <article class="safe-card reveal">
-          <h3>Screens vary more than you think</h3>
-          <p>A compact phone and a large tablet can render the exact same layout completely differently. Checking one isn't checking all.</p>
-        </article>
-        <article class="safe-card reveal">
-          <h3>Orientation changes everything</h3>
-          <p>Menus, tables, and forms that work in portrait often break in landscape. It's worth checking both before you ship.</p>
-        </article>
-      </div>
-    </div>
-  </section>
+        (function() {
+            'use strict';
 
-  <!-- ============ FEATURES ============ -->
-  <section class="features" id="features">
-    <div class="container">
-      <p class="eyebrow mono reveal">// what's inside</p>
-      <h2 class="section-title reveal">Everything you need to sanity-check a layout.</h2>
-      <div class="features__grid">
-        <article class="feature-card reveal">
-          <div class="feature-card__icon" data-icon="pixel"></div>
-          <h3>16+ real device presets</h3>
-          <p>iPhone, Samsung Galaxy, Google Pixel, iPad, and more — sized to the same viewport values developers actually test against.</p>
-        </article>
-        <article class="feature-card reveal">
-          <div class="feature-card__icon" data-icon="live"></div>
-          <h3>Custom width & height</h3>
-          <p>Not on the list? Enter any width and height in pixels to test an exact viewport size.</p>
-        </article>
-        <article class="feature-card reveal">
-          <div class="feature-card__icon" data-icon="fast"></div>
-          <h3>Portrait & landscape</h3>
-          <p>Flip orientation instantly without re-selecting a device or reloading the page.</p>
-        </article>
-        <article class="feature-card reveal">
-          <div class="feature-card__icon" data-icon="shield"></div>
-          <h3>Compare mode</h3>
-          <p>View a compact phone, a large phone, and a tablet side by side, all loading the same URL at once.</p>
-        </article>
-        <article class="feature-card reveal">
-          <div class="feature-card__icon" data-icon="warn"></div>
-          <h3>Zoom & fit-to-screen</h3>
-          <p>Large tablet viewports auto-scale to fit your window, with a manual zoom slider when you want to go bigger or smaller.</p>
-        </article>
-        <article class="feature-card reveal">
-          <div class="feature-card__icon" data-icon="lock"></div>
-          <h3>No login, nothing stored</h3>
-          <p>Paste a URL and go. Nothing you enter here is sent to or saved on a server.</p>
-        </article>
-      </div>
-    </div>
-  </section>
+            // ---- reveal on scroll ----
+            const revealEls = document.querySelectorAll('.reveal');
 
-  <!-- ============ HOW IT WORKS ============ -->
-  <section class="how" id="how">
-    <div class="container">
-      <p class="eyebrow mono reveal">// how it works</p>
-      <h2 class="section-title reveal">Three steps, one honest layout check.</h2>
-      <div class="terminal reveal">
-        <div class="terminal__bar">
-          <span class="dot dot--red"></span>
-          <span class="dot dot--amber"></span>
-          <span class="dot dot--green"></span>
-          <span class="mono terminal__tab">zsh</span>
-        </div>
-        <div class="terminal__body mono">
-          <p><span class="prompt">$</span> paste-a-url <span class="comment">// any public website</span></p>
-          <p><span class="prompt">$</span> pick-a-device <span class="comment">// or set a custom width and height</span></p>
-          <p><span class="prompt">$</span> flip-and-compare <span class="comment">// orientation, zoom, or side by side</span></p>
-          <p class="cursor-line"><span class="prompt">$</span> <span class="blink">▍</span></p>
-        </div>
-      </div>
-    </div>
-  </section>
+            function checkReveals() {
+                const winH = window.innerHeight;
+                revealEls.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < winH - 80 && rect.bottom > 0) {
+                        el.classList.add('visible');
+                    }
+                });
+            }
+            // check on load and scroll
+            window.addEventListener('load', checkReveals);
+            window.addEventListener('scroll', checkReveals);
+            // also after any layout shift
+            setTimeout(checkReveals, 300);
 
-  <!-- ============ SUPPORTED DEVICES ============ -->
-  <section class="devices" id="devices">
-    <div class="container">
-      <p class="eyebrow mono reveal">// supported devices</p>
-      <h2 class="section-title reveal">16+ presets, plus any custom size you need.</h2>
-      <p class="section-lede reveal">Every preset uses the same CSS viewport values developers commonly test against — not raw hardware resolution, which is what actually controls layout.</p>
-      <div class="device-list-grid reveal" id="deviceListGrid">
-        <!-- populated by JS from the same device dataset used in the tool -->
-      </div>
-    </div>
-  </section>
+            // ---- smooth anchor scroll ----
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
 
-  <!-- ============ FAQ ============ -->
-  <section class="faq" id="faq">
-    <div class="container">
-      <p class="eyebrow mono reveal">// faq</p>
-      <h2 class="section-title reveal">Questions, answered plainly.</h2>
-      <div class="faq__list reveal">
-        <details class="faq__item">
-          <summary>Which devices can I preview a website on?<span class="faq__icon" aria-hidden="true">+</span></summary>
-          <p>The tool includes 16+ presets covering common iPhone, Samsung Galaxy, Google Pixel, iPad, and other tablet sizes, plus a custom width and height option for any screen you need to test.</p>
-        </details>
-        <details class="faq__item">
-          <summary>Why does a website appear blank in the preview?<span class="faq__icon" aria-hidden="true">+</span></summary>
-          <p>Some websites block embedding in an iframe for security reasons using a header called X-Frame-Options or Content-Security-Policy. If a site appears blank, use the "Open in new tab" button to view it directly instead.</p>
-        </details>
-        <details class="faq__item">
-          <summary>Is this tool free to use?<span class="faq__icon" aria-hidden="true">+</span></summary>
-          <p>Yes. The Mobile Website Viewer is completely free, with no account, sign-up, or credit card required.</p>
-        </details>
-        <details class="faq__item">
-          <summary>Can I compare multiple devices at once?<span class="faq__icon" aria-hidden="true">+</span></summary>
-          <p>Yes. Switch to Compare mode to view the same URL on a compact phone, a large phone, and a tablet side by side.</p>
-        </details>
-        <details class="faq__item">
-          <summary>Does this tool store the URLs I enter?<span class="faq__icon" aria-hidden="true">+</span></summary>
-          <p>No. The URL is only used locally in your browser to load the preview. Nothing is sent to or stored on a server.</p>
-        </details>
-      </div>
-    </div>
-  </section>
+            // ---- header / footer are already in the HTML (static) ----
+            // but we keep the #site-header and #site-footer as anchors
+            // for any dynamic injection if needed.
 
-  <!-- ============ RELATED APPS ============ -->
-  <section class="related">
-    <div class="container">
-      <p class="eyebrow mono reveal">// more preview apps</p>
-      <h2 class="section-title reveal">Previewing something else?</h2>
-      <div class="related-grid reveal">
-        <a class="related-card" href="/#platforms"><span class="platform-mark platform-mark--facebook mono">f</span>Facebook</a>
-        <a class="related-card" href="/x-post.html"><span class="platform-mark platform-mark--x mono">X</span>X</a>
-        <a class="related-card" href="/insta-post.html"><span class="platform-mark platform-mark--instagram mono">IG</span>Instagram</a>
-        <a class="related-card" href="/reddit-post.html"><span class="platform-mark platform-mark--reddit mono">r</span>Reddit</a>
-      </div>
-    </div>
-  </section>
+            console.log('🔧 main.js loaded');
 
-</main>
+        })();
+    </script>
 
-<div id="site-footer"></div>
+    <script>
+        // ============================================================
+        // mobile-website.js – complete app logic
+        // ============================================================
 
-<script src="js/header.js"></script>
-<script src="js/footer.js"></script>
-<script src="js/main.js"></script>
-<script src="js/mobile-website.js"></script>
+        (function() {
+            'use strict';
+
+            // =========================================================
+            // 1. DEVICE DATASET
+            // =========================================================
+            const DEVICES = [
+                { id: 'iphone-se', name: 'iPhone SE', width: 375, height: 667, category: 'phone' },
+                { id: 'iphone-12', name: 'iPhone 12/13/14', width: 390, height: 844, category: 'phone' },
+                { id: 'iphone-14-pro-max', name: 'iPhone 14 Pro Max', width: 430, height: 932, category: 'phone' },
+                { id: 'iphone-15-pro', name: 'iPhone 15 Pro', width: 393, height: 852, category: 'phone' },
+                { id: 'iphone-15-pro-max', name: 'iPhone 15 Pro Max', width: 430, height: 932, category: 'phone' },
+                { id: 'samsung-s20', name: 'Samsung Galaxy S20', width: 360, height: 800, category: 'phone' },
+                { id: 'samsung-s21', name: 'Samsung Galaxy S21/S22', width: 360, height: 800, category: 'phone' },
+                { id: 'samsung-s23', name: 'Samsung Galaxy S23', width: 360, height: 780, category: 'phone' },
+                { id: 'pixel-5', name: 'Google Pixel 5', width: 393, height: 851, category: 'phone' },
+                { id: 'pixel-7', name: 'Google Pixel 7', width: 412, height: 915, category: 'phone' },
+                { id: 'pixel-8', name: 'Google Pixel 8', width: 412, height: 915, category: 'phone' },
+                { id: 'ipad-mini', name: 'iPad Mini', width: 768, height: 1024, category: 'tablet' },
+                { id: 'ipad-air', name: 'iPad Air', width: 820, height: 1180, category: 'tablet' },
+                { id: 'ipad-pro-11', name: 'iPad Pro 11"', width: 834, height: 1194, category: 'tablet' },
+                { id: 'ipad-pro-129', name: 'iPad Pro 12.9"', width: 1024, height: 1366, category: 'tablet' },
+                { id: 'galaxy-tab-s7', name: 'Samsung Galaxy Tab S7', width: 800, height: 1280, category: 'tablet' },
+                { id: 'pixel-tablet', name: 'Google Pixel Tablet', width: 800, height: 1280, category: 'tablet' },
+                { id: 'custom', name: 'Custom', width: 390, height: 844, category: 'custom' },
+            ];
+
+            // Compare mode uses these three devices
+            const COMPARE_DEVICES = [
+                DEVICES.find(d => d.id === 'iphone-se') || DEVICES[0],
+                DEVICES.find(d => d.id === 'iphone-14-pro-max') || DEVICES[2],
+                DEVICES.find(d => d.id === 'ipad-air') || DEVICES[13],
+            ];
+
+            // =========================================================
+            // 2. STATE
+            // =========================================================
+            const state = {
+                url: '',
+                deviceId: 'iphone-12',
+                mode: 'single', // 'single' | 'compare'
+                orientation: 'portrait', // 'portrait' | 'landscape'
+                zoom: 100, // percentage
+                customWidth: 390,
+                customHeight: 844,
+                loaded: false,
+            };
+
+            // =========================================================
+            // 3. DOM REFS
+            // =========================================================
+            const $ = (sel) => document.querySelector(sel);
+            const $$ = (sel) => document.querySelectorAll(sel);
+
+            const dom = {
+                url: $('#fieldUrl'),
+                loadBtn: $('#loadBtn'),
+                tryRow: $('#tryRow'),
+                deviceSelect: $('#fieldDevice'),
+                customRow: $('#customRow'),
+                customW: $('#fieldCustomW'),
+                customH: $('#fieldCustomH'),
+                modeToggle: $('#modeToggle'),
+                orientationToggle: $('#orientationToggle'),
+                zoomSlider: $('#fieldZoom'),
+                zoomValue: $('#zoomValue'),
+                refreshBtn: $('#refreshBtn'),
+                openTabBtn: $('#openTabBtn'),
+                resetBtn: $('#resetBtn'),
+                previewLabel: $('#previewLabel'),
+                stageEmpty: $('#stageEmpty'),
+                singleStage: $('#singleStage'),
+                compareStage: $('#compareStage'),
+                deviceListGrid: $('#deviceListGrid'),
+                frameNote: $('#frameNote'),
+            };
+
+            // =========================================================
+            // 4. HELPERS
+            // =========================================================
+            function normalizeUrl(input) {
+                let s = input.trim();
+                if (!s) return '';
+                if (!/^https?:\/\//i.test(s)) {
+                    s = 'https://' + s;
+                }
+                try {
+                    const u = new URL(s);
+                    return u.toString();
+                } catch (_) {
+                    return '';
+                }
+            }
+
+            function getDevice(id) {
+                return DEVICES.find(d => d.id === id) || DEVICES[0];
+            }
+
+            function getDeviceDimensions(deviceId, orientation) {
+                const dev = getDevice(deviceId);
+                let w = dev.width;
+                let h = dev.height;
+                if (orientation === 'landscape') {
+                    [w, h] = [h, w];
+                }
+                return { w, h };
+            }
+
+            function isTablet(deviceId) {
+                const d = getDevice(deviceId);
+                return d.category === 'tablet';
+            }
+
+            function isPhone(deviceId) {
+                const d = getDevice(deviceId);
+                return d.category === 'phone';
+            }
+
+            // =========================================================
+            // 5. RENDER DEVICE LIST (for the /devices section)
+            // =========================================================
+            function renderDeviceList() {
+                if (!dom.deviceListGrid) return;
+                const html = DEVICES.map(d => {
+                    const label = d.id === 'custom' ? 'Custom' : d.name;
+                    const size = `${d.width}×${d.height}`;
+                    const cat = d.category === 'custom' ? 'custom' : d.category;
+                    return `<div class="device-list-item"><span>${label}</span><span class="size">${size}</span><span class="cat">${cat}</span></div>`;
+                }).join('');
+                dom.deviceListGrid.innerHTML = html;
+            }
+
+            // =========================================================
+            // 6. POPULATE DEVICE SELECT
+            // =========================================================
+            function populateDeviceSelect() {
+                const sel = dom.deviceSelect;
+                if (!sel) return;
+                const groups = { phone: 'Phones', tablet: 'Tablets', custom: 'Custom' };
+                let html = '';
+                for (const [cat, label] of Object.entries(groups)) {
+                    const items = DEVICES.filter(d => d.category === cat);
+                    if (!items.length) continue;
+                    html += `<optgroup label="${label}">`;
+                    items.forEach(d => {
+                        const size = `${d.width}×${d.height}`;
+                        const selected = d.id === state.deviceId ? ' selected' : '';
+                        html += `<option value="${d.id}"${selected}>${d.name} (${size})</option>`;
+                    });
+                    html += `</optgroup>`;
+                }
+                sel.innerHTML = html;
+                // show/hide custom row
+                toggleCustomRow();
+            }
+
+            function toggleCustomRow() {
+                const val = dom.deviceSelect.value;
+                const isCustom = val === 'custom';
+                dom.customRow.hidden = !isCustom;
+                if (isCustom) {
+                    dom.customW.value = state.customWidth;
+                    dom.customH.value = state.customHeight;
+                }
+            }
+
+            // =========================================================
+            // 7. BUILD DEVICE FRAME (single)
+            // =========================================================
+            function buildDeviceFrame(deviceId, orientation, zoom, url, label, badge) {
+                const dims = getDeviceDimensions(deviceId, orientation);
+                const dev = getDevice(deviceId);
+                const isTab = dev.category === 'tablet';
+                const isCustom = dev.id === 'custom';
+
+                // container
+                const frame = document.createElement('div');
+                frame.className = 'device-frame';
+                if (!isTab && !isCustom) frame.classList.add('has-notch');
+                if (isTab) frame.classList.add('is-tablet');
+
+                // screen
+                const screen = document.createElement('div');
+                screen.className = 'device-frame__screen';
+                screen.style.width = dims.w + 'px';
+                screen.style.height = dims.h + 'px';
+                screen.style.position = 'relative';
+
+                // iframe
+                const iframe = document.createElement('iframe');
+                iframe.setAttribute('sandbox', 'allow-scripts allow-forms allow-popups allow-modals allow-same-origin');
+                iframe.setAttribute('allow', 'fullscreen');
+                iframe.setAttribute('loading', 'lazy');
+                iframe.setAttribute('referrerpolicy', 'no-referrer');
+                if (url) {
+                    iframe.src = url;
+                } else {
+                    iframe.srcdoc =
+                        '<html><body style="display:flex;align-items:center;justify-content:center;font-family:sans-serif;color:#888;background:#f5f5f5;margin:0;height:100%;"><p style="text-align:center;">Enter a URL<br><span style="font-size:0.8rem;color:#aaa;">and press Load</span></p></body></html>';
+                }
+
+                screen.appendChild(iframe);
+                frame.appendChild(screen);
+
+                // label
+                if (label) {
+                    const lbl = document.createElement('div');
+                    lbl.className = 'device-frame__label mono';
+                    lbl.textContent = label;
+                    frame.appendChild(lbl);
+                }
+
+                // badge
+                if (badge) {
+                    const bdg = document.createElement('div');
+                    bdg.className = 'device-frame__badge';
+                    bdg.textContent = badge;
+                    frame.appendChild(bdg);
+                }
+
+                // apply zoom
+                const scale = zoom / 100;
+                frame.style.transform = `scale(${scale})`;
+                frame.style.transformOrigin = 'center center';
+
+                return frame;
+            }
+
+            // =========================================================
+            // 8. RENDER PREVIEW
+            // =========================================================
+            function renderPreview() {
+                const url = state.url;
+                const mode = state.mode;
+                const orientation = state.orientation;
+                const zoom = state.zoom;
+
+                // update label
+                dom.previewLabel.textContent = url ? new URL(url).hostname : 'no url loaded';
+
+                // hide empty message
+                dom.stageEmpty.hidden = true;
+
+                if (mode === 'single') {
+                    dom.singleStage.hidden = false;
+                    dom.compareStage.hidden = true;
+                    dom.singleStage.innerHTML = '';
+
+                    const deviceId = dom.deviceSelect.value;
+                    const dev = getDevice(deviceId);
+                    const dims = getDeviceDimensions(deviceId, orientation);
+                    let label = dev.name;
+                    if (orientation === 'landscape') label += ' ↺';
+                    const badge = `${dims.w}×${dims.h}`;
+
+                    const frame = buildDeviceFrame(deviceId, orientation, zoom, url, label, badge);
+                    dom.singleStage.appendChild(frame);
+
+                } else {
+                    // compare mode
+                    dom.singleStage.hidden = true;
+                    dom.compareStage.hidden = false;
+                    dom.compareStage.innerHTML = '';
+
+                    const compareDevs = COMPARE_DEVICES;
+                    const labels = ['Compact', 'Large', 'Tablet'];
+
+                    // determine max width per device in compare mode (flex)
+                    // each gets equal space, but we need to scale them down to fit
+                    const container = dom.compareStage;
+                    const containerWidth = container.clientWidth || 800;
+                    const gap = 16;
+                    const totalGap = gap * (compareDevs.length - 1);
+                    const availWidth = containerWidth - totalGap;
+                    const perDeviceWidth = Math.min(availWidth / compareDevs.length, 380);
+
+                    // build each
+                    compareDevs.forEach((dev, idx) => {
+                        const dims = getDeviceDimensions(dev.id, orientation);
+                        const scaleFactor = Math.min(perDeviceWidth / dims.w, 1);
+                        // clamp scale so it doesn't get too tiny
+                        const effectiveScale = Math.max(scaleFactor, 0.25);
+                        // but we want to use the zoom slider as well
+                        const zoomScale = zoom / 100;
+                        const finalScale = effectiveScale * zoomScale;
+
+                        const frame = buildDeviceFrame(dev.id, orientation, 100, url, labels[idx],
+                            `${dims.w}×${dims.h}`);
+                        // override scale with our calculated value
+                        frame.style.transform = `scale(${finalScale})`;
+                        frame.style.transformOrigin = 'center center';
+                        frame.style.flexShrink = '0';
+                        // set a max-width so it doesn't overflow
+                        frame.style.maxWidth = (dims.w * finalScale + 24) + 'px';
+                        dom.compareStage.appendChild(frame);
+                    });
+                }
+            }
+
+            // =========================================================
+            // 9. LOAD URL
+            // =========================================================
+            function loadUrl() {
+                const raw = dom.url.value;
+                const normalized = normalizeUrl(raw);
+                if (!normalized) {
+                    dom.previewLabel.textContent = '⚠️ invalid url';
+                    dom.stageEmpty.hidden = false;
+                    dom.stageEmpty.textContent = '// please enter a valid URL (e.g. example.com)';
+                    dom.singleStage.hidden = true;
+                    dom.compareStage.hidden = true;
+                    state.url = '';
+                    state.loaded = false;
+                    return;
+                }
+
+                state.url = normalized;
+                state.loaded = true;
+                dom.url.value = normalized;
+
+                // re-render preview
+                renderPreview();
+
+                // update note
+                dom.frameNote.textContent = '// some sites block embedding — if blank, use "open in new tab"';
+            }
+
+            // =========================================================
+            // 10. REFRESH
+            // =========================================================
+            function refreshPreview() {
+                if (!state.url) {
+                    loadUrl();
+                    return;
+                }
+                // re-render with same URL (forces iframe reload)
+                renderPreview();
+            }
+
+            // =========================================================
+            // 11. OPEN IN NEW TAB
+            // =========================================================
+            function openInNewTab() {
+                if (!state.url) {
+                    const raw = dom.url.value;
+                    const normalized = normalizeUrl(raw);
+                    if (normalized) {
+                        window.open(normalized, '_blank');
+                    } else {
+                        alert('Please enter a valid URL first.');
+                    }
+                    return;
+                }
+                window.open(state.url, '_blank');
+            }
+
+            // =========================================================
+            // 12. RESET
+            // =========================================================
+            function resetAll() {
+                state.url = '';
+                state.loaded = false;
+                state.deviceId = 'iphone-12';
+                state.mode = 'single';
+                state.orientation = 'portrait';
+                state.zoom = 100;
+                state.customWidth = 390;
+                state.customHeight = 844;
+
+                dom.url.value = '';
+                dom.deviceSelect.value = 'iphone-12';
+                dom.customW.value = 390;
+                dom.customH.value = 844;
+                dom.zoomSlider.value = 100;
+                dom.zoomValue.textContent = '100%';
+                dom.previewLabel.textContent = 'no url loaded';
+                dom.stageEmpty.hidden = false;
+                dom.stageEmpty.textContent = '// enter a url and press load to preview';
+                dom.singleStage.hidden = true;
+                dom.compareStage.hidden = true;
+                dom.frameNote.textContent = '// some sites block embedding — if a preview stays blank, use "open in new tab"';
+
+                // reset mode toggle
+                dom.modeToggle.querySelectorAll('.segmented__btn').forEach(b => b.classList.remove('is-active'));
+                dom.modeToggle.querySelector('[data-mode="single"]').classList.add('is-active');
+
+                // reset orientation toggle
+                dom.orientationToggle.querySelectorAll('.segmented__btn').forEach(b => b.classList.remove('is-active'));
+                dom.orientationToggle.querySelector('[data-orientation="portrait"]').classList.add('is-active');
+
+                toggleCustomRow();
+            }
+
+            // =========================================================
+            // 13. EVENT BINDING
+            // =========================================================
+            function bindEvents() {
+                // Load
+                dom.loadBtn.addEventListener('click', loadUrl);
+                dom.url.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') loadUrl();
+                });
+
+                // Try buttons
+                dom.tryRow.querySelectorAll('button[data-url]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const u = btn.dataset.url;
+                        dom.url.value = u;
+                        loadUrl();
+                    });
+                });
+
+                // Device select
+                dom.deviceSelect.addEventListener('change', () => {
+                    const val = dom.deviceSelect.value;
+                    state.deviceId = val;
+                    toggleCustomRow();
+                    if (state.loaded && state.url) {
+                        renderPreview();
+                    }
+                });
+
+                // Custom width/height
+                dom.customW.addEventListener('input', () => {
+                    state.customWidth = parseInt(dom.customW.value) || 390;
+                    if (dom.deviceSelect.value === 'custom' && state.loaded && state.url) {
+                        renderPreview();
+                    }
+                });
+                dom.customH.addEventListener('input', () => {
+                    state.customHeight = parseInt(dom.customH.value) || 844;
+                    if (dom.deviceSelect.value === 'custom' && state.loaded && state.url) {
+                        renderPreview();
+                    }
+                });
+
+                // Mode toggle
+                dom.modeToggle.querySelectorAll('.segmented__btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        dom.modeToggle.querySelectorAll('.segmented__btn').forEach(b => b.classList.remove(
+                        'is-active'));
+                        btn.classList.add('is-active');
+                        state.mode = btn.dataset.mode;
+                        // show/hide device select in compare mode (always show for single)
+                        // we keep it visible, but in compare mode we use fixed devices
+                        if (state.loaded && state.url) {
+                            renderPreview();
+                        } else {
+                            // just update UI state
+                            dom.stageEmpty.hidden = false;
+                            dom.stageEmpty.textContent = state.mode === 'single' ?
+                                '// enter a url and press load to preview' :
+                                '// compare mode: enter a url and press load to preview';
+                            dom.singleStage.hidden = true;
+                            dom.compareStage.hidden = true;
+                        }
+                    });
+                });
+
+                // Orientation toggle
+                dom.orientationToggle.querySelectorAll('.segmented__btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        dom.orientationToggle.querySelectorAll('.segmented__btn').forEach(b => b.classList
+                            .remove('is-active'));
+                        btn.classList.add('is-active');
+                        state.orientation = btn.dataset.orientation;
+                        if (state.loaded && state.url) {
+                            renderPreview();
+                        }
+                    });
+                });
+
+                // Zoom slider
+                dom.zoomSlider.addEventListener('input', () => {
+                    const val = parseInt(dom.zoomSlider.value);
+                    state.zoom = val;
+                    dom.zoomValue.textContent = val + '%';
+                    if (state.loaded && state.url) {
+                        renderPreview();
+                    }
+                });
+
+                // Refresh
+                dom.refreshBtn.addEventListener('click', refreshPreview);
+
+                // Open in new tab
+                dom.openTabBtn.addEventListener('click', openInNewTab);
+
+                // Reset
+                dom.resetBtn.addEventListener('click', resetAll);
+            }
+
+            // =========================================================
+            // 14. WINDOW RESIZE HANDLER (for compare mode)
+            // =========================================================
+            let resizeTimer;
+            function onResize() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    if (state.mode === 'compare' && state.loaded && state.url) {
+                        renderPreview();
+                    }
+                }, 150);
+            }
+
+            // =========================================================
+            // 15. INIT
+            // =========================================================
+            function init() {
+                // set initial device
+                state.deviceId = 'iphone-12';
+
+                // populate select
+                populateDeviceSelect();
+
+                // render device list
+                renderDeviceList();
+
+                // set initial custom values
+                dom.customW.value = state.customWidth;
+                dom.customH.value = state.customHeight;
+
+                // show empty state
+                dom.stageEmpty.hidden = false;
+                dom.stageEmpty.textContent = '// enter a url and press load to preview';
+                dom.singleStage.hidden = true;
+                dom.compareStage.hidden = true;
+
+                // bind events
+                bindEvents();
+
+                // window resize
+                window.addEventListener('resize', onResize);
+
+                // initial reveal check
+                setTimeout(() => {
+                    document.querySelectorAll('.reveal').forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        if (rect.top < window.innerHeight - 80) {
+                            el.classList.add('visible');
+                        }
+                    });
+                }, 100);
+
+                console.log('📱 Mobile Website Viewer ready');
+            }
+
+            // run when DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+
 </body>
 </html>
