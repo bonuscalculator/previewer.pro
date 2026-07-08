@@ -24,6 +24,7 @@
             <li><a href="/#faq">FAQ</a></li>
             <li><a href="/mobile-website">Mobile Viewer</a></li>
             <li><a href="/twitter-card-validator">Twitter Card Validator</a></li>
+            <li><a href="/serp-preview">SERP Preview</a></li>           
           </ul>
         </div>
 
